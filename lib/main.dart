@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '2CP App',
-      theme: them.lightTheme,
+      theme: theme.lightTheme,
       home: WelcomePage(),
     );
   }
