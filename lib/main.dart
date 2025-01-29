@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeProviderBloc,ThemeProviderState>(
+      //
       builder: (context,state) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
