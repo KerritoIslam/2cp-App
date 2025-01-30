@@ -11,7 +11,7 @@ _$CompanyImpl _$$CompanyImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       category: json['category'] as String,
-      imageUrl: json['imageUrl'] as String,
+      profilepic: json['profilepic'] as String,
     );
 
 Map<String, dynamic> _$$CompanyImplToJson(_$CompanyImpl instance) =>
@@ -19,5 +19,5 @@ Map<String, dynamic> _$$CompanyImplToJson(_$CompanyImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'category': instance.category,
-      'imageUrl': instance.imageUrl,
+      'profilepic': instance.profilepic,
     };

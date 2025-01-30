@@ -14,7 +14,7 @@ class Company with _$Company {
     required String id,
     required String name,
     required String category,
-    required String imageUrl,
+    required String profilepic,
   }) = _Company;
 
   factory Company.fromJson(Map<String, dynamic> json) => _$CompanyFromJson(json);
@@ -24,7 +24,7 @@ class Company with _$Company {
       id: model.id,
       name: model.name,
       category: CategoryMixin.choices[model.category] ?? 'None',
-      imageUrl: model.imageUrl,
+      profilepic: model.profilepic,
     );
   }
 
@@ -33,7 +33,7 @@ class Company with _$Company {
       id: id,
       name: name,
       category: CategoryMixin.nameToCodeMap[category]!.name,
-      imageUrl: imageUrl,
+      profilepic: profilepic,
     );
   }
 }

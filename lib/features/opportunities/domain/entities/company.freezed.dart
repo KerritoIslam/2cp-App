@@ -23,7 +23,7 @@ mixin _$Company {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get profilepic => throw _privateConstructorUsedError;
 
   /// Serializes this Company to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $CompanyCopyWith<$Res> {
   factory $CompanyCopyWith(Company value, $Res Function(Company) then) =
       _$CompanyCopyWithImpl<$Res, Company>;
   @useResult
-  $Res call({String id, String name, String category, String imageUrl});
+  $Res call({String id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$CompanyCopyWithImpl<$Res, $Val extends Company>
     Object? id = null,
     Object? name = null,
     Object? category = null,
-    Object? imageUrl = null,
+    Object? profilepic = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,9 +75,9 @@ class _$CompanyCopyWithImpl<$Res, $Val extends Company>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      profilepic: null == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -90,7 +90,7 @@ abstract class _$$CompanyImplCopyWith<$Res> implements $CompanyCopyWith<$Res> {
       __$$CompanyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String category, String imageUrl});
+  $Res call({String id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -109,7 +109,7 @@ class __$$CompanyImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? category = null,
-    Object? imageUrl = null,
+    Object? profilepic = null,
   }) {
     return _then(_$CompanyImpl(
       id: null == id
@@ -124,9 +124,9 @@ class __$$CompanyImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      profilepic: null == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -139,7 +139,7 @@ class _$CompanyImpl extends _Company {
       {required this.id,
       required this.name,
       required this.category,
-      required this.imageUrl})
+      required this.profilepic})
       : super._();
 
   factory _$CompanyImpl.fromJson(Map<String, dynamic> json) =>
@@ -152,11 +152,11 @@ class _$CompanyImpl extends _Company {
   @override
   final String category;
   @override
-  final String imageUrl;
+  final String profilepic;
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, category: $category, imageUrl: $imageUrl)';
+    return 'Company(id: $id, name: $name, category: $category, profilepic: $profilepic)';
   }
 
   @override
@@ -168,13 +168,13 @@ class _$CompanyImpl extends _Company {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+            (identical(other.profilepic, profilepic) ||
+                other.profilepic == profilepic));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, category, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, category, profilepic);
 
   /// Create a copy of Company
   /// with the given fields replaced by the non-null parameter values.
@@ -197,7 +197,7 @@ abstract class _Company extends Company {
       {required final String id,
       required final String name,
       required final String category,
-      required final String imageUrl}) = _$CompanyImpl;
+      required final String profilepic}) = _$CompanyImpl;
   const _Company._() : super._();
 
   factory _Company.fromJson(Map<String, dynamic> json) = _$CompanyImpl.fromJson;
@@ -209,7 +209,7 @@ abstract class _Company extends Company {
   @override
   String get category;
   @override
-  String get imageUrl;
+  String get profilepic;
 
   /// Create a copy of Company
   /// with the given fields replaced by the non-null parameter values.

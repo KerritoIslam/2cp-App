@@ -23,7 +23,7 @@ mixin _$CompanyModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get profilepic => throw _privateConstructorUsedError;
 
   /// Serializes this CompanyModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $CompanyModelCopyWith<$Res> {
           CompanyModel value, $Res Function(CompanyModel) then) =
       _$CompanyModelCopyWithImpl<$Res, CompanyModel>;
   @useResult
-  $Res call({String id, String name, String category, String imageUrl});
+  $Res call({String id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
     Object? id = null,
     Object? name = null,
     Object? category = null,
-    Object? imageUrl = null,
+    Object? profilepic = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -77,9 +77,9 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      profilepic: null == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -93,7 +93,7 @@ abstract class _$$CompanyModelImplCopyWith<$Res>
       __$$CompanyModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String category, String imageUrl});
+  $Res call({String id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? category = null,
-    Object? imageUrl = null,
+    Object? profilepic = null,
   }) {
     return _then(_$CompanyModelImpl(
       id: null == id
@@ -127,9 +127,9 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      profilepic: null == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -142,7 +142,7 @@ class _$CompanyModelImpl extends _CompanyModel {
       {required this.id,
       required this.name,
       required this.category,
-      required this.imageUrl})
+      required this.profilepic})
       : super._();
 
   factory _$CompanyModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -155,11 +155,11 @@ class _$CompanyModelImpl extends _CompanyModel {
   @override
   final String category;
   @override
-  final String imageUrl;
+  final String profilepic;
 
   @override
   String toString() {
-    return 'CompanyModel(id: $id, name: $name, category: $category, imageUrl: $imageUrl)';
+    return 'CompanyModel(id: $id, name: $name, category: $category, profilepic: $profilepic)';
   }
 
   @override
@@ -171,13 +171,13 @@ class _$CompanyModelImpl extends _CompanyModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+            (identical(other.profilepic, profilepic) ||
+                other.profilepic == profilepic));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, category, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, category, profilepic);
 
   /// Create a copy of CompanyModel
   /// with the given fields replaced by the non-null parameter values.
@@ -200,7 +200,7 @@ abstract class _CompanyModel extends CompanyModel {
       {required final String id,
       required final String name,
       required final String category,
-      required final String imageUrl}) = _$CompanyModelImpl;
+      required final String profilepic}) = _$CompanyModelImpl;
   const _CompanyModel._() : super._();
 
   factory _CompanyModel.fromJson(Map<String, dynamic> json) =
@@ -213,7 +213,7 @@ abstract class _CompanyModel extends CompanyModel {
   @override
   String get category;
   @override
-  String get imageUrl;
+  String get profilepic;
 
   /// Create a copy of CompanyModel
   /// with the given fields replaced by the non-null parameter values.
