@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _WelcomePageState extends State<WelcomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+                SizedBox(height: 27.h,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -98,6 +100,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   textAlign: TextAlign.center,
                 ),
               ),
+                Spacer(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 9, horizontal: 55),
@@ -123,7 +126,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 9, horizontal: 55),
+                    EdgeInsets.symmetric(vertical: 11.h, horizontal: 55.w),
                 child: ListTile(
                   title: Center(
                     child: Text(
@@ -144,6 +147,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           SvgPicture.asset('assets/images/icons/facebook.svg')),
                 ),
               ),
+                Spacer(flex: 2,)
             ],
           ),
         )),

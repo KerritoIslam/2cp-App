@@ -3,10 +3,11 @@ import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(
-    BlocProvider(create: (context) => ThemeProviderBloc(context: context), child: const MyApp()),
+    BlocProvider(create: (_) => ThemeProviderBloc(), child: const MyApp()),
   );
 }
 
@@ -15,14 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeProviderBloc,ThemeProviderState>(
-      
-      builder: (context,state) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: '2CP App',
-          theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
-          home: WelcomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(440,956),
+      builder: (_,child) {
+        return BlocBuilder<ThemeProviderBloc,ThemeProviderState>(
+          
+          builder: (context,state) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: '2CP App',
+              theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+              home: WelcomePage(),
+            );
+          }
         );
       }
     );
