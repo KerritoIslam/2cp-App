@@ -1,60 +1,35 @@
-// ignore_for_file: constant_identifier_names
-import 'package:app/features/opportunities/domain/entities/company.dart';
-import 'package:app/features/opportunities/domain/entities/opportunity.dart';
+import 'package:app/features/opportunities/data/models/company_model.dart';
+import 'package:app/features/opportunities/domain/entities/opportunity_constants.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class OpportunityModel {
-   final String id;
-   final String title;
-  final String description;
-  final List<String> skills;
-  final CompanyModel company;
-  final OpportunityStatus status;
-  final OpportunityType type;   
-  String? duration;
-  OpportunityCategory category;
-  OpportunityModel( {this.duration,required this.type,required this.company,required this.id, required this.title, required this.description, required this.category,required this.skills,this.status=OpportunityStatus.ongoing});
-  Opportunity toEntity(){
-    switch (type) {
-      case OpportunityType.internship:
-        return Internship(id: id, title: title, description: description, category:CategoryMixin.choices[category.name]??"None" , status: status, skills:skills, duration: '', company:company.toEntity() );
-      case OpportunityType.Problem:
-        return Problem(id: id, title: title, description: description, category: CategoryMixin.choices[category.name]??"None" , status: status, skills: skills, company: company.toEntity());
-    }
-  }
- factory OpportunityModel.fromEntity(Opportunity opportunity){
-    return opportunity.toModel();  
-  }
-}
-enum OpportunityStatus{
-  pending,
-  ended, 
-  ongoing
-  }
-enum OpportunityType{
- internship,
- Problem
-}
-enum OpportunityCategory{
- EC,
- CS,
- EG,
- AH,
- HL,
- BM,
- LW,
-ED,
-None
-}
-class CompanyModel{
- String id;
-  String name;
-  OpportunityCategory category;
-  String imageUrl;
-  CompanyModel({required this.id, required this.name,required this.category,required this.imageUrl});
-  Company toEntity(){
-    return Company(id: id, name: name, category:"Computer" , imageUrl: imageUrl);
-  }
-  factory CompanyModel.fromEntity(Company company){
-    return CompanyModel(id: company.id, name: company.name, category:CategoryMixin.nameToCodeMap[company.category]??OpportunityCategory.None, imageUrl: company.imageUrl);
-  }
+part 'opportunity_model.freezed.dart';
+part 'opportunity_model.g.dart';
+
+@freezed
+sealed class OpportunityModel with _$OpportunityModel {
+  const OpportunityModel._();
+
+  const factory OpportunityModel.internship({
+    required String id,
+    required String title,
+    required String description,
+    required List<String> skills,
+    required CompanyModel company,
+    @Default(OpportunityStatus.ongoing) OpportunityStatus status,
+    required String duration,
+    required OpportunityCategory category,
+  }) = InternshipModel;
+
+  const factory OpportunityModel.problem({
+    required String id,
+    required String title,
+    required String description,
+    required List<String> skills,
+    required CompanyModel company,
+    @Default(OpportunityStatus.ongoing) OpportunityStatus status,
+    required OpportunityCategory category,
+  }) = ProblemModel;
+
+  factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
+      _$OpportunityModelFromJson(json);
 }
