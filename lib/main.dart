@@ -1,4 +1,4 @@
-import 'package:app/features/autantication/application/pages/welcome_page.dart';
+import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeProviderBloc,ThemeProviderState>(
-      //
+      
       builder: (context,state) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
