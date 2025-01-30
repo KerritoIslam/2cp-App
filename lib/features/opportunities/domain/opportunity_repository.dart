@@ -2,8 +2,9 @@ class OpportunityRepository{
   getOpportunity(String id){
    
   }
-  getOpportunitiesPagination(i){
+  getOpportunitiesPagination(int page ,int limit){
   }
+
 
 
   
