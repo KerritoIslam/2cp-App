@@ -27,12 +27,12 @@ class theme {
           
         ),
         bodyMedium: TextStyle(
-          fontSize: 14,
+          fontSize: 15,
           color: Color(0xFF000000),
           fontWeight: FontWeight.w500,
         ),
         bodySmall: TextStyle(
-          fontSize: 11,
+          fontSize: 12,
           color: Color(0xFF000000),
           fontWeight: FontWeight.w400,
         ),

@@ -22,8 +22,8 @@ OpportunityModel _$OpportunityModelFromJson(Map<String, dynamic> json) {
       return ProblemModel.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'type', 'OpportunityModel',
-          'Invalid union type "${json['type']}"!');
+      throw CheckedFromJsonException(json, 'runtimeType', 'OpportunityModel',
+          'Invalid union type "${json['runtimeType']}"!');
   }
 }
 

@@ -13,13 +13,13 @@ void main() {
         'id': '1',
         'name': 'Tech Corp',
         'category': 'Tech',
-        'imageUrl': 'https://example.com/image.png'
+        'profilepic': 'https://example.com/image.png'
       };
       final model = CompanyModel.fromJson(json);
       expect(model.id, '1');
       expect(model.name, 'Tech Corp');
       expect(model.category, 'Tech');
-      expect(model.imageUrl, 'https://example.com/image.png');
+      expect(model.profilepic, 'https://example.com/image.png');
     });
 
     test('toJson should return a valid map', () {
@@ -27,13 +27,13 @@ void main() {
         id: '1',
         name: 'Tech Corp',
         category: 'Tech',
-        imageUrl: 'https://example.com/image.png',
+        profilepic: 'https://example.com/image.png',
       );
       final json = model.toJson();
       expect(json['id'], '1');
       expect(json['name'], 'Tech Corp');
       expect(json['category'], 'Tech');
-      expect(json['imageUrl'], 'https://example.com/image.png');
+      expect(json['profilepic'], 'https://example.com/image.png');
     });
   });
 
@@ -43,12 +43,12 @@ void main() {
         id: '1',
         name: 'Tech Corp',
         category: 'Law',
-        imageUrl: 'https://example.com/image.png',
+        profilepic: 'https://example.com/image.png',
       );
       final entity = Company.fromModel(model);
       expect(entity.id, model.id);
       expect(entity.name, model.name);
-      expect(entity.imageUrl, model.imageUrl);
+      expect(entity.profilepic, model.profilepic);
     });
 
     test('toModel should correctly map Company to CompanyModel', () {
@@ -56,12 +56,12 @@ void main() {
         id: '1',
         name: 'Tech Corp',
         category: 'Law',
-        imageUrl: 'https://example.com/image.png',
+        profilepic: 'https://example.com/image.png',
       );
       final model = entity.toModel();
       expect(model.id, entity.id);
       expect(model.name, entity.name);
-      expect(model.imageUrl, entity.imageUrl);
+      expect(model.profilepic, entity.profilepic);
     });
   });
 
@@ -76,7 +76,7 @@ void main() {
           'id': '1',
           'name': 'Tech Corp',
           'category': 'CS',
-          'imageUrl': 'https://example.com/image.png'
+          'profilepic': 'https://example.com/image.png'
         },
         'status': 'ongoing',
         'duration': '6 months',
@@ -99,7 +99,7 @@ void main() {
           id: '1',
           name: 'Tech Corp',
           category: 'Law',
-          imageUrl: 'https://example.com/image.png',
+          profilepic: 'https://example.com/image.png',
         ),
         duration: '6 months',
         category: OpportunityCategory.CS,

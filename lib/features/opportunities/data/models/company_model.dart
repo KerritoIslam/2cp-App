@@ -11,7 +11,7 @@ class CompanyModel with _$CompanyModel {
     required String id,
     required String name,
     required String category,
-    required String imageUrl,
+    required String profilepic,
   }) = _CompanyModel;
   factory CompanyModel.fromJson(Map<String, dynamic> json) =>
       _$CompanyModelFromJson(json);
