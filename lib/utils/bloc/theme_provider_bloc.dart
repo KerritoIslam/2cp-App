@@ -15,12 +15,9 @@ class ThemeProviderBloc extends Bloc<ThemeProviderEvent, ThemeProviderState> {
         SetThemeEvent(isDark() ? DarkTheme() : LightTheme())
       ); };
     on<ToggleThemeEvent>((event, emit) {
-      if (state is LightTheme) {
-        emit(DarkTheme());
-      } else {
-        emit(LightTheme());
+      state is LightTheme ? emit(DarkTheme()) : emit(LightTheme());
       }
-    });
+    );
     on<SetThemeEvent>((event, emit) {
       emit(event.theme);
     });
