@@ -1,8 +1,8 @@
 
 ## **Idea Description**  
 This app is designed to help students, particularly **ESI students struggling to find internships in their 4th year**, gain real-world experience. It connects students with companies offering **internships, part-time opportunities, or real-world problems to solve**. The goal is to **simplify and speed up** the application process while providing students with an intuitive way to explore opportunities that match their skills.  
-
----
+<!---->
+<!------->
 
 ## **Main Features**  
 1. **Student Account Creation** – Users can create an account, set up their profile, and list their skills and experience.  
