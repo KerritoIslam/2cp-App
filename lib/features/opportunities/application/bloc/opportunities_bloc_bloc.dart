@@ -1,5 +1,6 @@
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'opportunities_bloc_event.dart';
