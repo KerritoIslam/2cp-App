@@ -8,7 +8,7 @@ part 'opportunity_model.g.dart';
 @freezed
 sealed class OpportunityModel with _$OpportunityModel {
   const OpportunityModel._();
-
+  @FreezedUnionValue('internship')
   const factory OpportunityModel.internship({
     required String id,
     required String title,
@@ -20,6 +20,7 @@ sealed class OpportunityModel with _$OpportunityModel {
     required OpportunityCategory category,
   }) = InternshipModel;
 
+  @FreezedUnionValue('Problem')
   const factory OpportunityModel.problem({
     required String id,
     required String title,
@@ -31,5 +32,5 @@ sealed class OpportunityModel with _$OpportunityModel {
   }) = ProblemModel;
 
   factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
-      _$OpportunityModelFromJson(json);
+      _$OpportunityModelFromJson({...json, 'runtimeType': json['type']});
 }
