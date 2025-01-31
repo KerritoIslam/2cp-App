@@ -1,4 +1,5 @@
 import 'package:app/features/opportunities/data/models/company_model.dart';
+import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity_constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -33,4 +34,27 @@ sealed class OpportunityModel with _$OpportunityModel {
 
   factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
       _$OpportunityModelFromJson({...json, 'runtimeType': json['type']});
+    Opportunity toEntity() {
+   return map(
+     internship: (model) => Internship(
+       id: model.id,
+       title: model.title,
+       description: model.description,
+       skills: model.skills,
+       company: model.company.toEntity(),
+       status: model.status,
+       duration: model.duration,
+       category: model.category.name,
+     ),
+     problem: (model) => Problem(
+       id: model.id,
+       title: model.title,
+       description: model.description,
+       skills: model.skills,
+       company: model.company.toEntity(),
+       status: model.status,
+       category: model.category.name,
+     ),
+   );
+  }
 }

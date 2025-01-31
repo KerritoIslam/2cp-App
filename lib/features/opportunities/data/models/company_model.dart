@@ -1,4 +1,5 @@
 
+import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'company_model.g.dart';
 part 'company_model.freezed.dart';
@@ -15,4 +16,12 @@ class CompanyModel with _$CompanyModel {
   }) = _CompanyModel;
   factory CompanyModel.fromJson(Map<String, dynamic> json) =>
       _$CompanyModelFromJson(json);
+  Company toEntity(){
+    return Company(
+      id: id,
+      name: name,
+      category: category,
+      profilepic: profilepic,
+    );
+  }  
 }
