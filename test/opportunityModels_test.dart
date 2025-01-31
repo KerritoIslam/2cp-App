@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/features/opportunities/data/models/company_model.dart';
 import 'package:app/features/opportunities/data/models/opportunity_model.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
-import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 
 void main() {
   group('CompanyModel Tests', () {

@@ -17,20 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(440,956),
-      builder: (_,child) {
-        return BlocBuilder<ThemeProviderBloc,ThemeProviderState>(
-          
-          builder: (context,state) {
+        designSize: const Size(440, 956),
+        builder: (_, child) {
+          return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
+              builder: (context, state) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: '2CP App',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
               home: WelcomePage(),
             );
-          }
-        );
-      }
-    );
+          });
+        });
   }
 }
