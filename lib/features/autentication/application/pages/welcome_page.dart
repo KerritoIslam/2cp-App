@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -8,23 +9,27 @@ class WelcomePage extends StatefulWidget {
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
+
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            body: SafeArea(
-        child: Center(
-            child: Padding(
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                SizedBox(height: 27.h,),
+              SizedBox(
+                height: 27.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        GoRouter.of(context).push('/SignUpMainInfoPage');
+                      },
                       child: Text(
                         'Sign up',
                         style: Theme.of(context).textTheme.titleSmall,
@@ -99,57 +104,64 @@ class _WelcomePageState extends State<WelcomePage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-                Spacer(),
+              Spacer(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 9, horizontal: 55),
-                child: ListTile(
-                  title: Center(
-                    child: Text(
-                      'Continue with Google',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                child: SizedBox(
+                  width: 300.w,
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        'Continue with Google',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    visualDensity: VisualDensity(vertical: -4),
+                    leading: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child:
+                            SvgPicture.asset('assets/images/icons/google.svg')),
                   ),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).primaryColor, width: 3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  visualDensity: VisualDensity(vertical: -4),
-                  leading: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child:
-                          SvgPicture.asset('assets/images/icons/google.svg')),
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 11.h, horizontal: 55.w),
-                child: ListTile(
-                  title: Center(
-                    child: Text(
-                      'Continue with Facebook',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                padding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 55.w),
+                child: SizedBox(
+                  width: 300.w,
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        'Continue with Facebook',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    visualDensity: VisualDensity(vertical: -4),
+                    leading: SizedBox(
+                        width: 30.w,
+                        height: 30.h,
+                        child: SvgPicture.asset(
+                            'assets/images/icons/facebook.svg')),
                   ),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: Theme.of(context).primaryColor, width: 3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  visualDensity: VisualDensity(vertical: -4),
-                  leading: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child:
-                          SvgPicture.asset('assets/images/icons/facebook.svg')),
                 ),
               ),
-                Spacer(flex: 2,)
+              Spacer(
+                flex: 2,
+              )
             ],
           ),
-        )),
+        ),
       ),
     );
   }

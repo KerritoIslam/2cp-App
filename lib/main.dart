@@ -1,15 +1,27 @@
+import 'package:app/features/autentication/application/pages/signup/maininfo_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(
     BlocProvider(create: (_) => ThemeProviderBloc(), child: const MyApp()),
   );
 }
+GoRouter _router = GoRouter(
+  initialLocation: '/welcome',
+  routes: [GoRoute(
+      path: '/welcome',
+      pageBuilder: (context, state) => MaterialPage(child: WelcomePage()),
+    ),
+    GoRoute(
+      path: '/SignUpMainInfoPage',
+      pageBuilder: (context, state) => MaterialPage(child: SignUpMainInfoPage()),
+    )]);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,11 +33,12 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
-            return MaterialApp(
+            return MaterialApp.router(
+              routerConfig: _router,
               debugShowCheckedModeBanner: false,
               title: '2CP App',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
-              home: WelcomePage(),
+             
             );
           });
         });
