@@ -40,7 +40,7 @@ class RestAuthRemote {
         '/logout',
         options: Options(
           headers: {
-            'Authorization': 'Token $token',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -66,6 +66,7 @@ class RestAuthRemote {
     }
   }
 
+  //eseless comment
   Future<Either<Failure, Response>> updateUser(
       String token, Map<String, dynamic> data) async {
     try {
@@ -84,20 +85,21 @@ class RestAuthRemote {
     }
   }
 }
-  void main() async {
-    final remot = RestAuthRemote();
-    final response1 =
-        await remot.register('islam', 'islamtestinglogin@gmail.com', '123456');
-    if (response1.isRight()) {
-      print(
-          'this is a register response : ${response1.leftMap((l) => l.toString())}');
-    } else {
-      print(response1);
-    }
 
-    final response = await remot.login('islamtestinglogin@gmail.com', '123456');
-    if (response.isRight()) {
-      print('this is a login response : ' + '$response');
-    }
+/* void main() async {
+  final remot = RestAuthRemote();
+  final response1 =
+      await remot.register('islam', 'islamtestinglogin@gmail.com', '123456');
+  if (response1.isRight()) {
+    print(
+        'this is a register response : ${response1.leftMap((l) => l.toString())}');
+  } else {
+    print(response1);
   }
 
+  final response = await remot.login('islamtestinglogin@gmail.com', '123456');
+  if (response.isRight()) {
+    print('this is a login response : ' '$response');
+  } 
+}
+ */
