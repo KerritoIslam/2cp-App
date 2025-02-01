@@ -14,6 +14,8 @@ class SignUpMainInfoPage extends StatefulWidget {
 bool _passwordVisible = false;
 bool _confirmPasswordVisible = false;
 
+// this Is Needed to validate the form
+GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                 ),
               ),
               Form(
+              key: _formKey,
                   child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
@@ -157,7 +160,8 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(
                               Theme.of(context).primaryColor),
