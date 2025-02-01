@@ -1,24 +1,39 @@
+
+
 part of 'opportunities_bloc_bloc.dart';
 
-abstract class OpportunitiesBlocState {}
+abstract class OpportunitiesBlocState extends Equatable {
+  const OpportunitiesBlocState();
 
- class OpportunitiesBlocInitial extends OpportunitiesBlocState {
-  @override
-  List<Object?> get props =>[];
-}
-class OpportuntitiesLoadInProgress extends OpportunitiesBlocState {
   @override
   List<Object?> get props => [];
 }
-class OpportuntitiesLoadSuccess extends OpportunitiesBlocState {
-  final List<Opportunity> opportunities;
-  OpportuntitiesLoadSuccess(this.opportunities);
+
+class OpportunitiesBlocInitial extends OpportunitiesBlocState {
+  const OpportunitiesBlocInitial();
 
   @override
-  List<Object?> get props => [opportunities];}
+  List<Object?> get props => [];
+}
+
+class OpportuntitiesLoadInProgress extends OpportunitiesBlocState {
+  const OpportuntitiesLoadInProgress();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class OpportuntitiesLoadSuccess extends OpportunitiesBlocState {
+  final List<Opportunity> opportunities;
+  const OpportuntitiesLoadSuccess(this.opportunities);
+
+  @override
+  List<Object?> get props => [opportunities];
+}
+
 class OpportuntitiesLoadFailure extends OpportunitiesBlocState {
   final String message;
-  OpportuntitiesLoadFailure(this.message);
+  const OpportuntitiesLoadFailure(this.message);
 
   @override
   List<Object?> get props => [message];
