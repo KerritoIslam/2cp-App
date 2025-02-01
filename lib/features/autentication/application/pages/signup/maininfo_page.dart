@@ -129,6 +129,33 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        'Your password must be 8+ characters with uppercase, lowercase, a number, and a special character',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        RichText(
+                            text: TextSpan(
+                                text: 'By clicking continue, you agree to our ',
+                                style: Theme.of(context).textTheme.bodySmall,
+                                children: [
+                              TextSpan(
+                                  text: 'Terms and Conditions',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold))
+                            ])),
+                        Checkbox(value: false, onChanged: (value) {}),
+                        Text(
+                          'I agree to the terms and conditions',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                      ],
+                    ),
                     ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(
@@ -137,12 +164,18 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ))),
-                      child: Text(
-                        'Continue',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.white),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: 55.h,
+                        child: Text(
+                          'Continue',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(color: Colors.white),
+                        ),
                       ),
                     )
                   ],
