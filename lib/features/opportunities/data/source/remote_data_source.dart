@@ -182,4 +182,8 @@ class OpportunityRemoteSource{
     await Future.delayed(Duration(milliseconds: 20));
     return Right(MockData.companies.map((e) => CompanyModel.fromJson(e)).firstWhere((element) => element.id==id));
   }
+  Future<Either<Failure,OpportunityModel>>saveOpportunity(String id)async{
+    await Future.delayed(Duration(milliseconds: 20));
+    return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).firstWhere((element) => element.id==id));
+  }
 }

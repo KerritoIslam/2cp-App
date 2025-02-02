@@ -18,7 +18,7 @@ OpportunityModel _$OpportunityModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'internship':
       return InternshipModel.fromJson(json);
-    case 'problem':
+    case 'Problem':
       return ProblemModel.fromJson(json);
 
     default:

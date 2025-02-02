@@ -34,4 +34,12 @@ class OpportunityRepository{
        return left(Failure(e.toString())); 
       }
   } 
+  Future<Either<Failure,Opportunity>>saveOpportunity(String id)async{
+    try{
+      final result=await remoteSource.saveOpportunity(id);
+      return result.fold((failure)=>left(failure), (opp)=>right(opp.toEntity()));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
 }
