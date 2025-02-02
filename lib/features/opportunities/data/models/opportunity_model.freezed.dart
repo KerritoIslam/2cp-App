@@ -644,7 +644,7 @@ class _$ProblemModelImpl extends ProblemModel {
       required this.category,
       final String? $type})
       : _skills = skills,
-        $type = $type ?? 'problem',
+        $type = $type ?? 'Problem',
         super._();
 
   factory _$ProblemModelImpl.fromJson(Map<String, dynamic> json) =>

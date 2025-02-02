@@ -79,10 +79,10 @@ void main() {
         },
         'status': 'ongoing',
         'duration': '6 months',
-        'type': 'internship',
+        'type': 'Problem',
         'category': 'CS'
       };
-      final model = OpportunityModel.fromJson(json) as InternshipModel;
+      final model = OpportunityModel.fromJson(json) as ProblemModel;
       expect(model.id, '101');
       expect(model.title, 'Software Internship');
       expect(model.skills, contains('Dart'));
