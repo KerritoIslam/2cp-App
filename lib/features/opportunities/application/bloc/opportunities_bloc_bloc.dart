@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'opportunities_bloc_event.dart';
 part 'opportunities_bloc_state.dart';
 
-//OPTIMIZE
 class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
   final OpportunityRepository repository;
   List<Opportunity> savedOpportunities=[];
@@ -45,7 +44,15 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
         add(LoadOpportunitiesEvent());
       }
     });
-    on<SaveOpportunityEvent>((event, emit) async {
+       
+  }
+
+}
+class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesSavedState>{
+  final OpportunityRepository repository;
+ final List<Opportunity> savedOpportunities=[];
+  OpportunitiesSavedBloc(this.repository) : super(OpportunitiesSavedInitial()){
+     on<SaveOpportunityEvent>((event, emit) async {
       if (savedOpportunities.any((element) => element.id==event.id)) {
         emit(OpportunitySavedFailure('Already Saved'));
         return;
@@ -55,7 +62,7 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
         emit(OpportunitySavedFailure(failure.message));
       }, (opp){
         savedOpportunities.add(opp);
-        emit(OpportunitySavedSucces(savedOpportunities,opportunities));
+        emit(OpportunitySavedSucces(savedOpportunities));
       });
     });
     on<RemoveSavedOpportunityEvent>((event, emit) async {
@@ -64,22 +71,20 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
         emit(OpportunitySavedFailure(failure.message));
       }, (unit){
         savedOpportunities.removeWhere((element) => element.id==event.id);
-        emit(OpportunitySavedSucces(savedOpportunities,opportunities));
+        emit(OpportunitySavedSucces(savedOpportunities));
       });
     });
     
   on<LoadSavedOpportunitiesEvent>((event, emit) async {
-      emit(OpportuntitiesLoadInProgress());
+      emit(OpportunitySavedInProgress());
       final result=await repository.getSavedOpportunities();
       result.fold((failure){
-        emit(OpportuntitiesLoadFailure(failure.message));
+        emit(OpportunitySavedFailure(failure.message));
       }, (oppList){
         savedOpportunities.addAll(oppList);
-        emit(OpportuntitiesLoadSuccess(savedOpportunities));
+        emit(OpportunitySavedSucces(savedOpportunities));
       });
     });  
-    
+
   }
-
 }
-

@@ -99,7 +99,7 @@ group("Saving Posts Test", (){
     setUp(() {
       mockRepository = MockOpportunityRepository();
     });
- blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
+ blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
       when(()=>mockRepository.saveOpportunity(any())).thenAnswer((_) async => Right(Opportunity.internship(
         id: '5',
         title: 'Internship at Company A',
@@ -114,7 +114,7 @@ group("Saving Posts Test", (){
         duration: '6 months',
         category: 'Software',
       )));
-      return OpportunitiesBlocBloc(mockRepository);},
+      return OpportunitiesSavedBloc(mockRepository);},
   act: (bloc) {
       bloc.add(SaveOpportunityEvent('5'));
       return bloc.add(SaveOpportunityEvent('5'));
@@ -131,11 +131,11 @@ group("Saving Posts Test", (){
         ),
         duration: '6 months',
         category: 'Software',
-      )], []),OpportunitySavedFailure('Already Saved')]
+      )],),OpportunitySavedFailure('Already Saved')]
     );
-    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Return Failure when The an error from the api', build: (){
+    blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Return Failure when The an error from the api', build: (){
     when(()=>mockRepository.saveOpportunity(any())).thenAnswer((_) async => Left(Failure('Failed to save opportunity')));
-      return OpportunitiesBlocBloc(mockRepository);
+      return OpportunitiesSavedBloc(mockRepository);
     },
  act: (bloc)=> bloc.add(SaveOpportunityEvent('5'))
 ,
@@ -171,17 +171,17 @@ group("Saving Posts Test", (){
 
         ];
 
-    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>("Should Load Saved Posts Succefully", build: (){
+    blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>("Should Load Saved Posts Succefully", build: (){
       
       when(()=>mockRepository.getSavedOpportunities()).thenAnswer((_) async => Right(opportunities));
-      return OpportunitiesBlocBloc(mockRepository);
+      return OpportunitiesSavedBloc(mockRepository);
     },
       act: (bloc) {
         bloc.add(LoadSavedOpportunitiesEvent());
       },
       expect: ()=>[
-        OpportuntitiesLoadInProgress(),
-        OpportunitySavedSucces( opportunities,[])
+        OpportunitySavedInProgress(),
+        OpportunitySavedSucces( opportunities)
       ]
     );
   }
