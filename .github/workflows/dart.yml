@@ -41,9 +41,9 @@ jobs:
         run: flutter test
 
       # Build the app
-      - name: Build app
+      ##- name: Build app
 ##change later to relaese when prod
-        run: flutter build apk --debug
+        ##run: flutter build apk --debug
 
       # Notify on failure
       - name: Notify on failure
