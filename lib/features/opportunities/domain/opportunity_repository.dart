@@ -50,5 +50,13 @@ class OpportunityRepository{
       return Left(e);
     }
   }
+  Future<Either<Failure,List<Opportunity>>>getSavedOpportunities()async{
+    try{
+      final result=await remoteSource.getSavedOpportunities();
+      return result.fold((failure)=>left(failure), (oppList)=>right(oppList.map((e) => e.toEntity()).toList()));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
   
 }

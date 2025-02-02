@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'opportunities_bloc_event.dart';
 part 'opportunities_bloc_state.dart';
 
+//OPTIMIZE
 class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
   final OpportunityRepository repository;
   List<Opportunity> savedOpportunities=[];
+  //TODO pass the params in the constructor
   //The current Page Number 
   int page=1;
   //Number of posts per Page
@@ -56,6 +58,28 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
         emit(OpportunitySavedSucces(savedOpportunities,opportunities));
       });
     });
+    on<RemoveSavedOpportunityEvent>((event, emit) async {
+      final result=await repository.removeSavedOpportunity(event.id);
+      result.fold((failure){
+        emit(OpportunitySavedFailure(failure.message));
+      }, (unit){
+        savedOpportunities.removeWhere((element) => element.id==event.id);
+        emit(OpportunitySavedSucces(savedOpportunities,opportunities));
+      });
+    });
+    
+  on<LoadSavedOpportunitiesEvent>((event, emit) async {
+      emit(OpportuntitiesLoadInProgress());
+      final result=await repository.getSavedOpportunities();
+      result.fold((failure){
+        emit(OpportuntitiesLoadFailure(failure.message));
+      }, (oppList){
+        savedOpportunities.addAll(oppList);
+        emit(OpportuntitiesLoadSuccess(savedOpportunities));
+      });
+    });  
+    
   }
+
 }
 
