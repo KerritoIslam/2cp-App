@@ -42,7 +42,8 @@ jobs:
 
       # Build the app
       - name: Build app
-        run: flutter build apk --release
+##change later to relaese when prod
+        run: flutter build apk --debug
 
       # Notify on failure
       - name: Notify on failure
