@@ -92,6 +92,50 @@ void main() {
         OpportuntitiesLoadFailure('Failed to load opportunities'),
       ],
     );
+    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
+      when(()=>mockRepository.saveOpportunity(('5'))).thenAnswer((_) async => Right(Opportunity.internship(
+        id: '5',
+        title: 'Internship at Company A',
+        description: 'An amazing internship opportunity',
+        skills: ['Flutter', 'Dart'],
+        company: Company(
+          id: '1',
+          name: 'Company A',
+          category: 'Tech',
+          profilepic: 'profilepic.jpg',
+        ),
+        duration: '6 months',
+        category: 'Software',
+      )));
+      return OpportunitiesBlocBloc(mockRepository);},
+  act: (bloc) {
+      bloc.add(SaveOpportunityEvent('5'));
+      return bloc.add(SaveOpportunityEvent('5'));
+    }    ,expect: ()=>[OpportunitySavedSucces([Opportunity.internship(
+        id: '5',
+        title: 'Internship at Company A',
+        description: 'An amazing internship opportunity',
+        skills: ['Flutter', 'Dart'],
+        company: Company(
+          id: '1',
+          name: 'Company A',
+          category: 'Tech',
+          profilepic: 'profilepic.jpg',
+        ),
+        duration: '6 months',
+        category: 'Software',
+      )], []),OpportunitySavedFailure('Already Saved')]
+    );
+    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Return Failure when The an error from the api', build: (){
+    when(()=>mockRepository.saveOpportunity(('5'))).thenAnswer((_) async => Left(Failure('Failed to save opportunity')));
+      return OpportunitiesBlocBloc(mockRepository);
+    },
+ act: (bloc)=> bloc.add(SaveOpportunityEvent('5'))
+,
+    expect: ()=>[OpportunitySavedFailure('Failed to save opportunity')]
+    );
+    
   });
+
 }
 

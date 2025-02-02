@@ -6,3 +6,7 @@ class CheckIfNeedMoreDataEvent extends OpportunitiesBlocEvent {
   final int index;
   CheckIfNeedMoreDataEvent(this.index);
 }
+class SaveOpportunityEvent extends OpportunitiesBlocEvent {
+  final String id;
+  SaveOpportunityEvent(this.id);
+}
