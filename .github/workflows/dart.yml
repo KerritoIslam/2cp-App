@@ -1,4 +1,4 @@
-name: Flutter
+name: Flutter CI
 
 on:
   push:
@@ -18,8 +18,44 @@ jobs:
         with:
           flutter-version: '3.24.5' # Use the latest Flutter version
 
+      # Cache Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: flutter-dependencies-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            flutter-dependencies-${{ runner.os }}-
+
+      # Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
+      # Check formatting
+      - name: Check formatting
+        run: flutter format --set-exit-if-changed .
+
+      # Analyze code
+      - name: Analyze code
+        run: flutter analyze
+
+      # Run tests
       - name: Run tests
         run: flutter test
+
+      # Build the app
+      - name: Build app
+        run: flutter build apk --release
+
+      # Notify on failure
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚨 Build or tests failed! Please check the logs.'
+            })
