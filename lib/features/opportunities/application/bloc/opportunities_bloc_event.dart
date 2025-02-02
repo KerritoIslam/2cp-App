@@ -10,3 +10,9 @@ class SaveOpportunityEvent extends OpportunitiesBlocEvent {
   final String id;
   SaveOpportunityEvent(this.id);
 }
+class RemoveSavedOpportunityEvent extends OpportunitiesBlocEvent {
+  final String id;
+  RemoveSavedOpportunityEvent(this.id);
+  
+}
+class LoadSavedOpportunitiesEvent extends OpportunitiesBlocEvent {}

@@ -42,4 +42,13 @@ class OpportunityRepository{
       return Left(e);
     }
   }
+  Future<Either<Failure,Unit>>removeSavedOpportunity(String id)async{
+    try{
+      final result=await remoteSource.removeSavedOpportunity(id);
+      return result.fold((failure)=>left(failure), (unit)=>right(unit));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
+  
 }
