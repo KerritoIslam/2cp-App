@@ -11,7 +11,11 @@ class theme {
   static double bodySmallFontSize = 12.sp;
   static ThemeData lightTheme = ThemeData(
       splashColor: Colors.transparent,
-      scaffoldBackgroundColor: Color(0xFFFFFFFF),
+      scaffoldBackgroundColor: Color(0xFFFFFFFF),snackBarTheme: SnackBarThemeData(
+        backgroundColor: Color(0xFFFFFFFF),
+        
+      ),
+
       primaryColor: Color(0xFF92E3A9),
       textTheme: TextTheme(
         titleSmall: GoogleFonts.poppins(
@@ -52,6 +56,10 @@ class theme {
       ));
   static ThemeData darkTheme = ThemeData(
       splashColor: Colors.transparent,
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: Color(0xFFFFFFFF),
+        
+      ),
       scaffoldBackgroundColor: Color(0xFF323030),
       primaryColor: Color(0xFF92E3A9),
       textTheme: TextTheme(

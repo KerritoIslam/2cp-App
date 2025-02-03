@@ -67,7 +67,7 @@ class RestAuthRemote {
     }
   }
 
-  //eseless comment
+
   Future<Either<Failure, Response>> updateUser(
       String token, Map<String, dynamic> data) async {
     try {
@@ -87,7 +87,7 @@ class RestAuthRemote {
   }
 }
 
-/* void main() async {
+void main() async {
   final remot = RestAuthRemote();
   final response1 =
       await remot.register('islam', 'islamtestinglogin@gmail.com', '123456');
@@ -103,4 +103,4 @@ class RestAuthRemote {
     print('this is a login response : ' '$response');
   } 
 }
- */
+
