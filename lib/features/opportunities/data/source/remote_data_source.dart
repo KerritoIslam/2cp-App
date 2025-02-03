@@ -168,22 +168,48 @@ class MockData{
 
   
 }
+
 class OpportunityRemoteSource{
+  //TODO do Error Handling based on the response status code
   final dio = DioServices.dio;
   Future<Either<Failure,List<OpportunityModel>>>getOpportunitiesPagination(int page ,int limit)async{
-  await Future.delayed(Duration(milliseconds: 20));
+try  {   await Future.delayed(Duration(milliseconds: 20));
     return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).toList());
+  }catch(e){
+    return Left(Failure(e.toString()));
+  }
   }
   Future<Either<Failure,OpportunityModel>> getOpportunityById(String id)async{
-    await Future.delayed(Duration(milliseconds: 20));
+try  {     await Future.delayed(Duration(milliseconds: 20));
     return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).firstWhere((element) => element.id==id));
-  }
+  }catch(e){
+      return left( Failure(e.toString()) );
+    }  }
   Future<Either<Failure,CompanyModel>> getCompanyById(String id)async{
-    await Future.delayed(Duration(milliseconds: 20));
+try  {     await Future.delayed(Duration(milliseconds: 20));
     return Right(MockData.companies.map((e) => CompanyModel.fromJson(e)).firstWhere((element) => element.id==id));
-  }
+  }catch(e){
+      return left( Failure(e.toString()) );
+    }  }
   Future<Either<Failure,OpportunityModel>>saveOpportunity(String id)async{
-    await Future.delayed(Duration(milliseconds: 20));
+try  {     await Future.delayed(Duration(milliseconds: 20));
     return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).firstWhere((element) => element.id==id));
-  }
+  }catch(e){
+      return left(Failure(e.toString()));
+    }  }
+  Future<Either<Failure,Unit>>removeSavedOpportunity(String id)async{
+    try{
+ await Future.delayed(Duration(milliseconds: 20));
+    return Right(unit);
+
+    }catch(e){
+     return Left(Failure(e.toString()));
+    }
+     }
+  Future<Either<Failure,List<OpportunityModel>>>getSavedOpportunities()async{
+try  {     await Future.delayed(Duration(milliseconds: 20));
+    return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).toList());
+  }catch(e){
+      return left(Failure(e.toString()) );
+    }  }
 }

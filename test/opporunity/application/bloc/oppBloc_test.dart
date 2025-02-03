@@ -48,7 +48,7 @@ void main() {
         ];
 
         // Use mocktail's syntax with a lambda.
-        when(() => mockRepository.getOpportunitiesPagination(1, 15))
+        when(() => mockRepository.getOpportunitiesPagination(any(),any()))
             .thenAnswer((_) async => Right(opportunities));
 
         return OpportunitiesBlocBloc(mockRepository);
@@ -80,7 +80,7 @@ void main() {
       'emits [OpportuntitiesLoadInProgress, OpportuntitiesLoadFailure] when LoadOpportunitiesEvent fails',
       build: () {
         // Mock a failure response.
-        when(() => mockRepository.getOpportunitiesPagination(1,15))
+        when(() => mockRepository.getOpportunitiesPagination(any(),any()))
             .thenAnswer(
                 (_) async => Left(Failure('Failed to load opportunities')));
 
@@ -92,8 +92,15 @@ void main() {
         OpportuntitiesLoadFailure('Failed to load opportunities'),
       ],
     );
-    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
-      when(()=>mockRepository.saveOpportunity(('5'))).thenAnswer((_) async => Right(Opportunity.internship(
+  });
+group("Saving Posts Test", (){
+    late MockOpportunityRepository mockRepository;
+
+    setUp(() {
+      mockRepository = MockOpportunityRepository();
+    });
+ blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
+      when(()=>mockRepository.saveOpportunity(any())).thenAnswer((_) async => Right(Opportunity.internship(
         id: '5',
         title: 'Internship at Company A',
         description: 'An amazing internship opportunity',
@@ -107,7 +114,7 @@ void main() {
         duration: '6 months',
         category: 'Software',
       )));
-      return OpportunitiesBlocBloc(mockRepository);},
+      return OpportunitiesSavedBloc(mockRepository);},
   act: (bloc) {
       bloc.add(SaveOpportunityEvent('5'));
       return bloc.add(SaveOpportunityEvent('5'));
@@ -124,18 +131,61 @@ void main() {
         ),
         duration: '6 months',
         category: 'Software',
-      )], []),OpportunitySavedFailure('Already Saved')]
+      )],),OpportunitySavedFailure('Already Saved')]
     );
-    blocTest<OpportunitiesBlocBloc,OpportunitiesBlocState>('Should Return Failure when The an error from the api', build: (){
-    when(()=>mockRepository.saveOpportunity(('5'))).thenAnswer((_) async => Left(Failure('Failed to save opportunity')));
-      return OpportunitiesBlocBloc(mockRepository);
+    blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Return Failure when The an error from the api', build: (){
+    when(()=>mockRepository.saveOpportunity(any())).thenAnswer((_) async => Left(Failure('Failed to save opportunity')));
+      return OpportunitiesSavedBloc(mockRepository);
     },
  act: (bloc)=> bloc.add(SaveOpportunityEvent('5'))
 ,
     expect: ()=>[OpportunitySavedFailure('Failed to save opportunity')]
-    );
     
-  });
 
+    );
+ final company = Company(
+          id: '1',
+          name: 'Company A',
+          category: 'Tech',
+          profilepic: 'profilepic.jpg',
+        );
+
+      final opportunities = [
+          Opportunity.internship(
+            id: '123',
+            title: 'Internship at Company A',
+            description: 'An amazing internship opportunity',
+            skills: ['Flutter', 'Dart'],
+            company: company,
+            duration: '6 months',
+            category: 'Software',
+          ),
+ Opportunity.problem(
+            id: '123',
+            title: 'Storage Management Company A',
+            description: 'We need a way to manage our storage',
+            skills: ['Flutter', 'Dart'],
+            company: company,
+            category: 'Software',
+          ),
+
+        ];
+
+    blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>("Should Load Saved Posts Succefully", build: (){
+      
+      when(()=>mockRepository.getSavedOpportunities()).thenAnswer((_) async => Right(opportunities));
+      return OpportunitiesSavedBloc(mockRepository);
+    },
+      act: (bloc) {
+        bloc.add(LoadSavedOpportunitiesEvent());
+      },
+      expect: ()=>[
+        OpportunitySavedInProgress(),
+        OpportunitySavedSucces( opportunities)
+      ]
+    );
+  }
+
+  );
 }
 

@@ -8,7 +8,18 @@ abstract class OpportunitiesBlocState extends Equatable {
   @override
   List<Object?> get props => [];
 }
+abstract class OpportunitiesSavedState extends Equatable {
+  const OpportunitiesSavedState();
 
+  @override
+  List<Object?> get props => [];
+}
+class OpportunitiesSavedInitial extends OpportunitiesSavedState {
+  const OpportunitiesSavedInitial();
+
+  @override
+  List<Object?> get props => [];
+}
 class OpportunitiesBlocInitial extends OpportunitiesBlocState {
   const OpportunitiesBlocInitial();
 
@@ -38,18 +49,30 @@ class OpportuntitiesLoadFailure extends OpportunitiesBlocState {
   @override
   List<Object?> get props => [message];
 }
-class OpportunitySavedSucces extends OpportunitiesBlocState {
-  final List<Opportunity> savedOpportunities;
-  final List<Opportunity> opportunities;
-  const OpportunitySavedSucces(this.savedOpportunities,this.opportunities);
+class OpportunitySavedInProgress extends OpportunitiesSavedState {
+  const OpportunitySavedInProgress();
 
   @override
-  List<Object?> get props => [savedOpportunities,opportunities];
+  List<Object?> get props => [];
 }
-class OpportunitySavedFailure extends OpportunitiesBlocState{
+class OpportunitySavedSucces extends OpportunitiesSavedState {
+  final List<Opportunity> savedOpportunities;
+  const OpportunitySavedSucces(this.savedOpportunities,);
+
+  @override
+  List<Object?> get props => [savedOpportunities];
+}
+class OpportunitySavedFailure extends OpportunitiesSavedState {
   final String message;
   const OpportunitySavedFailure(this.message);
 
   @override
   List<Object?> get props => [message];
+}
+class SavedOpportunitiesLoadSuccess extends OpportunitiesSavedState {
+  final List<Opportunity> savedOpportunities;
+  const SavedOpportunitiesLoadSuccess(this.savedOpportunities,);
+
+  @override
+  List<Object?> get props => [savedOpportunities];
 }
