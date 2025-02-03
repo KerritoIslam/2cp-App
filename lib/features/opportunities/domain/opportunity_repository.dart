@@ -34,4 +34,29 @@ class OpportunityRepository{
        return left(Failure(e.toString())); 
       }
   } 
+  Future<Either<Failure,Opportunity>>saveOpportunity(String id)async{
+    try{
+      final result=await remoteSource.saveOpportunity(id);
+      return result.fold((failure)=>left(failure), (opp)=>right(opp.toEntity()));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
+  Future<Either<Failure,Unit>>removeSavedOpportunity(String id)async{
+    try{
+      final result=await remoteSource.removeSavedOpportunity(id);
+      return result.fold((failure)=>left(failure), (unit)=>right(unit));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
+  Future<Either<Failure,List<Opportunity>>>getSavedOpportunities()async{
+    try{
+      final result=await remoteSource.getSavedOpportunities();
+      return result.fold((failure)=>left(failure), (oppList)=>right(oppList.map((e) => e.toEntity()).toList()));
+    }on Failure catch(e){
+      return Left(e);
+    }
+  }
+  
 }

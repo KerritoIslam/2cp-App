@@ -2,7 +2,7 @@ import 'package:app/core/dioservices/dio.dart';
 import 'package:app/core/failure/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-
+//WARNING :Remove the token from here and put it in the intreceptor
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
 
@@ -37,6 +37,7 @@ class RestAuthRemote {
     }
   }
 
+  // WARNING: YOU DON't PASS THE TOKEN IN the logut
   Future<Either<Failure, Response>> logout(String token) async {
     try {
       final response = await _dio.post(
@@ -87,3 +88,4 @@ void main() async {
     print(response1);
   }
 }
+
