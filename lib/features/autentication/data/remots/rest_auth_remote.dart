@@ -9,7 +9,7 @@ class RestAuthRemote {
   Future<Either<Failure, Response>> login(String email, String password) async {
     try {
       final response = await _dio.post(
-        '/Auth/Login/',
+        '/Auth/Login',
         data: {
           'email': email,
           'password': password,
@@ -24,9 +24,12 @@ class RestAuthRemote {
   Future<Either<Failure, Response>> register(
       String name, String email, String password) async {
     try {
-      final response = await _dio.post('/Auth/Signup/', data: {
-        "password": password,
+      final response = await _dio.post('/Auth/Signup', data: {
+        "name": name,
         "email": email,
+        "type": "Student",
+        "student": {"category": "CS", "education": "esi"},
+        "password": password
       });
       return right(response);
     } catch (e) {
@@ -38,11 +41,7 @@ class RestAuthRemote {
     try {
       final response = await _dio.post(
         '/logout',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(),
       );
       return right(response);
     } catch (e) {
@@ -54,11 +53,7 @@ class RestAuthRemote {
     try {
       final response = await _dio.get(
         '/profile',
-        options: Options(
-          headers: {
-            'Authorization': 'Token $token',
-          },
-        ),
+        options: Options(),
       );
       return right(response);
     } catch (e) {
@@ -66,18 +61,13 @@ class RestAuthRemote {
     }
   }
 
-
   Future<Either<Failure, Response>> updateUser(
       String token, Map<String, dynamic> data) async {
     try {
       final response = await _dio.put(
         '/edit_user',
         data: data,
-        options: Options(
-          headers: {
-            'Authorization': 'Token $token',
-          },
-        ),
+        options: Options(),
       );
       return right(response);
     } catch (e) {
@@ -89,16 +79,11 @@ class RestAuthRemote {
 void main() async {
   final remot = RestAuthRemote();
   final response1 =
-      await remot.register('islam', 'islamtestinglogin@gmail.com', '123456');
+      await remot.register('isla', 'ilamtestglogin@gmail.com', 'islam123@');
   if (response1.isRight()) {
     print(
         'this is a register response : ${response1.leftMap((l) => l.toString())}');
   } else {
     print(response1);
   }
-
-  final response = await remot.login('islamtestinglogin@gmail.com', '123456');
-  if (response.isRight()) {
-    print('this is a login response : ' '$response');
-  } 
 }

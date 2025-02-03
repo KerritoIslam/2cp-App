@@ -132,7 +132,6 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6),
                             child: TextFormField(
-                              obscureText: true,
                               style: Theme.of(context).textTheme.bodyMedium,
                               validator: (value) => emailValidator(value),
                               autovalidateMode:
@@ -262,8 +261,10 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text('please fill all the fields'),
-                                  backgroundColor:Theme.of(context).snackBarTheme.backgroundColor,
-                                )); 
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                ));
                               }
                             },
                             style: ButtonStyle(
