@@ -8,6 +8,8 @@ part 'opportunities_bloc_state.dart';
 
 class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
   final OpportunityRepository repository;
+  List<Opportunity> savedOpportunities=[];
+  //TODO pass the params in the constructor
   //The current Page Number 
   int page=1;
   //Number of posts per Page
@@ -29,6 +31,7 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
       }, (oppList){
         opportunities.addAll(oppList);
         if(oppList.length<limit){
+        //Because the lastPage either have less number than the limit or when we fetch the next page it will be empty
           hasReachedMax=true;
         }
         emit(OpportuntitiesLoadSuccess(opportunities));
@@ -41,6 +44,47 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
         add(LoadOpportunitiesEvent());
       }
     });
+       
+  }
+
+}
+class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesSavedState>{
+  final OpportunityRepository repository;
+ final List<Opportunity> savedOpportunities=[];
+  OpportunitiesSavedBloc(this.repository) : super(OpportunitiesSavedInitial()){
+     on<SaveOpportunityEvent>((event, emit) async {
+      if (savedOpportunities.any((element) => element.id==event.id)) {
+        emit(OpportunitySavedFailure('Already Saved'));
+        return;
+      }
+      final result=await repository.saveOpportunity(event.id);
+      result.fold((failure){
+        emit(OpportunitySavedFailure(failure.message));
+      }, (opp){
+        savedOpportunities.add(opp);
+        emit(OpportunitySavedSucces(savedOpportunities));
+      });
+    });
+    on<RemoveSavedOpportunityEvent>((event, emit) async {
+      final result=await repository.removeSavedOpportunity(event.id);
+      result.fold((failure){
+        emit(OpportunitySavedFailure(failure.message));
+      }, (unit){
+        savedOpportunities.removeWhere((element) => element.id==event.id);
+        emit(OpportunitySavedSucces(savedOpportunities));
+      });
+    });
+    
+  on<LoadSavedOpportunitiesEvent>((event, emit) async {
+      emit(OpportunitySavedInProgress());
+      final result=await repository.getSavedOpportunities();
+      result.fold((failure){
+        emit(OpportunitySavedFailure(failure.message));
+      }, (oppList){
+        savedOpportunities.addAll(oppList);
+        emit(OpportunitySavedSucces(savedOpportunities));
+      });
+    });  
+
   }
 }
-
