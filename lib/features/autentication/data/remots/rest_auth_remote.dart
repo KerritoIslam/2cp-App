@@ -1,12 +1,14 @@
 import 'package:app/core/dioservices/dio.dart';
 import 'package:app/core/failure/failure.dart';
+import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-//WARNING :Remove the token from here and put it in the intreceptor
+
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
 
-  Future<Either<Failure, Response>> login(String email, String password) async {
+  Future<Either<Failure, UserModel>> login(
+      String email, String password) async {
     try {
       final response = await _dio.post(
         '/Auth/Login',
@@ -15,13 +17,13 @@ class RestAuthRemote {
           'password': password,
         },
       );
-      return right(response);
+      return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-  Future<Either<Failure, Response>> register(
+  Future<Either<Failure, UserModel>> register(
       String name, String email, String password) async {
     try {
       final response = await _dio.post('/Auth/Signup', data: {
@@ -31,46 +33,43 @@ class RestAuthRemote {
         "student": {"category": "CS", "education": "esi"},
         "password": password
       });
-      return right(response);
+
+      return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-  // WARNING: YOU DON't PASS THE TOKEN IN the logut
-  Future<Either<Failure, Response>> logout(String token) async {
+  Future<Either<Failure, UserModel>> logout() async {
     try {
       final response = await _dio.post(
         '/logout',
-        options: Options(),
       );
-      return right(response);
+      return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-  Future<Either<Failure, Response>> getUserProfile(String token) async {
+//todo: check if needed
+  Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
       final response = await _dio.get(
         '/profile',
-        options: Options(),
       );
-      return right(response);
+      return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-  Future<Either<Failure, Response>> updateUser(
-      String token, Map<String, dynamic> data) async {
+  Future<Either<Failure, UserModel>> updateUser(UserModel user) async {
     try {
       final response = await _dio.put(
         '/edit_user',
-        data: data,
-        options: Options(),
+        data: user.toJson(),
       );
-      return right(response);
+      return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -88,4 +87,3 @@ void main() async {
     print(response1);
   }
 }
-

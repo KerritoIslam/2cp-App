@@ -1,3 +1,4 @@
+import 'package:app/features/autentication/application/bloc/auth_bolc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,12 +15,12 @@ class SignUpMainInfoPage extends StatefulWidget {
 bool _passwordVisible = false;
 bool _confirmPasswordVisible = false;
 
-GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 bool TermsAndConditionsAccepted = false;
 TextEditingController nameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController confirmPasswordController = TextEditingController();
+
 nameValidator(value) {
   RegExp regExp = RegExp(r'^[a-zA-Z ]+$');
   if (value == null || value.isEmpty) {
@@ -67,14 +68,30 @@ confirmPasswordValidator(value) {
 }
 
 class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
+  late GlobalKey<FormState> _formKey;
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_formKey.currentState != null) _formKey.currentState!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
+        return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: 27.h,
+                ),
                 TextButton(
                     onPressed: () {
                       GoRouter.of(context).pop();
@@ -257,10 +274,17 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              
                               if (!_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
-                                  content: Text('please fill all the fields'),
+                                  content: Text(
+                                    'please fill all the fields',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.red),
+                                  ),
                                   backgroundColor: Theme.of(context)
                                       .snackBarTheme
                                       .backgroundColor,

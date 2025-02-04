@@ -28,7 +28,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        GoRouter.of(context).push('/SignUpMainInfoPage');
+                        GoRouter.of(context).push('/auth/SignUpMainInfoPage');
                       },
                       child: Text(
                         'Sign up',
