@@ -1,15 +1,17 @@
 import 'package:app/features/autentication/application/bloc/auth_bolc.dart';
+import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpMainInfoPage extends StatefulWidget {
-  const SignUpMainInfoPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignUpMainInfoPage> createState() => _SignUpMainInfoPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
 bool _passwordVisible = false;
@@ -67,7 +69,7 @@ confirmPasswordValidator(value) {
   return null;
 }
 
-class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
+class _SignUpPageState extends State<SignUpPage> {
   late GlobalKey<FormState> _formKey;
   @override
   void initState() {
@@ -83,7 +85,7 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    return Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -94,7 +96,8 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                 ),
                 TextButton(
                     onPressed: () {
-                      GoRouter.of(context).pop();
+                      GoRouter.of(context).go('/auth/welcome');
+                      
                     },
                     child: Row(
                       children: [
@@ -273,8 +276,7 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                             ],
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              
+                            onPressed: () async {
                               if (!_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -289,6 +291,12 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                                       .snackBarTheme
                                       .backgroundColor,
                                 ));
+                              } else {
+                                context.read<AuthBolc>().add(
+                                    AuthSignUpRequested(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        name: nameController.text));
                               }
                             },
                             style: ButtonStyle(
@@ -318,6 +326,7 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
               ],
             ),
           ),
-        ));
+        ),
+       );
   }
 }

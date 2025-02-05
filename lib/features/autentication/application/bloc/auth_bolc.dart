@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthBolc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
   AuthBolc(this.authRepository) : super(AuthInitial()) {
-    
-   
     on<AuthLoginRequested>((event, emit) {});
-    on<AuthSignUpRequested>((event, emit) {
+    on<AuthSignUpRequested>((event, emit) async {
       emit(AuthLoading());
-      authRepository.register(event.name, event.email, event.password).then((value) {
+      await authRepository
+          .register(event.name, event.email, event.password)
+          .then((value) {
         value.fold((failure) {
           emit(AuthError(failure.message));
         }, (user) {
