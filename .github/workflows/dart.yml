@@ -16,7 +16,7 @@ jobs:
       # Install Flutter
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.5' # Use the latest Flutter version
+          flutter-version: '3.24.5'
 
       # Cache Flutter dependencies
       - name: Cache Flutter dependencies
@@ -31,35 +31,28 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Check formatting
-     # - name: Check formatting
-      #  run: dart format --set-exit-if-changed .
-
+      # Set environment variables from GitHub secrets
+      - name: Set environment variables
+        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
 
       # Run tests
       - name: Run tests
         run: flutter test
-
-      # Build the app
-      ##- name: Build app
-##change later to relaese when prod
-        ##run: flutter build apk --debug
 
       # Notify on failure
       - name: Notify on failure
         if: failure()
         uses: actions/github-script@v6
         with:
-        
           script: |
-           const issueNumber = context.payload.pull_request?.number || context.payload.issue?.number;
-              if (issueNumber) {
-                github.rest.issues.createComment({
-                 issue_number: issueNumber,
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               body: '🚨 Build or tests failed! Please check the logs.'
-               });
-              } else {
-                console.log('No issue or pull request found to comment on.');
-               }
+            const issueNumber = context.payload.pull_request?.number || context.payload.issue?.number;
+            if (issueNumber) {
+              github.rest.issues.createComment({
+                issue_number: issueNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '🚨 Build or tests failed! Please check the logs.'
+              });
+            } else {
+              console.log('No issue or pull request found to comment on.');
+            }
