@@ -9,23 +9,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     BlocProvider(create: (_) => ThemeProviderBloc(), child: const MyApp()),
   );
 }
-GoRouter _router = GoRouter(
-  initialLocation: '/welcome',
-  routes: [GoRoute(
-      path: '/welcome',
-      pageBuilder: (context, state) => MaterialPage(child: WelcomePage()),
-    ),
-    GoRoute(
-      path: '/SignUpMainInfoPage',
-      pageBuilder: (context, state) => MaterialPage(child: SignUpMainInfoPage()),
-    )]);
+
+GoRouter _router = GoRouter(initialLocation: '/welcome', routes: [
+  GoRoute(
+    path: '/welcome',
+    pageBuilder: (context, state) => MaterialPage(child: WelcomePage()),
+  ),
+  GoRoute(
+    path: '/SignUpMainInfoPage',
+    pageBuilder: (context, state) => MaterialPage(child: SignUpMainInfoPage()),
+  )
+]);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -42,9 +43,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: '2CP App',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
-            
             );
-          
           });
         });
   }
