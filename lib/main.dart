@@ -42,8 +42,9 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: '2CP App',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
-             
+            
             );
+          
           });
         });
   }
