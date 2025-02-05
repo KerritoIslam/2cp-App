@@ -33,7 +33,7 @@ jobs:
 
       # Set environment variables from GitHub secrets
       - name: Set environment variables
-        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+        run: echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
       # Run tests
       - name: Run tests
