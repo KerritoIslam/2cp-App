@@ -27,7 +27,7 @@ Map<String, dynamic> _$$InternshipImplToJson(_$InternshipImpl instance) =>
       'title': instance.title,
       'description': instance.description,
       'skills': instance.skills,
-      'company': instance.company,
+      'company': instance.company.toJson(),
       'status': _$OpportunityStatusEnumMap[instance.status]!,
       'duration': instance.duration,
       'category': instance.category,
