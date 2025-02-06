@@ -1,7 +1,10 @@
-import 'dart:io';
 
-import 'package:app/features/autentication/application/pages/signup/maininfo_page.dart';
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/pages/signup_page.dart';
+
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
+import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
+import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
@@ -13,8 +16,24 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+
+final AuthBloc authBloc =
+    AuthBloc(AuthRepository(restAuthRemote: RestAuthRemote()));
+
+class BlocListenable extends ChangeNotifier implements Listenable {
+  final AuthBloc bloc;
+
+  BlocListenable( this.bloc) {
+    bloc.stream.listen((state) {
+      notifyListeners();
+    });
+  }
+}
+
+
 void main() async {
   await dotenv.load();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options:(
     FirebaseOptions(
@@ -29,9 +48,58 @@ void main() async {
 )
   ) );
   runApp(
-    BlocProvider(create: (_) => ThemeProviderBloc(), child: const MyApp()),
+    MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => ThemeProviderBloc()),
+      BlocProvider(create: (_) {
+        return authBloc;
+      }),
+    ], child: MyApp()),
   );
 }
+
+
+GoRouter _router = GoRouter(
+  initialLocation: '/auth/welcome',
+  routes: [
+    GoRoute(
+      pageBuilder: (context, state) => MaterialPage(child: Text("auth")),
+      path: '/auth',
+      routes: [
+        GoRoute(
+            path: 'welcome',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: WelcomePage())),
+        GoRoute(
+          path: 'SignUpPage',
+          pageBuilder: (context, state) => MaterialPage(child: SignUpPage()),
+        ),
+      ],
+    ),
+    GoRoute(
+      pageBuilder: (context, state) => MaterialPage(child: Text("protected")),
+      path: '/protected',
+      routes: [
+        GoRoute(
+            path: 'home',
+            pageBuilder: (context, state) => MaterialPage(child: Text('home'))),
+      ],
+    ),
+  ],
+  redirect: (context, state) {
+    print(state.matchedLocation);
+    return null;
+    // final authState = context.read<AuthBloc>().state;
+    // if (authState is Authenticated && state.fullPath!.contains('/auth')) {
+    //   return '/protected/home';
+    // } else if (authState is Unauthenticated &&
+    //     state.fullPath!.contains('/protected')) {
+    //   return '/auth/welcome';
+    // }
+    // return null;
+  },
+  refreshListenable: BlocListenable(authBloc),
+);
+
 String _getPlatform() {
   if (kIsWeb) {
     return 'WEB';
@@ -46,16 +114,7 @@ String _getPlatform() {
   }
   return 'WEB'; // Default to Web
 }
-GoRouter _router = GoRouter(initialLocation: '/welcome', routes: [
-  GoRoute(
-    path: '/welcome',
-    pageBuilder: (context, state) => MaterialPage(child: WelcomePage()),
-  ),
-  GoRoute(
-    path: '/SignUpMainInfoPage',
-    pageBuilder: (context, state) => MaterialPage(child: SignUpMainInfoPage()),
-  )
-]);
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

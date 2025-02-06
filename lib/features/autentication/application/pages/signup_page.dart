@@ -1,25 +1,28 @@
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpMainInfoPage extends StatefulWidget {
-  const SignUpMainInfoPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignUpMainInfoPage> createState() => _SignUpMainInfoPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
 bool _passwordVisible = false;
 bool _confirmPasswordVisible = false;
 
-GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 bool TermsAndConditionsAccepted = false;
 TextEditingController nameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController confirmPasswordController = TextEditingController();
+
 nameValidator(value) {
   RegExp regExp = RegExp(r'^[a-zA-Z ]+$');
   if (value == null || value.isEmpty) {
@@ -66,18 +69,35 @@ confirmPasswordValidator(value) {
   return null;
 }
 
-class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
+class _SignUpPageState extends State<SignUpPage> {
+  late GlobalKey<FormState> _formKey;
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_formKey.currentState != null) _formKey.currentState!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: 27.h,
+                ),
                 TextButton(
                     onPressed: () {
-                      GoRouter.of(context).pop();
+                      GoRouter.of(context).go('/auth/welcome');
+                      
                     },
                     child: Row(
                       children: [
@@ -132,7 +152,6 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6),
                             child: TextFormField(
-                              obscureText: true,
                               style: Theme.of(context).textTheme.bodyMedium,
                               validator: (value) => emailValidator(value),
                               autovalidateMode:
@@ -257,13 +276,27 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
                             ],
                           ),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (!_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
-                                  content: Text('please fill all the fields'),
-                                  backgroundColor:Theme.of(context).snackBarTheme.backgroundColor,
-                                )); 
+                                  content: Text(
+                                    'please fill all the fields',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.red),
+                                  ),
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                ));
+                              } else {
+                                context.read<AuthBloc>().add(
+                                    AuthSignUpRequested(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        name: nameController.text));
                               }
                             },
                             style: ButtonStyle(
@@ -293,6 +326,7 @@ class _SignUpMainInfoPageState extends State<SignUpMainInfoPage> {
               ],
             ),
           ),
-        ));
+        ),
+       );
   }
 }
