@@ -1,4 +1,4 @@
-import 'package:app/features/autentication/application/bloc/auth_bolc.dart';
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -292,7 +292,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       .backgroundColor,
                                 ));
                               } else {
-                                context.read<AuthBolc>().add(
+                                context.read<AuthBloc>().add(
                                     AuthSignUpRequested(
                                         email: emailController.text,
                                         password: passwordController.text,

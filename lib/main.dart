@@ -1,4 +1,4 @@
-import 'package:app/features/autentication/application/bloc/auth_bolc.dart';
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
@@ -12,13 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-final AuthBolc authBolc =
-    AuthBolc(AuthRepository(restAuthRemote: RestAuthRemote()));
+final AuthBloc authBloc =
+    AuthBloc(AuthRepository(restAuthRemote: RestAuthRemote()));
 
-class BlocListenable<AuthBloc> extends ChangeNotifier implements Listenable {
-  final AuthBolc bloc;
+class BlocListenable extends ChangeNotifier implements Listenable {
+  final AuthBloc bloc;
 
-  BlocListenable(this.bloc) {
+  BlocListenable( this.bloc) {
     bloc.stream.listen((state) {
       notifyListeners();
     });
@@ -32,7 +32,7 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
-        return authBolc;
+        return authBloc;
       }),
     ], child: MyApp()),
   );
@@ -68,7 +68,7 @@ GoRouter _router = GoRouter(
   redirect: (context, state) {
     print(state.matchedLocation);
     return null;
-    // final authState = context.read<AuthBolc>().state;
+    // final authState = context.read<AuthBloc>().state;
     // if (authState is Authenticated && state.fullPath!.contains('/auth')) {
     //   return '/protected/home';
     // } else if (authState is Unauthenticated &&
@@ -77,7 +77,7 @@ GoRouter _router = GoRouter(
     // }
     // return null;
   },
-  refreshListenable: BlocListenable(authBolc),
+  refreshListenable: BlocListenable(authBloc),
 );
 
 class MyApp extends StatelessWidget {

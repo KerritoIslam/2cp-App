@@ -40,12 +40,12 @@ class RestAuthRemote {
     }
   }
 
-  Future<Either<Failure, UserModel>> logout() async {
+  Future<Either<Failure, Unit>> logout() async {
     try {
-      final response = await _dio.post(
+      await _dio.post(
         '/logout',
       );
-      return right(UserModel.fromJson(response.data['user']));
+      return right(unit);
     } catch (e) {
       return left(Failure(e.toString()));
     }
