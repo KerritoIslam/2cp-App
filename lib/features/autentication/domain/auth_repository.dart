@@ -14,6 +14,7 @@ class AuthRepository {
           (response) => right(userModelToEntity(response)));
     } on Failure catch (e) {
       return left(Failure(e.toString()));
+      //
     }
   }
 
