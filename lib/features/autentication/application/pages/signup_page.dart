@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 300.h,
                     width: 300.w,
                     child:
-                        SvgPicture.asset('assets/images/hero/signup_main.svg')),
+                        SvgPicture.asset('assets/images/signup_main.svg')),
                 Text('Enter The informations needed',
                     style: Theme.of(context).textTheme.displaySmall),
                 Padding(
