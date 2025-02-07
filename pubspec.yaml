@@ -96,7 +96,7 @@ flutter:
   assets:
     - assets/images/hero/
     - assets/images/icons/
-    - .env
+    #- .env this coused an error in the build : .env is not a valid asset
 
 
 

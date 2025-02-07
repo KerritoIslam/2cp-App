@@ -2,10 +2,6 @@
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 
-import 'dart:io';
-
-
-
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
@@ -14,6 +10,7 @@ import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,8 +30,6 @@ class BlocListenable extends ChangeNotifier implements Listenable {
     });
   }
 }
-
-
 
 void main() async {
   await dotenv.load();
