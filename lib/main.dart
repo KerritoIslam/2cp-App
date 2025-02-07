@@ -1,22 +1,20 @@
+import 'dart:io';
 
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
-
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
-import 'package:app/firebase_options.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 
 final AuthBloc authBloc =
     AuthBloc(AuthRepository(restAuthRemote: RestAuthRemote()));
@@ -24,7 +22,7 @@ final AuthBloc authBloc =
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
 
-  BlocListenable( this.bloc) {
+  BlocListenable(this.bloc) {
     bloc.stream.listen((state) {
       notifyListeners();
     });
@@ -35,18 +33,17 @@ void main() async {
   await dotenv.load();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options:(
-    FirebaseOptions(
-    
-      apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,
-      appId: dotenv.env['FIREBASE_APP_ID_${_getPlatform()}']!,
-      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID_${_getPlatform()}']!,
-      projectId: dotenv.env['FIREBASE_PROJECT_ID_${_getPlatform()}']!,
-      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET_${_getPlatform()}']!,
-      authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN_${_getPlatform()}'] ?? '',
-      iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID_${_getPlatform()}'] ?? '',
-)
-  ) );
+  await Firebase.initializeApp(
+      options: (FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,
+    appId: dotenv.env['FIREBASE_APP_ID_${_getPlatform()}']!,
+    messagingSenderId:
+        dotenv.env['FIREBASE_MESSAGING_SENDER_ID_${_getPlatform()}']!,
+    projectId: dotenv.env['FIREBASE_PROJECT_ID_${_getPlatform()}']!,
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET_${_getPlatform()}']!,
+    authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN_${_getPlatform()}'] ?? '',
+    iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID_${_getPlatform()}'] ?? '',
+  )));
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
@@ -56,7 +53,6 @@ void main() async {
     ], child: MyApp()),
   );
 }
-
 
 GoRouter _router = GoRouter(
   initialLocation: '/auth/welcome',
@@ -86,16 +82,15 @@ GoRouter _router = GoRouter(
     ),
   ],
   redirect: (context, state) {
-    print(state.matchedLocation);
+    
+     final authState = context.read<AuthBloc>().state;
+    if (authState is Authenticated && state.fullPath!.contains('/auth')) {
+      return '/protected/home';
+    } else if (authState is Unauthenticated &&
+        state.fullPath!.contains('/protected')) {
+      return '/auth/welcome';
+    }
     return null;
-    // final authState = context.read<AuthBloc>().state;
-    // if (authState is Authenticated && state.fullPath!.contains('/auth')) {
-    //   return '/protected/home';
-    // } else if (authState is Unauthenticated &&
-    //     state.fullPath!.contains('/protected')) {
-    //   return '/auth/welcome';
-    // }
-    // return null;
   },
   refreshListenable: BlocListenable(authBloc),
 );
@@ -114,7 +109,6 @@ String _getPlatform() {
   }
   return 'WEB'; // Default to Web
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -25,7 +25,7 @@ Map<String, dynamic> _$$ApplicationModelImplToJson(
       'id': instance.id,
       'proposal': instance.proposal,
       'postId': instance.postId,
-      'company': instance.company.toJson(),
+      'company': instance.company,
       'sumbittedAt': instance.sumbittedAt.toIso8601String(),
       'type': instance.type,
       'status': _$ApplicationStatusEnumMap[instance.status]!,
