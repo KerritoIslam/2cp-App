@@ -61,7 +61,7 @@ void main() async {
 
 
 GoRouter _router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/auth/welcome',
   routes: [
     GoRoute(
       pageBuilder: (context, state) => MaterialPage(child: Text("auth")),
