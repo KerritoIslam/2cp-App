@@ -19,8 +19,9 @@ class _LayoutState extends State<Layout> {
 late int index;
   @override
     void initState() {
+        super.initState();
+
      index=widget.initPage ;
-    super.initState();
     }
   @override
   Widget build(BuildContext context) {
@@ -35,10 +36,9 @@ late int index;
           IconButton(onPressed: (){}, icon:SvgPicture.asset("assets/icons/profile.svg")),
 
         ],
-        leadingWidth: 200,
+        leadingWidth: 150.w,
       ),
       
-     //TODO create a new NavBar with custom Indicator 
       bottomNavigationBar:Padding(
         padding: EdgeInsets.symmetric(vertical: 14.h),
         child: BottomNavigationBar(
