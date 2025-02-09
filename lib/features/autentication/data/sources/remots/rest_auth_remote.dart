@@ -18,7 +18,10 @@ class RestAuthRemote {
         },
       );
       return right(UserModel.fromJson(response.data['user']));
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 400) {
+        return left(Failure('email or password is incorrect'));
+      }
       return left(Failure(e.toString()));
     }
   }
@@ -35,7 +38,11 @@ class RestAuthRemote {
       });
 
       return right(UserModel.fromJson(response.data['user']));
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 400) {
+        return left(Failure('this email or name is already used'));
+      }
+
       return left(Failure(e.toString()));
     }
   }
@@ -78,8 +85,8 @@ class RestAuthRemote {
 
 void main() async {
   final remot = RestAuthRemote();
-  final response1 =
-      await remot.register('isla', 'ilamtestglogin@gmail.com', 'islam123@');
+  final response1 = await remot.register(
+      'islam45797945', 'ilamtestgmlogin@gijijimail.com', 'islam123@');
   if (response1.isRight()) {
     print(
         'this is a register response : ${response1.leftMap((l) => l.toString())}');

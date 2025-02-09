@@ -18,10 +18,13 @@ bool _passwordVisible = false;
 bool _confirmPasswordVisible = false;
 
 bool TermsAndConditionsAccepted = false;
-TextEditingController nameController = TextEditingController();
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-TextEditingController confirmPasswordController = TextEditingController();
+TextEditingController nameController = TextEditingController(text: 'islamname');
+TextEditingController emailController =
+    TextEditingController(text: 'islamemail@gmail.com');
+TextEditingController passwordController =
+    TextEditingController(text: 'HelloWorld2023');
+TextEditingController confirmPasswordController =
+    TextEditingController(text: 'HelloWorld2023');
 
 nameValidator(value) {
   RegExp regExp = RegExp(r'^[a-zA-Z ]+$');
@@ -38,7 +41,7 @@ nameValidator(value) {
 }
 
 emailValidator(value) {
-  RegExp regExp = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+');
+  RegExp regExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$');
   if (value == null || value.isEmpty) {
     return 'Please enter your Email';
   } else if (!regExp.hasMatch(value)) {
@@ -48,14 +51,14 @@ emailValidator(value) {
 }
 
 passwordValidator(value) {
-  RegExp regExp = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,}$');
+  RegExp regExp =
+      RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$');
   if (value == null || value.isEmpty) {
     return 'Please enter your Password';
   } else if (value.length < 8) {
     return 'the Password must be at least 8 characters';
   } else if (!regExp.hasMatch(value)) {
-    return 'the Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+    return 'the Password must contain at least one uppercase letter,\n one lowercase letter, one number';
   }
   return null;
 }
@@ -63,7 +66,7 @@ passwordValidator(value) {
 confirmPasswordValidator(value) {
   if (value == null || value.isEmpty) {
     return 'Please enter your Confirm Password';
-  } else if (value != passwordController.text) {
+  } else if (value != passwordController.value.text) {
     return 'the Passwords do not match';
   }
   return null;
