@@ -21,6 +21,7 @@ class theme {
         ),
       ),
       primaryColor: Color(0xFF92E3A9),
+    secondaryHeaderColor:Colors.black,
       textTheme: TextTheme(
         titleSmall: GoogleFonts.poppins(
           fontSize: titleSmallFontSize,
@@ -60,6 +61,7 @@ class theme {
       ));
   static ThemeData darkTheme = ThemeData(
       splashColor: Colors.transparent,
+    secondaryHeaderColor: Colors.white,
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Color(0xFFFFFFFF),
         shape: RoundedRectangleBorder(

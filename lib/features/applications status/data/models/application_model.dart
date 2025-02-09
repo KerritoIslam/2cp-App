@@ -3,7 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:app/features/opportunities/data/models/company_model.dart';
 part 'application_model.freezed.dart';
 part 'application_model.g.dart';
-@freezed
+@Freezed(fromJson: true,toJson: true)
+
 class ApplicationModel with _$ApplicationModel{
   const ApplicationModel._();
   factory ApplicationModel({
@@ -18,5 +19,10 @@ class ApplicationModel with _$ApplicationModel{
   }) = _ApplicationModel;
   factory ApplicationModel.fromJson(Map<String, dynamic> json) =>
       _$ApplicationModelFromJson(json);
+  Map<String,dynamic> toCustomJson() {
+    final json=toJson();
+    json['company']=company.toJson(); 
+    return json;
+  }  
 }
 

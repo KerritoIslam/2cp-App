@@ -65,7 +65,7 @@ class _WelcomePageState extends State<WelcomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
                 child: SvgPicture.asset(
-                  'assets/images/hero/welcome.svg',
+                  'assets/images/welcome.svg',
                 ),
               ),
               Padding(
@@ -127,7 +127,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         width: 30,
                         height: 30,
                         child:
-                            SvgPicture.asset('assets/images/icons/google.svg')),
+                            SvgPicture.asset('assets/icons/google.svg')),
                   ),
                 ),
               ),
@@ -152,7 +152,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         width: 30.w,
                         height: 30.h,
                         child: SvgPicture.asset(
-                            'assets/images/icons/facebook.svg')),
+                            'assets/icons/facebook.svg')),
                   ),
                 ),
               ),

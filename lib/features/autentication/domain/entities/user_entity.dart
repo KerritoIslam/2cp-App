@@ -6,7 +6,7 @@ part 'user_entity.g.dart';
 
 @freezed
 class User with _$User {
-  const User._();
+   const User._();
   const factory User({
     required int id,
     required String name,
@@ -15,21 +15,5 @@ class User with _$User {
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  UserModel toModel() {
-    return UserModel(
-      id: id,
-      name: name,
-      email: email,
-      password: password,
-    );
-  }
-
-  factory User.fromModel(UserModel model) {
-    return User(
-      name: model.name,
-      email: model.email,
-      password: model.password,
-      id: model.id,
-    );
-  }
+  //somthing
 }

@@ -6,6 +6,7 @@ import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
+import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -76,20 +77,13 @@ GoRouter _router = GoRouter(
       path: '/protected',
       routes: [
         GoRoute(
-            path: 'home',
-            pageBuilder: (context, state) => MaterialPage(child: Text('home'))),
+            path: 'layout',
+            pageBuilder: (context, state) => MaterialPage(child:  Layout() )),
       ],
     ),
   ],
   redirect: (context, state) {
-    
-     final authState = context.read<AuthBloc>().state;
-    if (authState is Authenticated && state.fullPath!.contains('/auth')) {
-      return '/protected/home';
-    } else if (authState is Unauthenticated &&
-        state.fullPath!.contains('/protected')) {
-      return '/auth/welcome';
-    }
+    print(state.matchedLocation);
     return null;
   },
   refreshListenable: BlocListenable(authBloc),

@@ -24,7 +24,7 @@ void main() {
 
     // Test the toJson method
     test('toJson should convert ApplicationModel to a valid JSON map', () {
-      final json = application.toJson();
+      final json = application.toCustomJson();
 
       expect(json, isA<Map<String, dynamic>>());
       expect(json['id'], '123');
