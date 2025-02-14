@@ -1,3 +1,4 @@
+import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +19,7 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
+            
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
@@ -28,7 +30,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        GoRouter.of(context).push('/auth/SignUpPage');
+                        GoRouter.of(context).go('/auth/SignUpPage',
+                            extra: User(
+                                id: 0,
+                                name: '',
+                                email:
+                                    '')); //will fix the user default in the future
                       },
                       child: Text(
                         'Sign up',
@@ -126,8 +133,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     leading: SizedBox(
                         width: 30,
                         height: 30,
-                        child:
-                            SvgPicture.asset('assets/icons/google.svg')),
+                        child: SvgPicture.asset('assets/icons/google.svg')),
                   ),
                 ),
               ),
@@ -151,8 +157,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     leading: SizedBox(
                         width: 30.w,
                         height: 30.h,
-                        child: SvgPicture.asset(
-                            'assets/icons/facebook.svg')),
+                        child: SvgPicture.asset('assets/icons/facebook.svg')),
                   ),
                 ),
               ),
