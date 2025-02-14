@@ -17,7 +17,7 @@ class SignUpPasswordPage extends StatefulWidget {
 }
 
 bool _passwordObscure = true;
-bool _confirmPasswordObscure = false;
+bool _confirmPasswordObscure = true;
 
 bool _termsAndConditionsAccepted = false;
 
@@ -124,8 +124,8 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _passwordObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   color: Color(0xFF9D9D9D),
                                 ),
                                 onPressed: () {
@@ -158,8 +158,8 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                               suffixIcon: IconButton(
                                 icon: Icon(
                                     _confirmPasswordObscure
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: Color(0xFF9D9D9D)),
                                 onPressed: () {
                                   setState(() {
@@ -272,7 +272,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                             width: double.infinity,
                             height: 55.h,
                             child: Text(
-                              'Continue',
+                              'Create My account',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!

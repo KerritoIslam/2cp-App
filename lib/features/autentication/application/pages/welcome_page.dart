@@ -19,7 +19,6 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
-            
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
@@ -42,7 +41,9 @@ class _WelcomePageState extends State<WelcomePage> {
                         style: Theme.of(context).textTheme.titleSmall,
                       )),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        GoRouter.of(context).go('/auth/LoginPage');
+                      },
                       child: Text(
                         'Sign in',
                         style: Theme.of(context).textTheme.titleSmall,

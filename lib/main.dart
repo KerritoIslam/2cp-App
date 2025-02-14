@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
+import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/theme/theme.dart';
@@ -74,7 +74,8 @@ GoRouter _router = GoRouter(
                     child: SignUpPage(
                   user: /* state.extra == null
                       \? User(id: 0, name: '', email: '')
-                      :  */state.extra as dynamic,
+                      :  */
+                      state.extra as dynamic,
                 )),
             routes: [
               GoRoute(
@@ -86,6 +87,9 @@ GoRouter _router = GoRouter(
                 ),
               )
             ]),
+        GoRoute(
+            path: 'LoginPage',
+            pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
       ],
     ),
     GoRoute(
