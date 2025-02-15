@@ -36,7 +36,7 @@ late int index;
           IconButton(onPressed: (){}, icon:SvgPicture.asset("assets/icons/profile.svg")),
 
         ],
-        leadingWidth: 150.w,
+        leadingWidth: 250.w,
       ),
       
       bottomNavigationBar:Padding(

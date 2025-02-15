@@ -22,11 +22,11 @@ void main() {
     });
 
     test('initial state is OpportunitiesBlocInitial', () {
-      final bloc = OpportunitiesBlocBloc(mockRepository);
+      final bloc = OpportunitiesBloc(mockRepository);
       expect(bloc.state, isA<OpportunitiesBlocInitial>());
     });
 
-    blocTest<OpportunitiesBlocBloc, OpportunitiesBlocState>(
+    blocTest<OpportunitiesBloc, OpportunitiesBlocState>(
       'emits [OpportuntitiesLoadInProgress, OpportuntitiesLoadSuccess] when LoadOpportunitiesEvent is added',
       build: () {
         final company = Company(
@@ -43,7 +43,7 @@ void main() {
             skills: ['Flutter', 'Dart'],
             company: company,
             duration: '6 months',
-            category: 'Software',
+            category: 'Software', applicantsAvatars: [], totalApplications: 10,
           ),
         ];
 
@@ -51,7 +51,7 @@ void main() {
         when(() => mockRepository.getOpportunitiesPagination(any(),any()))
             .thenAnswer((_) async => Right(opportunities));
 
-        return OpportunitiesBlocBloc(mockRepository);
+        return OpportunitiesBloc(mockRepository);
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
@@ -70,13 +70,13 @@ void main() {
             ),
             status: OpportunityStatus.ongoing,
             duration: '6 months',
-            category: 'Software',
+            category: 'Software', applicantsAvatars: [], totalApplications: 10,
           )
         ]),
       ],
     );
 
-    blocTest<OpportunitiesBlocBloc, OpportunitiesBlocState>(
+    blocTest<OpportunitiesBloc, OpportunitiesBlocState>(
       'emits [OpportuntitiesLoadInProgress, OpportuntitiesLoadFailure] when LoadOpportunitiesEvent fails',
       build: () {
         // Mock a failure response.
@@ -84,7 +84,7 @@ void main() {
             .thenAnswer(
                 (_) async => Left(Failure('Failed to load opportunities')));
 
-        return OpportunitiesBlocBloc(mockRepository);
+        return OpportunitiesBloc(mockRepository);
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
@@ -102,6 +102,7 @@ group("Saving Posts Test", (){
  blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Save Post Succefully if Unless It is already in the Saved Posts or No APi Error ', build:(){
       when(()=>mockRepository.saveOpportunity(any())).thenAnswer((_) async => Right(Opportunity.internship(
         id: '5',
+
         title: 'Internship at Company A',
         description: 'An amazing internship opportunity',
         skills: ['Flutter', 'Dart'],
@@ -112,7 +113,7 @@ group("Saving Posts Test", (){
           profilepic: 'profilepic.jpg',
         ),
         duration: '6 months',
-        category: 'Software',
+        category: 'Software', applicantsAvatars: [], totalApplications: 10,
       )));
       return OpportunitiesSavedBloc(mockRepository);},
   act: (bloc) {
@@ -130,7 +131,10 @@ group("Saving Posts Test", (){
           profilepic: 'profilepic.jpg',
         ),
         duration: '6 months',
-        category: 'Software',
+        category: 'Software', applicantsAvatars: [
+          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
+          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
+        ], totalApplications: 10,
       )],),OpportunitySavedFailure('Already Saved')]
     );
     blocTest<OpportunitiesSavedBloc,OpportunitiesSavedState>('Should Return Failure when The an error from the api', build: (){
@@ -158,7 +162,7 @@ group("Saving Posts Test", (){
             skills: ['Flutter', 'Dart'],
             company: company,
             duration: '6 months',
-            category: 'Software',
+            category: 'Software', applicantsAvatars: [], totalApplications: 10,
           ),
  Opportunity.problem(
             id: '123',
@@ -166,7 +170,7 @@ group("Saving Posts Test", (){
             description: 'We need a way to manage our storage',
             skills: ['Flutter', 'Dart'],
             company: company,
-            category: 'Software',
+            category: 'Software', totalApplications: 10, applicantsAvatars: [],
           ),
 
         ];

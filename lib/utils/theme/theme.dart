@@ -10,6 +10,8 @@ class theme {
   static double bodyMediumFontSize = 15.sp;
   static double bodySmallFontSize = 12.sp;
   static ThemeData lightTheme = ThemeData(
+    secondaryHeaderColor: Colors.black,
+
       splashColor: Colors.transparent,
       scaffoldBackgroundColor: Color(0xFFFFFFFF),
       snackBarTheme: SnackBarThemeData(
@@ -21,8 +23,7 @@ class theme {
         ),
       ),
       primaryColor: Color(0xFF92E3A9),
-    secondaryHeaderColor:Colors.black,
-      textTheme: TextTheme(
+            textTheme: TextTheme(
         titleSmall: GoogleFonts.poppins(
           fontSize: titleSmallFontSize,
           color: Color(0xFF92E3A9),

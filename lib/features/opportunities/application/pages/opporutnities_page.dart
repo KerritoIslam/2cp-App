@@ -1,5 +1,9 @@
+import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
+import 'package:app/features/opportunities/application/widgets/opportunity_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class OpporutnitiesPage extends StatefulWidget {
@@ -12,7 +16,7 @@ class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
   @override
     void initState() {
     //TODO check if user profile is completed
-     isProfileCompleted=false;
+     isProfileCompleted=true;
     super.initState();
       super.initState();
     }
@@ -62,7 +66,64 @@ class FillProfilePage extends StatelessWidget {
 }
 Widget displayCorrectPage(bool isProfileCompleted){
   if(isProfileCompleted){
-    return Center(child: Text("Hello You"));
+    return Opportunites();
   }
   return FillProfilePage(); 
+}
+
+class Opportunites extends StatelessWidget {
+  static List<Map<String,dynamic>> Types=[
+  {
+    "name":"Internships",
+    "imagePath":"assets/icons/internship.svg",
+     "onTap":()=>print("Internships") 
+  },
+  {
+    "name":"Problems",
+    "imagePath":"assets/icons/problem.svg",
+     "onTap":()=>print("Problems") 
+  },
+
+     {
+    "name":"Others",
+    "imagePath":"assets/icons/others.svg",
+     "onTap":()=>print("Other") 
+  },
+
+  ];
+  const Opportunites({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding(
+      padding: EdgeInsets.only(left: 15.w),
+      child: Column(
+        
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Spacer(),
+          RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+          ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
+            ,
+          SizedBox(
+                        height: 169.h,
+            width: MediaQuery.sizeOf(context).width*2,
+            child:ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap']) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal), 
+          ),
+          RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+          ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
+          BlocBuilder<OpportunitiesBloc,OpportunitiesBlocState>(builder:(context,state){
+            return Text('Hi');
+          } )
+
+
+      , Spacer(flex:3)
+        ],
+      ),
+    );  
+  }
 }
