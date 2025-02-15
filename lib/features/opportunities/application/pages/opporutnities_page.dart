@@ -1,4 +1,5 @@
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
+import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,7 @@ class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
     void initState() {
     //TODO check if user profile is completed
      isProfileCompleted=true;
-    super.initState();
+    context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
       super.initState();
     }
   @override
@@ -35,10 +36,11 @@ class FillProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+      
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
      SvgPicture.asset('assets/images/fillInfo.svg') ,
-          Spacer(),
      Text('Enhance your matches by sharing your preferences',style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.w500,
           ),),
@@ -84,12 +86,7 @@ class Opportunites extends StatelessWidget {
      "onTap":()=>print("Problems") 
   },
 
-     {
-    "name":"Others",
-    "imagePath":"assets/icons/others.svg",
-     "onTap":()=>print("Other") 
-  },
-
+    
   ];
   const Opportunites({
     super.key,
@@ -99,31 +96,67 @@ class Opportunites extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Padding(
       padding: EdgeInsets.only(left: 15.w),
-      child: Column(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child:  Column(
+          
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+                
+            RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+            ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
+              ,
+            Container(
+                  alignment: Alignment.center,
+                          height: 169.h,
+              width: MediaQuery.sizeOf(context).width*2,
+              child:Align(
+ alignment: Alignment.center,
+                    child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap']) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
+
+                    )), 
+
+                  
+            ),
+            RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+            ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
+                 
         
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Spacer(),
-          RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-          ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
-            ,
-          SizedBox(
-                        height: 169.h,
-            width: MediaQuery.sizeOf(context).width*2,
-            child:ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap']) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal), 
-          ),
-          RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-          ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
-          BlocBuilder<OpportunitiesBloc,OpportunitiesBlocState>(builder:(context,state){
-            return Text('Hi');
-          } )
+          ],
+          
+
+                      ),
+
+        ),
+             BlocBuilder<OpportunitiesBloc, OpportunitiesBlocState>(
+      builder: (context, state) {
+        if (state is OpportunitiesBlocInitial) {
+          return const SliverToBoxAdapter(child: Text('initState'));
+        } else if (state is OpportuntitiesLoadInProgress) {
+          return const SliverToBoxAdapter(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        } else if (state is OpportuntitiesLoadSuccess) {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, idx) => opportunityCard(
+                opportunity: state.opportunities[idx],
+              ),
+              childCount: state.opportunities.length,
+            ),
+          );
+        } else {
+          return const SliverToBoxAdapter(child: Text('Unknown error'));
+        }
+      },
+    ),
 
 
-      , Spacer(flex:3)
-        ],
-      ),
+        ]),
+       
     );  
   }
 }

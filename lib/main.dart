@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/forui.dart' as fr;
 import 'package:go_router/go_router.dart';
 
 final AuthBloc authBloc =
@@ -31,6 +32,8 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 }
 
 void main() async {
+  
+  setUpLocator();
   await dotenv.load();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -115,6 +118,10 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
             return MaterialApp.router(
+              builder: (context, child) => fr.FTheme(
+      data:state is LightTheme ? fr.FThemes.green.light : fr.FThemes.green.dark,
+      child: child!,
+    ),
               routerConfig: _router,
               debugShowCheckedModeBanner: false,
               title: '2CP App',

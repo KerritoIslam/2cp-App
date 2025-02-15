@@ -1,7 +1,9 @@
-import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/widgets/badge.dart';
 class opportunityCard extends StatelessWidget {
   
   final Opportunity opportunity;
@@ -14,7 +16,12 @@ class opportunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+       
+      elevation:1 ,
+      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+      
       margin: const EdgeInsets.all(16),
+      shadowColor: Theme.of(context).shadowColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -26,19 +33,16 @@ class opportunityCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.network(
-                  opportunity.company.profilepic,
-                  width: 40,
-                  height: 40,
+                CachedNetworkImage(
+                  imageUrl: opportunity.company.profilepic,
+                  width: 40.w,
+                  height: 40.h,
                 ),
-                const SizedBox(width: 12),
+
+                                const SizedBox(width: 12),
                 Text(
                   opportunity.company.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                  style: Theme.of(context).textTheme.displayMedium!                ),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.bookmark_outline),
@@ -56,54 +60,23 @@ class opportunityCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                                  
                 SizedBox(
-                  height: 32,
-                  child: Stack(
-                    children: [
-                      for (var i = 0; i < opportunity.applicantsAvatars.length; i++)
-                        Positioned(
-                          left: i * 20.0,
-                          child: CircleAvatar(
-                            radius: 16,
-                            backgroundImage: NetworkImage(opportunity.applicantsAvatars[i]),
-                          ),
-                        ),
-                    ],
+                  width:250.w,
+                  child: Wrap(
+                    runSpacing: 8.h,
+                    spacing:8.w ,
+                    children: opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.secondary,)).toList(),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  '+${opportunity.applicantsAvatars.length} more',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
-                  ),
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(Icons.person_outline, size: 20),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Total Applications',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      opportunity.totalApplications.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
+                                                Text('view more')
                   ],
+
                 ),
-              ],
-            ),
+              
+            
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
@@ -125,8 +98,8 @@ class opportunityCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ),   
+        ],
         ),
       ),
     );

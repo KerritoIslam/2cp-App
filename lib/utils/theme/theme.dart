@@ -6,7 +6,8 @@ class theme {
   static double titleSmallFontSize = 16.sp;
   static double titleMediumFontSize = 24.sp;
   static double displaySmallFontSize = 16.sp;
-  static double displayMediumFontSize = 24.sp;
+  static double displayMediumFontSize = 25.sp;
+  static double displayLargeFontSize = 32.sp;
   static double bodyMediumFontSize = 15.sp;
   static double bodySmallFontSize = 12.sp;
   static ThemeData lightTheme = ThemeData(
@@ -22,6 +23,7 @@ class theme {
           ),
         ),
       ),
+    cardColor: Color(0xffd9d9d9),
       primaryColor: Color(0xFF92E3A9),
             textTheme: TextTheme(
         titleSmall: GoogleFonts.poppins(
@@ -42,12 +44,19 @@ class theme {
         displayMedium: GoogleFonts.poppins(
           fontSize: displayMediumFontSize,
           color: Color(0xFF000000),
+          fontWeight: FontWeight.w800,
+        ),
+      displayLarge: GoogleFonts.poppins(
+          fontSize: 32.sp,
+          color: Color(0xFF000000),
           fontWeight: FontWeight.w700,
         ),
         bodyMedium: GoogleFonts.poppins(
+        
           fontSize: bodyMediumFontSize,
           color: Color(0xFF000000),
           fontWeight: FontWeight.w500,
+
         ),
         bodySmall: GoogleFonts.poppins(
           fontSize: bodySmallFontSize,
@@ -71,9 +80,16 @@ class theme {
           ),
         ),
       ),
+    cardColor: Color(0xff323030),
       scaffoldBackgroundColor: Color(0xFF323030),
       primaryColor: Color(0xFF92E3A9),
       textTheme: TextTheme(
+      displayLarge: GoogleFonts.poppins(
+          fontSize: displayLargeFontSize,
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+        ),
+
         titleSmall: GoogleFonts.poppins(
           fontSize: titleSmallFontSize,
           color: Color(0xFF92E3A9),
@@ -92,7 +108,7 @@ class theme {
         displayMedium: GoogleFonts.poppins(
           fontSize: displayMediumFontSize,
           color: Color(0xFFFFFFFF),
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
         ),
         bodyMedium: GoogleFonts.poppins(
           fontSize: bodyMediumFontSize,
