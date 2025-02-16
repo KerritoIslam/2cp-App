@@ -131,7 +131,7 @@ class OpportunityRemoteSource{
   //TODO do Error Handling based on the response status code
   final dio = DioServices.dio;
   Future<Either<Failure,List<OpportunityModel>>>getOpportunitiesPagination(int page ,int limit)async{
-try  {   await Future.delayed(Duration(milliseconds: 1000));
+try  {   await Future.delayed(Duration(milliseconds: 1500));
     return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).toList());
   }catch(e){
     return Left(Failure(e.toString()));

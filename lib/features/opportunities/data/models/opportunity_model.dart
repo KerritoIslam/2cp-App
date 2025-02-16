@@ -47,11 +47,6 @@ sealed class OpportunityModel with _$OpportunityModel {
        duration: model.duration,
        category: model.category.name, 
         applicantsAvatars: [
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg"
-          ,
-
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
-
         ], totalApplications: 10,
      ),
      problem: (model) => Problem(
@@ -62,9 +57,6 @@ sealed class OpportunityModel with _$OpportunityModel {
        company: model.company.toEntity(),
        status: model.status,
        category: model.category.name, totalApplications: 10, applicantsAvatars: [
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg"
-        ,
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
         ],
      ),
    );

@@ -1,20 +1,39 @@
+import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/widgets/badge.dart';
-class opportunityCard extends StatelessWidget {
+class opportunityCard extends StatefulWidget {
+  
   
   final Opportunity opportunity;
-  const opportunityCard({
+   const opportunityCard({
     Key? key,
   required this.opportunity      
   }) : super(key: key);
 
+  @override
+  State<opportunityCard> createState() => _opportunityCardState();
+}
+
+class _opportunityCardState extends State<opportunityCard> {
+   late bool isSaved;
 
   @override
+    void initState() {
+     final savedState=BlocProvider.of<OpportunitiesSavedBloc>(context).state;
+    isSaved=(savedState is SavedOpportunitiesLoadSuccess)?
+     savedState.savedOpportunities.where((e)=>e.id==widget.opportunity.id).isNotEmpty
+    :false;
+
+      super.initState();
+    }
+    @override
   Widget build(BuildContext context) {
+   
     return Card(
        
       elevation:1 ,
@@ -34,25 +53,36 @@ class opportunityCard extends StatelessWidget {
             Row(
               children: [
                 CachedNetworkImage(
-                  imageUrl: opportunity.company.profilepic,
+                  imageUrl: widget.opportunity.company.profilepic,
                   width: 40.w,
                   height: 40.h,
                 ),
 
                                 const SizedBox(width: 12),
                 Text(
-                  opportunity.company.name,
+                  widget.opportunity.company.name,
                   style: Theme.of(context).textTheme.displayMedium!                ),
                 const Spacer(),
                 IconButton(
-                  icon: const Icon(Icons.bookmark_outline),
-                  onPressed: (){},
+                  icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp),
+                  onPressed: (){
+                    
+                    context.read<OpportunitiesSavedBloc>().add(
+                      SaveOpportunityEvent(
+                        widget.opportunity.id
+                      )
+
+                    );
+                    setState(() {
+                    isSaved=!isSaved;            
+                                        });
+                  },
                 ),
               ],
             ),
             const SizedBox(height: 16),
             Text(
-              opportunity.title,
+              widget.opportunity.title,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -68,7 +98,7 @@ class opportunityCard extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 8.h,
                     spacing:8.w ,
-                    children: opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.secondary,)).toList(),
+                    children: widget.opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.secondary,)).toList(),
                   ),
                 ),
                                                 Text('view more')

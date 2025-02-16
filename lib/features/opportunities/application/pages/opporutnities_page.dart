@@ -2,11 +2,14 @@ import 'package:app/features/opportunities/application/bloc/opportunities_bloc_b
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+ enum OppType{
+  Internships,
+  Problems,
+none,
+ }
 class OpporutnitiesPage extends StatefulWidget {
   const OpporutnitiesPage({super.key});
   @override
@@ -14,9 +17,10 @@ class OpporutnitiesPage extends StatefulWidget {
 }
 class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
   late bool isProfileCompleted;
+  late OppType  selectedType; 
   @override
     void initState() {
-    //TODO check if user profile is completed
+        //TODO check if user profile is completed
      isProfileCompleted=true;
     context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
       super.initState();
@@ -73,27 +77,47 @@ Widget displayCorrectPage(bool isProfileCompleted){
   return FillProfilePage(); 
 }
 
-class Opportunites extends StatelessWidget {
-  static List<Map<String,dynamic>> Types=[
-  {
-    "name":"Internships",
-    "imagePath":"assets/icons/internship.svg",
-     "onTap":()=>print("Internships") 
-  },
-  {
-    "name":"Problems",
-    "imagePath":"assets/icons/problem.svg",
-     "onTap":()=>print("Problems") 
-  },
-
-    
-  ];
-  const Opportunites({
+class Opportunites extends StatefulWidget {
+   const Opportunites({
     super.key,
   });
 
   @override
+  State<Opportunites> createState() => _OpportunitesState();
+}
+
+class _OpportunitesState extends State<Opportunites> {
+  
+  late OppType selectedType;
+ @override
+   void initState() {
+    selectedType=OppType.none;
+
+     // TODO: implement initState
+     super.initState();
+   } 
+  @override
   Widget build(BuildContext context) {
+     final List<Map<String,dynamic>> Types=[
+  {
+    "name":"Internships",
+    "imagePath":"assets/icons/internship.svg",
+     "onTap":()=>setState(() {
+        print(selectedType.name);
+          selectedType=(selectedType!=OppType.Internships)?OppType.Internships:OppType.none;
+          }) 
+  },
+  {
+    "name":"Problems",
+    "imagePath":"assets/icons/problem.svg",
+     "onTap":()=> setState(() {
+            selectedType=(selectedType!=OppType.Problems)?OppType.Problems:
+        OppType.none;
+        }) },
+
+    
+  ];
+
     return  Padding(
       padding: EdgeInsets.only(left: 15.w),
       child: CustomScrollView(
@@ -108,13 +132,12 @@ class Opportunites extends StatelessWidget {
               fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
             ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
               ,
-            Container(
-                  alignment: Alignment.center,
+            SizedBox(
                           height: 169.h,
               width: MediaQuery.sizeOf(context).width*2,
               child:Align(
  alignment: Alignment.center,
-                    child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap']) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
+                    child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
 
                     )), 
 

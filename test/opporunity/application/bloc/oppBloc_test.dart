@@ -132,8 +132,6 @@ group("Saving Posts Test", (){
         ),
         duration: '6 months',
         category: 'Software', applicantsAvatars: [
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
-          "https://g-v92dyhvwcbc.vusercontent.net/placeholder.svg",
         ], totalApplications: 10,
       )],),OpportunitySavedFailure('Already Saved')]
     );

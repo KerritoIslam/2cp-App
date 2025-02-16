@@ -1,6 +1,8 @@
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
+import 'package:app/utils/bloc/theme_provider_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,16 +25,31 @@ class _LayoutState extends State<Layout> {
     Center(child: Center(child: Text("Hello You"))),
   ];
   late int index;
+  late bool isDark;
   @override
   void initState() {
     super.initState();
+    isDark=BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
     index = widget.initPage;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<ThemeProviderBloc,ThemeProviderState>(listener: (context, state) {
+        print('Changed to $state');
+      
+      if (state is DarkTheme) {
+        isDark = true;
+        setState(() {
+                  
+                });
+      } else {
+        isDark = false;
+        setState((){});
+      }
+    }, bloc: BlocProvider.of<ThemeProviderBloc>(context),
+  child: Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
@@ -40,11 +57,12 @@ class _LayoutState extends State<Layout> {
         leading: AppLogo(),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset('assets/icons/notification.svg')),
+              onPressed: () {
+},
+            icon: SvgPicture.asset(!isDark?'assets/icons/notification.svg':'assets/icons/notification_dark.svg')),
           IconButton(
               onPressed: () {},
-              icon: SvgPicture.asset("assets/icons/profile.svg")),
+              icon: SvgPicture.asset(!isDark?"assets/icons/profile.svg":"assets/icons/profile_dark.svg")),
         ],
         leadingWidth: 250.w,
       ),
@@ -72,32 +90,32 @@ class _LayoutState extends State<Layout> {
             items: [
               BottomNavigationBarItem(
                   icon:
-                      SvgPicture.asset('assets/icons/opportunityInactive.svg'),
+                      SvgPicture.asset(!isDark?'assets/icons/opportunityInactive.svg':'assets/icons/opportunity_dark.svg'),
                   activeIcon: SvgPicture.asset('assets/icons/opportunity.svg'),
                   label: "Internship"),
               BottomNavigationBarItem(
-                  activeIcon: Icon(
-                    Icons.search,
-                    size: 30,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  label: "Search",
-                  icon: Icon(
-                    Icons.search,
-                    size: 30,
-                  )),
+                  activeIcon:SvgPicture.asset(
+                'assets/icons/search.svg',
+              ),                  icon: SvgPicture.asset(!isDark?'assets/icons/searchInactive.svg':'assets/icons/search_dark.svg'),
+                  label: "Search"),
               BottomNavigationBarItem(
-                  icon: SvgPicture.asset('assets/icons/teamsInactive.svg'),
+                  icon: SvgPicture.asset(!isDark?'assets/icons/teamsInactive.svg':'assets/icons/teams_dark.svg'),
                   label: "Teams",
                   activeIcon: SvgPicture.asset('assets/icons/teams.svg')),
             ]),
       ),
       body: MultiBlocProvider(
         providers: [
-          BlocProvider<OpportunitiesBloc>(create: (ctx)=>locator.get<OpportunitiesBloc>())
+          BlocProvider<OpportunitiesBloc>(create: (ctx)=>locator.get<OpportunitiesBloc>()),
+          BlocProvider<OpportunitiesSavedBloc>(create:(ctx)=>locator.get<OpportunitiesSavedBloc>() )
+        
         ],
+
         child: IndexedStack(index:index,children: pages,),
       ),
+    ),
+
     );
-  }
+    
+   }
 }
