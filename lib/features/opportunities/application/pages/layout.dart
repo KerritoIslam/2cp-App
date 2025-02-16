@@ -1,5 +1,6 @@
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
+import 'package:app/features/opportunities/application/pages/search.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 
 class Layout extends StatefulWidget {
@@ -21,7 +23,7 @@ class _LayoutState extends State<Layout> {
   final GetIt locator=GetIt.instance;
   static const List<Widget> pages = [
     OpporutnitiesPage(),
-    Center(child: Center(child: Text("Hello You"))),
+    Search(),
     Center(child: Center(child: Text("Hello You"))),
   ];
   late int index;
@@ -119,3 +121,4 @@ class _LayoutState extends State<Layout> {
     
    }
 }
+

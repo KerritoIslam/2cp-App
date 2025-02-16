@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
               builder: (context, state) {
             return MaterialApp.router(
               builder: (context, child) => fr.FTheme(
-      data:state is LightTheme ? fr.FThemes.green.light : fr.FThemes.green.dark,
+      data:state is LightTheme ? fr.FThemes.green.light : fr.FThemes.green.light,
       child: child!,
     ),
               routerConfig: _router,

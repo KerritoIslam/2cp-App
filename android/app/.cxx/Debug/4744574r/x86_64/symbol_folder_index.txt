@@ -1,0 +1,1 @@
+/home/mouloud/dev/2cp_project/app/build/app/intermediates/cxx/Debug/4744574r/obj/x86_64

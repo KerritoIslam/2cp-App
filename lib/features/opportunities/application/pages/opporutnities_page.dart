@@ -21,7 +21,7 @@ class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
   @override
     void initState() {
         //TODO check if user profile is completed
-     isProfileCompleted=true;
+     isProfileCompleted=false;
     context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
       super.initState();
     }
