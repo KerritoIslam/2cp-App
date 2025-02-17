@@ -1,5 +1,7 @@
 import 'package:app/core/failure/failure.dart';
+import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LocalSecureStorage {
@@ -16,15 +18,25 @@ class LocalSecureStorage {
         ]
       );
       return Right(unit);
-    } catch (e) {
+    } on Exception catch (e,stacktrace) {
+      if (kDebugMode) {
+        print(stacktrace);
+      }
       return Left(Failure('Error setting token: $e'));
     }
   }
 
-  Future<Either<Failure, String?>> getToken(String key) async {
+  Future<Either<Failure, TokensModel>> getTokens(String key) async {
     try {
-      String? token = await storage.read(key: key);
-      return right(token);
+    final [accToken,refreshToken]=await Future.wait(
+      [
+          //TODO check them for typos in debugging
+        storage.read(key: 'accessToken'),
+        storage.read(key: 'refreshToken'),
+     ]
+    )
+;
+      return right(TokensModel(accessToken: accToken??"", refreshToken: refreshToken??""));
     } catch (e) {
       throw left(Failure('Error getting token: $e'));
     }

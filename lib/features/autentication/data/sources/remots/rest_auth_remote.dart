@@ -31,7 +31,7 @@ class RestAuthRemote {
     }
   }
 
-  Future<Either<Failure, UserModel>> register(
+  Future<Either<Failure, LoginResDtoModel>> register(
       String name, String email, String password) async {
     try {
       final response = await _dio.post('/Auth/Signup', data: {
@@ -42,8 +42,7 @@ class RestAuthRemote {
         "password": password
       });
   
-      print(response.data);
-      return right(UserModel.fromJson(response.data['user']));
+      return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         return left(Failure('this email or name is already used'));
