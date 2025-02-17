@@ -25,18 +25,7 @@ class Search extends StatelessWidget {
         children: [
           Text('Search Bar Here'),
           Spacer(),
-          RichText(text: TextSpan(text: "Search ",style:Theme.of(context).textTheme.headlineMedium!.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).primaryColor,
-          ) ,children: [
-            TextSpan(text: "suggestions",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))
-          ])),
-         Wrap(
-            spacing: 10.w,
-           runSpacing:10.h ,
-            children: suggestions.map((sug)=>SearchSuggetstionsCard(title: sug)).toList(),
-          ) ,
-          Spacer(flex: 2,),
+                             Spacer(flex: 2,),
           SvgPicture.asset(
             'assets/images/files.svg',
           )

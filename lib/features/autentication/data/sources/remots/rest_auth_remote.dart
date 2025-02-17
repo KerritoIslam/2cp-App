@@ -3,6 +3,7 @@ import 'package:app/core/failure/failure.dart';
 import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
@@ -21,6 +22,9 @@ class RestAuthRemote {
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         return left(Failure('email or password is incorrect'));
+      }
+      if (e.response!.statusCode==404){
+      return left(Failure('User not found'));
       }
       return left(Failure(e.toString()));
     }
@@ -42,8 +46,14 @@ class RestAuthRemote {
       if (e.response!.statusCode == 400) {
         return left(Failure('this email or name is already used'));
       }
+      if (e.response!.statusCode==404){
+      return left(Failure('Internal Erro'));
+      }
 
-      return left(Failure(e.toString()));
+      if (kDebugMode) {
+        print(e.toString());
+      
+      }return left(Failure('An error occurred'));
     }
   }
 
