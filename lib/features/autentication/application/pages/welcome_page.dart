@@ -1,3 +1,4 @@
+import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,14 +29,21 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        GoRouter.of(context).push('/auth/SignUpPage');
+                        GoRouter.of(context).go('/auth/SignUpPage',
+                            extra: User(
+                                id: 0,
+                                name: '',
+                                email:
+                                    '')); //will fix the user default in the future
                       },
                       child: Text(
                         'Sign up',
                         style: Theme.of(context).textTheme.titleSmall,
                       )),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        GoRouter.of(context).go('/auth/LoginPage');
+                      },
                       child: Text(
                         'Sign in',
                         style: Theme.of(context).textTheme.titleSmall,
@@ -126,8 +134,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     leading: SizedBox(
                         width: 30,
                         height: 30,
-                        child:
-                            SvgPicture.asset('assets/icons/google.svg')),
+                        child: SvgPicture.asset('assets/icons/google.svg')),
                   ),
                 ),
               ),
@@ -151,8 +158,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     leading: SizedBox(
                         width: 30.w,
                         height: 30.h,
-                        child: SvgPicture.asset(
-                            'assets/icons/facebook.svg')),
+                        child: SvgPicture.asset('assets/icons/facebook.svg')),
                   ),
                 ),
               ),

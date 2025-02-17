@@ -141,7 +141,7 @@ class _$UserModelImpl extends _UserModel {
       {required this.id,
       required this.name,
       required this.email,
-      required this.password})
+      this.password})
       : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -198,7 +198,7 @@ abstract class _UserModel extends UserModel {
       {required final int id,
       required final String name,
       required final String email,
-      required final String? password}) = _$UserModelImpl;
+      final String? password}) = _$UserModelImpl;
   const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
