@@ -19,6 +19,8 @@ sealed class Opportunity with _$Opportunity {
     required Company company,
     @Default(OpportunityStatus.ongoing) OpportunityStatus status,
     required String duration,
+    required List<String> applicantsAvatars,
+    required int totalApplications,
     required String category,
   }) = Internship;
 
@@ -27,7 +29,10 @@ sealed class Opportunity with _$Opportunity {
     required String id,
     required String title,
     required String description,
+    required int totalApplications,
     required List<String> skills,
+    required List<String> applicantsAvatars,
+
     required Company company,
     @Default(OpportunityStatus.ongoing) OpportunityStatus status,
     required String category,

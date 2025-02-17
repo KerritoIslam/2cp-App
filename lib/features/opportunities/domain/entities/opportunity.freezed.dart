@@ -35,6 +35,8 @@ mixin _$Opportunity {
   List<String> get skills => throw _privateConstructorUsedError;
   Company get company => throw _privateConstructorUsedError;
   OpportunityStatus get status => throw _privateConstructorUsedError;
+  List<String> get applicantsAvatars => throw _privateConstructorUsedError;
+  int get totalApplications => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -46,13 +48,17 @@ mixin _$Opportunity {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)
         internship,
     required TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)
@@ -69,13 +75,17 @@ mixin _$Opportunity {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult? Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
@@ -92,13 +102,17 @@ mixin _$Opportunity {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
@@ -149,6 +163,8 @@ abstract class $OpportunityCopyWith<$Res> {
       List<String> skills,
       Company company,
       OpportunityStatus status,
+      List<String> applicantsAvatars,
+      int totalApplications,
       String category});
 
   $CompanyCopyWith<$Res> get company;
@@ -175,6 +191,8 @@ class _$OpportunityCopyWithImpl<$Res, $Val extends Opportunity>
     Object? skills = null,
     Object? company = null,
     Object? status = null,
+    Object? applicantsAvatars = null,
+    Object? totalApplications = null,
     Object? category = null,
   }) {
     return _then(_value.copyWith(
@@ -202,6 +220,14 @@ class _$OpportunityCopyWithImpl<$Res, $Val extends Opportunity>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as OpportunityStatus,
+      applicantsAvatars: null == applicantsAvatars
+          ? _value.applicantsAvatars
+          : applicantsAvatars // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      totalApplications: null == totalApplications
+          ? _value.totalApplications
+          : totalApplications // ignore: cast_nullable_to_non_nullable
+              as int,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -236,6 +262,8 @@ abstract class _$$InternshipImplCopyWith<$Res>
       Company company,
       OpportunityStatus status,
       String duration,
+      List<String> applicantsAvatars,
+      int totalApplications,
       String category});
 
   @override
@@ -262,6 +290,8 @@ class __$$InternshipImplCopyWithImpl<$Res>
     Object? company = null,
     Object? status = null,
     Object? duration = null,
+    Object? applicantsAvatars = null,
+    Object? totalApplications = null,
     Object? category = null,
   }) {
     return _then(_$InternshipImpl(
@@ -293,6 +323,14 @@ class __$$InternshipImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      applicantsAvatars: null == applicantsAvatars
+          ? _value._applicantsAvatars
+          : applicantsAvatars // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      totalApplications: null == totalApplications
+          ? _value.totalApplications
+          : totalApplications // ignore: cast_nullable_to_non_nullable
+              as int,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -312,9 +350,12 @@ class _$InternshipImpl extends Internship {
       required this.company,
       this.status = OpportunityStatus.ongoing,
       required this.duration,
+      required final List<String> applicantsAvatars,
+      required this.totalApplications,
       required this.category,
       final String? $type})
       : _skills = skills,
+        _applicantsAvatars = applicantsAvatars,
         $type = $type ?? 'internship',
         super._();
 
@@ -342,6 +383,17 @@ class _$InternshipImpl extends Internship {
   final OpportunityStatus status;
   @override
   final String duration;
+  final List<String> _applicantsAvatars;
+  @override
+  List<String> get applicantsAvatars {
+    if (_applicantsAvatars is EqualUnmodifiableListView)
+      return _applicantsAvatars;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_applicantsAvatars);
+  }
+
+  @override
+  final int totalApplications;
   @override
   final String category;
 
@@ -350,7 +402,7 @@ class _$InternshipImpl extends Internship {
 
   @override
   String toString() {
-    return 'Opportunity.internship(id: $id, title: $title, description: $description, skills: $skills, company: $company, status: $status, duration: $duration, category: $category)';
+    return 'Opportunity.internship(id: $id, title: $title, description: $description, skills: $skills, company: $company, status: $status, duration: $duration, applicantsAvatars: $applicantsAvatars, totalApplications: $totalApplications, category: $category)';
   }
 
   @override
@@ -367,6 +419,10 @@ class _$InternshipImpl extends Internship {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            const DeepCollectionEquality()
+                .equals(other._applicantsAvatars, _applicantsAvatars) &&
+            (identical(other.totalApplications, totalApplications) ||
+                other.totalApplications == totalApplications) &&
             (identical(other.category, category) ||
                 other.category == category));
   }
@@ -382,6 +438,8 @@ class _$InternshipImpl extends Internship {
       company,
       status,
       duration,
+      const DeepCollectionEquality().hash(_applicantsAvatars),
+      totalApplications,
       category);
 
   /// Create a copy of Opportunity
@@ -403,20 +461,24 @@ class _$InternshipImpl extends Internship {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)
         internship,
     required TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)
         problem,
   }) {
-    return internship(
-        id, title, description, skills, company, status, duration, category);
+    return internship(id, title, description, skills, company, status, duration,
+        applicantsAvatars, totalApplications, category);
   }
 
   @override
@@ -430,20 +492,24 @@ class _$InternshipImpl extends Internship {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult? Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
         problem,
   }) {
-    return internship?.call(
-        id, title, description, skills, company, status, duration, category);
+    return internship?.call(id, title, description, skills, company, status,
+        duration, applicantsAvatars, totalApplications, category);
   }
 
   @override
@@ -457,13 +523,17 @@ class _$InternshipImpl extends Internship {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
@@ -471,8 +541,8 @@ class _$InternshipImpl extends Internship {
     required TResult orElse(),
   }) {
     if (internship != null) {
-      return internship(
-          id, title, description, skills, company, status, duration, category);
+      return internship(id, title, description, skills, company, status,
+          duration, applicantsAvatars, totalApplications, category);
     }
     return orElse();
   }
@@ -525,6 +595,8 @@ abstract class Internship extends Opportunity {
       required final Company company,
       final OpportunityStatus status,
       required final String duration,
+      required final List<String> applicantsAvatars,
+      required final int totalApplications,
       required final String category}) = _$InternshipImpl;
   const Internship._() : super._();
 
@@ -544,6 +616,10 @@ abstract class Internship extends Opportunity {
   @override
   OpportunityStatus get status;
   String get duration;
+  @override
+  List<String> get applicantsAvatars;
+  @override
+  int get totalApplications;
   @override
   String get category;
 
@@ -567,7 +643,9 @@ abstract class _$$ProblemImplCopyWith<$Res>
       {String id,
       String title,
       String description,
+      int totalApplications,
       List<String> skills,
+      List<String> applicantsAvatars,
       Company company,
       OpportunityStatus status,
       String category});
@@ -592,7 +670,9 @@ class __$$ProblemImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
+    Object? totalApplications = null,
     Object? skills = null,
+    Object? applicantsAvatars = null,
     Object? company = null,
     Object? status = null,
     Object? category = null,
@@ -610,9 +690,17 @@ class __$$ProblemImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      totalApplications: null == totalApplications
+          ? _value.totalApplications
+          : totalApplications // ignore: cast_nullable_to_non_nullable
+              as int,
       skills: null == skills
           ? _value._skills
           : skills // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      applicantsAvatars: null == applicantsAvatars
+          ? _value._applicantsAvatars
+          : applicantsAvatars // ignore: cast_nullable_to_non_nullable
               as List<String>,
       company: null == company
           ? _value.company
@@ -637,12 +725,15 @@ class _$ProblemImpl extends Problem {
       {required this.id,
       required this.title,
       required this.description,
+      required this.totalApplications,
       required final List<String> skills,
+      required final List<String> applicantsAvatars,
       required this.company,
       this.status = OpportunityStatus.ongoing,
       required this.category,
       final String? $type})
       : _skills = skills,
+        _applicantsAvatars = applicantsAvatars,
         $type = $type ?? 'problem',
         super._();
 
@@ -655,12 +746,23 @@ class _$ProblemImpl extends Problem {
   final String title;
   @override
   final String description;
+  @override
+  final int totalApplications;
   final List<String> _skills;
   @override
   List<String> get skills {
     if (_skills is EqualUnmodifiableListView) return _skills;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_skills);
+  }
+
+  final List<String> _applicantsAvatars;
+  @override
+  List<String> get applicantsAvatars {
+    if (_applicantsAvatars is EqualUnmodifiableListView)
+      return _applicantsAvatars;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_applicantsAvatars);
   }
 
   @override
@@ -676,7 +778,7 @@ class _$ProblemImpl extends Problem {
 
   @override
   String toString() {
-    return 'Opportunity.problem(id: $id, title: $title, description: $description, skills: $skills, company: $company, status: $status, category: $category)';
+    return 'Opportunity.problem(id: $id, title: $title, description: $description, totalApplications: $totalApplications, skills: $skills, applicantsAvatars: $applicantsAvatars, company: $company, status: $status, category: $category)';
   }
 
   @override
@@ -688,7 +790,11 @@ class _$ProblemImpl extends Problem {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.totalApplications, totalApplications) ||
+                other.totalApplications == totalApplications) &&
             const DeepCollectionEquality().equals(other._skills, _skills) &&
+            const DeepCollectionEquality()
+                .equals(other._applicantsAvatars, _applicantsAvatars) &&
             (identical(other.company, company) || other.company == company) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.category, category) ||
@@ -697,8 +803,17 @@ class _$ProblemImpl extends Problem {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description,
-      const DeepCollectionEquality().hash(_skills), company, status, category);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      description,
+      totalApplications,
+      const DeepCollectionEquality().hash(_skills),
+      const DeepCollectionEquality().hash(_applicantsAvatars),
+      company,
+      status,
+      category);
 
   /// Create a copy of Opportunity
   /// with the given fields replaced by the non-null parameter values.
@@ -719,19 +834,24 @@ class _$ProblemImpl extends Problem {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)
         internship,
     required TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)
         problem,
   }) {
-    return problem(id, title, description, skills, company, status, category);
+    return problem(id, title, description, totalApplications, skills,
+        applicantsAvatars, company, status, category);
   }
 
   @override
@@ -745,20 +865,24 @@ class _$ProblemImpl extends Problem {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult? Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
         problem,
   }) {
-    return problem?.call(
-        id, title, description, skills, company, status, category);
+    return problem?.call(id, title, description, totalApplications, skills,
+        applicantsAvatars, company, status, category);
   }
 
   @override
@@ -772,13 +896,17 @@ class _$ProblemImpl extends Problem {
             Company company,
             OpportunityStatus status,
             String duration,
+            List<String> applicantsAvatars,
+            int totalApplications,
             String category)?
         internship,
     TResult Function(
             String id,
             String title,
             String description,
+            int totalApplications,
             List<String> skills,
+            List<String> applicantsAvatars,
             Company company,
             OpportunityStatus status,
             String category)?
@@ -786,7 +914,8 @@ class _$ProblemImpl extends Problem {
     required TResult orElse(),
   }) {
     if (problem != null) {
-      return problem(id, title, description, skills, company, status, category);
+      return problem(id, title, description, totalApplications, skills,
+          applicantsAvatars, company, status, category);
     }
     return orElse();
   }
@@ -835,7 +964,9 @@ abstract class Problem extends Opportunity {
       {required final String id,
       required final String title,
       required final String description,
+      required final int totalApplications,
       required final List<String> skills,
+      required final List<String> applicantsAvatars,
       required final Company company,
       final OpportunityStatus status,
       required final String category}) = _$ProblemImpl;
@@ -850,7 +981,11 @@ abstract class Problem extends Opportunity {
   @override
   String get description;
   @override
+  int get totalApplications;
+  @override
   List<String> get skills;
+  @override
+  List<String> get applicantsAvatars;
   @override
   Company get company;
   @override

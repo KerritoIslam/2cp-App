@@ -37,6 +37,7 @@ sealed class OpportunityModel with _$OpportunityModel {
     Opportunity toEntity() {
    return map(
      internship: (model) => Internship(
+       
        id: model.id,
        title: model.title,
        description: model.description,
@@ -44,7 +45,9 @@ sealed class OpportunityModel with _$OpportunityModel {
        company: model.company.toEntity(),
        status: model.status,
        duration: model.duration,
-       category: model.category.name,
+       category: model.category.name, 
+        applicantsAvatars: [
+        ], totalApplications: 10,
      ),
      problem: (model) => Problem(
        id: model.id,
@@ -53,7 +56,8 @@ sealed class OpportunityModel with _$OpportunityModel {
        skills: model.skills,
        company: model.company.toEntity(),
        status: model.status,
-       category: model.category.name,
+       category: model.category.name, totalApplications: 10, applicantsAvatars: [
+        ],
      ),
    );
   }
