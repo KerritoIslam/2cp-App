@@ -1,3 +1,5 @@
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_type.dart';
@@ -122,6 +124,26 @@ class _OpportunitesState extends State<Opportunites> {
       padding: EdgeInsets.only(left: 15.w),
       child: CustomScrollView(
         slivers: [
+          BlocBuilder<AuthBloc,AuthState>(
+            builder: (context,state){
+              if(state is Authenticated){
+                return SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Hello ${state.user.email}',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.w800
+                      ),),
+                      Text('Here are some opportunities for you',style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500
+                      ),)
+                    ],
+                  ),
+                );
+              }
+              return const SliverToBoxAdapter(child: Text(''));
+            },
+          ),
           SliverToBoxAdapter(
             child:  Column(
           

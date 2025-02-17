@@ -7,6 +7,7 @@ import 'package:app/features/autentication/application/pages/signuppassword_page
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
+import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/service_locator.dart';
@@ -20,9 +21,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/forui.dart' as fr;
 import 'package:go_router/go_router.dart';
 
-final AuthBloc authBloc =
-    AuthBloc(AuthRepository(restAuthRemote: RestAuthRemote()));
 
+final authBloc=locator.get<AuthBloc>();
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
 
@@ -54,14 +54,13 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
-        return authBloc;
-      }),
+        return authBloc      ;}),
     ], child: MyApp()),
   );
 }
 
 GoRouter _router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/auth/welcome',
   routes: [
     GoRoute(
       pageBuilder: (context, state) => MaterialPage(child: Text("auth")),
@@ -78,14 +77,14 @@ GoRouter _router = GoRouter(
                   user: /* state.extra == null
                       \? User(id: 0, name: '', email: '')
                       :  */
-                      state.extra as dynamic,
+                      state.extra as User,
                 )),
             routes: [
               GoRoute(
                 path: 'password',
                 pageBuilder: (context, state) => MaterialPage(
                   child: SignUpPasswordPage(
-                    user: state.extra as dynamic,
+                    user: state.extra as User,
                   ),
                 ),
               )

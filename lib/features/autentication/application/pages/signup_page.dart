@@ -44,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
   late GlobalKey<FormState> _formKey;
   @override
   void initState() {
-    _formKey = GlobalKey<FormState>();
+        _formKey = GlobalKey<FormState>();
     nameController = TextEditingController(text: widget.user.name);
     emailController = TextEditingController(text: widget.user.email);
     super.initState();

@@ -5,10 +5,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class LocalSecureStorage {
   final FlutterSecureStorage storage;
   LocalSecureStorage(this.storage);
-  Future<Either<Failure, Unit>> setToken(
-      {required String key, required String token}) async {
+  Future<Either<Failure, Unit>> setTokens(String accessToken,String refreshToken) async {
     try {
-      await storage.write(key: key, value: token);
+      
+      await Future.wait(
+    [
+          //TODO:check them for typos in debugging
+          storage.write(key: 'accessToken', value: accessToken),
+          storage.write(key:'refreshToken',value:refreshToken),
+        ]
+      );
       return Right(unit);
     } catch (e) {
       return Left(Failure('Error setting token: $e'));

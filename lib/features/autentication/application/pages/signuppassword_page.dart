@@ -50,6 +50,8 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
   late GlobalKey<FormState> _formKey;
   @override
   void initState() {
+    print(widget.user);
+
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     _formKey = GlobalKey<FormState>();

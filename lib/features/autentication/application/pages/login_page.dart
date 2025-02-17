@@ -1,12 +1,19 @@
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/features/autentication/application/bloc/auth_state.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
 
+  static final locator=GetIt.instance;
   @override
   State<LogInPage> createState() => _LogInPageState();
 }
@@ -52,7 +59,21 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<AuthBloc,AuthState>(
+      listener: (context,state){
+        if (state is AuthError){ 
+          ScaffoldMessenger.of(context).showSnackBar(
+        
+          
+            SnackBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+             
+              content: Text(state.message,style:Theme.of(context).textTheme.bodyMedium,),
+            ) 
+          );
+        }
+      },
+      child: Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -182,7 +203,10 @@ class _LogInPageState extends State<LogInPage> {
                                     .snackBarTheme
                                     .backgroundColor,
                               ));
-                            } else {}
+                            } else {
+                            context.read<AuthBloc>().add(AuthLoginRequested(email: emailController.text, password: passwordController
+                            .text));
+                            }
                           },
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
@@ -212,6 +236,8 @@ class _LogInPageState extends State<LogInPage> {
           ),
         ),
       ),
+    )
+,
     );
-  }
+      }
 }

@@ -5,6 +5,7 @@ part 'user_entity.freezed.dart';
 part 'user_entity.g.dart';
 
 @freezed
+//TODO add More userInfo
 class User with _$User {
    const User._();
   const factory User({
