@@ -138,7 +138,7 @@ class _$UserImpl extends _User {
       {required this.id,
       required this.name,
       required this.email,
-      required this.password})
+      this.password})
       : super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -195,7 +195,7 @@ abstract class _User extends User {
       {required final int id,
       required final String name,
       required final String email,
-      required final String? password}) = _$UserImpl;
+      final String? password}) = _$UserImpl;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;

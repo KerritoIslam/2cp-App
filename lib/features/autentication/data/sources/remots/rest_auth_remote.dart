@@ -36,7 +36,7 @@ class RestAuthRemote {
         "student": {"category": "CS", "education": "esi"},
         "password": password
       });
-
+  
       return right(UserModel.fromJson(response.data['user']));
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {

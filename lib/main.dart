@@ -1,7 +1,9 @@
 import 'dart:io';
-
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_state.dart';
+import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
+import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
@@ -70,9 +72,27 @@ GoRouter _router = GoRouter(
             pageBuilder: (context, state) =>
                 MaterialPage(child: WelcomePage())),
         GoRoute(
-          path: 'SignUpPage',
-          pageBuilder: (context, state) => MaterialPage(child: SignUpPage()),
-        ),
+            path: 'SignUpPage',
+            pageBuilder: (context, state) => MaterialPage(
+                    child: SignUpPage(
+                  user: /* state.extra == null
+                      \? User(id: 0, name: '', email: '')
+                      :  */
+                      state.extra as dynamic,
+                )),
+            routes: [
+              GoRoute(
+                path: 'password',
+                pageBuilder: (context, state) => MaterialPage(
+                  child: SignUpPasswordPage(
+                    user: state.extra as dynamic,
+                  ),
+                ),
+              )
+            ]),
+        GoRoute(
+            path: 'LoginPage',
+            pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
       ],
     ),
     GoRoute(
@@ -81,12 +101,19 @@ GoRouter _router = GoRouter(
       routes: [
         GoRoute(
             path: 'layout',
-            pageBuilder: (context, state) => MaterialPage(child:  Layout() )),
+            pageBuilder: (context, state) => MaterialPage(child: Layout())),
       ],
     ),
   ],
   redirect: (context, state) {
-    print(state.matchedLocation);
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    if (state.fullPath!.startsWith('/auth') &&
+        authBloc.state is Authenticated) {
+      return '/protected/layout';
+    } else if (state.fullPath!.startsWith('/protected') &&
+        authBloc.state is Unauthenticated) {
+      return '/auth/welcome';
+    }
     return null;
   },
   refreshListenable: BlocListenable(authBloc),

@@ -1,34 +1,19 @@
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpPage extends StatefulWidget {
-  final User user;
-  const SignUpPage({super.key, required this.user});
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<LogInPage> createState() => _LogInPageState();
 }
 
-late TextEditingController nameController;
 late TextEditingController emailController;
-
-nameValidator(value) {
-  RegExp regExp = RegExp(r'^[a-zA-Z ]+$');
-  if (value == null || value.isEmpty) {
-    return 'Please enter your Name';
-  } else if (value.length < 3) {
-    return 'the Name must be at least 3 characters';
-  } else if (value.length > 20) {
-    return 'the Name must be less than 20 characters';
-  } else if (!regExp.hasMatch(value)) {
-    return 'Please enter a valid Name';
-  }
-  return null;
-}
+late TextEditingController passwordController;
+bool _passwordObscure = true;
 
 emailValidator(value) {
   RegExp regExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$');
@@ -40,20 +25,27 @@ emailValidator(value) {
   return null;
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+passwordValidator(value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter your password';
+  }
+  return null;
+}
+
+class _LogInPageState extends State<LogInPage> {
   late GlobalKey<FormState> _formKey;
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
-    nameController = TextEditingController(text: widget.user.name);
-    emailController = TextEditingController(text: widget.user.email);
+    passwordController = TextEditingController();
+    emailController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
     if (_formKey.currentState != null) _formKey.currentState!.dispose();
-    nameController.dispose();
+    passwordController.dispose();
     emailController.dispose();
     super.dispose();
   }
@@ -85,22 +77,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   )),
               SizedBox(
-                  height: 300.h,
-                  width: 300.w,
-                  child: SvgPicture.asset('assets/images/signup_main.svg')),
-                  
-              Text('Enter The informations needed',
+                  height: 422.h,
+                  width: 402.w,
+                  child: SvgPicture.asset('assets/images/login.svg')),
+              Text('Enter your informations here',
                   style: Theme.of(context).textTheme.displaySmall),
               Padding(
                 padding: const EdgeInsets.only(top: 17),
                 child: Text(
-                  'Provide the following informations to create a  new\n account .',
+                  'Already have an account ? enter your email address\nand your password .',
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
-                height: 100.h,
+                height: 40.h,
               ),
               Form(
                   key: _formKey,
@@ -111,30 +102,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           child: TextFormField(
-                            controller: nameController,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            validator: (value) => nameValidator(value),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            decoration: InputDecoration(
-                              hintText: 'Name',
-                              hintStyle:
-                                  Theme.of(context).textTheme.labelMedium,
-                              enabledBorder: Forms.regularBorder,
-                              focusedBorder: Forms.regularBorder,
-                              errorBorder: Forms.errorBorder,
-                              focusedErrorBorder: Forms.errorBorder,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          child: TextFormField(
                             controller: emailController,
                             style: Theme.of(context).textTheme.bodyMedium,
                             validator: (value) => emailValidator(value),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.disabled,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               hintText: 'E-mail',
@@ -147,8 +118,53 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: _passwordObscure,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            validator: (value) => passwordValidator(value),
+                            autovalidateMode: AutovalidateMode.disabled,
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordObscure
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: Color(0xFF9D9D9D),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordObscure = !_passwordObscure;
+                                  });
+                                },
+                              ),
+                              hintText: 'Password',
+                              hintStyle:
+                                  Theme.of(context).textTheme.labelMedium,
+                              enabledBorder: Forms.regularBorder,
+                              focusedBorder: Forms.regularBorder,
+                              errorBorder: Forms.errorBorder,
+                              focusedErrorBorder: Forms.errorBorder,
+                            ),
+                          ),
+                        ),
                         SizedBox(
-                          height: 75.h,
+                          height: 25.h,
+                        ),
+                        Text('Forgot Password ?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: Theme.of(context).primaryColor,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor:
+                                        Theme.of(context).primaryColor,
+                                    decorationThickness: 2.5)),
+                        SizedBox(
+                          height: 25.h,
                         ),
                         ElevatedButton(
                           onPressed: () async {
@@ -166,12 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     .snackBarTheme
                                     .backgroundColor,
                               ));
-                            } else {
-                              context.go('/auth/SignUpPage/password',
-                                  extra: widget.user.copyWith(
-                                      name: nameController.text,
-                                      email: emailController.text));
-                            }
+                            } else {}
                           },
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
@@ -186,7 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             width: double.infinity,
                             height: 55.h,
                             child: Text(
-                              'Continue',
+                              'Log IN',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
