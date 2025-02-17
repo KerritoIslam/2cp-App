@@ -5,6 +5,7 @@ import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
+import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
@@ -36,9 +37,11 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 void main() async {
   
   setUpLocator();
-  await dotenv.load();
+    await dotenv.load();
 
   WidgetsFlutterBinding.ensureInitialized();
+    
+
   await Firebase.initializeApp(
       options: (FirebaseOptions(
     apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,

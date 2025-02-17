@@ -7,7 +7,7 @@ class LoginResDtoModel {
   LoginResDtoModel({required this.tokens,required this.user});
   factory LoginResDtoModel.fromJson(Map<String, dynamic> json) {
     return LoginResDtoModel(
-      tokens: TokensModel.fromJson(json['tokens']),
+      tokens: TokensModel.fromJson({'access':json['access'],'refresh':json['refresh']}),
           user: UserModel.fromJson(json['user']),
     );
   }
