@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'opportunities_bloc_event.dart';
 part 'opportunities_bloc_state.dart';
 
-class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
+class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
   final OpportunityRepository repository;
   List<Opportunity> savedOpportunities=[];
   //TODO pass the params in the constructor
@@ -19,7 +19,7 @@ class OpportunitiesBlocBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBl
   //number of pages before loading more data
   int nextPageTrigger=4;
   List<Opportunity> opportunities=[];
-  OpportunitiesBlocBloc(this.repository) : super(OpportunitiesBlocInitial()) {
+  OpportunitiesBloc(this.repository) : super(OpportunitiesBlocInitial()) {
    on<LoadOpportunitiesEvent>((event, emit) async {
       // To show the loading indicator on the whole page instead only below the list of already loaded posts
       if (opportunities.isEmpty) {

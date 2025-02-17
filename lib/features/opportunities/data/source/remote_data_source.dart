@@ -19,7 +19,7 @@ class MockData{
       "id": "101",
       "name": "TechCorp",
       "category": "CS",
-      "profilepic": "https://example.com/techcorp.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "ongoing",
     "duration": "3 months",
@@ -35,7 +35,7 @@ class MockData{
       "id": "102",
       "name": "AI Solutions",
       "category": "CS",
-      "profilepic": "https://example.com/aisolutions.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "pending",
     "duration": "6 months",
@@ -51,7 +51,7 @@ class MockData{
       "id": "103",
       "name": "FairAI",
       "category": "CS",
-      "profilepic": "https://example.com/fairai.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "ongoing",
     "category": "CS"
@@ -66,7 +66,7 @@ class MockData{
       "id": "104",
       "name": "GreenFuture",
       "category": "EG",
-      "profilepic": "https://example.com/greenfuture.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "ended",
     "category": "EG"
@@ -81,7 +81,7 @@ class MockData{
       "id": "105",
       "name": "MediTech",
       "category": "HL",
-      "profilepic": "https://example.com/meditech.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "ongoing",
     "duration": "4 months",
@@ -97,7 +97,7 @@ class MockData{
       "id": "106",
       "name": "LexAI",
       "category": "LW",
-      "profilepic": "https://example.com/lexai.png"
+      "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
     },
     "status": "pending",
     "category": "LW"
@@ -108,63 +108,21 @@ class MockData{
     "id": "101",
     "name": "TechCorp",
     "category": "CS",
-    "profilepic": "https://example.com/techcorp.png"
+    "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
   {
     "id": "102",
     "name": "AI Solutions",
     "category": "CS",
-    "profilepic": "https://example.com/aisolutions.png"
+    "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
   {
     "id": "103",
     "name": "FairAI",
     "category": "CS",
-    "profilepic": "https://example.com/fairai.png"
+    "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  {
-    "id": "104",
-    "name": "GreenFuture",
-    "category": "EG",
-    "profilepic": "https://example.com/greenfuture.png"
-  },
-  {
-    "id": "105",
-    "name": "MediTech",
-    "category": "HL",
-    "profilepic": "https://example.com/meditech.png"
-  },
-  {
-    "id": "106",
-    "name": "LexAI",
-    "category": "LW",
-    "profilepic": "https://example.com/lexai.png"
-  },
-  {
-    "id": "107",
-    "name": "EcoWorld",
-    "category": "EG",
-    "profilepic": "https://example.com/ecoworld.png"
-  },
-  {
-    "id": "108",
-    "name": "Global Edu",
-    "category": "ED",
-    "profilepic": "https://example.com/globaledu.png"
-  },
-  {
-    "id": "109",
-    "name": "BusinessWave",
-    "category": "BM",
-    "profilepic": "https://example.com/businesswave.png"
-  },
-  {
-    "id": "110",
-    "name": "HealthPlus",
-    "category": "HL",
-    "profilepic": "https://example.com/healthplus.png"
-  }
-];
+ ];
 
   
 }
@@ -173,7 +131,7 @@ class OpportunityRemoteSource{
   //TODO do Error Handling based on the response status code
   final dio = DioServices.dio;
   Future<Either<Failure,List<OpportunityModel>>>getOpportunitiesPagination(int page ,int limit)async{
-try  {   await Future.delayed(Duration(milliseconds: 20));
+try  {   await Future.delayed(Duration(milliseconds: 1500));
     return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).toList());
   }catch(e){
     return Left(Failure(e.toString()));
