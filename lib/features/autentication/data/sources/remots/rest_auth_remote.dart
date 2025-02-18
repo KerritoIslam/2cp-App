@@ -21,6 +21,9 @@ class RestAuthRemote {
       );
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
+      if (e.response==null){
+        return left(Failure('Unkonw error Please Try Again Later!'));
+      }
       if (e.response!.statusCode == 401) {
         return left(Failure('email or password is incorrect'));
       }

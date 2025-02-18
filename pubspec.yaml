@@ -62,6 +62,7 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   flutter_dotenv: ^5.2.1
   introduction_screen: ^3.1.16
+  connectivity_plus: ^6.1.3
 
 
 

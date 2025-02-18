@@ -1,25 +1,19 @@
 import 'dart:io';
+import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
-import 'package:app/features/autentication/application/pages/login_page.dart';
-import 'package:app/features/autentication/application/pages/onboarding/onboarding_page.dart';
-import 'package:app/features/autentication/application/pages/signup_page.dart';
-import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
-import 'package:app/features/autentication/application/pages/welcome_page.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
-import 'package:app/features/opportunities/application/pages/layout.dart';
+import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 
 final authBloc=locator.get<AuthBloc>();
@@ -35,12 +29,17 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 
 void main() async {
   
+  //runApp(SplachScreen());
   setUpLocator();
+  //Load the .env file
+  //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
     await dotenv.load();
 
+  //Ensure flutter Engine is initialized
   WidgetsFlutterBinding.ensureInitialized();
     
 
+  //Initialize Firebase
   await Firebase.initializeApp(
       options: (FirebaseOptions(
     apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,
@@ -52,6 +51,7 @@ void main() async {
     authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN_${_getPlatform()}'] ?? '',
     iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID_${_getPlatform()}'] ?? '',
   )));
+  //Run app
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
@@ -77,6 +77,47 @@ String _getPlatform() {
   return 'WEB'; // Default to Web
 }
 
+//class SplachScreen extends StatelessWidget {
+//  const SplachScreen({super.key});
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//      home: Scaffold(
+//        body: Row(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: [
+//            Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//
+//              children: [
+//                AppLogo(),
+//
+//                RichText(text: TextSpan(
+//                  children: [
+//                   TextSpan(text:"Opportunities",style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).primaryColor,
+//                    fontWeight: FontWeight.w700),),
+//                    TextSpan(text: ' ?',style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).secondaryHeaderColor,
+//                    fontWeight: FontWeight.w700),),
+//                  ],
+//                  text: 'Searching for new',
+//                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).secondaryHeaderColor,
+//                    fontWeight: FontWeight.w700),),
+//
+//                ),
+//
+//
+//              ],
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

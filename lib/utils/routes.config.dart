@@ -1,3 +1,4 @@
+import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/noConnection.dart';
@@ -8,6 +9,7 @@ import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/main.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,9 +62,8 @@ GoRouter router = GoRouter(
       ],
     ),
   ],
-  redirect: (context, state) {
-      
-      if (state.fullPath!.startsWith('/auth') &&
+  redirect: (context, state)async {
+          if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
       return '/protected/layout';
     } else if (state.fullPath!.startsWith('/protected') &&

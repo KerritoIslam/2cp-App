@@ -4,29 +4,74 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
 
   @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage> {
+  late GlobalKey<IntroductionScreenState> _key;
+  
+  
+  @override
+    void dispose() {
+      _key.currentState?.dispose();
+      super.dispose();
+      
+    }
+  @override
+    void initState() {
+      super.initState();
+    _key=GlobalKey<IntroductionScreenState>();
+    }
+  @override
+
   Widget build(BuildContext context) {
+
     return  Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 30.h),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
+            Padding(
+              padding: EdgeInsets.all(15.r),
+              child: GestureDetector(
+                onTap: () {
+                    _key.currentState?.animateScroll(3);
+                              },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Skip",
+                      style:TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24.sp
+                      ),),
+                    SizedBox(width: 3.w,),
+                    Icon(Icons.arrow_forward,color: Theme.of(context).primaryColor,)
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 120.h),
                 
                 child: IntroductionScreen(
+                  key: _key,
                   globalFooter:SizedBox(
               width: 343.w,
               height: 56.h,
               child: ElevatedButton(
                   onPressed: () {
-                        GoRouter.of(context).go('/offline');
-                  },
+                        
+                        GoRouter.of(context).go('/auth/welcome');
+                                 },
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(0),
                       backgroundColor:
@@ -45,8 +90,12 @@ class OnboardingPage extends StatelessWidget {
             ),
 
                   showSkipButton: false,
-                  skip: const Text('Skip'),
+                  skip: Align(
+                   alignment: Alignment.topRight,
+                    child: const Text('Skip')),
+
                   showNextButton: false,
+                
                   onSkip: (){
                     print('Done');
                   },
@@ -72,5 +121,8 @@ class OnboardingPage extends StatelessWidget {
         ),
       ),
     );
+  
   }
+  
+  
 }

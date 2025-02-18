@@ -13,7 +13,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       
     final user=await authRepository.login(event.email,event.password);      
     user.fold((l){
-        print('Error $l');
               return emit(AuthError(l.message));
       }, (user)=>emit(Authenticated(user)));
     });
