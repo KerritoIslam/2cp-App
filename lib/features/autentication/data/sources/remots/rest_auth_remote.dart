@@ -1,13 +1,15 @@
 import 'package:app/core/dioservices/dio.dart';
 import 'package:app/core/failure/failure.dart';
+import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
 
-  Future<Either<Failure, UserModel>> login(
+  Future<Either<Failure, LoginResDtoModel>> login(
       String email, String password) async {
     try {
       final response = await _dio.post(
@@ -17,16 +19,22 @@ class RestAuthRemote {
           'password': password,
         },
       );
-      return right(UserModel.fromJson(response.data['user']));
+      return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
-      if (e.response!.statusCode == 400) {
+      if (e.response==null){
+        return left(Failure('Unkonw error Please Try Again Later!'));
+      }
+      if (e.response!.statusCode == 401) {
         return left(Failure('email or password is incorrect'));
+      }
+      if (e.response!.statusCode==404){
+      return left(Failure('User not found'));
       }
       return left(Failure(e.toString()));
     }
   }
 
-  Future<Either<Failure, UserModel>> register(
+  Future<Either<Failure, LoginResDtoModel>> register(
       String name, String email, String password) async {
     try {
       final response = await _dio.post('/Auth/Signup', data: {
@@ -37,13 +45,19 @@ class RestAuthRemote {
         "password": password
       });
   
-      return right(UserModel.fromJson(response.data['user']));
+      return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         return left(Failure('this email or name is already used'));
       }
+      if (e.response!.statusCode==404){
+      return left(Failure('Internal Erro'));
+      }
 
-      return left(Failure(e.toString()));
+      if (kDebugMode) {
+        print(e.toString());
+      
+      }return left(Failure('An error occurred'));
     }
   }
 

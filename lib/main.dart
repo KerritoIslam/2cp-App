@@ -1,28 +1,22 @@
 import 'dart:io';
+import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
-import 'package:app/features/autentication/application/pages/login_page.dart';
-import 'package:app/features/autentication/application/pages/signup_page.dart';
-import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
-import 'package:app/features/autentication/application/pages/welcome_page.dart';
-import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
-import 'package:app/features/autentication/domain/auth_repository.dart';
-import 'package:app/features/opportunities/application/pages/layout.dart';
+import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
+import 'package:app/utils/error.dart';
+import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:forui/forui.dart' as fr;
-import 'package:go_router/go_router.dart';
 
-final AuthBloc authBloc =
-    AuthBloc(AuthRepository(restAuthRemote: RestAuthRemote()));
 
+final authBloc=locator.get<AuthBloc>();
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
 
@@ -35,10 +29,17 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 
 void main() async {
   
+  //runApp(SplachScreen());
   setUpLocator();
-  await dotenv.load();
+  //Load the .env file
+  //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
+    await dotenv.load();
 
+  //Ensure flutter Engine is initialized
   WidgetsFlutterBinding.ensureInitialized();
+    
+
+  //Initialize Firebase
   await Firebase.initializeApp(
       options: (FirebaseOptions(
     apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,
@@ -50,74 +51,16 @@ void main() async {
     authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN_${_getPlatform()}'] ?? '',
     iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID_${_getPlatform()}'] ?? '',
   )));
+  //Run app
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
-        return authBloc;
-      }),
+        return authBloc      ;}),
     ], child: MyApp()),
   );
 }
 
-GoRouter _router = GoRouter(
-  initialLocation: '/protected/layout',
-  routes: [
-    GoRoute(
-      pageBuilder: (context, state) => MaterialPage(child: Text("auth")),
-      path: '/auth',
-      routes: [
-        GoRoute(
-            path: 'welcome',
-            pageBuilder: (context, state) =>
-                MaterialPage(child: WelcomePage())),
-        GoRoute(
-            path: 'SignUpPage',
-            pageBuilder: (context, state) => MaterialPage(
-                    child: SignUpPage(
-                  user: /* state.extra == null
-                      \? User(id: 0, name: '', email: '')
-                      :  */
-                      state.extra as dynamic,
-                )),
-            routes: [
-              GoRoute(
-                path: 'password',
-                pageBuilder: (context, state) => MaterialPage(
-                  child: SignUpPasswordPage(
-                    user: state.extra as dynamic,
-                  ),
-                ),
-              )
-            ]),
-        GoRoute(
-            path: 'LoginPage',
-            pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
-      ],
-    ),
-    GoRoute(
-      pageBuilder: (context, state) => MaterialPage(child: Text("protected")),
-      path: '/protected',
-      routes: [
-        GoRoute(
-            path: 'layout',
-            pageBuilder: (context, state) => MaterialPage(child: Layout())),
-      ],
-    ),
-  ],
-  redirect: (context, state) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
-    if (state.fullPath!.startsWith('/auth') &&
-        authBloc.state is Authenticated) {
-      return '/protected/layout';
-    } else if (state.fullPath!.startsWith('/protected') &&
-        authBloc.state is Unauthenticated) {
-      return '/auth/welcome';
-    }
-    return null;
-  },
-  refreshListenable: BlocListenable(authBloc),
-);
 
 String _getPlatform() {
   if (kIsWeb) {
@@ -134,6 +77,47 @@ String _getPlatform() {
   return 'WEB'; // Default to Web
 }
 
+//class SplachScreen extends StatelessWidget {
+//  const SplachScreen({super.key});
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//      home: Scaffold(
+//        body: Row(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: [
+//            Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//
+//              children: [
+//                AppLogo(),
+//
+//                RichText(text: TextSpan(
+//                  children: [
+//                   TextSpan(text:"Opportunities",style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).primaryColor,
+//                    fontWeight: FontWeight.w700),),
+//                    TextSpan(text: ' ?',style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).secondaryHeaderColor,
+//                    fontWeight: FontWeight.w700),),
+//                  ],
+//                  text: 'Searching for new',
+//                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                    color: Theme.of(context).secondaryHeaderColor,
+//                    fontWeight: FontWeight.w700),),
+//
+//                ),
+//
+//
+//              ],
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -145,13 +129,15 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
             return MaterialApp.router(
-              builder: (context, child) => fr.FTheme(
-      data:state is LightTheme ? fr.FThemes.green.light : fr.FThemes.green.dark,
-      child: child!,
-    ),
-              routerConfig: _router,
+              
+              builder: (context, child){
+                ErrorWidget.builder= (FlutterErrorDetails details) {
+                  return  CustomError( errorDetails: details, key: null,);                  
+                };
+                return child!;
+              }  ,             routerConfig: router,
               debugShowCheckedModeBanner: false,
-              title: '2CP App',
+              title: 'Step in',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
             );
           });

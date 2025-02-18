@@ -9,10 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
   AuthBloc(this.authRepository) : super(AuthInitial()) {
-    on<AuthLoginRequested>((event, emit) {
-      emit(Authenticated(
-          User(id: 15, name: 'scdsaf', email: 'email', password: 'password')));
+    on<AuthLoginRequested>((event, emit)async {
+      
+    final user=await authRepository.login(event.email,event.password);      
+    user.fold((l){
+              return emit(AuthError(l.message));
+      }, (user)=>emit(Authenticated(user)));
     });
+
     on<AuthSignUpRequested>((event, emit) async {
       
       emit(AuthLoading()); 
@@ -42,6 +46,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
     on<AuthForgotPasswordRequested>((event, emit) {});
-    on<AuthLogoutRequested>((event, emit) {});
+    on<AuthLogoutRequested>((event, emit) {
+      emit(Unauthenticated());
+    });
   }
 }

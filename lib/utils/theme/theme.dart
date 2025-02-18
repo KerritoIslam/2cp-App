@@ -12,7 +12,7 @@ class theme {
   static double bodySmallFontSize = 12.sp;
   static ThemeData lightTheme = ThemeData(
     secondaryHeaderColor: Colors.black,
-
+   indicatorColor:Colors.green, 
       splashColor: Colors.transparent,
       scaffoldBackgroundColor: Color(0xFFFFFFFF),
       snackBarTheme: SnackBarThemeData(

@@ -1,24 +1,42 @@
 import 'package:app/core/failure/failure.dart';
+import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LocalSecureStorage {
   final FlutterSecureStorage storage;
   LocalSecureStorage(this.storage);
-  Future<Either<Failure, Unit>> setToken(
-      {required String key, required String token}) async {
+  Future<Either<Failure, Unit>> setTokens(String accessToken,String refreshToken) async {
     try {
-      await storage.write(key: key, value: token);
+      
+      await Future.wait(
+    [
+          //TODO:check them for typos in debugging
+          storage.write(key: 'accessToken', value: accessToken),
+          storage.write(key:'refreshToken',value:refreshToken),
+        ]
+      );
       return Right(unit);
-    } catch (e) {
+    } on Exception catch (e,stacktrace) {
+      if (kDebugMode) {
+        print(stacktrace);
+      }
       return Left(Failure('Error setting token: $e'));
     }
   }
 
-  Future<Either<Failure, String?>> getToken(String key) async {
+  Future<Either<Failure, TokensModel>> getTokens() async {
     try {
-      String? token = await storage.read(key: key);
-      return right(token);
+    final [accToken,refreshToken]=await Future.wait(
+      [
+          //TODO check them for typos in debugging
+        storage.read(key: 'accessToken'),
+        storage.read(key: 'refreshToken'),
+     ]
+    )
+;
+      return right(TokensModel(accessToken: accToken??"", refreshToken: refreshToken??""));
     } catch (e) {
       throw left(Failure('Error getting token: $e'));
     }
