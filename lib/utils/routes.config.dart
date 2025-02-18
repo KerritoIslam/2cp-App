@@ -53,8 +53,8 @@ GoRouter router = GoRouter(
       ],
     ),
     GoRoute(
-      pageBuilder: (context, state) => MaterialPage(child: Text("protected")),
-      path: '/protected',
+         redirect: (ctx,state)=>null,
+          path: '/protected',
       routes: [
         GoRoute(
             path: 'layout',

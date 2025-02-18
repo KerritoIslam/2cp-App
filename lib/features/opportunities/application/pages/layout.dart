@@ -3,12 +3,10 @@ import 'package:app/features/opportunities/application/pages/opporutnities_page.
 import 'package:app/features/opportunities/application/pages/search.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 
 class Layout extends StatefulWidget {
@@ -39,7 +37,6 @@ class _LayoutState extends State<Layout> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ThemeProviderBloc,ThemeProviderState>(listener: (context, state) {
-        print('Changed to $state');
       
       if (state is DarkTheme) {
         isDark = true;
@@ -60,10 +57,13 @@ class _LayoutState extends State<Layout> {
         actions: [
           IconButton(
               onPressed: () {
+                
 },
             icon: SvgPicture.asset(!isDark?'assets/icons/notification.svg':'assets/icons/notification_dark.svg')),
           IconButton(
-              onPressed: () {},
+              onPressed: () 
+            {
+              },
               icon: SvgPicture.asset(!isDark?"assets/icons/profile.svg":"assets/icons/profile_dark.svg")),
         ],
         leadingWidth: 250.w,
