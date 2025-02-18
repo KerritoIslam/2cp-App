@@ -13,6 +13,8 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   late GlobalKey<IntroductionScreenState> _key;
+  late int currIndex;
+  late String buttonText;
   
   
   @override
@@ -25,6 +27,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
     void initState() {
       super.initState();
     _key=GlobalKey<IntroductionScreenState>();
+    buttonText='Next';
+    currIndex=0;
     }
   @override
 
@@ -63,15 +67,34 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 padding: EdgeInsets.only(top: 120.h),
                 
                 child: IntroductionScreen(
-                  key: _key,
+                  onChange: (index){
+                   currIndex=index;
+                    if (index==3) {
+                      buttonText='Continue';
+                    }
+                    else{
+                      buttonText='Next';
+                    }
+                    setState(() {
+                                          
+                                        });
+                  },
+
+                                   key: _key,
                   globalFooter:SizedBox(
               width: 343.w,
               height: 56.h,
               child: ElevatedButton(
                   onPressed: () {
                         
-                        GoRouter.of(context).go('/auth/welcome');
-                                 },
+                        if (currIndex==3) {
+GoRouter.of(context).go('/auth/welcome');
+
+                        }
+                        else{
+                          _key.currentState?.next();
+                        }
+                                                         },
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(0),
                       backgroundColor:
@@ -81,7 +104,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))))),
                   child: Text(
-                    'Continue',
+             buttonText,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: Colors.white
                           ,                    fontWeight: FontWeight.w700,      
