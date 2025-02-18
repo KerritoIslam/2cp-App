@@ -1,5 +1,4 @@
 import 'package:app/features/autentication/application/pages/onboarding/pages_data.dart';
-import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +25,7 @@ class OnboardingPage extends StatelessWidget {
               height: 56.h,
               child: ElevatedButton(
                   onPressed: () {
-                        GoRouter.of(context).go('/auth/welcome');
+                        GoRouter.of(context).go('/offline');
                   },
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(0),

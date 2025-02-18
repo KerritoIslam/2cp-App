@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
                 return child!;
               }  ,             routerConfig: router,
               debugShowCheckedModeBanner: false,
-              title: '2CP App',
+              title: 'Step in',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
             );
           });

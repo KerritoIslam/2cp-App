@@ -1,5 +1,6 @@
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/login_page.dart';
+import 'package:app/features/autentication/application/pages/noConnection.dart';
 import 'package:app/features/autentication/application/pages/onboarding/onboarding_page.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
@@ -13,6 +14,7 @@ import 'package:go_router/go_router.dart';
 GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
+    GoRoute(path: '/offline', pageBuilder: (context, state) => MaterialPage(child: Noconnection())),
     GoRoute(path: '/', pageBuilder: (context, state) => MaterialPage(child: OnboardingPage())),
     GoRoute(
       //This is to fix the bug of the redirect
@@ -59,6 +61,7 @@ GoRouter router = GoRouter(
     ),
   ],
   redirect: (context, state) {
+      
       if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
       return '/protected/layout';
