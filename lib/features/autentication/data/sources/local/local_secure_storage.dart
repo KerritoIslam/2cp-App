@@ -26,7 +26,7 @@ class LocalSecureStorage {
     }
   }
 
-  Future<Either<Failure, TokensModel>> getTokens(String key) async {
+  Future<Either<Failure, TokensModel>> getTokens() async {
     try {
     final [accToken,refreshToken]=await Future.wait(
       [

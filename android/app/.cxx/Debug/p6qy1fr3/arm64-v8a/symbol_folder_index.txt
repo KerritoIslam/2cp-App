@@ -1,0 +1,1 @@
+/home/mouloud/dev/2cp_project/app/build/app/intermediates/cxx/Debug/p6qy1fr3/obj/arm64-v8a

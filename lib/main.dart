@@ -2,15 +2,15 @@ import 'dart:io';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/login_page.dart';
+import 'package:app/features/autentication/application/pages/onboarding/onboarding_page.dart';
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
-import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
+import 'package:app/utils/error.dart';
+import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:forui/forui.dart' as fr;
 import 'package:go_router/go_router.dart';
 
 
@@ -62,64 +61,6 @@ void main() async {
   );
 }
 
-GoRouter _router = GoRouter(
-  initialLocation: '/auth/welcome',
-  routes: [
-    GoRoute(
-      pageBuilder: (context, state) => MaterialPage(child: Text("auth")),
-      path: '/auth',
-      routes: [
-        GoRoute(
-            path: 'welcome',
-            pageBuilder: (context, state) =>
-                MaterialPage(child: WelcomePage())),
-        GoRoute(
-            path: 'SignUpPage',
-            pageBuilder: (context, state) => MaterialPage(
-                    child: SignUpPage(
-                  user: /* state.extra == null
-                      \? User(id: 0, name: '', email: '')
-                      :  */
-                      state.extra as User,
-                )),
-            routes: [
-              GoRoute(
-                path: 'password',
-                pageBuilder: (context, state) => MaterialPage(
-                  child: SignUpPasswordPage(
-                    user: state.extra as User,
-                  ),
-                ),
-              )
-            ]),
-        GoRoute(
-            path: 'LoginPage',
-            pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
-      ],
-    ),
-    GoRoute(
-      pageBuilder: (context, state) => MaterialPage(child: Text("protected")),
-      path: '/protected',
-      routes: [
-        GoRoute(
-            path: 'layout',
-            pageBuilder: (context, state) => MaterialPage(child: Layout())),
-      ],
-    ),
-  ],
-  redirect: (context, state) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
-    if (state.fullPath!.startsWith('/auth') &&
-        authBloc.state is Authenticated) {
-      return '/protected/layout';
-    } else if (state.fullPath!.startsWith('/protected') &&
-        authBloc.state is Unauthenticated) {
-      return '/auth/welcome';
-    }
-    return null;
-  },
-  refreshListenable: BlocListenable(authBloc),
-);
 
 String _getPlatform() {
   if (kIsWeb) {
@@ -147,11 +88,13 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
             return MaterialApp.router(
-              builder: (context, child) => fr.FTheme(
-      data:state is LightTheme ? fr.FThemes.green.light : fr.FThemes.green.light,
-      child: child!,
-    ),
-              routerConfig: _router,
+              
+              builder: (context, child){
+                ErrorWidget.builder= (FlutterErrorDetails details) {
+                  return  CustomError( errorDetails: details, key: null,);                  
+                };
+                return child!;
+              }  ,             routerConfig: router,
               debugShowCheckedModeBanner: false,
               title: '2CP App',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
