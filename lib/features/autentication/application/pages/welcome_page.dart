@@ -1,4 +1,3 @@
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,30 +20,24 @@ class _WelcomePageState extends State<WelcomePage> {
         scrolledUnderElevation: 0,
         leadingWidth: 100.w,
         actions: [
-           TextButton(
-                    onPressed: () {
-                      GoRouter.of(context).go('/auth/LoginPage');
-                    },
-                    child: Text(
-                      'Sign in',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )),
-
+          TextButton(
+              onPressed: () {
+                GoRouter.of(context).go('/auth/LoginPage');
+              },
+              child: Text(
+                'Sign in',
+                style: Theme.of(context).textTheme.titleSmall,
+              )),
         ],
         leading: TextButton(
-                    onPressed: () {
-                      GoRouter.of(context).go('/auth/SignUpPage',
-                          extra: User(
-                              id: 0,
-                              name: '',
-                              email:
-                                  '')); //will fix the user default in the future
-                    },
-                    child: Text(
-                      'Sign up',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )),
-       ),
+            onPressed: () {
+              GoRouter.of(context).go('/auth/SignUpPage');
+            },
+            child: Text(
+              'Sign up',
+              style: Theme.of(context).textTheme.titleSmall,
+            )),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
@@ -55,12 +48,10 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                                            ],
+              children: [],
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
               child: RichText(
                   text: TextSpan(
                       text: 'Welcome to ',
@@ -122,8 +113,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             Spacer(),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 9, horizontal: 55),
+              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 55),
               child: SizedBox(
                 width: 300.w,
                 child: ListTile(

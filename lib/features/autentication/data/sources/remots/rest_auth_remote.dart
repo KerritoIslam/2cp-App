@@ -41,7 +41,6 @@ class RestAuthRemote {
         "name": name,
         "email": email,
         "type": "Student",
-        "student": {"category": "CS", "education": "esi"},
         "password": password
       });
   

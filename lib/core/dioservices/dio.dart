@@ -10,6 +10,7 @@ class DioServices {
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+        print(options.path);
         if (!options.path.contains("Auth")) {
           return handler.next(options);
         }
@@ -54,7 +55,7 @@ class DioServices {
           );
           if (response.statusCode == 200) {
             await datasource.setTokens(
-                response.data['access'],token);
+                response.data['access'], response.data['refresh']);
             return handler.next(error);
           }
         }
