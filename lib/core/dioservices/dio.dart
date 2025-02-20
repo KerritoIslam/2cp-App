@@ -1,6 +1,8 @@
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DioServices {
@@ -14,7 +16,7 @@ class DioServices {
         if (!options.path.contains("Auth")) {
           return handler.next(options);
         }
-        final dataSource = LocalSecureStorage(const FlutterSecureStorage());
+        final dataSource = locator.get<LocalSecureStorage>();
 
         late String token;
         final accesToken = await dataSource.getTokens();
@@ -29,13 +31,16 @@ class DioServices {
         return handler.next(options);
       },
       onError: (error, handler) async {
+        final authBloc = locator.get<AuthBloc>();
         if (error.response?.statusCode == 401) {
-          final datasource = LocalSecureStorage(const FlutterSecureStorage());
-          final token = await datasource.getTokens().then((value) => value.fold(
+          final dataSource = locator.get<LocalSecureStorage>();
+
+          final token = await dataSource.getTokens().then((value) => value.fold(
                 (l) => "",
                 (r) => r.accessToken,
               ));
           if (token == "") {
+            authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
           Map<String, dynamic> decodedrefrechtoken = JwtDecoder.decode(token);
@@ -44,7 +49,8 @@ class DioServices {
           }
           DateTime exp = DateTime.fromMillisecondsSinceEpoch(
               decodedrefrechtoken['exp'] * 1000);
-          if (exp.isAfter(DateTime.now())) {
+          if (DateTime.now().isAfter(exp)) {
+            authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
           final response = await _dio.post(
@@ -54,11 +60,12 @@ class DioServices {
             },
           );
           if (response.statusCode == 200) {
-            await datasource.setTokens(
+            await dataSource.setTokens(
                 response.data['access'], response.data['refresh']);
             return handler.next(error);
           }
         }
+        authBloc.add(AuthLogoutRequested());
         return handler.next(error);
       },
     ));
