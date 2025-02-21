@@ -17,6 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 final authBloc=locator.get<AuthBloc>();
+
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
 

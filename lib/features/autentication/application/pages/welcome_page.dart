@@ -120,9 +120,8 @@ class _WelcomePageState extends State<WelcomePage> {
               child: SizedBox(
                 width: 300.w,
                 child: ListTile(
-                  onTap: () async{
+                  onTap: () async {
                     context.read<AuthBloc>().add(AuthGoogleSignInRequested());
-
                   },
                   title: Center(
                     child: Text(
@@ -163,7 +162,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   leading: SizedBox(
                       width: 30.w,
                       height: 30.h,
-                      child: SvgPicture.asset('assets/icons/facebook.svg')),
+                      child: SvgPicture.asset('assets/icons/linkedin.svg')),
                 ),
               ),
             ),

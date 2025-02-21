@@ -3,6 +3,7 @@ import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DioServices {
@@ -12,12 +13,11 @@ class DioServices {
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        print(options.path);
-        if (!options.path.contains("Auth")) {
+        final  unprotected=options.path.contains("Auth");
+        if (unprotected) {
           return handler.next(options);
         }
         final dataSource = locator.get<LocalSecureStorage>();
-
         late String token;
         final accesToken = await dataSource.getTokens();
         token = accesToken.fold((fail) {
@@ -26,25 +26,22 @@ class DioServices {
         if (token == "") {
           return;
         }
-
-        options.headers['Authorization'] = token;
+        //TODO check if bearer of Bearer
+        options.headers['Authorization'] = "bearer $token";
         return handler.next(options);
       },
       onError: (error, handler) async {
         final authBloc = locator.get<AuthBloc>();
         if (error.response?.statusCode == 401) {
           final dataSource = locator.get<LocalSecureStorage>();
-
-          final token = await dataSource.getTokens().then((value) => value.fold(
-                (l) => "",
-                (r) => r.accessToken,
-              ));
-          if (token == "") {
+          final res = await dataSource.getTokens();
+          final token = res.fold((l) => "", (r) => r.accessToken);
+          if (token.isEmpty) {
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
           Map<String, dynamic> decodedrefrechtoken = JwtDecoder.decode(token);
-          if (decodedrefrechtoken == '') {
+          if (decodedrefrechtoken.isEmpty) {
             return handler.next(error);
           }
           DateTime exp = DateTime.fromMillisecondsSinceEpoch(
@@ -56,13 +53,16 @@ class DioServices {
           final response = await _dio.post(
             '/Auth/Refresh',
             data: {
-              'refreshToken': token,
+              'refresh': token,
             },
           );
           if (response.statusCode == 200) {
             await dataSource.setTokens(
                 response.data['access'], response.data['refresh']);
-            return handler.next(error);
+            final options = error.requestOptions;
+            options.headers['Authorization'] = response.data['access'];
+            final res = await dio.fetch(options);
+            return handler.resolve(res);
           }
         }
         authBloc.add(AuthLogoutRequested());

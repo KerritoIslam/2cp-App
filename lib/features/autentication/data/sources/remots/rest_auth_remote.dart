@@ -14,8 +14,8 @@ class RestAuthRemote {
       'email',
       'profile',
     ],
+    clientId:  "241487075785-ca4eq6d3642e5qasusc2342ndckimnar.apps.googleusercontent.com" 
   );
-
   Future<Either<Failure, LoginResDtoModel>> login(
       String email, String password) async {
     try {
@@ -77,7 +77,6 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
-
 //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
@@ -101,7 +100,6 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
-
   Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
@@ -129,6 +127,5 @@ class RestAuthRemote {
     } catch (e) {
       return left(Failure(e.toString()));
     }
-    
   } 
 }
