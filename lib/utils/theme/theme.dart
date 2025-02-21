@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class theme {
   static double titleSmallFontSize = 16.sp;
@@ -12,120 +11,136 @@ class theme {
   static double bodySmallFontSize = 12.sp;
   static ThemeData lightTheme = ThemeData(
     secondaryHeaderColor: Colors.black,
-   indicatorColor:Colors.green, 
-      splashColor: Colors.transparent,
-      scaffoldBackgroundColor: Color(0xFFFFFFFF),
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: Color(0xFF323030),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(8.0),
-          ),
+    indicatorColor: Colors.green,
+    splashColor: Colors.transparent,
+    scaffoldBackgroundColor: Color(0xFFFFFFFF),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Color(0xFF323030),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(8.0),
         ),
       ),
+    ),
     cardColor: Color(0xffd9d9d9),
-      primaryColor: Color(0xFF92E3A9),
-            textTheme: TextTheme(
-        titleSmall: GoogleFonts.poppins(
-          fontSize: titleSmallFontSize,
-          color: Color(0xFF92E3A9),
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: GoogleFonts.poppins(
-          fontSize: titleMediumFontSize,
-          color: Color(0xFF92E3A9),
-          fontWeight: FontWeight.w700,
-        ),
-        displaySmall: GoogleFonts.poppins(
-          fontSize: displaySmallFontSize,
-          color: Color(0xFF000000),
-          fontWeight: FontWeight.w700,
-        ),
-        displayMedium: GoogleFonts.poppins(
-          fontSize: displayMediumFontSize,
-          color: Color(0xFF000000),
-          fontWeight: FontWeight.w800,
-        ),
-      displayLarge: GoogleFonts.poppins(
-          fontSize: 32.sp,
-          color: Color(0xFF000000),
-          fontWeight: FontWeight.w700,
-        ),
-        bodyMedium: GoogleFonts.poppins(
-        
-          fontSize: bodyMediumFontSize,
-          color: Color(0xFF000000),
-          fontWeight: FontWeight.w500,
+    primaryColor: Color(0xFF92E3A9),
+    textTheme: TextTheme(
+      titleSmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: titleSmallFontSize,
+        color: Color(0xFF92E3A9),
+        fontWeight: FontWeight.w700,
+      ),
+      titleMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: titleMediumFontSize,
+        color: Color(0xFF92E3A9),
+        fontWeight: FontWeight.w700,
+      ),
+      displaySmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displaySmallFontSize,
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w700,
+      ),
+      displayMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displayMediumFontSize,
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w800,
+      ),
+      displayLarge: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displayLargeFontSize,
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w700,
+      ),
+      bodyMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodyMediumFontSize,
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w500,
+      ),
+      bodySmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodySmallFontSize,
+        color: Color(0xFF000000),
+        fontWeight: FontWeight.w400,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodyMediumFontSize,
+        color: Color(0xFF9D9D9D),
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  );
 
-        ),
-        bodySmall: GoogleFonts.poppins(
-          fontSize: bodySmallFontSize,
-          color: Color(0xFF000000),
-          fontWeight: FontWeight.w400,
-        ),
-        labelMedium: GoogleFonts.poppins(
-          fontSize: bodyMediumFontSize,
-          color: Color(0xFF9D9D9D),
-          fontWeight: FontWeight.w600,
-        ),
-      ));
   static ThemeData darkTheme = ThemeData(
-      splashColor: Colors.transparent,
+    splashColor: Colors.transparent,
     secondaryHeaderColor: Colors.white,
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: Color(0xFFFFFFFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(8.0),
-          ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Color(0xFFFFFFFF),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(8.0),
         ),
       ),
+    ),
     cardColor: Color(0xff323030),
-      scaffoldBackgroundColor: Color(0xFF323030),
-      primaryColor: Color(0xFF92E3A9),
-      textTheme: TextTheme(
-      displayLarge: GoogleFonts.poppins(
-          fontSize: displayLargeFontSize,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-        ),
-
-        titleSmall: GoogleFonts.poppins(
-          fontSize: titleSmallFontSize,
-          color: Color(0xFF92E3A9),
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: GoogleFonts.poppins(
-          fontSize: titleMediumFontSize,
-          color: Color(0xFF92E3A9),
-          fontWeight: FontWeight.w700,
-        ),
-        displaySmall: GoogleFonts.poppins(
-          fontSize: displaySmallFontSize,
-          color: Color(0xFFFFFFFF),
-          fontWeight: FontWeight.w700,
-        ),
-        displayMedium: GoogleFonts.poppins(
-          fontSize: displayMediumFontSize,
-          color: Color(0xFFFFFFFF),
-          fontWeight: FontWeight.w800,
-        ),
-        bodyMedium: GoogleFonts.poppins(
-          fontSize: bodyMediumFontSize,
-          color: Color(0xFFFFFFFF),
-          fontWeight: FontWeight.w500,
-        ),
-        bodySmall: GoogleFonts.poppins(
-          fontSize: bodySmallFontSize,
-          color: Color(0xFFFFFFFF),
-          fontWeight: FontWeight.w400,
-        ),
-        labelMedium: GoogleFonts.poppins(
-          fontSize: bodyMediumFontSize,
-          color: Color(0xFF9D9D9D),
-          fontWeight: FontWeight.w500,
-        ),
-      ));
+    scaffoldBackgroundColor: Color(0xFF323030),
+    primaryColor: Color(0xFF92E3A9),
+    textTheme: TextTheme(
+      displayLarge: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displayLargeFontSize,
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+      ),
+      titleSmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: titleSmallFontSize,
+        color: Color(0xFF92E3A9),
+        fontWeight: FontWeight.w700,
+      ),
+      titleMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: titleMediumFontSize,
+        color: Color(0xFF92E3A9),
+        fontWeight: FontWeight.w700,
+      ),
+      displaySmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displaySmallFontSize,
+        color: Color(0xFFFFFFFF),
+        fontWeight: FontWeight.w700,
+      ),
+      displayMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displayMediumFontSize,
+        color: Color(0xFFFFFFFF),
+        fontWeight: FontWeight.w800,
+      ),
+      bodyMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodyMediumFontSize,
+        color: Color(0xFFFFFFFF),
+        fontWeight: FontWeight.w500,
+      ),
+      bodySmall: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodySmallFontSize,
+        color: Color(0xFFFFFFFF),
+        fontWeight: FontWeight.w400,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: bodyMediumFontSize,
+        color: Color(0xFF9D9D9D),
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
 }
 
 class Forms {
@@ -134,8 +149,7 @@ class Forms {
     borderRadius: BorderRadius.circular(8.0),
   );
   static OutlineInputBorder errorBorder = OutlineInputBorder(
-    borderSide:
-        BorderSide(color: const Color.fromARGB(255, 233, 53, 40), width: 2),
+    borderSide: BorderSide(color: const Color.fromARGB(255, 233, 53, 40), width: 2),
     borderRadius: BorderRadius.circular(8.0),
   );
 }

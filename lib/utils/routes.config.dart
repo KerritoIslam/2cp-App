@@ -1,4 +1,3 @@
-import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/noConnection.dart';
@@ -6,21 +5,23 @@ import 'package:app/features/autentication/application/pages/onboarding/onboardi
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/main.dart';
-import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/offline', pageBuilder: (context, state) => MaterialPage(child: Noconnection())),
-    GoRoute(path: '/', pageBuilder: (context, state) => MaterialPage(child: OnboardingPage())),
+    GoRoute(
+        path: '/offline',
+        pageBuilder: (context, state) => MaterialPage(child: Noconnection())),
+    GoRoute(
+        path: '/',
+        pageBuilder: (context, state) => MaterialPage(child: OnboardingPage())),
     GoRoute(
       //This is to fix the bug of the redirect
-      redirect: (ctx,state)=>null,    
+      redirect: (ctx, state) => null,
       path: '/auth',
 
       routes: [
@@ -32,17 +33,16 @@ GoRouter router = GoRouter(
             path: 'SignUpPage',
             pageBuilder: (context, state) => MaterialPage(
                     child: SignUpPage(
-                  user: /* state.extra == null
-                      \? User(id: 0, name: '', email: '')
-                      :  */
-                      state.extra as User,
+                  user: state.extra == null
+                      ? {"user_name": "", "email": ""}
+                      : state.extra as Map<String, dynamic>,
                 )),
             routes: [
               GoRoute(
                 path: 'password',
                 pageBuilder: (context, state) => MaterialPage(
                   child: SignUpPasswordPage(
-                    user: state.extra as User,
+                    user: state.extra as Map<String, dynamic>,
                   ),
                 ),
               )
@@ -53,8 +53,8 @@ GoRouter router = GoRouter(
       ],
     ),
     GoRoute(
-         redirect: (ctx,state)=>null,
-          path: '/protected',
+      redirect: (ctx, state) => null,
+      path: '/protected',
       routes: [
         GoRoute(
             path: 'layout',
@@ -62,8 +62,8 @@ GoRouter router = GoRouter(
       ],
     ),
   ],
-  redirect: (context, state)async {
-          if (state.fullPath!.startsWith('/auth') &&
+  redirect: (context, state) async {
+    if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
       return '/protected/layout';
     } else if (state.fullPath!.startsWith('/protected') &&
@@ -74,4 +74,3 @@ GoRouter router = GoRouter(
   },
   refreshListenable: BlocListenable(authBloc),
 );
-

@@ -1,4 +1,6 @@
 //TODO:CHange THis
+// ignore_for_file: unused_field
+
 enum ApplicationStatus{
   sumbitted,
   inReview,

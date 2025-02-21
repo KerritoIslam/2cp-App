@@ -1,6 +1,5 @@
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpPasswordPage extends StatefulWidget {
-  final User user;
+  final Map<String, dynamic> user;
   const SignUpPasswordPage({super.key, required this.user});
 
   @override
@@ -75,33 +74,28 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
         elevation: 0,
         leadingWidth: 150.w,
         scrolledUnderElevation: 0,
-        leading:     TextButton(
-                onPressed: () {
-                  GoRouter.of(context)
-                      .go('/auth/SignUpPage', extra: widget.user);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).primaryColor,
-                      size: 20,
-                    ),
-                    Text('Go Back',
-                        style: Theme.of(context).textTheme.titleSmall)
-                  ],
-                )),
-
-
+        leading: TextButton(
+            onPressed: () {
+              GoRouter.of(context).go('/auth/SignUpPage', extra: widget.user);
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                ),
+                Text('Go Back', style: Theme.of(context).textTheme.titleSmall)
+              ],
+            )),
       ),
       body: SingleChildScrollView(
-        
         child: Column(
           children: [
             SizedBox(
               height: 27.h,
             ),
-                    SizedBox(
+            SizedBox(
                 height: 300.h,
                 width: 300.w,
                 child: SvgPicture.asset('assets/images/signuppassword.svg')),
@@ -128,8 +122,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                           obscureText: _passwordObscure,
                           style: Theme.of(context).textTheme.bodyMedium,
                           validator: (value) => passwordValidator(value),
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -145,8 +138,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                               },
                             ),
                             hintText: 'Password',
-                            hintStyle:
-                                Theme.of(context).textTheme.labelMedium,
+                            hintStyle: Theme.of(context).textTheme.labelMedium,
                             enabledBorder: Forms.regularBorder,
                             focusedBorder: Forms.regularBorder,
                             errorBorder: Forms.errorBorder,
@@ -160,10 +152,8 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                           controller: confirmPasswordController,
                           obscureText: _confirmPasswordObscure,
                           style: Theme.of(context).textTheme.bodyMedium,
-                          validator: (value) =>
-                              confirmPasswordValidator(value),
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          validator: (value) => confirmPasswordValidator(value),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -179,8 +169,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                               },
                             ),
                             hintText: 'Confirm Password',
-                            hintStyle:
-                                Theme.of(context).textTheme.labelMedium,
+                            hintStyle: Theme.of(context).textTheme.labelMedium,
                             enabledBorder: Forms.regularBorder,
                             focusedBorder: Forms.regularBorder,
                             errorBorder: Forms.errorBorder,
@@ -200,8 +189,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                           RichText(
                               text: TextSpan(
                                   text: 'i accept the ',
-                                  style:
-                                      Theme.of(context).textTheme.bodySmall,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                   children: [
                                 TextSpan(
                                     text: 'Terms and Conditions',
@@ -209,8 +197,8 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                            color: Theme.of(context)
-                                                .primaryColor,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                             decoration:
                                                 TextDecoration.underline,
                                             decorationColor: Theme.of(context)
@@ -235,8 +223,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (!_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                 'please fill all the fields',
                                 style: Theme.of(context)
@@ -249,8 +236,7 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                                   .backgroundColor,
                             ));
                           } else if (!_termsAndConditionsAccepted) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                 'please accept the terms and conditions',
                                 style: Theme.of(context)
@@ -264,16 +250,19 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                             ));
                           } else {
                             context.read<AuthBloc>().add(AuthSignUpRequested(
-                                email: widget.user.email,
+                                email: widget.user['email'],
                                 password: passwordController.text,
-                                name: widget.user.name));
+                                name: widget.user['user_name']));
+                            print(
+                                'user_name: ${widget.user['user_name']}----------------------------------------');
+                            print('email: ${widget.user['email']}');
                           }
                         },
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(
                                 Theme.of(context).primaryColor),
-                            shape: WidgetStateProperty.all(
-                                RoundedRectangleBorder(
+                            shape:
+                                WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ))),
                         child: Container(

@@ -1,4 +1,3 @@
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
-  final User user;
+  final Map<String, dynamic> user;
   const SignUpPage({super.key, required this.user});
 
   @override
@@ -44,9 +43,9 @@ class _SignUpPageState extends State<SignUpPage> {
   late GlobalKey<FormState> _formKey;
   @override
   void initState() {
-        _formKey = GlobalKey<FormState>();
-    nameController = TextEditingController(text: widget.user.name);
-    emailController = TextEditingController(text: widget.user.email);
+    _formKey = GlobalKey<FormState>();
+    nameController = TextEditingController(text: widget.user['user_name']);
+    emailController = TextEditingController(text: widget.user['email']);
     super.initState();
   }
 
@@ -61,28 +60,26 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leadingWidth:150.w,
-        leading:             TextButton(
-                onPressed: () {
-                  GoRouter.of(context).go('/auth/welcome');
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).primaryColor,
-                      size: 20,
-                    ),
-                    Text('Go Back',
-                        style: Theme.of(context).textTheme.titleSmall)
-                  ],
-                )),
-
-      ) ,
+        leadingWidth: 150.w,
+        leading: TextButton(
+            onPressed: () {
+              GoRouter.of(context).go('/auth/welcome');
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                ),
+                Text('Go Back', style: Theme.of(context).textTheme.titleSmall)
+              ],
+            )),
+      ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Column(
@@ -90,11 +87,10 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(
               height: 40.h,
             ),
-                    SizedBox(
+            SizedBox(
                 height: 300.h,
                 width: 300.w,
                 child: SvgPicture.asset('assets/images/signup_main.svg')),
-                
             Text('Enter The informations needed',
                 style: Theme.of(context).textTheme.displaySmall),
             Padding(
@@ -120,12 +116,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: nameController,
                           style: Theme.of(context).textTheme.bodyMedium,
                           validator: (value) => nameValidator(value),
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             hintText: 'Name',
-                            hintStyle:
-                                Theme.of(context).textTheme.labelMedium,
+                            hintStyle: Theme.of(context).textTheme.labelMedium,
                             enabledBorder: Forms.regularBorder,
                             focusedBorder: Forms.regularBorder,
                             errorBorder: Forms.errorBorder,
@@ -139,13 +133,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: emailController,
                           style: Theme.of(context).textTheme.bodyMedium,
                           validator: (value) => emailValidator(value),
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'E-mail',
-                            hintStyle:
-                                Theme.of(context).textTheme.labelMedium,
+                            hintStyle: Theme.of(context).textTheme.labelMedium,
                             enabledBorder: Forms.regularBorder,
                             focusedBorder: Forms.regularBorder,
                             errorBorder: Forms.errorBorder,
@@ -159,8 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (!_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                 'please fill all the fields properly',
                                 style: Theme.of(context)
@@ -173,17 +164,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                   .backgroundColor,
                             ));
                           } else {
-                            context.go('/auth/SignUpPage/password',
-                                extra: widget.user.copyWith(
-                                    name: nameController.text,
-                                    email: emailController.text));
+                            context.go('/auth/SignUpPage/password', extra: {
+                              'user_name': nameController.text,
+                              'email': emailController.text
+                            });
                           }
                         },
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(
                                 Theme.of(context).primaryColor),
-                            shape: WidgetStateProperty.all(
-                                RoundedRectangleBorder(
+                            shape:
+                                WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ))),
                         child: Container(

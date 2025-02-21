@@ -15,6 +15,8 @@ class AuthSignUpRequested extends AuthEvent {
   AuthSignUpRequested({required this.email,required this.password ,required this.name});
 }
 
+class AuthGoogleSignInRequested extends AuthEvent {}
+
 class AuthForgotPasswordRequested extends AuthEvent {
   final String email;
   AuthForgotPasswordRequested({required this.email});
