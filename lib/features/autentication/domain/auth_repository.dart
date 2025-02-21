@@ -57,8 +57,20 @@ class AuthRepository {
     } on Failure catch (e) {
       return left(Failure(e.toString()));
     }
+  } 
+  Future<Either<Failure,User>> googleSignIn() async {
+    try {
+      final response = await restAuthRemote.googleSignIn();
+      return response.fold((failure) => left(failure), (res) async {
+        final tokensReponse =
+            await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
+        return tokensReponse.fold(
+            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+      });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
-
   User userModelToEntity(UserModel userModel) {
     return User(
       id: userModel.id,

@@ -1,4 +1,7 @@
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -117,6 +120,10 @@ class _WelcomePageState extends State<WelcomePage> {
               child: SizedBox(
                 width: 300.w,
                 child: ListTile(
+                  onTap: () async{
+                    context.read<AuthBloc>().add(AuthGoogleSignInRequested());
+
+                  },
                   title: Center(
                     child: Text(
                       'Continue with Google',
@@ -143,7 +150,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: ListTile(
                   title: Center(
                     child: Text(
-                      'Continue with Facebook',
+                      'Continue with LinkedIn',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
