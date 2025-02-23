@@ -5,8 +5,10 @@ import 'package:app/features/autentication/application/pages/onboarding/onboardi
 import 'package:app/features/autentication/application/pages/signup_page.dart';
 import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
+import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/main.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -63,6 +65,13 @@ GoRouter router = GoRouter(
     ),
   ],
   redirect: (context, state) async {
+    if (state.fullPath=="/"){
+    final localstorage=locator.get<LocalStorage>();
+      final didViewWeclomePage=await localstorage.DidViewWelcomePage(); 
+      if(didViewWeclomePage){
+        return '/auth/welcome';
+      }
+    }
     if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
       return '/protected/layout';

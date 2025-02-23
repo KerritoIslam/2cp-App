@@ -4,7 +4,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 class PagesData {
  static final  _decoration= PageDecoration(
 
-      imageFlex:2,
     
     );
 

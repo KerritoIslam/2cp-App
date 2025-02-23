@@ -32,13 +32,13 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 void main() async {
   
   //runApp(SplachScreen());
-  setUpLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await setUpLocator();
   //Load the .env file
   //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
     await dotenv.load();
 
   //Ensure flutter Engine is initialized
-  WidgetsFlutterBinding.ensureInitialized();
     
 
   //Initialize Firebase

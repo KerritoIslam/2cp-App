@@ -1,4 +1,6 @@
 import 'package:app/features/autentication/application/pages/onboarding/pages_data.dart';
+import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +8,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
-
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
@@ -24,16 +25,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
       
     }
   @override
-    void initState() {
+    void initState(){
+    final localStore=locator.get<LocalStorage>();
+    localStore.setDidViewWelcomePage();
       super.initState();
     _key=GlobalKey<IntroductionScreenState>();
     buttonText='Next';
     currIndex=0;
     }
   @override
-
   Widget build(BuildContext context) {
-
     return  Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 30.h),
@@ -144,8 +145,5 @@ GoRouter.of(context).go('/auth/welcome');
         ),
       ),
     );
-  
   }
-  
-  
 }

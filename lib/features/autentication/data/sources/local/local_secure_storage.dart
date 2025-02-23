@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalSecureStorage {
   final FlutterSecureStorage storage;
@@ -48,5 +51,25 @@ class LocalSecureStorage {
     } catch (e) {
       throw Failure('Error deleting token: $e');
     }
+  }
+}
+class LocalStorage{
+  final SharedPreferences localStorage;
+  LocalStorage(this.localStorage);
+  Future<Either<Failure, Unit>> setDidViewWelcomePage() async {
+    try {
+     await localStorage.setBool('welcomePage', true); 
+      return Right(unit);
+    }catch(e){
+      return left(Failure('Error setting welcome page: $e'));
+
+    }}
+  Future<bool> DidViewWelcomePage()async{
+    try {
+          return  localStorage.getBool('welcomePage')??false; 
+          
+        }catch(e){
+          return false;
+        }
   }
 }
