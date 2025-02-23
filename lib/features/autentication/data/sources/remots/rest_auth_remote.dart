@@ -5,10 +5,17 @@ import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'profile',
+    ],
+    clientId:  "241487075785-ca4eq6d3642e5qasusc2342ndckimnar.apps.googleusercontent.com" 
+  );
   Future<Either<Failure, LoginResDtoModel>> login(
       String email, String password) async {
     try {
@@ -21,14 +28,14 @@ class RestAuthRemote {
       );
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
-      if (e.response==null){
+      if (e.response == null) {
         return left(Failure('Unkonw error Please Try Again Later!'));
       }
       if (e.response!.statusCode == 401) {
         return left(Failure('email or password is incorrect'));
       }
-      if (e.response!.statusCode==404){
-      return left(Failure('User not found'));
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
       }
       return left(Failure(e.toString()));
     }
@@ -41,23 +48,22 @@ class RestAuthRemote {
         "name": name,
         "email": email,
         "type": "Student",
-        "student": {"category": "CS", "education": "esi"},
         "password": password
       });
-  
+
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         return left(Failure('this email or name is already used'));
       }
-      if (e.response!.statusCode==404){
-      return left(Failure('Internal Erro'));
+      if (e.response!.statusCode == 404) {
+        return left(Failure('Internal Erro'));
       }
 
       if (kDebugMode) {
         print(e.toString());
-      
-      }return left(Failure('An error occurred'));
+      }
+      return left(Failure('An error occurred'));
     }
   }
 
@@ -71,7 +77,6 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
-
 //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
@@ -95,16 +100,32 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
-}
-
-void main() async {
-  final remot = RestAuthRemote();
-  final response1 = await remot.register(
-      'islam45797945', 'ilamtestgmlogin@gijijimail.com', 'islam123@');
-  if (response1.isRight()) {
-    print(
-        'this is a register response : ${response1.leftMap((l) => l.toString())}');
-  } else {
-    print(response1);
-  }
+  Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        return left(Failure('Sign In Canceled'));
+      }
+      final googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      try {
+        final response = await _dio.post(
+          '/Auth/Google',
+          data: {
+            'token': googleSignInAuthentication.idToken,
+          },
+        );
+        return right(LoginResDtoModel.fromJson(response.data));
+      } on DioException catch (e) {
+        return left(Failure(e.toString()));
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return left(Failure('Google Sign In Failed'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  } 
 }

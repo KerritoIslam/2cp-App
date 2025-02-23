@@ -9,41 +9,42 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
   AuthBloc(this.authRepository) : super(AuthInitial()) {
-    on<AuthLoginRequested>((event, emit)async {
-      
-    final user=await authRepository.login(event.email,event.password);      
-    user.fold((l){
-              return emit(AuthError(l.message));
-      }, (user)=>emit(Authenticated(user)));
+    on<AuthLoginRequested>((event, emit) async {
+      final user = await authRepository.login(event.email, event.password);
+      user.fold((l) {
+        return emit(AuthError(l.message));
+      }, (user) => emit(Authenticated(user)));
     });
 
     on<AuthSignUpRequested>((event, emit) async {
-      
-      emit(AuthLoading()); 
+      emit(AuthLoading());
 
       try {
-        
         Either<Failure, User> user = await authRepository.register(
             event.name, event.email, event.password);
 
-      
-
-       
         user.fold(
           (failure) {
-           
-            emit(AuthError(failure.message)); 
+            emit(AuthError(failure.message));
             print(failure.message);
           },
           (user) {
-           
-            emit(Authenticated(user)); 
+            emit(Authenticated(user));
           },
         );
       } catch (e) {
-        
-        emit(AuthError('An error occurred')); 
+        emit(AuthError('An error occurred'));
       }
+    });
+    on<AuthGoogleSignInRequested>((event, emit) async {
+      final user = await authRepository.googleSignIn();
+      user.fold((l) {
+        print(
+            '${l.message}----------------------------------------------------');
+        emit(AuthError(l.message));
+      }, (user) {
+        emit(Authenticated(user));
+      });
     });
     on<AuthForgotPasswordRequested>((event, emit) {});
     on<AuthLogoutRequested>((event, emit) {

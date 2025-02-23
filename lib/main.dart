@@ -18,6 +18,7 @@ import 'package:forui/theme.dart';
 
 
 final authBloc=locator.get<AuthBloc>();
+
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
 
