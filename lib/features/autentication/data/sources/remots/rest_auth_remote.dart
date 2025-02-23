@@ -5,16 +5,24 @@ import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: <String>[
-      'email',
-      'profile',
-    ],
-    clientId:  "241487075785-ca4eq6d3642e5qasusc2342ndckimnar.apps.googleusercontent.com" 
+      scopes: <String>[
+        'email',
+        'profile',
+      ],
+      clientId:
+          "241487075785-ca4eq6d3642e5qasusc2342ndckimnar.apps.googleusercontent.com");
+  final _linkedInConfig = LinkedInConfig(
+    clientId: '<<CLIENT ID>>',
+    clientSecret: '<<CLIENT SECRET>>',
+    redirectUrl: '<<REDIRECT URL>>',
+    scope: ['openid', 'profile', 'email'],
   );
   Future<Either<Failure, LoginResDtoModel>> login(
       String email, String password) async {
@@ -77,6 +85,7 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
+
 //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
@@ -100,6 +109,7 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
+
   Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
@@ -127,5 +137,41 @@ class RestAuthRemote {
     } catch (e) {
       return left(Failure(e.toString()));
     }
-  } 
+  }
+
+  Future<Either<Failure, LoginResDtoModel>> linkedInSignIn(
+      BuildContext context) async {
+    try {
+      String linkedInToken = '';
+
+      await SignInWithLinkedIn.signIn(
+        context,
+        config: _linkedInConfig,
+        onGetAuthToken: (data) {
+          linkedInToken = data.toJson()['access_token'];
+        },
+        onSignInError: (error) {
+          print('Error on sign in: $error');
+        },
+      );
+      try {
+        final response = await _dio.post(
+          '/Auth/LinkedIn',
+          data: {
+            'token': linkedInToken,
+          },
+        );
+        return right(LoginResDtoModel.fromJson(response.data));
+      } on DioException catch (e) {
+        return left(Failure(e.toString()));
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return left(Failure('LinkedIn Sign In Failed'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

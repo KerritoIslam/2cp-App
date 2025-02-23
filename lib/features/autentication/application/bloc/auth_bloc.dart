@@ -46,6 +46,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(user));
       });
     });
+    on<AuthLinkedInSignInRequested>((event, emit) async {
+      final user = await authRepository.linkedInSignIn(event.context);
+      user.fold((l) {
+        emit(AuthError(l.message));
+      }, (user) {
+        emit(Authenticated(user));
+      });
+    });
     on<AuthForgotPasswordRequested>((event, emit) {});
     on<AuthLogoutRequested>((event, emit) {
       emit(Unauthenticated());

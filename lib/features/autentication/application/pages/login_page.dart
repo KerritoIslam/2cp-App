@@ -62,8 +62,6 @@ class _LogInPageState extends State<LogInPage> {
       listener: (context,state){
         if (state is AuthError){ 
           ScaffoldMessenger.of(context).showSnackBar(
-        
-          
             SnackBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
              

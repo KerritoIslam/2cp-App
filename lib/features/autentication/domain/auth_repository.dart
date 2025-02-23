@@ -4,6 +4,7 @@ import 'package:app/features/autentication/data/sources/local/local_secure_stora
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 class AuthRepository {
   final RestAuthRemote restAuthRemote;
@@ -61,6 +62,20 @@ class AuthRepository {
   Future<Either<Failure,User>> googleSignIn() async {
     try {
       final response = await restAuthRemote.googleSignIn();
+      
+      return response.fold((failure) => left(failure), (res) async {
+        final tokensReponse =
+            await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
+        return tokensReponse.fold(
+            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+      });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+  Future<Either<Failure,User>> linkedInSignIn(BuildContext context) async {
+    try {
+      final response = await restAuthRemote.linkedInSignIn(context);
       
       return response.fold((failure) => left(failure), (res) async {
         final tokensReponse =

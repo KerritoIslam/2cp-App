@@ -1,13 +1,11 @@
 import 'dart:io';
-import 'package:app/core/connection/connection_Checker.dart';
+
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-final authBloc=locator.get<AuthBloc>();
+final authBloc = locator.get<AuthBloc>();
 
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
@@ -29,16 +26,14 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 }
 
 void main() async {
-  
   //runApp(SplachScreen());
   setUpLocator();
   //Load the .env file
   //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
-    await dotenv.load();
+  await dotenv.load();
 
   //Ensure flutter Engine is initialized
   WidgetsFlutterBinding.ensureInitialized();
-    
 
   //Initialize Firebase
   await Firebase.initializeApp(
@@ -57,11 +52,11 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
-        return authBloc      ;}),
+        return authBloc;
+      }),
     ], child: MyApp()),
   );
 }
-
 
 String _getPlatform() {
   if (kIsWeb) {
@@ -130,13 +125,16 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
             return MaterialApp.router(
-              
-              builder: (context, child){
-                ErrorWidget.builder= (FlutterErrorDetails details) {
-                  return  CustomError( errorDetails: details, key: null,);                  
+              builder: (context, child) {
+                ErrorWidget.builder = (FlutterErrorDetails details) {
+                  return CustomError(
+                    errorDetails: details,
+                    key: null,
+                  );
                 };
                 return child!;
-              }  ,             routerConfig: router,
+              },
+              routerConfig: router,
               debugShowCheckedModeBanner: false,
               title: 'Step in',
               theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
