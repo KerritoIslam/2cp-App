@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/theme.dart';
 
 
 final authBloc=locator.get<AuthBloc>();
@@ -128,17 +129,20 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
-            return MaterialApp.router(
-              
-              builder: (context, child){
-                ErrorWidget.builder= (FlutterErrorDetails details) {
-                  return  CustomError( errorDetails: details, key: null,);                  
-                };
-                return child!;
-              }  ,             routerConfig: router,
-              debugShowCheckedModeBanner: false,
-              title: 'Step in',
-              theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+            return FTheme(
+              data: state is LightTheme ? FThemes.green.light : FThemes.green.dark,
+              child: MaterialApp.router(
+                
+                builder: (context, child){
+                  ErrorWidget.builder= (FlutterErrorDetails details) {
+                    return  CustomError( errorDetails: details, key: null,);                  
+                  };
+                  return child!;
+                }  ,             routerConfig: router,
+                debugShowCheckedModeBanner: false,
+                title: 'Step in',
+                theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+              ),
             );
           });
         });
