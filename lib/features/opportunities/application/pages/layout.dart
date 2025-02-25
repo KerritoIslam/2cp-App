@@ -1,3 +1,5 @@
+import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
+import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/pages/search.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 class Layout extends StatefulWidget {
   final int initPage;
@@ -32,6 +33,7 @@ class _LayoutState extends State<Layout> {
   @override
   void initState() {
     super.initState();
+    context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
     index = widget.initPage;
@@ -61,8 +63,8 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                    GoRouter.of(context).go('/notifications');
-                    //showFPersistentSheet(
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>NotificationsPage()));
+                                        //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {
