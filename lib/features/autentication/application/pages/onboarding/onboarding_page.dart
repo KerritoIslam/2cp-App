@@ -1,4 +1,6 @@
 import 'package:app/features/autentication/application/pages/onboarding/pages_data.dart';
+import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,13 +8,14 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
-
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
   late GlobalKey<IntroductionScreenState> _key;
+  late int currIndex;
+  late String buttonText;
   
   
   @override
@@ -22,14 +25,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
       
     }
   @override
-    void initState() {
+    void initState(){
+    final localStore=locator.get<LocalStorage>();
+    localStore.setDidViewWelcomePage();
       super.initState();
     _key=GlobalKey<IntroductionScreenState>();
+    buttonText='Next';
+    currIndex=0;
     }
   @override
-
   Widget build(BuildContext context) {
-
     return  Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 30.h),
@@ -63,15 +68,34 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 padding: EdgeInsets.only(top: 120.h),
                 
                 child: IntroductionScreen(
-                  key: _key,
+                  onChange: (index){
+                   currIndex=index;
+                    if (index==3) {
+                      buttonText='Continue';
+                    }
+                    else{
+                      buttonText='Next';
+                    }
+                    setState(() {
+                                          
+                                        });
+                  },
+
+                                   key: _key,
                   globalFooter:SizedBox(
               width: 343.w,
               height: 56.h,
               child: ElevatedButton(
                   onPressed: () {
                         
-                        GoRouter.of(context).go('/auth/welcome');
-                                 },
+                        if (currIndex==3) {
+GoRouter.of(context).go('/auth/welcome');
+
+                        }
+                        else{
+                          _key.currentState?.next();
+                        }
+                                                         },
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(0),
                       backgroundColor:
@@ -81,7 +105,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))))),
                   child: Text(
-                    'Continue',
+             buttonText,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: Colors.white
                           ,                    fontWeight: FontWeight.w700,      
@@ -121,8 +145,5 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ),
     );
-  
   }
-  
-  
 }

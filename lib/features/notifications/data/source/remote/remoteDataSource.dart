@@ -12,7 +12,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "Don't forget your meeting with the team at 3 PM.",
     "date": "2024-02-04T14:00:00.000Z",
     "type": "reminder",
-    "status": "unread"
+    "isRead":false
   },
   {
     "id": "2",
@@ -20,7 +20,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "Your project submission is due by midnight.",
     "date": "2024-02-05T23:59:00.000Z",
     "type": "deadline",
-    "status": "unread"
+    "isRead":false
   },
   {
     "id": "3",
@@ -28,7 +28,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "A new version of the app is available. Please update.",
     "date": "2024-02-05T08:30:00.000Z",
     "type": "update",
-    "status": "read"
+    "isRead":true
   },
   {
     "id": "4",
@@ -36,7 +36,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have received a new message from John.",
     "date": "2024-02-05T15:45:00.000Z",
     "type": "message",
-    "status": "unread"
+    "isRead":false
   },
   {
     "id": "5",
@@ -44,7 +44,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "status": "read"
+    "isRead":true
   }
 ]
 ;
@@ -64,16 +64,22 @@ class NotificationRemoteDataSource{
       return Left(Failure(e.toString()));
         }
   }
-  Future<Either<Failure,Unit>> updateNotification()async{
+  Future<Either<Failure,Unit>> markNotificationAsRead(String id)async{
     try {
-         
-      await Future.delayed(Duration(milliseconds: 10)) ;
+      await Future.delayed(Duration(milliseconds: 20));
       return Right(unit);
-        } catch (e) {
+    } catch (e) {
       return Left(Failure(e.toString()));
-          
-        }
+    }
   }
-
+  Future<Either<Failure,Unit>> deleteNotification(String id)async{
+    try {
+      await Future.delayed(Duration(milliseconds: 20));
+      return Right(unit);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+  
 }
 
