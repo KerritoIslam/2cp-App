@@ -6,24 +6,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: <String>[
-        'email',
-        'profile',
-      ],
-      clientId:
-          "241487075785-ca4eq6d3642e5qasusc2342ndckimnar.apps.googleusercontent.com");
-  final _linkedInConfig = LinkedInConfig(
-    clientId: '<<CLIENT ID>>',
-    clientSecret: '<<CLIENT SECRET>>',
-    redirectUrl: '<<REDIRECT URL>>',
-    scope: ['openid', 'profile', 'email'],
-  );
+  
+  
   Future<Either<Failure, LoginResDtoModel>> login(
       String email, String password) async {
     try {
@@ -87,7 +77,7 @@ class RestAuthRemote {
   }
 
 //todo: check if needed
-  Future<Either<Failure, UserModel>> getUserProfile() async {
+ Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
       final response = await _dio.get(
         '/profile',
@@ -112,6 +102,14 @@ class RestAuthRemote {
 
   Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
     try {
+      await dotenv.load();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        'email',
+        'profile',
+      ],
+      clientId:
+          dotenv.env['GOOGLE_CLIENT_ID'] );
       final googleSignInAccount = await _googleSignIn.signIn();
       if (googleSignInAccount == null) {
         return left(Failure('Sign In Canceled'));
@@ -143,6 +141,13 @@ class RestAuthRemote {
       BuildContext context) async {
     try {
       String linkedInToken = '';
+      await dotenv.load();
+      final _linkedInConfig = LinkedInConfig(
+    clientId: dotenv.env['LINKEDIN_CLIENT_ID'] ?? '<<CLIENT ID>>',
+    clientSecret: dotenv.env['LINKEDIN_CLIENT_SECRET'] ?? '<<CLIENT SECRET>>',
+    redirectUrl: dotenv.env['LINKEDIN_REDIRECT_URL'] ?? '<<REDIRECT URL>>',
+    scope: ['openid', 'profile', 'email'],
+  );
 
       await SignInWithLinkedIn.signIn(
         context,

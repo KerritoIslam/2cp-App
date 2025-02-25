@@ -1,8 +1,10 @@
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
+import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,7 +57,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     });
     on<AuthForgotPasswordRequested>((event, emit) {});
-    on<AuthLogoutRequested>((event, emit) {
+    on<AuthLogoutRequested>((event, emit) async {
+      final dataSource = locator.get<LocalSecureStorage>();
+      try {
+        await dataSource.deleteToken('access');
+        await dataSource.deleteToken('refresh');
+      } catch (e) {
+        print(e.toString());
+      }
       emit(Unauthenticated());
     });
   }
