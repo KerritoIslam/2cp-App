@@ -1,19 +1,18 @@
 import 'dart:io';
-import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/opportunities/application/widgets/app_name.dart';
+import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/theme.dart';
 
 
 final authBloc=locator.get<AuthBloc>();
@@ -31,13 +30,13 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 void main() async {
   
   //runApp(SplachScreen());
-  setUpLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await setUpLocator();
   //Load the .env file
   //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
     await dotenv.load();
 
   //Ensure flutter Engine is initialized
-  WidgetsFlutterBinding.ensureInitialized();
     
 
   //Initialize Firebase
@@ -58,6 +57,8 @@ void main() async {
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
         return authBloc      ;}),
+      BlocProvider(create: (_) => locator.get<notificationsBloc>()
+      )
     ], child: MyApp()),
   );
 }
@@ -129,17 +130,20 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
-            return MaterialApp.router(
-              
-              builder: (context, child){
-                ErrorWidget.builder= (FlutterErrorDetails details) {
-                  return  CustomError( errorDetails: details, key: null,);                  
-                };
-                return child!;
-              }  ,             routerConfig: router,
-              debugShowCheckedModeBanner: false,
-              title: 'Step in',
-              theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+            return FTheme(
+              data: state is LightTheme ? FThemes.green.light : FThemes.green.dark,
+              child: MaterialApp.router(
+                
+                builder: (context, child){
+                  ErrorWidget.builder= (FlutterErrorDetails details) {
+                    return  CustomError( errorDetails: details, key: null,);                  
+                  };
+                  return child!;
+                }  ,             routerConfig: router,
+                debugShowCheckedModeBanner: false,
+                title: 'Step in',
+                theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+              ),
             );
           });
         });
