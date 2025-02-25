@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'notification_model.dart';
+part of 'notification.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,53 +14,48 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) {
-  return _NotificationModel.fromJson(json);
-}
-
 /// @nodoc
-mixin _$NotificationModel {
+mixin _$Notification {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  DateTime get date => throw _privateConstructorUsedError;
+  String get time => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
 
-  /// Serializes this NotificationModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of NotificationModel
+  /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NotificationModelCopyWith<NotificationModel> get copyWith =>
+  $NotificationCopyWith<Notification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NotificationModelCopyWith<$Res> {
-  factory $NotificationModelCopyWith(
-          NotificationModel value, $Res Function(NotificationModel) then) =
-      _$NotificationModelCopyWithImpl<$Res, NotificationModel>;
+abstract class $NotificationCopyWith<$Res> {
+  factory $NotificationCopyWith(
+          Notification value, $Res Function(Notification) then) =
+      _$NotificationCopyWithImpl<$Res, Notification>;
   @useResult
   $Res call(
       {String id,
       String title,
       String description,
-      DateTime date,
+      String time,
+      String image,
       bool isRead});
 }
 
 /// @nodoc
-class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
-    implements $NotificationModelCopyWith<$Res> {
-  _$NotificationModelCopyWithImpl(this._value, this._then);
+class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
+    implements $NotificationCopyWith<$Res> {
+  _$NotificationCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of NotificationModel
+  /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -68,7 +63,8 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? date = null,
+    Object? time = null,
+    Object? image = null,
     Object? isRead = null,
   }) {
     return _then(_value.copyWith(
@@ -84,10 +80,14 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
@@ -97,30 +97,31 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
 }
 
 /// @nodoc
-abstract class _$$NotificationModelImplCopyWith<$Res>
-    implements $NotificationModelCopyWith<$Res> {
-  factory _$$NotificationModelImplCopyWith(_$NotificationModelImpl value,
-          $Res Function(_$NotificationModelImpl) then) =
-      __$$NotificationModelImplCopyWithImpl<$Res>;
+abstract class _$$NotificationImplCopyWith<$Res>
+    implements $NotificationCopyWith<$Res> {
+  factory _$$NotificationImplCopyWith(
+          _$NotificationImpl value, $Res Function(_$NotificationImpl) then) =
+      __$$NotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String title,
       String description,
-      DateTime date,
+      String time,
+      String image,
       bool isRead});
 }
 
 /// @nodoc
-class __$$NotificationModelImplCopyWithImpl<$Res>
-    extends _$NotificationModelCopyWithImpl<$Res, _$NotificationModelImpl>
-    implements _$$NotificationModelImplCopyWith<$Res> {
-  __$$NotificationModelImplCopyWithImpl(_$NotificationModelImpl _value,
-      $Res Function(_$NotificationModelImpl) _then)
+class __$$NotificationImplCopyWithImpl<$Res>
+    extends _$NotificationCopyWithImpl<$Res, _$NotificationImpl>
+    implements _$$NotificationImplCopyWith<$Res> {
+  __$$NotificationImplCopyWithImpl(
+      _$NotificationImpl _value, $Res Function(_$NotificationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of NotificationModel
+  /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -128,10 +129,11 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? date = null,
+    Object? time = null,
+    Object? image = null,
     Object? isRead = null,
   }) {
-    return _then(_$NotificationModelImpl(
+    return _then(_$NotificationImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -144,10 +146,14 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
@@ -157,18 +163,16 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$NotificationModelImpl extends _NotificationModel {
-  _$NotificationModelImpl(
+
+class _$NotificationImpl extends _Notification {
+  _$NotificationImpl(
       {required this.id,
       required this.title,
       required this.description,
-      required this.date,
+      required this.time,
+      required this.image,
       required this.isRead})
       : super._();
-
-  factory _$NotificationModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NotificationModelImplFromJson(json);
 
   @override
   final String id;
@@ -177,61 +181,53 @@ class _$NotificationModelImpl extends _NotificationModel {
   @override
   final String description;
   @override
-  final DateTime date;
+  final String time;
+  @override
+  final String image;
   @override
   final bool isRead;
 
   @override
   String toString() {
-    return 'NotificationModel(id: $id, title: $title, description: $description, date: $date, isRead: $isRead)';
+    return 'Notification(id: $id, title: $title, description: $description, time: $time, image: $image, isRead: $isRead)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NotificationModelImpl &&
+            other is _$NotificationImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.date, date) || other.date == date) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.isRead, isRead) || other.isRead == isRead));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, description, date, isRead);
+      Object.hash(runtimeType, id, title, description, time, image, isRead);
 
-  /// Create a copy of NotificationModel
+  /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NotificationModelImplCopyWith<_$NotificationModelImpl> get copyWith =>
-      __$$NotificationModelImplCopyWithImpl<_$NotificationModelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NotificationModelImplToJson(
-      this,
-    );
-  }
+  _$$NotificationImplCopyWith<_$NotificationImpl> get copyWith =>
+      __$$NotificationImplCopyWithImpl<_$NotificationImpl>(this, _$identity);
 }
 
-abstract class _NotificationModel extends NotificationModel {
-  factory _NotificationModel(
+abstract class _Notification extends Notification {
+  factory _Notification(
       {required final String id,
       required final String title,
       required final String description,
-      required final DateTime date,
-      required final bool isRead}) = _$NotificationModelImpl;
-  _NotificationModel._() : super._();
-
-  factory _NotificationModel.fromJson(Map<String, dynamic> json) =
-      _$NotificationModelImpl.fromJson;
+      required final String time,
+      required final String image,
+      required final bool isRead}) = _$NotificationImpl;
+  _Notification._() : super._();
 
   @override
   String get id;
@@ -240,14 +236,16 @@ abstract class _NotificationModel extends NotificationModel {
   @override
   String get description;
   @override
-  DateTime get date;
+  String get time;
+  @override
+  String get image;
   @override
   bool get isRead;
 
-  /// Create a copy of NotificationModel
+  /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NotificationModelImplCopyWith<_$NotificationModelImpl> get copyWith =>
+  _$$NotificationImplCopyWith<_$NotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

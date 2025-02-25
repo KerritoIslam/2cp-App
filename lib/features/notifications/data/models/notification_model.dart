@@ -10,9 +10,8 @@ class NotificationModel with _$NotificationModel {
     required String title,
     required String description,
     required DateTime date,
-    required String type,
-    required String status,
-  }) = _NotificationModel;
+    required bool isRead,
+     }) = _NotificationModel;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       _$NotificationModelFromJson(json);

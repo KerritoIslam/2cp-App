@@ -3,6 +3,9 @@ import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
+import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
+import 'package:app/features/notifications/data/source/remote/remoteDataSource.dart';
+import 'package:app/features/notifications/domain/repositories/notification_repository.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/data/source/remote_data_source.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
@@ -36,4 +39,8 @@ Future<void> setUpLocator() async{
   
   //Connection Checker
   locator.registerLazySingleton<NetworkInfoImpl>(()=>NetworkInfoImpl(DataConnectionChecker()));
+  //Notifications
+  locator.registerLazySingleton<NotificationRemoteDataSource>(()=>NotificationRemoteDataSource());
+  locator.registerLazySingleton<NotificationRepository>(()=>NotificationRepository(locator.get<NotificationRemoteDataSource>()));
+  locator.registerFactory<notificationsBloc>(()=>notificationsBloc(locator.get<NotificationRepository>()));
 }
