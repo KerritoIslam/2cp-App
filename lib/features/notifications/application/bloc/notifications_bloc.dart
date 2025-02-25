@@ -8,11 +8,11 @@ part 'notifications_state.dart';
 class notificationsBloc extends Bloc<notificationsEvent, notificationsState> {
   final NotificationRepository repo;
 
-  final List<Notification> notifications = [];
+  final List<ENotification> notifications = [];
   notificationsBloc(this.repo) : super(notificationsInitial()) {
     on<notificationsFetched>((event, emit)async {
-     final res=await this.repo.getNotifications();
-      return res.fold((l)=>emit(notificationsError(l.message)), (r){
+     final res=await repo.getNotifications();
+      return res.fold((l)=>emit(notificationsError(l.message,notifications)), (r){
         notifications.addAll(r);
         emit(notificationsLoaded(notifications));
       });
@@ -20,7 +20,7 @@ class notificationsBloc extends Bloc<notificationsEvent, notificationsState> {
     });
     on<notificationsRefreshed>((event, emit)async {
         final res=await repo.getNotifications();
-        return res.fold((l)=>emit(notificationsError(l.message)), (r){
+        return res.fold((l)=>emit(notificationsError(l.message,notifications)), (r){
           notifications.clear();
           notifications.addAll(r);
           emit(notificationsLoaded(notifications));
@@ -34,7 +34,7 @@ class notificationsBloc extends Bloc<notificationsEvent, notificationsState> {
 
 notifications.firstWhere((element) => element.id==event.notification.id).markAsUnread(); 
 
-        return emit(notificationsError(failure.message));
+        return emit(notificationsError(failure.message,notifications));
       }, (_){
 
         notifications.firstWhere((element) => element.id==event.notification.id).markAsRead(); 
@@ -44,7 +44,7 @@ notifications.firstWhere((element) => element.id==event.notification.id).markAsU
     on<notificationDeleted>((event, emit)async {
       final res=await repo.deleteNotification(event.notification.id);
       return res.fold((failure){
-        return emit(notificationsError(failure.message));
+        return emit(notificationsError(failure.message,notifications));
       }, (_){
         notifications.removeWhere((element) => element.id==event.notification.id);
         emit(notificationsLoaded(notifications));

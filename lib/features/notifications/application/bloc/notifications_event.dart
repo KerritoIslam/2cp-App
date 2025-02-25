@@ -6,10 +6,10 @@ abstract class notificationsEvent {}
 class notificationsFetched extends notificationsEvent {}
 class notificationsRefreshed extends notificationsEvent {}
 class notificationsMarkedAsRead extends notificationsEvent {
-  final Notification notification;
+  final ENotification notification;
   notificationsMarkedAsRead(this.notification);
 }
 class notificationDeleted extends notificationsEvent {
-  final Notification notification;
+  final ENotification notification;
   notificationDeleted(this.notification);
 }

@@ -1,13 +1,11 @@
 import 'dart:io';
-import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/opportunities/application/widgets/app_name.dart';
+import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +57,8 @@ void main() async {
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
         return authBloc      ;}),
+      BlocProvider(create: (_) => locator.get<notificationsBloc>()
+      )
     ], child: MyApp()),
   );
 }

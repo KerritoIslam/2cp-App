@@ -5,11 +5,12 @@ abstract class notificationsState {}
  class notificationsInitial extends notificationsState {}
 class notficationsLoading extends notificationsState {}
 class notificationsLoaded extends notificationsState {
-  final List<Notification> notifications;
+  final List<ENotification> notifications;
   notificationsLoaded(this.notifications);
 }
 class notificationsError extends notificationsState {
   final String message;
-  notificationsError(this.message);
+  final List<ENotification> notifications;
+  notificationsError(this.message, this.notifications);
 }
 

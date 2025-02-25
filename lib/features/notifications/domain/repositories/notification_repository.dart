@@ -7,11 +7,11 @@ import 'package:flutter/foundation.dart';
 class NotificationRepository {
   final NotificationRemoteDataSource _remoteDataSource;
   NotificationRepository(this._remoteDataSource);
-  Future<Either<Failure,List<Notification>>> getNotifications() async {
+  Future<Either<Failure,List<ENotification>>> getNotifications() async {
     // Fetch notifications from API
     try {
       final res=await _remoteDataSource.getUserNotification();
-      return res.fold((l)=> Left(l), (notifications)=> Right(notifications.map((e) => Notification.fromModel(e)).toList()));
+      return res.fold((l)=> Left(l), (notifications)=> Right(notifications.map((e) => ENotification.fromModel(e)).toList()));
            
         } catch (e) {
       if (kDebugMode) {

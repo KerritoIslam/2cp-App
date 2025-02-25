@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$Notification {
+mixin _$ENotification {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -23,18 +23,18 @@ mixin _$Notification {
   String get image => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
 
-  /// Create a copy of Notification
+  /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NotificationCopyWith<Notification> get copyWith =>
+  $ENotificationCopyWith<ENotification> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NotificationCopyWith<$Res> {
-  factory $NotificationCopyWith(
-          Notification value, $Res Function(Notification) then) =
-      _$NotificationCopyWithImpl<$Res, Notification>;
+abstract class $ENotificationCopyWith<$Res> {
+  factory $ENotificationCopyWith(
+          ENotification value, $Res Function(ENotification) then) =
+      _$ENotificationCopyWithImpl<$Res, ENotification>;
   @useResult
   $Res call(
       {String id,
@@ -46,16 +46,16 @@ abstract class $NotificationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
-    implements $NotificationCopyWith<$Res> {
-  _$NotificationCopyWithImpl(this._value, this._then);
+class _$ENotificationCopyWithImpl<$Res, $Val extends ENotification>
+    implements $ENotificationCopyWith<$Res> {
+  _$ENotificationCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Notification
+  /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -98,7 +98,7 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
 
 /// @nodoc
 abstract class _$$NotificationImplCopyWith<$Res>
-    implements $NotificationCopyWith<$Res> {
+    implements $ENotificationCopyWith<$Res> {
   factory _$$NotificationImplCopyWith(
           _$NotificationImpl value, $Res Function(_$NotificationImpl) then) =
       __$$NotificationImplCopyWithImpl<$Res>;
@@ -115,13 +115,13 @@ abstract class _$$NotificationImplCopyWith<$Res>
 
 /// @nodoc
 class __$$NotificationImplCopyWithImpl<$Res>
-    extends _$NotificationCopyWithImpl<$Res, _$NotificationImpl>
+    extends _$ENotificationCopyWithImpl<$Res, _$NotificationImpl>
     implements _$$NotificationImplCopyWith<$Res> {
   __$$NotificationImplCopyWithImpl(
       _$NotificationImpl _value, $Res Function(_$NotificationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Notification
+  /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -189,7 +189,7 @@ class _$NotificationImpl extends _Notification {
 
   @override
   String toString() {
-    return 'Notification(id: $id, title: $title, description: $description, time: $time, image: $image, isRead: $isRead)';
+    return 'ENotification(id: $id, title: $title, description: $description, time: $time, image: $image, isRead: $isRead)';
   }
 
   @override
@@ -210,7 +210,7 @@ class _$NotificationImpl extends _Notification {
   int get hashCode =>
       Object.hash(runtimeType, id, title, description, time, image, isRead);
 
-  /// Create a copy of Notification
+  /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -219,7 +219,7 @@ class _$NotificationImpl extends _Notification {
       __$$NotificationImplCopyWithImpl<_$NotificationImpl>(this, _$identity);
 }
 
-abstract class _Notification extends Notification {
+abstract class _Notification extends ENotification {
   factory _Notification(
       {required final String id,
       required final String title,
@@ -242,7 +242,7 @@ abstract class _Notification extends Notification {
   @override
   bool get isRead;
 
-  /// Create a copy of Notification
+  /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)

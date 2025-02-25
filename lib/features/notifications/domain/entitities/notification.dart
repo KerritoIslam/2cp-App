@@ -5,9 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'notification.freezed.dart';
 
 @freezed
-class Notification with _$Notification {
-  const Notification._(); 
-  factory Notification({
+class ENotification with _$ENotification {
+  const ENotification._(); 
+  factory ENotification({
     required String id,
     required String title,
     required String description,
@@ -15,8 +15,8 @@ class Notification with _$Notification {
     required String image,
    required bool isRead,
   }) = _Notification;
- factory Notification.fromModel(NotificationModel model) {
-    return Notification(
+ factory ENotification.fromModel(NotificationModel model) {
+    return ENotification(
       id:model.id,
       title: model.title,
       description: model.description,
@@ -26,10 +26,10 @@ class Notification with _$Notification {
       isRead: model.isRead,
     );
   }
-  Notification markAsRead() {
+  ENotification markAsRead() {
     return copyWith(isRead: true);
   }
-  Notification markAsUnread(){
+  ENotification markAsUnread(){
     return copyWith(isRead: false);
   }
 }
