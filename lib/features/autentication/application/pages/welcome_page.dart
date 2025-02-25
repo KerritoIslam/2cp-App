@@ -147,6 +147,11 @@ class _WelcomePageState extends State<WelcomePage> {
               child: SizedBox(
                 width: 300.w,
                 child: ListTile(
+                  onTap: () async {
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthLinkedInSignInRequested(context));
+                  },
                   title: Center(
                     child: Text(
                       'Continue with LinkedIn',

@@ -1,6 +1,10 @@
 import 'dart:io';
+
+import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
+
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
@@ -14,8 +18,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/theme.dart';
 
-
-final authBloc=locator.get<AuthBloc>();
+final authBloc = locator.get<AuthBloc>();
 
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
@@ -28,16 +31,15 @@ class BlocListenable extends ChangeNotifier implements Listenable {
 }
 
 void main() async {
-  
   //runApp(SplachScreen());
   WidgetsFlutterBinding.ensureInitialized();
   await setUpLocator();
   //Load the .env file
   //final isOnline=await NetworkInfoImpl(DataConnectionChecker()).isConnected;
-    await dotenv.load();
+  await dotenv.load();
 
   //Ensure flutter Engine is initialized
-    
+
 
   //Initialize Firebase
   await Firebase.initializeApp(
@@ -56,13 +58,16 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
+
+ 
+
         return authBloc      ;}),
       BlocProvider(create: (_) => locator.get<notificationsBloc>()
       )
+
     ], child: MyApp()),
   );
 }
-
 
 String _getPlatform() {
   if (kIsWeb) {
@@ -130,6 +135,7 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
+
             return FTheme(
               data: state is LightTheme ? FThemes.green.light : FThemes.green.dark,
               child: MaterialApp.router(
@@ -144,6 +150,7 @@ class MyApp extends StatelessWidget {
                 title: 'Step in',
                 theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
               ),
+
             );
           });
         });
