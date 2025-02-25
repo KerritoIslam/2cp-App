@@ -30,64 +30,87 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.all(8.0.r),
             child: SvgPicture.asset('assets/icons/profile_pic.svg'),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start, 
+                mainAxisAlignment: MainAxisAlignment.start,
             children: [
+            
               //Title
-              Text(widget.notification.title, style: Theme.of(context).textTheme.headlineMedium),
+              Text(widget.notification.title, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Theme.of(context).secondaryHeaderColor)),
               Row(
+                
                 children: [
                   //Divider
-                  FDivider(
-                    axis: Axis.vertical,
+                  SizedBox(
+                    height: 30.h,
+                    child: FDivider(
+                      axis: Axis.vertical,
+                    ),
                   ),
-                  Text(widget.notification.description, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: SizedBox(
+                              width: 266.w,
+                      child: Text(widget.notification.description, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium)),
+                  ),
                   //description
                 ],
               )
             ],
           ),
+          Spacer(),
           Column(
             children: [
               //ElapsedTime
               Text(widget.notification.time, style: Theme.of(context).textTheme.bodyMedium),
               //PopoverMenu
-              FPopoverMenu(
-                scrollController: ScrollController(),
-                cacheExtent: 100,
-                maxHeight: 200,
-                dragStartBehavior: DragStartBehavior.start,
-                menuAnchor: Alignment.topCenter,
-                childAnchor: Alignment.bottomCenter,
-                directionPadding: false,
-                hideOnTapOutside: FHidePopoverRegion.anywhere,
-                shift: FPortalShift.flip,
-                menu: [
-                  FTileGroup(
-                    children: [
-                      FTile(
-                        title: Text('Mark as read'),
-                        prefixIcon: Icon(Icons.mark_email_read),
-                        onPress: () {},
-                      ),
-                      FTile(
-                        title: Text('Delete'),
-                        prefixIcon: Icon(Icons.delete),
-                        onPress: () {},
-                      ),
-                    ],
-                  ),
-                ],
-                popoverController: _popoverController,
-                child: Icon(Icons.more_vert),
+              SizedBox(
+                height:10.h ,
+              ),
+              SizedBox(
+                width: 50.w,
+                child: Builder(
+                  builder: (context) {
+                    return FPopoverMenu(
+                      scrollController: ScrollController(),
+                      cacheExtent: 100,
+                      maxHeight: 200,
+                      dragStartBehavior: DragStartBehavior.start,
+                      menuAnchor: Alignment.topCenter,
+                      childAnchor: Alignment.bottomCenter,
+                      directionPadding: false,
+                      hideOnTapOutside: FHidePopoverRegion.anywhere,
+                      shift: FPortalShift.flip,
+                      menu: [
+                        FTileGroup(
+                          children: [
+                            FTile(
+                              title: Text('Mark as read'),
+                              prefixIcon: Icon(Icons.mark_email_read),
+                              onPress: () {},
+                            ),
+                            FTile(
+                              title: Text('Delete'),
+                              prefixIcon: Icon(Icons.delete),
+                              onPress: () {},
+                            ),
+                          ],
+                        ),
+                      ],
+                      popoverController: _popoverController,
+                      child: Icon(Icons.more_vert,color: Theme.of(context).secondaryHeaderColor,),
+                    );
+                  }
+                ),
               )
             ],
           )

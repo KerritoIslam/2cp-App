@@ -117,10 +117,11 @@ class RestAuthRemote {
       final googleSignInAuthentication =
           await googleSignInAccount.authentication;
       try {
+        print(googleSignInAuthentication.accessToken);
         final response = await _dio.post(
           '/Auth/Google',
           data: {
-            'token': googleSignInAuthentication.idToken,
+            'token': googleSignInAuthentication.serverAuthCode,
           },
         );
         return right(LoginResDtoModel.fromJson(response.data));
