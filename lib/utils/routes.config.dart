@@ -62,12 +62,13 @@ GoRouter router = GoRouter(
 
         GoRoute(
             path: 'layout',
-            pageBuilder: (context, state) => MaterialPage(child: Layout())),
-        GoRoute(
-          path: 'notifications',
-          pageBuilder: (context,state)=>MaterialPage(child: NotificationsPage())
-        )
-      ],
+            pageBuilder: (context, state) => MaterialPage(child: Layout()),
+      routes:[
+          GoRoute(path: 'notifications', pageBuilder: (context, state) => MaterialPage(child: NotificationsPage())),
+        ]
+
+        ),
+                       ],
     ),
   ],
   redirect: (context, state) async {

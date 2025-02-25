@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class Layout extends StatefulWidget {
   final int initPage;
@@ -60,13 +61,14 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                    showFPersistentSheet(
-                      context: context,
-                      side: FLayout.rtl,
-                      builder: (ctx, state) {
-                        return NotificationModal();
-                      },
-                    );
+                    GoRouter.of(context).go('/notifications');
+                    //showFPersistentSheet(
+                    //  context: context,
+                    //  side: FLayout.rtl,
+                    //  builder: (ctx, state) {
+                    //    return NotificationModal();
+                    //  },
+                    //);
                   },
                   icon: SvgPicture.asset(
                     !isDark ? 'assets/icons/notification.svg' : 'assets/icons/notification_dark.svg',
