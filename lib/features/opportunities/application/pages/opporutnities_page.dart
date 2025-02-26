@@ -150,21 +150,21 @@ class _OpportunitesState extends State<Opportunites> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
                 
-            RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-            ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
-              ,
-            SizedBox(
-                          height: 169.h,
-              width: MediaQuery.sizeOf(context).width*2,
-              child:Align(
- alignment: Alignment.center,
-                    child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
-
-                    )), 
-
-                  
-            ),
+ //           RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+ //             fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+ //           ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
+ //             ,
+ //           SizedBox(
+ //                         height: 169.h,
+ //             width: MediaQuery.sizeOf(context).width*2,
+ //             child:Align(
+ //alignment: Alignment.center,
+ //                   child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
+ //
+ //                   )), 
+ //
+ //
+ //           ),
             RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
               fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
             ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),

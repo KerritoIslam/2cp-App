@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/',
   routes: [
     GoRoute(
         path: '/offline',

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
+//TODO add Special style for read
 
 class NotifcationTile extends StatefulWidget {
   final ENotification notification;
@@ -32,34 +33,33 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Row(
+      child: Padding( 
+ padding: EdgeInsets.only(right: 11.h),
+        child:Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.all(8.0.r),
             child: SvgPicture.asset('assets/icons/profile_pic.svg'),
           ),
+            Spacer(),
+            
           Column(
             crossAxisAlignment: CrossAxisAlignment.start, 
-                mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            
+
               //Title
-              Text(widget.notification.title, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Theme.of(context).secondaryHeaderColor)),
+              Text(widget.notification.title, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Theme.of(context).secondaryHeaderColor)),
+              SizedBox(width: 10.w,),
               Row(
-                
+
                 children: [
                   //Divider
-                  SizedBox(
-                    height: 30.h,
-                    child: FDivider(
-                      axis: Axis.vertical,
-                    ),
-                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: SizedBox(
-                              width: 266.w,
+                      width: 266.w,
                       child: Text(widget.notification.description, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium)),
                   ),
                   //description
@@ -80,34 +80,50 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
                 width: 50.w,
                 child: Builder(
                   builder: (context) {
-                    return FPopoverMenu(
-                      scrollController: ScrollController(),
-                      cacheExtent: 100,
-                      maxHeight: 200,
-                      dragStartBehavior: DragStartBehavior.start,
-                      menuAnchor: Alignment.topCenter,
-                      childAnchor: Alignment.bottomCenter,
-                      directionPadding: false,
-                      hideOnTapOutside: FHidePopoverRegion.anywhere,
-                      shift: FPortalShift.flip,
-                      menu: [
-                        FTileGroup(
-                          children: [
-                            FTile(
-                              title: Text('Mark as read'),
-                              prefixIcon: Icon(Icons.mark_email_read),
-                              onPress: () {},
-                            ),
-                            FTile(
-                              title: Text('Delete'),
-                              prefixIcon: Icon(Icons.delete),
-                              onPress: () {},
-                            ),
-                          ],
+
+                    return SizedBox(
+                      width: 50.w,
+                      child: FPopoverMenu(
+                        scrollController: ScrollController(),
+                        cacheExtent: 100,
+                        maxHeight: 200,
+                        dragStartBehavior: DragStartBehavior.start,
+                        menuAnchor: Alignment.topCenter,
+                        childAnchor: Alignment.bottomCenter,
+                        directionPadding: true, // or remove it
+                        hideOnTapOutside: FHidePopoverRegion.anywhere,
+                        shift: FPortalShift.flip,
+                        menu: [
+                          FTileGroup(
+                            children: [
+                              FTile(
+                                title: Text('Mark as read'),
+                                prefixIcon: Icon(Icons.mark_email_read, color: Theme.of(context).secondaryHeaderColor),
+                                onPress: () {
+                                  _popoverController.hide();
+                                },
+                              ),
+                              FTile(
+                                title: Text('Delete'),
+                                prefixIcon: Icon(Icons.delete, color: Theme.of(context).secondaryHeaderColor),
+                                onPress: () {
+                                  _popoverController.dispose();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                        popoverController: _popoverController,
+                        child: SizedBox(
+                          width: 24.w,
+                          height: 24.h,
+                          child: GestureDetector(
+                            onTap: (){
+                              _popoverController.toggle();
+                            },
+                            child: Icon(Icons.more_vert, color: Theme.of(context).secondaryHeaderColor), )
                         ),
-                      ],
-                      popoverController: _popoverController,
-                      child: Icon(Icons.more_vert,color: Theme.of(context).secondaryHeaderColor,),
+                      ),
                     );
                   }
                 ),
@@ -116,7 +132,7 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
           )
         ],
       ),
-    );
+    )    );
   }
 }
 
