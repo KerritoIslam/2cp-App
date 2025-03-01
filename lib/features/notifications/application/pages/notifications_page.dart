@@ -26,45 +26,50 @@ class NotificationsPage extends StatelessWidget {
         ),),
         centerTitle: true,
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(left: 16.w, top: 10.h,bottom: 10.h),
-              
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          context.read<notificationsBloc>().add(notificationsFetched());
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16.w, top: 10.h,bottom: 10.h),
+                
+              ),
             ),
-          ),
-          BlocBuilder<notificationsBloc, notificationsState>(
-            
-            builder: (context, state) {
-             Widget listBuilder(List<ENotification> notifications){
-return SliverList.separated(
-                         itemCount: notifications.length,
-            itemBuilder: (ctx, idx) => NotifcationTile(notification: notifications[idx]),  
-                  separatorBuilder: (ctx, idx) => FDivider(
-            ),
-          ); 
-              } 
+            BlocBuilder<notificationsBloc, notificationsState>(
               
-            if (state is notificationsLoaded){
-            return listBuilder(state.notifications);}
-              if (state is notficationsLoading ){
-              return SliverToBoxAdapter(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-              }
-              if (state is notificationsError){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
-                                              return listBuilder(state.notifications) ;
-                            }
-              return SliverToBoxAdapter(
-                child: Text('Unknown State'),
-              );
-            },
-          )
-        ],
+              builder: (context, state) {
+               Widget listBuilder(List<ENotification> notifications){
+        return SliverList.separated(
+                           itemCount: notifications.length,
+              itemBuilder: (ctx, idx) => NotifcationTile(notification: notifications[idx],key: Key(notifications[idx].id),),  
+                    separatorBuilder: (ctx, idx) => FDivider(
+              ),
+            ); 
+                } 
+                
+              if (state is notificationsLoaded){
+              return listBuilder(state.notifications);}
+                if (state is notficationsLoading ){
+                return SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+                }
+                if (state is notificationsError){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+                                                return listBuilder(state.notifications) ;
+                              }
+                return SliverToBoxAdapter(
+                  child: Text('Unknown State'),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
