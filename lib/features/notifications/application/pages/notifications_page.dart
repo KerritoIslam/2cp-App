@@ -44,7 +44,7 @@ class NotificationsPage extends StatelessWidget {
                Widget listBuilder(List<ENotification> notifications){
         return SliverList.separated(
                            itemCount: notifications.length,
-              itemBuilder: (ctx, idx) => NotifcationTile(notification: notifications[idx],key: Key(notifications[idx].id),),  
+              itemBuilder: (ctx, idx) => NotifcationTile(notification: notifications[idx],),  
                     separatorBuilder: (ctx, idx) => FDivider(
               ),
             ); 

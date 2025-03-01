@@ -8,6 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
 //TODO add Special style for read
+//TODO find a way to remove the ElapsedTime when sliding (I should use a controller but it causes a bug so this is what I shoudl solve) 
 
 class NotifcationTile extends StatefulWidget {
   final ENotification notification;
@@ -19,20 +20,16 @@ class NotifcationTile extends StatefulWidget {
 
 class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProviderStateMixin {
   late FPopoverController _popoverController;
-late  SlidableController _sliderController ;
 
   @override
   void initState() {
     super.initState();
     _popoverController = FPopoverController(vsync: this);
-    _sliderController = SlidableController(this);
-    _sliderController.enableEndActionPane=true;
   }
 
   @override
   void dispose() {
     _popoverController.dispose();
-    _sliderController.dispose();
     super.dispose();
   }
 
@@ -43,7 +40,9 @@ late  SlidableController _sliderController ;
       child: Padding( 
  padding: EdgeInsets.only(right: 11.h),
         child:Slidable(
-          endActionPane:ActionPane(motion: StretchMotion(), children: [
+          endActionPane:ActionPane(
+extentRatio:0.4,
+        motion: StretchMotion(), children: [
            SlidableAction(
               backgroundColor: Colors.red,
               borderRadius: BorderRadius.circular(20),
