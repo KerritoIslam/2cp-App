@@ -16,6 +16,7 @@ class DioServices {
         if (unprotected) {
           return handler.next(options);
         }
+      //TODO use repository instead of LocalSecureStorage
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;
         final accesToken = await dataSource.getTokens();
@@ -56,6 +57,7 @@ class DioServices {
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
+          //TODO:move this into the repository
           final response = await _dio.post(
             '/Auth/Refresh',
             data: {
