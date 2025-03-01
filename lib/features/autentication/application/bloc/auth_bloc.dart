@@ -42,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user = await authRepository.googleSignIn();
       user.fold((l) {
         print(
-            '${l.message}----------------------------------------------------');
+            '${l.message}------------------------1111111111111111111111----------------------------');
         emit(AuthError(l.message));
       }, (user) {
         emit(Authenticated(user));
@@ -51,6 +51,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLinkedInSignInRequested>((event, emit) async {
       final user = await authRepository.linkedInSignIn(event.context);
       user.fold((l) {
+        print(
+            '${l.message}------------------------1111111111111111111111----------------------------');
         emit(AuthError(l.message));
       }, (user) {
         emit(Authenticated(user));

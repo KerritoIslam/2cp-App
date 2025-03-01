@@ -9,11 +9,11 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.42.0.1:8000/',
+      baseUrl: 'http://10.0.2.2:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final  unprotected=options.path.contains("Auth");
+        final unprotected = options.path.contains("Auth");
         if (unprotected) {
           return handler.next(options);
         }

@@ -1,10 +1,7 @@
 import 'dart:io';
 
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
-
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
@@ -40,7 +37,6 @@ void main() async {
 
   //Ensure flutter Engine is initialized
 
-
   //Initialize Firebase
   await Firebase.initializeApp(
       options: (FirebaseOptions(
@@ -58,13 +54,9 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider(create: (_) => ThemeProviderBloc()),
       BlocProvider(create: (_) {
-
- 
-
-        return authBloc      ;}),
-      BlocProvider(create: (_) => locator.get<notificationsBloc>()
-      )
-
+        return authBloc;
+      }),
+      BlocProvider(create: (_) => locator.get<notificationsBloc>())
     ], child: MyApp()),
   );
 }
@@ -135,22 +127,25 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
               builder: (context, state) {
-
             return FTheme(
-              data: state is LightTheme ? FThemes.green.light : FThemes.green.dark,
+              data: state is LightTheme
+                  ? FThemes.green.light
+                  : FThemes.green.dark,
               child: MaterialApp.router(
-                
-                builder: (context, child){
-                  ErrorWidget.builder= (FlutterErrorDetails details) {
-                    return  CustomError( errorDetails: details, key: null,);                  
+                builder: (context, child) {
+                  ErrorWidget.builder = (FlutterErrorDetails details) {
+                    return CustomError(
+                      errorDetails: details,
+                      key: null,
+                    );
                   };
                   return child!;
-                }  ,             routerConfig: router,
+                },
+                routerConfig: router,
                 debugShowCheckedModeBanner: false,
                 title: 'Step in',
                 theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
               ),
-
             );
           });
         });

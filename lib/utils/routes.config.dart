@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/',
   routes: [
     GoRoute(
         path: '/offline',
@@ -59,23 +59,23 @@ GoRouter router = GoRouter(
       redirect: (ctx, state) => null,
       path: '/protected',
       routes: [
-
         GoRoute(
             path: 'layout',
             pageBuilder: (context, state) => MaterialPage(child: Layout()),
-      routes:[
-          GoRoute(path: 'notifications', pageBuilder: (context, state) => MaterialPage(child: NotificationsPage())),
-        ]
-
-        ),
-                       ],
+            routes: [
+              GoRoute(
+                  path: 'notifications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: NotificationsPage())),
+            ]),
+      ],
     ),
   ],
   redirect: (context, state) async {
-    if (state.fullPath=="/"){
-    final localstorage=locator.get<LocalStorage>();
-      final didViewWeclomePage=await localstorage.DidViewWelcomePage(); 
-      if(didViewWeclomePage){
+    if (state.fullPath == "/") {
+      final localstorage = locator.get<LocalStorage>();
+      final didViewWeclomePage = await localstorage.DidViewWelcomePage();
+      if (didViewWeclomePage) {
         return '/auth/welcome';
       }
     }
