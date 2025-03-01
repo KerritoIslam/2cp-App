@@ -1,7 +1,6 @@
 import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/notifications/data/source/remote/remoteDataSource.dart';
@@ -13,6 +12,8 @@ import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
 
 final GetIt locator = GetIt.instance;
 Future<void> setUpLocator() async{

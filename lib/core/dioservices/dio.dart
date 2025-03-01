@@ -3,20 +3,20 @@ import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.42.0.1:8000/',
+      baseUrl: 'http://192.168.40.95:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final  unprotected=options.path.contains("Auth");
+        final  unprotected=options.path.contains("/Auth");
         if (unprotected) {
           return handler.next(options);
         }
+      //TODO use repository instead of LocalSecureStorage
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;
         final accesToken = await dataSource.getTokens();
@@ -31,8 +31,15 @@ class DioServices {
         return handler.next(options);
       },
       onError: (error, handler) async {
+      print(error.requestOptions.path);
+         if (error.requestOptions.path.startsWith('/Auth')){
+         if (!error.requestOptions.path.contains('Refresh')) {
+           return handler.next(error);
+         }
+         }
         final authBloc = locator.get<AuthBloc>();
         if (error.response?.statusCode == 401) {
+          
           final dataSource = locator.get<LocalSecureStorage>();
           final res = await dataSource.getTokens();
           final token = res.fold((l) => "", (r) => r.accessToken);
@@ -50,6 +57,7 @@ class DioServices {
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
+          //TODO:move this into the repository
           final response = await _dio.post(
             '/Auth/Refresh',
             data: {

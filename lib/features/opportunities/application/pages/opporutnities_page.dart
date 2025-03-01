@@ -1,8 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
-import 'package:app/features/opportunities/application/widgets/opportunity_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,50 +122,30 @@ class _OpportunitesState extends State<Opportunites> {
   ];
 
     return  Padding(
-      padding: EdgeInsets.only(left: 15.w),
+      padding: EdgeInsets.only(left: 15.w,top: 10.h),
       child: CustomScrollView(
         slivers: [
-          BlocBuilder<AuthBloc,AuthState>(
-            builder: (context,state){
-              if(state is Authenticated){
-                return SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Hello ${state.user.email}',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontWeight: FontWeight.w800
-                      ),),
-                      Text('Here are some opportunities for you',style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w500
-                      ),)
-                    ],
-                  ),
-                );
-              }
-              return const SliverToBoxAdapter(child: Text(''));
-            },
-          ),
-          SliverToBoxAdapter(
+                   SliverToBoxAdapter(
             child:  Column(
           
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
                 
-            RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-            ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
-              ,
-            SizedBox(
-                          height: 169.h,
-              width: MediaQuery.sizeOf(context).width*2,
-              child:Align(
- alignment: Alignment.center,
-                    child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
-
-                    )), 
-
-                  
-            ),
+ //           RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+ //             fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+ //           ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
+ //             ,
+ //           SizedBox(
+ //                         height: 169.h,
+ //             width: MediaQuery.sizeOf(context).width*2,
+ //             child:Align(
+ //alignment: Alignment.center,
+ //                   child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
+ //
+ //                   )), 
+ //
+ //
+ //           ),
             RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
               fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
             ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),

@@ -45,6 +45,37 @@ static final List<Map<String,dynamic>> mockNotifications =
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
     "isRead":true
+  },
+    {
+    "id": "6",
+    "title": "Event Invitation",
+    "description": "You have been invited to the annual tech conference.",
+    "date": "2024-02-03T10:00:00.000Z",
+    "type": "invitation",
+    "isRead":true
+  },
+    {
+    "id": "7",
+    "title": "Event Invitation",
+    "description": "You have been invited to the annual tech conference.",
+    "date": "2024-02-03T10:00:00.000Z",
+    "type": "invitation",
+    "isRead":true
+  },
+    {
+    "id": "8",
+    "title": "Event Invitation",
+    "description": "You have been invited to the annual tech conference.",
+    "date": "2024-02-03T10:00:00.000Z",
+    "type": "invitation",
+    "isRead":true
+  },{
+    "id": "9",
+    "title": "Event Invitation",
+    "description": "You have been invited to the annual tech conference.",
+    "date": "2024-02-03T10:00:00.000Z",
+    "type": "invitation",
+    "isRead":true
   }
 ]
 ;

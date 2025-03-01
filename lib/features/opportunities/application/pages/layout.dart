@@ -1,3 +1,5 @@
+import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
+import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/pages/search.dart';
@@ -32,6 +34,7 @@ class _LayoutState extends State<Layout> {
   @override
   void initState() {
     super.initState();
+    context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
     index = widget.initPage;
@@ -61,8 +64,7 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                    GoRouter.of(context).go('/notifications');
-                    //showFPersistentSheet(
+                        context.push('/protected/layout/notifications');                                        //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {

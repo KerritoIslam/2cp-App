@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
+import 'package:go_router/go_router.dart';
 
 class Search extends StatelessWidget {
   
@@ -23,13 +24,17 @@ class Search extends StatelessWidget {
           CoolSearchBar(),
                    TextButton(onPressed: (){
             
-            showAdaptiveDialog(context: context, builder:(ctx)=>FDialog(
+            showAdaptiveDialog (context: context, builder:(ctx)=>FDialog(
   direction: Axis.horizontal,
   title: const Text('Are you absolutely sure?'),
   body: const Text('This will log you out of the app and you will have to log in again.'),
   actions: [
     FButton(style: FButtonStyle.outline, label: const Text('Cancel'), onPress: () => Navigator.of(context).pop()),
-    FButton(label: const Text('Logout'), onPress: () => context.read<AuthBloc>().add(AuthLogoutRequested())),  ],
+    FButton(label: const Text('Logout'), onPress: () {
+context.pop();
+                  context.read<AuthBloc>().add(AuthLogoutRequested());
+
+                }),  ],
 )
  );
                           }, child: Text('Logout')),
