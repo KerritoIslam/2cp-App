@@ -140,8 +140,12 @@ class MyApp extends StatelessWidget {
                 }  ,             routerConfig: router,
                 debugShowCheckedModeBanner: false,
                 title: 'Step in',
-                theme: state is LightTheme ? theme.lightTheme : theme.darkTheme,
+                //TODO :add some logic here to save the user Choice and load it if it exists
+                themeMode: ThemeMode.system,
+                theme:theme.lightTheme, 
+                darkTheme: theme.darkTheme,
               ),
+
             );
           });
         });

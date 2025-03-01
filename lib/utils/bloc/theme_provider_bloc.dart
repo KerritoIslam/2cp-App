@@ -10,10 +10,6 @@ class ThemeProviderBloc extends Bloc<ThemeProviderEvent, ThemeProviderState> {
   static bool isDark (){
     return PlatformDispatcher.instance.platformBrightness == Brightness.dark  ; }
   ThemeProviderBloc() : super(isDark() ? DarkTheme() : LightTheme()){
-   PlatformDispatcher.instance.onPlatformBrightnessChanged = () {
-     add(
-        SetThemeEvent(isDark() ? DarkTheme() : LightTheme())
-      ); };
     on<ToggleThemeEvent>((event, emit) {
       state is LightTheme ? emit(DarkTheme()) : emit(LightTheme());
       }
