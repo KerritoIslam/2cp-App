@@ -10,8 +10,7 @@ final json={
   'title': 'Congratulations',
   'description': 'You have been selected for the internship',
   'date': DateTime.now().toIso8601String(),
-   'type':"Problem_Status",
-    'status':"ongoing",  
+      'isRead': true,
     };
       //ACT
     final model = NotificationModel.fromJson(json);
@@ -28,8 +27,7 @@ final json={
       title: 'Congratulations',
       description: 'You have been selected for the internship',
       date: DateTime.now(),
-      type: "Problem_Status",
-      status: "ongoing",
+      isRead: true
     );
     //ACT
     final json = model.toJson();
@@ -39,8 +37,7 @@ final json={
       'title': 'Congratulations',
       'description': 'You have been selected for the internship',
       'date': model.date.toIso8601String(),
-      'type': "Problem_Status",
-      'status': "ongoing",
+      'isRead': true
     });
     
   });
