@@ -146,9 +146,9 @@ class _OpportunitesState extends State<Opportunites> {
  //
  //
  //           ),
-            RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-            ),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
+            //RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            //  fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+            //),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
                  
         
           ],

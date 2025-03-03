@@ -80,7 +80,9 @@ class _LayoutState extends State<Layout> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/protected/settings');
+                },
                 icon: SvgPicture.asset(
                   !isDark ? 'assets/icons/profile.svg' : 'assets/icons/profile_dark.svg',
                 ),

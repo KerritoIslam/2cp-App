@@ -24,6 +24,7 @@ sealed class Opportunity with _$Opportunity {
     required String category,
   }) = Internship;
 
+
   @FreezedUnionValue('problem')
   const factory Opportunity.problem({
     required String id,
