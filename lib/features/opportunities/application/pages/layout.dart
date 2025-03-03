@@ -1,8 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:app/features/Search/application/pages/search_page.dart';
+import 'package:app/features/chat/application/pages/chats_page.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
-import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
-import 'package:app/features/opportunities/application/pages/search.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +22,13 @@ class Layout extends StatefulWidget {
   @override
   State<Layout> createState() => _LayoutState();
 }
-
 class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
   static const List<Widget> pages = [
     OpporutnitiesPage(),
-    Search(),
+    SearchPage(),
     Center(child: Text("Hello You")),
+    ChatsPage(),
   ];
   late int index;
   late bool isDark;
@@ -78,7 +80,9 @@ class _LayoutState extends State<Layout> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/protected/settings');
+                },
                 icon: SvgPicture.asset(
                   !isDark ? 'assets/icons/profile.svg' : 'assets/icons/profile_dark.svg',
                 ),
@@ -89,6 +93,7 @@ class _LayoutState extends State<Layout> {
           bottomNavigationBar: Padding(
             padding: EdgeInsets.symmetric(vertical: 14.h),
             child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
               selectedLabelStyle:
                   Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.w500,
@@ -129,6 +134,14 @@ class _LayoutState extends State<Layout> {
                   label: "Teams",
                   activeIcon: SvgPicture.asset('assets/icons/teams.svg'),
                 ),
+                BottomNavigationBarItem(
+                  label: "Chat",
+                  icon: Icon(Icons.messenger_outline,color: Theme.of(context).secondaryHeaderColor,
+
+                  ),
+                  activeIcon:Icon(Icons.messenger_outline,color: Theme.of(context).primaryColor
+
+                )),
               ],
             ),
           ),

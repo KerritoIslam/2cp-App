@@ -21,14 +21,12 @@ class opportunityCard extends StatefulWidget {
 
 class _opportunityCardState extends State<opportunityCard> {
    late bool isSaved;
+  late bool isApplied;
 
   @override
     void initState() {
-     final savedState=BlocProvider.of<OpportunitiesSavedBloc>(context).state;
-    isSaved=(savedState is SavedOpportunitiesLoadSuccess)?
-     savedState.savedOpportunities.where((e)=>e.id==widget.opportunity.id).isNotEmpty
-    :false;
-
+    isApplied=false;
+     isSaved=false; 
       super.initState();
     }
     @override
@@ -64,7 +62,7 @@ class _opportunityCardState extends State<opportunityCard> {
                   style: Theme.of(context).textTheme.displayMedium!                ),
                 const Spacer(),
                 IconButton(
-                  icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp),
+                  icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp,color: Theme.of(context).secondaryHeaderColor,),
                   onPressed: (){
                     
                     context.read<OpportunitiesSavedBloc>().add(
@@ -98,7 +96,7 @@ class _opportunityCardState extends State<opportunityCard> {
                   child: Wrap(
                     runSpacing: 8.h,
                     spacing:8.w ,
-                    children: widget.opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.secondary,)).toList(),
+                    children: widget.opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.outline,)).toList(),
                   ),
                 ),
                                                 Text('view more')
@@ -111,17 +109,22 @@ class _opportunityCardState extends State<opportunityCard> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  setState(() {
+                                      
+                  isApplied=true;
+                                    });
+                },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF9DE1B6),
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
+                  foregroundColor: Theme.of(context).secondaryHeaderColor,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
-                  'Apply',
+                child: Text(
+                  !isApplied?'Apply':'Applied',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
