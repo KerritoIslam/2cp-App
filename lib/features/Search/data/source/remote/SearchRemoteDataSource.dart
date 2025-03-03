@@ -15,7 +15,7 @@ class Searchremotedatasource {
 
   Future<Either<Failure, SearchResultModel>> Search(String query) async {
 try  {     // Mock companies
-      print('searching for $query');
+      //print('searching for $query');
 
     final mockCompanies = [
       CompanyModel(
