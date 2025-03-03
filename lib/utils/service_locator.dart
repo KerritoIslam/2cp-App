@@ -55,6 +55,6 @@ Future<void> setUpLocator() async {
 
   // Search
   locator.registerLazySingleton<Searchremotedatasource>(() => Searchremotedatasource());
-  locator.registerLazySingleton<SearchRepostitory>(() => SearchRepostitory(remoteDataSource: locator.get<Searchremotedatasource>()));
-  locator.registerFactory<SearchBloc>(() => SearchBloc(locator.get<SearchRepostitory>()));
+  locator.registerLazySingleton<SearchRepository>(() => SearchRepository(remoteDataSource: locator.get<Searchremotedatasource>()));
+  locator.registerFactory<SearchBloc>(() => SearchBloc(locator.get<SearchRepository>()));
 }
