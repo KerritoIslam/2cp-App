@@ -27,9 +27,13 @@ class CoolSearchBar extends StatelessWidget {
           Expanded(
             child: TextField(
               onChanged: (val)=>context.read<SearchBloc>().add(SearchRequested(val)),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).secondaryHeaderColor),
+
+              
               decoration: InputDecoration(
                 hintText: 'Search...',
-                hintStyle: TextStyle(color: Colors.grey[600]),
+                hintStyle: TextStyle(color: Theme
+                .of(context).secondaryHeaderColor,),
                 border: InputBorder.none, // Removes the default underline
                 contentPadding: const EdgeInsets.symmetric(vertical: 15),
               ),
