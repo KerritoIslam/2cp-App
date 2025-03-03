@@ -26,7 +26,7 @@ class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
   static const List<Widget> pages = [
     OpporutnitiesPage(),
-    Search(),
+    SearchPage(),
     Center(child: Text("Hello You")),
     ChatsPage(),
   ];

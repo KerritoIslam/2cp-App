@@ -1,4 +1,7 @@
 import 'package:app/core/connection/connection_Checker.dart';
+import 'package:app/features/Search/application/bloc/search_bloc.dart';
+import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.dart';
+import 'package:app/features/Search/domain/repositories/search_repostitory.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
@@ -44,4 +47,8 @@ Future<void> setUpLocator() async{
   locator.registerLazySingleton<NotificationRemoteDataSource>(()=>NotificationRemoteDataSource());
   locator.registerLazySingleton<NotificationRepository>(()=>NotificationRepository(locator.get<NotificationRemoteDataSource>()));
   locator.registerFactory<notificationsBloc>(()=>notificationsBloc(locator.get<NotificationRepository>()));
+  //Search
+  locator.registerLazySingleton<Searchremotedatasource>(()=>Searchremotedatasource());
+  locator.registerLazySingleton<SearchRepostitory>(()=>SearchRepostitory(remoteDataSource: locator.get<Searchremotedatasource>()));
+  locator.registerFactory<SearchBloc>(()=>SearchBloc(locator.get<SearchRepostitory>()));
 }

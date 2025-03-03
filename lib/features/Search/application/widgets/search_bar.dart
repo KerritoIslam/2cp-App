@@ -1,4 +1,6 @@
+import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CoolSearchBar extends StatelessWidget {
   const CoolSearchBar({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class CoolSearchBar extends StatelessWidget {
           // Search TextField
           Expanded(
             child: TextField(
+              onChanged: (val)=>context.read<SearchBloc>().add(SearchRequested(val)),
               decoration: InputDecoration(
                 hintText: 'Search...',
                 hintStyle: TextStyle(color: Colors.grey[600]),

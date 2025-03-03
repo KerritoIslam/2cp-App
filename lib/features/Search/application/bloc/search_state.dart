@@ -8,7 +8,8 @@ class SearchError extends SearchState {
   SearchError(this.message);
 }
 class SearchSuccess extends SearchState {
-  final List<dynamic> data;
+  final SearchResult data;
   SearchSuccess(this.data);
 }
 
+class SearchEmpty extends SearchState{}
