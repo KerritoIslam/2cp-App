@@ -34,18 +34,18 @@ class CoolSearchBar extends StatelessWidget {
           ),
           
           // Filter/Options Icon Button
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.green[300], // Light green background for the icon
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.tune, // Filter/options icon
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
+          //Container(
+          //  padding: const EdgeInsets.all(8),
+          //  decoration: BoxDecoration(
+          //    color: Colors.green[300], // Light green background for the icon
+          //    borderRadius: BorderRadius.circular(12),
+          //  ),
+          //  child: const Icon(
+          //    Icons.tune, // Filter/options icon
+          //    color: Colors.white,
+          //    size: 20,
+          //  ),
+          //),
         ],
       ),
     );

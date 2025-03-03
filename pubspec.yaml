@@ -41,6 +41,7 @@ dependencies:
   freezed: ^2.5.7
   flutter_svg: ^2.0.17
   google_sign_in: ^6.2.2
+  stream_transform: ^2.0.0
   dio: ^5.7.0
   go_router: ^14.7.1
   flutter_secure_storage: ^9.2.4
