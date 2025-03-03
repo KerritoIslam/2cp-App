@@ -18,18 +18,22 @@ class SearchPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => locator.get<SearchBloc>(),
       child: Padding(
-        padding: EdgeInsets.only(left: 12.w),
+        padding: EdgeInsets.symmetric(horizontal:10.w),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: SizedBox(height: 20.h)),
             SliverToBoxAdapter(child: const CoolSearchBar()),
+            
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 switch (state) {
                   case SearchInitial():
                     return SliverToBoxAdapter(
-                      child: Center(
-                        child: SvgPicture.asset('assets/images/files.svg'),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 120.h),
+                          SvgPicture.asset('assets/images/files.svg'),
+                        ],
                       ),
                     );
 
@@ -111,8 +115,11 @@ class SearchPage extends StatelessWidget {
                     return SliverToBoxAdapter(child:  CircularProgressIndicator() );
                   case SearchEmpty():
                     return SliverToBoxAdapter(
-                      child: Center(
-                        child: SvgPicture.asset('assets/images/files.svg'),
+                                          child: Column(
+                        children: [
+                          SizedBox(height: 120.h),
+                          SvgPicture.asset('assets/images/files.svg'),
+                        ],
                       ),
                     );
 
