@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:384180080362:android:e03abf4b65514fdaf9d193",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "com.career.bridge.app"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "384180080362-rpr9jr53etu68mrqir9gdm5am5t448jf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.app"
+                "bundle_id": "com.career.bridge.app"
               }
             }
           ]

@@ -180,4 +180,6 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
+
+  
 }

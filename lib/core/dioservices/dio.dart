@@ -3,7 +3,6 @@ import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DioServices {
@@ -16,6 +15,7 @@ class DioServices {
         final unprotected = options.path.contains("Auth");
         if (unprotected) {
           return handler.next(options);
+          
         }
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;

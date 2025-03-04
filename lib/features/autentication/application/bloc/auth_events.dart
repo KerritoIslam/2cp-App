@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 abstract class AuthEvent {}
 
+
+
 class AuthLoginRequested extends AuthEvent {
   final String email;
   final String password;

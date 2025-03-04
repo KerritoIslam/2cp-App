@@ -175,16 +175,21 @@ class _LogInPageState extends State<LogInPage> {
                       SizedBox(
                         height: 25.h,
                       ),
-                      Text('Forgot Password ?',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor:
-                                      Theme.of(context).primaryColor,
-                                  decorationThickness: 2.5)),
+                      GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).go('/auth/forgotpassword');
+                        },
+                        child: Text('Forgot Password ?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: Theme.of(context).primaryColor,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor:
+                                        Theme.of(context).primaryColor,
+                                    decorationThickness: 2.5)),
+                      ),
                       SizedBox(
                         height: 25.h,
                       ),
