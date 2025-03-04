@@ -19,7 +19,7 @@ class SettingsTilesPage extends StatelessWidget {
   "name":"Saved Opportunities",
   "iconDark":"assets/icons/bookmarkDark.svg",
   "icon":"assets/icons/bookmark.svg",
-   "href":"/protected/Options/saved"
+   "href":"/protected/options/saved"
 },
 {
   "name":"Settings",
@@ -31,7 +31,7 @@ class SettingsTilesPage extends StatelessWidget {
   "name":"Notifications",
     "iconDark":"assets/icons/notification_dark.svg",
   "icon":"assets/icons/notification.svg",
-  "href":"/protected/Options/notifications"
+  "href":"/protected/options/notifications"
   }
 
     
@@ -63,7 +63,9 @@ class SettingsTilesPage extends StatelessWidget {
                 separatorBuilder: (ctx,idx)=>SizedBox(height: 20.h,),
                 itemBuilder: (ctx,idx){
                   return ListTile(
-                  onTap: (){},
+                  onTap: (){
+                    context.push(pages[idx]['href']??"/");
+                  },
                   
                   leading: SvgPicture.asset(pages[idx][(state is DarkTheme)?'iconDark':'icon']??"assets/settings.svg"),
                     title: Text(pages[idx]['name']??""),

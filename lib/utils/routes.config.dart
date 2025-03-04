@@ -7,7 +7,9 @@ import 'package:app/features/autentication/application/pages/signuppassword_page
 import 'package:app/features/autentication/application/pages/welcome_page.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/notifications/application/pages/notifications_page.dart';
+import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
+import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
 import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
@@ -69,9 +71,16 @@ GoRouter router = GoRouter(
         ]
 
         ),
-        GoRoute(path: 'settings',
- pageBuilder: (context,state)=>MaterialPage(child: SettingsTilesPage())
+        GoRoute(path: 'options',
+ pageBuilder: (context,state)=>MaterialPage(child: SettingsTilesPage()),
+          routes: [
+          GoRoute(path: 'saved',pageBuilder: (context,state)=>MaterialPage(child: SavedopportuntitiesPage())),
+            GoRoute(path: 'notifications',pageBuilder: (context,state)=>MaterialPage(child: NotificationsSettingPage()))
+        ]
         ),
+        
+        
+
         
                        ],
     ),

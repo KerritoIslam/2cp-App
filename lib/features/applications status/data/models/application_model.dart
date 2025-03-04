@@ -12,7 +12,6 @@ class ApplicationModel with _$ApplicationModel{
     required String id,
     required String proposal,
     required OpportunityModel post,
-    required CompanyModel company,
     required DateTime sumbittedAt,
     required String type,
    @Default(ApplicationStatus.sumbitted) ApplicationStatus status,
@@ -21,7 +20,6 @@ class ApplicationModel with _$ApplicationModel{
       _$ApplicationModelFromJson(json);
   Map<String,dynamic> toCustomJson() {
     final json=toJson();
-    json['company']=company.toJson(); 
     json['post']=post.toJson();
     return json;
   }  

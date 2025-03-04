@@ -12,9 +12,10 @@ class opportunityCard extends StatefulWidget {
   
   
   final Opportunity opportunity;
+  final bool saved;
    const opportunityCard({
     Key? key,
-  required this.opportunity      
+  required this.opportunity,  this.saved    =false  
   }) : super(key: key);
 
   @override
@@ -26,9 +27,16 @@ class _opportunityCardState extends State<opportunityCard> {
   late bool isApplied;
 
   @override
+  //TODO:optimize this somehow
     void initState() {
     isApplied=false;
+    if (widget.saved){
+     isSaved=true;
+    }
+    else{
+
      isSaved=false; 
+    }
       super.initState();
     }
     @override
@@ -68,14 +76,22 @@ class _opportunityCardState extends State<opportunityCard> {
                   IconButton(
                     icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp,color: Theme.of(context).secondaryHeaderColor,),
                     onPressed: (){
-                      
-                      context.read<OpportunitiesSavedBloc>().add(
+                      if (!isSaved){
+ context.read<OpportunitiesSavedBloc>().add(
                         SaveOpportunityEvent(
                           widget.opportunity.id
                         )
       
                       );
-                      setState(() {
+
+                      }
+                      else{
+                      context.read<OpportunitiesSavedBloc>().add(
+                      RemoveSavedOpportunityEvent(widget.opportunity.id)
+                      );
+                      }
+                      
+                                           setState(() {
                       isSaved=!isSaved;            
                                           });
                     },

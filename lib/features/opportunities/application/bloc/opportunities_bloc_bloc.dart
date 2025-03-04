@@ -82,7 +82,7 @@ class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesS
         emit(OpportunitySavedFailure(failure.message));
       }, (oppList){
         savedOpportunities.addAll(oppList);
-        emit(OpportunitySavedSucces(savedOpportunities));
+        emit(SavedOpportunitiesLoadSuccess(savedOpportunities));
       });
     });  
 

@@ -12,7 +12,6 @@ _$ApplicationModelImpl _$$ApplicationModelImplFromJson(
       id: json['id'] as String,
       proposal: json['proposal'] as String,
       post: OpportunityModel.fromJson(json['post'] as Map<String, dynamic>),
-      company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       sumbittedAt: DateTime.parse(json['sumbittedAt'] as String),
       type: json['type'] as String,
       status: $enumDecodeNullable(_$ApplicationStatusEnumMap, json['status']) ??
@@ -25,7 +24,6 @@ Map<String, dynamic> _$$ApplicationModelImplToJson(
       'id': instance.id,
       'proposal': instance.proposal,
       'post': instance.post,
-      'company': instance.company,
       'sumbittedAt': instance.sumbittedAt.toIso8601String(),
       'type': instance.type,
       'status': _$ApplicationStatusEnumMap[instance.status]!,
