@@ -11,7 +11,7 @@ _$ApplicationModelImpl _$$ApplicationModelImplFromJson(
     _$ApplicationModelImpl(
       id: json['id'] as String,
       proposal: json['proposal'] as String,
-      postId: json['postId'] as String,
+      post: OpportunityModel.fromJson(json['post'] as Map<String, dynamic>),
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       sumbittedAt: DateTime.parse(json['sumbittedAt'] as String),
       type: json['type'] as String,
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$ApplicationModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'proposal': instance.proposal,
-      'postId': instance.postId,
+      'post': instance.post,
       'company': instance.company,
       'sumbittedAt': instance.sumbittedAt.toIso8601String(),
       'type': instance.type,
