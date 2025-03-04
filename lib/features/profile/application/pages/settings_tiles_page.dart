@@ -1,3 +1,4 @@
+import 'package:app/features/Search/application/pages/search_page.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,6 +75,7 @@ class SettingsTilesPage extends StatelessWidget {
                   );
                 }),
 
+            LogoutButton(),
             Spacer(flex: 2,),
             SvgPicture.asset('assets/images/settingsLootie.svg'),
             Spacer(flex: 3,),
