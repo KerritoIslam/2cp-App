@@ -114,7 +114,22 @@ class AuthRepository {
       return left(Failure(e.toString()));
     }
   }
-
+  Future <Either <Failure,int> > forgetPassword(String email) async {
+    try {
+      final response = await restAuthRemote.getOTP(email);
+      return response.fold((failure) => left(failure), (res) => right(res));
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  } 
+  Future <Either<Failure,Unit>> resetPassword(String email,String password) async {
+    try {
+      final response = await restAuthRemote.resetPassword(email,password);
+      return response.fold((failure) => left(failure), (res) => right(res));
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
   User userModelToEntity(UserModel userModel) {
     return User(
       id: userModel.id,

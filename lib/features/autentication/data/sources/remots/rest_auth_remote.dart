@@ -64,16 +64,7 @@ class RestAuthRemote {
     }
   }
 
-  Future<Either<Failure, Unit>> logout() async {
-    try {
-      await _dio.post(
-        '/logout',
-      );
-      return right(unit);
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
-  }
+
 
 //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
@@ -94,6 +85,44 @@ class RestAuthRemote {
         data: user.toJson(),
       );
       return right(UserModel.fromJson(response.data['user']));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either< Failure, int>> getOTP(String email) async {
+    try {
+      final response = await _dio.post(
+        '/Auth/otpemail',
+        data: {
+          'email': email,
+        },
+      );
+      return right(response.data['OTP']);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+  Future<Either<Failure, Unit>> resetPassword(String email, String password) async {
+    try {
+      await _dio.post(
+        '/Auth/userpassword',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+      return right(unit);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
+      }
+      return left(Failure(e.toString()));
     } catch (e) {
       return left(Failure(e.toString()));
     }

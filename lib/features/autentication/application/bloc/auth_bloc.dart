@@ -73,6 +73,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError('An error occurred'));
       }
     });
+    on<AuthOTPRequested>(
+      (event, emit) async {
+        emit(AuthLoading());
+        final response = await authRepository.forgetPassword(event.email);
+        response.fold(
+          (l) {
+            emit(AuthError(l.message));
+          },
+          (r) {
+            emit(Unauthenticated(OTP: r));
+          },
+        );
+      },
+    );
+    on<AuthResetPasswordRequested>(
+      (event, emit) async {
+        emit(AuthLoading());
+        final response = await authRepository.resetPassword(
+            event.email, event.password);
+        response.fold(
+          (l) {
+            emit(AuthError(l.message));
+          },
+          (r) {
+            emit(Unauthenticated());
+          },
+        );
+      },
+    );
     on<AuthGoogleSignInRequested>((event, emit) async {
       final user = await authRepository.googleSignIn();
       user.fold((l) {
@@ -93,7 +122,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(user));
       });
     });
-    on<AuthForgotPasswordRequested>((event, emit) {});
+
     on<AuthLogoutRequested>((event, emit) async {
       final dataSource = locator.get<LocalSecureStorage>();
       try {
