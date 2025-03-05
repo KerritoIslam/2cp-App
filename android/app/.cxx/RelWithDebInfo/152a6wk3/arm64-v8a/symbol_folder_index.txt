@@ -1,0 +1,1 @@
+/home/mouloud/dev/2cp_project/app/build/app/intermediates/cxx/RelWithDebInfo/152a6wk3/obj/arm64-v8a

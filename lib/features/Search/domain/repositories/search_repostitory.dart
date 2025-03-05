@@ -3,10 +3,10 @@ import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.da
 import 'package:app/features/Search/domain/entities/SearchResultEntitiy.dart';
 import 'package:dartz/dartz.dart';
 
-class SearchRepostitory {
+class SearchRepository {
   final Searchremotedatasource remoteDataSource;
 
-  SearchRepostitory({required this.remoteDataSource}); 
+  SearchRepository({required this.remoteDataSource}); 
 
   Future<Either<Failure,SearchResult>> search(String query) async {
     try {

@@ -49,7 +49,7 @@ static final List<Map<String,dynamic>> mockNotifications =
     {
     "id": "6",
     "title": "Event Invitation",
-    "description": "You have been invited to the annual tech conference.",
+   "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
     "isRead":true

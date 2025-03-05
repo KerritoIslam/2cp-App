@@ -183,7 +183,7 @@ group("Saving Posts Test", (){
       },
       expect: ()=>[
         OpportunitySavedInProgress(),
-        OpportunitySavedSucces( opportunities)
+        SavedOpportunitiesLoadSuccess( opportunities)
       ]
     );
   }

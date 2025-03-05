@@ -13,7 +13,7 @@ EventTransformer<Event> debounce<Event>(Duration duration) {
   return (events, mapper) => events.debounce(duration).switchMap(mapper);
 }
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final SearchRepostitory repostitory;
+  final SearchRepository repostitory;
   SearchBloc(this.repostitory) : super(SearchInitial()) {
     on<SearchRequested>(_onSearchRequested,transformer:debounce(_duration) );
      }

@@ -1,4 +1,3 @@
-import 'package:app/core/connection/connection_Checker.dart';
 import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.dart';
 import 'package:app/features/Search/domain/repositories/search_repostitory.dart';
@@ -11,7 +10,6 @@ import 'package:app/features/notifications/domain/repositories/notification_repo
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/data/source/remote_data_source.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +44,6 @@ Future<void> setUpLocator() async {
   locator.registerFactory<OpportunitiesBloc>(() => OpportunitiesBloc(locator.get<OpportunityRepository>()));
   locator.registerFactory(() => OpportunitiesSavedBloc(locator.get<OpportunityRepository>()));
 
-  // Connection Checker
 
   // Notifications
   locator.registerLazySingleton<NotificationRemoteDataSource>(() => NotificationRemoteDataSource());
@@ -55,6 +52,6 @@ Future<void> setUpLocator() async {
 
   // Search
   locator.registerLazySingleton<Searchremotedatasource>(() => Searchremotedatasource());
-  locator.registerLazySingleton<SearchRepostitory>(() => SearchRepostitory(remoteDataSource: locator.get<Searchremotedatasource>()));
-  locator.registerFactory<SearchBloc>(() => SearchBloc(locator.get<SearchRepostitory>()));
+  locator.registerLazySingleton<SearchRepository>(() => SearchRepository(remoteDataSource: locator.get<Searchremotedatasource>()));
+  locator.registerFactory<SearchBloc>(() => SearchBloc(locator.get<SearchRepository>()));
 }
