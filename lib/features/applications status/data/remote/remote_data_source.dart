@@ -13,12 +13,12 @@ class RemoteDataSource {
          return Left(Failure(e.toString()));  
         }
   }
-  Future<Either<Failure,ApplicationModel>>submitApplication(ApplicationModel application) async {
+  Future<Either<Failure,Unit>>submitApplication(ApplicationModel application) async {
     // some code to get data from remote
     try {
           
       Future.delayed(Duration(seconds: 2));
-    return Right(application);
+    return Right(unit);
         } catch (e) {
          return Left(Failure(e.toString()));  
         }

@@ -22,8 +22,7 @@ ApplicationModel _$ApplicationModelFromJson(Map<String, dynamic> json) {
 mixin _$ApplicationModel {
   String get id => throw _privateConstructorUsedError;
   String get proposal => throw _privateConstructorUsedError;
-  String get postId => throw _privateConstructorUsedError;
-  CompanyModel get company => throw _privateConstructorUsedError;
+  OpportunityModel get post => throw _privateConstructorUsedError;
   DateTime get sumbittedAt => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   ApplicationStatus get status => throw _privateConstructorUsedError;
@@ -47,13 +46,12 @@ abstract class $ApplicationModelCopyWith<$Res> {
   $Res call(
       {String id,
       String proposal,
-      String postId,
-      CompanyModel company,
+      OpportunityModel post,
       DateTime sumbittedAt,
       String type,
       ApplicationStatus status});
 
-  $CompanyModelCopyWith<$Res> get company;
+  $OpportunityModelCopyWith<$Res> get post;
 }
 
 /// @nodoc
@@ -73,8 +71,7 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
   $Res call({
     Object? id = null,
     Object? proposal = null,
-    Object? postId = null,
-    Object? company = null,
+    Object? post = null,
     Object? sumbittedAt = null,
     Object? type = null,
     Object? status = null,
@@ -88,14 +85,10 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
           ? _value.proposal
           : proposal // ignore: cast_nullable_to_non_nullable
               as String,
-      postId: null == postId
-          ? _value.postId
-          : postId // ignore: cast_nullable_to_non_nullable
-              as String,
-      company: null == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as CompanyModel,
+      post: null == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as OpportunityModel,
       sumbittedAt: null == sumbittedAt
           ? _value.sumbittedAt
           : sumbittedAt // ignore: cast_nullable_to_non_nullable
@@ -115,9 +108,9 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $CompanyModelCopyWith<$Res> get company {
-    return $CompanyModelCopyWith<$Res>(_value.company, (value) {
-      return _then(_value.copyWith(company: value) as $Val);
+  $OpportunityModelCopyWith<$Res> get post {
+    return $OpportunityModelCopyWith<$Res>(_value.post, (value) {
+      return _then(_value.copyWith(post: value) as $Val);
     });
   }
 }
@@ -133,14 +126,13 @@ abstract class _$$ApplicationModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String proposal,
-      String postId,
-      CompanyModel company,
+      OpportunityModel post,
       DateTime sumbittedAt,
       String type,
       ApplicationStatus status});
 
   @override
-  $CompanyModelCopyWith<$Res> get company;
+  $OpportunityModelCopyWith<$Res> get post;
 }
 
 /// @nodoc
@@ -158,8 +150,7 @@ class __$$ApplicationModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? proposal = null,
-    Object? postId = null,
-    Object? company = null,
+    Object? post = null,
     Object? sumbittedAt = null,
     Object? type = null,
     Object? status = null,
@@ -173,14 +164,10 @@ class __$$ApplicationModelImplCopyWithImpl<$Res>
           ? _value.proposal
           : proposal // ignore: cast_nullable_to_non_nullable
               as String,
-      postId: null == postId
-          ? _value.postId
-          : postId // ignore: cast_nullable_to_non_nullable
-              as String,
-      company: null == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as CompanyModel,
+      post: null == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as OpportunityModel,
       sumbittedAt: null == sumbittedAt
           ? _value.sumbittedAt
           : sumbittedAt // ignore: cast_nullable_to_non_nullable
@@ -203,8 +190,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
   _$ApplicationModelImpl(
       {required this.id,
       required this.proposal,
-      required this.postId,
-      required this.company,
+      required this.post,
       required this.sumbittedAt,
       required this.type,
       this.status = ApplicationStatus.sumbitted})
@@ -218,9 +204,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
   @override
   final String proposal;
   @override
-  final String postId;
-  @override
-  final CompanyModel company;
+  final OpportunityModel post;
   @override
   final DateTime sumbittedAt;
   @override
@@ -231,7 +215,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
 
   @override
   String toString() {
-    return 'ApplicationModel(id: $id, proposal: $proposal, postId: $postId, company: $company, sumbittedAt: $sumbittedAt, type: $type, status: $status)';
+    return 'ApplicationModel(id: $id, proposal: $proposal, post: $post, sumbittedAt: $sumbittedAt, type: $type, status: $status)';
   }
 
   @override
@@ -242,8 +226,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.proposal, proposal) ||
                 other.proposal == proposal) &&
-            (identical(other.postId, postId) || other.postId == postId) &&
-            (identical(other.company, company) || other.company == company) &&
+            (identical(other.post, post) || other.post == post) &&
             (identical(other.sumbittedAt, sumbittedAt) ||
                 other.sumbittedAt == sumbittedAt) &&
             (identical(other.type, type) || other.type == type) &&
@@ -252,8 +235,8 @@ class _$ApplicationModelImpl extends _ApplicationModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, proposal, postId, company, sumbittedAt, type, status);
+  int get hashCode =>
+      Object.hash(runtimeType, id, proposal, post, sumbittedAt, type, status);
 
   /// Create a copy of ApplicationModel
   /// with the given fields replaced by the non-null parameter values.
@@ -276,8 +259,7 @@ abstract class _ApplicationModel extends ApplicationModel {
   factory _ApplicationModel(
       {required final String id,
       required final String proposal,
-      required final String postId,
-      required final CompanyModel company,
+      required final OpportunityModel post,
       required final DateTime sumbittedAt,
       required final String type,
       final ApplicationStatus status}) = _$ApplicationModelImpl;
@@ -291,9 +273,7 @@ abstract class _ApplicationModel extends ApplicationModel {
   @override
   String get proposal;
   @override
-  String get postId;
-  @override
-  CompanyModel get company;
+  OpportunityModel get post;
   @override
   DateTime get sumbittedAt;
   @override

@@ -2,7 +2,7 @@ import 'package:app/core/failure/failure.dart';
 import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/data/sources/remots/rest_auth_remote.dart';
+import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';

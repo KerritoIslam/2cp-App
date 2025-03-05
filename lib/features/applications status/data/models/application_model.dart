@@ -1,4 +1,5 @@
 import 'package:app/features/applications%20status/constants/status.dart';
+import 'package:app/features/opportunities/data/models/opportunity_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:app/features/opportunities/data/models/company_model.dart';
 part 'application_model.freezed.dart';
@@ -10,9 +11,7 @@ class ApplicationModel with _$ApplicationModel{
   factory ApplicationModel({
     required String id,
     required String proposal,
-    required String postId,
-      
-    required CompanyModel company,
+    required OpportunityModel post,
     required DateTime sumbittedAt,
     required String type,
    @Default(ApplicationStatus.sumbitted) ApplicationStatus status,
@@ -21,7 +20,7 @@ class ApplicationModel with _$ApplicationModel{
       _$ApplicationModelFromJson(json);
   Map<String,dynamic> toCustomJson() {
     final json=toJson();
-    json['company']=company.toJson(); 
+    json['post']=post.toJson();
     return json;
   }  
 }

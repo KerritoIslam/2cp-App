@@ -1,7 +1,7 @@
 import 'package:app/features/notifications/domain/entitities/notification.dart';
 import 'package:app/features/notifications/domain/repositories/notification_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 part 'notifications_event.dart';
 part 'notifications_state.dart';
 
@@ -48,6 +48,9 @@ notifications.firstWhere((element) => element.id==event.notification.id).markAsU
       }, (_){
         notifications.removeWhere((element) => element.id==event.notification.id);
         emit(notificationsLoaded(notifications));
+          final player=AudioPlayer();
+          return player.play(AssetSource('sounds/delete.mp3'),volume: 0.5);
+        
       });
     });
 }

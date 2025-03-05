@@ -1,9 +1,10 @@
 //TODO Fill According to the design
 import 'package:app/features/notifications/data/models/notification_model.dart';
+import 'package:app/utils/time_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification.freezed.dart';
-
+ 
 @freezed
 class ENotification with _$ENotification {
   const ENotification._(); 
@@ -15,13 +16,12 @@ class ENotification with _$ENotification {
     required String image,
    required bool isRead,
   }) = _Notification;
- factory ENotification.fromModel(NotificationModel model) {
+   factory ENotification.fromModel(NotificationModel model) {
     return ENotification(
       id:model.id,
       title: model.title,
       description: model.description,
-      //TODO:convertt date to elapsed time
-      time: "8h Ago",
+      time:getElapsedTime(DateTime.now().difference(model.date)), 
       image:"example.com/image.jpg",
       isRead: model.isRead,
     );
@@ -29,6 +29,7 @@ class ENotification with _$ENotification {
   ENotification markAsRead() {
     return copyWith(isRead: true);
   }
+ 
   ENotification markAsUnread(){
     return copyWith(isRead: false);
   }

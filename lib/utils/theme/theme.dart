@@ -15,6 +15,11 @@ class theme {
     splashColor: Colors.transparent,
     scaffoldBackgroundColor: Color(0xFFFFFFFF),
     snackBarTheme: SnackBarThemeData(
+      contentTextStyle: TextStyle(
+        color: Colors.red,
+        fontSize: 15.sp,
+        fontWeight: FontWeight.w500,
+      ),
       backgroundColor: Color(0xFF323030),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -80,6 +85,12 @@ class theme {
     splashColor: Colors.transparent,
     secondaryHeaderColor: Colors.white,
     snackBarTheme: SnackBarThemeData(
+      
+      contentTextStyle: TextStyle(
+        color: Colors.red,
+        fontSize: 15.sp,
+        fontWeight: FontWeight.w500,
+      ),
       backgroundColor: Color(0xFFFFFFFF),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
