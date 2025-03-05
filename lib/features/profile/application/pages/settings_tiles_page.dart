@@ -26,7 +26,7 @@ class SettingsTilesPage extends StatelessWidget {
   "name":"Settings",
   "iconDark":"assets/icons/settingsDark.svg",
   "icon":"assets/icons/settings.svg",
-   "href":"/protected/Options/settings"
+   "href":"/protected/options/settings"
 },
   {
   "name":"Notifications",
@@ -75,7 +75,6 @@ class SettingsTilesPage extends StatelessWidget {
                   );
                 }),
 
-            LogoutButton(),
             Spacer(flex: 2,),
             SvgPicture.asset('assets/images/settingsLootie.svg'),
             Spacer(flex: 3,),

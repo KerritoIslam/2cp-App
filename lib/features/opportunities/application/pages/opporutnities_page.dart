@@ -4,6 +4,7 @@ import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -163,7 +164,7 @@ class _OpportunitesState extends State<Opportunites> {
           return const SliverToBoxAdapter(child: Text('initState'));
         } else if (state is OpportuntitiesLoadInProgress) {
           return const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
+            child: Loadingindicator(),
           );
         } else if (state is OpportuntitiesLoadSuccess) {
           return SliverList(

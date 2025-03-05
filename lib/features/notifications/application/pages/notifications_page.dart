@@ -1,6 +1,7 @@
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/notifications/application/widgets/notifcation_tile.dart';
 import 'package:app/features/notifications/domain/entitities/notification.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,7 +56,7 @@ class NotificationsPage extends StatelessWidget {
                 if (state is notficationsLoading ){
                 return SliverToBoxAdapter(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child:Loadingindicator(), 
                   ),
                 );
                 }

@@ -101,9 +101,12 @@ class MyApp extends StatelessWidget {
                   return child!;
                 },
                 routerConfig: router,
+                
                 debugShowCheckedModeBanner: false,
                 title: 'Step in',
-                themeMode: ThemeMode.system,
+                themeMode: (state is LightTheme)
+                    ? ThemeMode.light
+                    : ThemeMode.dark, 
                 theme: theme.lightTheme,
                 darkTheme: theme.darkTheme,
               ),
