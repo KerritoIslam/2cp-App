@@ -15,6 +15,7 @@ class DioServices {
         final  unprotected=options.path.contains("/Auth");
         if (unprotected) {
           return handler.next(options);
+          
         }
       //TODO use repository instead of LocalSecureStorage
         final dataSource = locator.get<LocalSecureStorage>();

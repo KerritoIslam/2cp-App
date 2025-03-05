@@ -1,10 +1,12 @@
 import 'package:app/core/failure/failure.dart';
+import 'package:app/features/autentication/data/models/login_dto_model.dart';
 import 'package:app/features/autentication/data/models/user_model.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthRepository {
   final RestAuthRemote restAuthRemote;
@@ -18,10 +20,15 @@ class AuthRepository {
       return response.fold(
         (failure) => left(failure), // Return failure if login fails
         (response) async {
-          // Save tokens if login succeeds
+          final user = userModelToEntity(response.user);
+          final userResult = await localSecureStorage.setUser(user.toJson());
+          if (userResult.isLeft()) {
+            return left(Failure(
+                'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
+          }
           final tokenResult = await _saveTokens(
               response.tokens.accessToken, response.tokens.refreshToken);
-          
+
           return tokenResult.fold(
             (failure) => left(failure), // Return failure if saving tokens fails
             (_) => right(userModelToEntity(
@@ -50,20 +57,12 @@ class AuthRepository {
     try {
       final response = await restAuthRemote.register(name, email, password);
       return response.fold((failure) => left(failure), (res) async {
-        final tokensReponse =
-            await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
-        return tokensReponse.fold(
-            (l) => left(l), (_) => right(userModelToEntity(res.user)));
-      });
-    } on Failure catch (e) {
-      return left(Failure(e.toString()));
-    }
-  } 
-  Future<Either<Failure,User>> googleSignIn() async {
-    try {
-      final response = await restAuthRemote.googleSignIn();
-      
-      return response.fold((failure) => left(failure), (res) async {
+        final user = userModelToEntity(res.user);
+        final userResult = await localSecureStorage.setUser(user.toJson());
+        if (userResult.isLeft()) {
+          return left(Failure(
+              'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
+        }
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
         return tokensReponse.fold(
@@ -73,16 +72,60 @@ class AuthRepository {
       return left(Failure(e.toString()));
     }
   }
-  Future<Either<Failure,User>> linkedInSignIn(BuildContext context) async {
+
+  Future<Either<Failure, User>> googleSignIn() async {
     try {
-      final response = await restAuthRemote.linkedInSignIn(context);
-      
+      final response = await restAuthRemote.googleSignIn();
+
       return response.fold((failure) => left(failure), (res) async {
+        final user = userModelToEntity(res.user);
+        final userResult = await localSecureStorage.setUser(user.toJson());
+        if (userResult.isLeft()) {
+          return left(Failure(
+              'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
+        }
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
         return tokensReponse.fold(
             (l) => left(l), (_) => right(userModelToEntity(res.user)));
       });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, User>> linkedInSignIn(BuildContext context) async {
+    try {
+      final response = await restAuthRemote.linkedInSignIn(context);
+
+      return response.fold((failure) => left(failure), (res) async {
+        final user = userModelToEntity(res.user);
+        final userResult = await localSecureStorage.setUser(user.toJson());
+        if (userResult.isLeft()) {
+          return left(Failure(
+              'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
+        }
+        final tokensReponse =
+            await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
+        return tokensReponse.fold(
+            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+      });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+  Future <Either <Failure,int> > forgetPassword(String email) async {
+    try {
+      final response = await restAuthRemote.getOTP(email);
+      return response.fold((failure) => left(failure), (res) => right(res));
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  } 
+  Future <Either<Failure,Unit>> resetPassword(String email,String password) async {
+    try {
+      final response = await restAuthRemote.resetPassword(email,password);
+      return response.fold((failure) => left(failure), (res) => right(res));
     } on Failure catch (e) {
       return left(Failure(e.toString()));
     }
@@ -103,5 +146,23 @@ class AuthRepository {
       email: user.email,
       password: user.password,
     );
+  }
+
+  Future<Either<Failure, TokensModel>> checkToken() async {
+    try {
+      final response = await localSecureStorage.getTokens();
+      return response.fold((failure) => left(failure), (res) {
+        if (res.accessToken.isNotEmpty) {
+          if (JwtDecoder.isExpired(res.accessToken)) {
+            return left(Failure('Token is expired'));
+          }
+          return right(res);
+        } else {
+          return left(Failure('Token is empty'));
+        }
+      });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 }

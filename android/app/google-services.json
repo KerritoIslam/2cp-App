@@ -9,10 +9,15 @@
       "client_info": {
         "mobilesdk_app_id": "1:384180080362:android:e03abf4b65514fdaf9d193",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "com.career.bridge.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "384180080362-3656gdig4i3jq3dcom3mrf6unt5aoi4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAvuIYr3cgfoMg6c1wF_eQZWOc3frsvFK4"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384180080362-3656gdig4i3jq3dcom3mrf6unt5aoi4g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "384180080362-rpr9jr53etu68mrqir9gdm5am5t448jf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.career.bridge.app"
+              }
+            }
+          ]
         }
       }
     }

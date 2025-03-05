@@ -90,7 +90,9 @@ class MyApp extends StatelessWidget {
         return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
           builder: (context, state) {
             return FTheme(
-              data: state is LightTheme ? FThemes.green.light : FThemes.green.dark,
+              data: state is LightTheme
+                  ? FThemes.green.light
+                  : FThemes.green.dark,
               child: MaterialApp.router(
                 builder: (context, child) {
                   ErrorWidget.builder = (FlutterErrorDetails details) {

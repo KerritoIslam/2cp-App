@@ -1,6 +1,7 @@
 import 'package:app/features/autentication/domain/entities/user_entity.dart';
 
 abstract class AuthState {}
+
 class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
@@ -11,7 +12,10 @@ class Authenticated extends AuthState {
   Authenticated(this.user);
 }
 
-class Unauthenticated extends AuthState {}
+class Unauthenticated extends AuthState {
+  int? OTP;
+  Unauthenticated({this.OTP});
+}
 
 class AuthError extends AuthState {
   final String message;

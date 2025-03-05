@@ -1,4 +1,5 @@
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
+import 'package:app/features/autentication/application/pages/forgotpassword.dart';
 import 'package:app/features/autentication/application/pages/login_page.dart';
 import 'package:app/features/autentication/application/pages/noConnection.dart';
 import 'package:app/features/autentication/application/pages/onboarding/onboarding_page.dart';
@@ -17,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/',
   routes: [
     GoRoute(
         path: '/offline',
@@ -56,13 +57,14 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'LoginPage',
             pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
+
+        GoRoute(path: 'forgotpassword', pageBuilder: (context, state) => MaterialPage(child: ForgotPasswordPage())),
       ],
     ),
     GoRoute(
       redirect: (ctx, state) => null,
       path: '/protected',
       routes: [
-
         GoRoute(
             path: 'layout',
             pageBuilder: (context, state) => MaterialPage(child: Layout()),
@@ -86,10 +88,10 @@ GoRouter router = GoRouter(
     ),
   ],
   redirect: (context, state) async {
-    if (state.fullPath=="/"){
-    final localstorage=locator.get<LocalStorage>();
-      final didViewWeclomePage=await localstorage.DidViewWelcomePage(); 
-      if(didViewWeclomePage){
+    if (state.fullPath == "/") {
+      final localstorage = locator.get<LocalStorage>();
+      final didViewWeclomePage = await localstorage.DidViewWelcomePage();
+      if (didViewWeclomePage) {
         return '/auth/welcome';
       }
     }

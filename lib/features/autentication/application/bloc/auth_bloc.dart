@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
 import 'package:app/features/autentication/application/bloc/auth_state.dart';
@@ -10,10 +12,43 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
+  final datasource = locator.get<LocalSecureStorage>();
+  Future<Either<Failure, User>> _init() async {
+    final tokes = await datasource.getTokens();
+    final bool token = tokes.fold((l) {
+      return false;
+    }, (token) {
+      return true;
+    });
+    if (!token) {
+      return left(Failure('No token found'));
+    }
+    final user = await datasource.getUser();
+    return user.fold((l) {
+      return left(Failure('Error getting user: ${l.message}'));
+    }, (r) {
+      final userMap = jsonDecode(r);
+      return right(User.fromJson(userMap));
+    });
+  }
+
   AuthBloc(this.authRepository) : super(AuthInitial()) {
+    /* _init().then((value) {
+      value.fold((l) {
+        print(l.message);
+        emit(Unauthenticated());
+      }, (user) {
+        emit(Authenticated(user));
+      });
+    }); */
+
     on<AuthLoginRequested>((event, emit) async {
+      print(
+          'login requested ------------------------1111111111111111111111----------------------------');
       final user = await authRepository.login(event.email, event.password);
       user.fold((l) {
+        print(
+            '${l.message}------------------------1111111111111111111111----------------------------');
         return emit(AuthError(l.message));
       }, (user) => emit(Authenticated(user)));
     });
@@ -38,11 +73,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError('An error occurred'));
       }
     });
+    on<AuthOTPRequested>(
+      (event, emit) async {
+        emit(AuthLoading());
+        final response = await authRepository.forgetPassword(event.email);
+        response.fold(
+          (l) {
+            emit(AuthError(l.message));
+          },
+          (r) {
+            emit(Unauthenticated(OTP: r));
+          },
+        );
+      },
+    );
+    on<AuthResetPasswordRequested>(
+      (event, emit) async {
+        emit(AuthLoading());
+        final response = await authRepository.resetPassword(
+            event.email, event.password);
+        response.fold(
+          (l) {
+            emit(AuthError(l.message));
+          },
+          (r) {
+            emit(Unauthenticated());
+          },
+        );
+      },
+    );
     on<AuthGoogleSignInRequested>((event, emit) async {
       final user = await authRepository.googleSignIn();
       user.fold((l) {
         print(
-            '${l.message}----------------------------------------------------');
+            '${l.message}------------------------1111111111111111111111----------------------------');
         emit(AuthError(l.message));
       }, (user) {
         emit(Authenticated(user));
@@ -51,12 +115,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLinkedInSignInRequested>((event, emit) async {
       final user = await authRepository.linkedInSignIn(event.context);
       user.fold((l) {
+        print(
+            '${l.message}------------------------1111111111111111111111----------------------------');
         emit(AuthError(l.message));
       }, (user) {
         emit(Authenticated(user));
       });
     });
-    on<AuthForgotPasswordRequested>((event, emit) {});
+
     on<AuthLogoutRequested>((event, emit) async {
       final dataSource = locator.get<LocalSecureStorage>();
       try {
