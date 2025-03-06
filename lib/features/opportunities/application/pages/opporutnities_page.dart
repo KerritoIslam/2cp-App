@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/shared/widgets/loadingIndicator.dart';

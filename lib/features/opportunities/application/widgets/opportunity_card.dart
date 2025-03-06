@@ -47,15 +47,16 @@ class _opportunityCardState extends State<opportunityCard> {
         
          
         elevation:1 ,
-        color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+        color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.85),
         
-        margin: const EdgeInsets.all(16),
+        
+        margin: EdgeInsets.all(16.r),
         shadowColor: Theme.of(context).shadowColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(30.r),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -130,6 +131,9 @@ class _opportunityCardState extends State<opportunityCard> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: (){
+                                        setState(() {
+                      isApplied=!isApplied;
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
@@ -141,10 +145,11 @@ class _opportunityCardState extends State<opportunityCard> {
                   ),
                   child: Text(
                 !isApplied?'Apply':'Applied',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white
+                    )
+                    
                   ),
                 ),
               ),   
