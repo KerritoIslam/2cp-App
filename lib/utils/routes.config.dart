@@ -11,6 +11,7 @@ import 'package:app/features/notifications/application/pages/notifications_page.
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
+import 'package:app/features/profile/application/pages/settings_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
 import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
@@ -18,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/protected/layout',
   routes: [
     GoRoute(
         path: '/offline',
@@ -77,7 +78,8 @@ GoRouter router = GoRouter(
  pageBuilder: (context,state)=>MaterialPage(child: SettingsTilesPage()),
           routes: [
           GoRoute(path: 'saved',pageBuilder: (context,state)=>MaterialPage(child: SavedopportuntitiesPage())),
-            GoRoute(path: 'notifications',pageBuilder: (context,state)=>MaterialPage(child: NotificationsSettingPage()))
+            GoRoute(path: 'notifications',pageBuilder: (context,state)=>MaterialPage(child: NotificationsSettingPage())),
+            GoRoute(path: 'settings',pageBuilder: (context,state)=>MaterialPage(child: SettingsPage()))
         ]
         ),
         
@@ -88,6 +90,7 @@ GoRouter router = GoRouter(
     ),
   ],
   redirect: (context, state) async {
+    print(state.fullPath);
     if (state.fullPath == "/") {
       final localstorage = locator.get<LocalStorage>();
       final didViewWeclomePage = await localstorage.DidViewWelcomePage();
@@ -99,7 +102,9 @@ GoRouter router = GoRouter(
         authBloc.state is Authenticated) {
       return '/protected/layout';
     } else if (state.fullPath!.startsWith('/protected') &&
+
         authBloc.state is Unauthenticated) {
+        print("Here");
       return '/auth/welcome';
     }
     return null;

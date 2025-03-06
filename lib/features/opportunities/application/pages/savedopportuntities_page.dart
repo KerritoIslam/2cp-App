@@ -1,5 +1,6 @@
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,8 +42,7 @@ textAlign: TextAlign.center,
         child: BlocBuilder<OpportunitiesSavedBloc,OpportunitiesSavedState>(builder: (ctx,state){
         if (state is OpportunitySavedInProgress) {
           return Center(
-            child: CircularProgressIndicator()
-          );}
+            child: Loadingindicator(),          );}
         
           if (state is SavedOpportunitiesLoadSuccess){
             return ListView.separated(itemCount: state.savedOpportunities.length,itemBuilder:(ctx,idx)=>opportunityCard(opportunity:state.savedOpportunities[idx],saved: true, ),separatorBuilder: (ctx,idx)=>SizedBox(height: 10.h,),);

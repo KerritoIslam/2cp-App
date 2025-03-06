@@ -2,7 +2,9 @@ import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/application/widgets/search_bar.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:app/utils/service_locator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,8 +105,8 @@ class SearchPage extends StatelessWidget {
                                               .secondaryHeaderColor
                                               .withOpacity(0.45)),
                                   leading: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(company.profilepic),
+                                    backgroundImage:CachedNetworkImageProvider(company.profilepic)
+                                       
                                   ),
                                 )),
                           ],
@@ -112,7 +114,7 @@ class SearchPage extends StatelessWidget {
                       ),
                     );
                   case SearchLoading():
-                    return SliverToBoxAdapter(child:  CircularProgressIndicator() );
+                    return SliverToBoxAdapter(child:  Loadingindicator());
                   case SearchEmpty():
                     return SliverToBoxAdapter(
                                           child: Column(
