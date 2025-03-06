@@ -18,7 +18,7 @@ import 'package:go_router/go_router.dart';
 class Layout extends StatefulWidget {
   final int initPage;
 
-  const Layout({super.key, this.initPage = 0});
+  const Layout({super.key, required this.initPage });
   @override
   State<Layout> createState() => _LayoutState();
 }
@@ -41,6 +41,10 @@ class _LayoutState extends State<Layout> {
 
     index = widget.initPage;
   }
+  @override
+    void dispose() {
+      super.dispose();
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,7 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                        context.push('/protected/layout/notifications');                                        //showFPersistentSheet(
+                        context.push('/protected/layout/0/notifications');                                        //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {
@@ -81,7 +85,7 @@ class _LayoutState extends State<Layout> {
               ),
               IconButton(
                 onPressed: () {
-                  context.push('/protected/options');
+                  context.pushReplacement('/protected/options');
                 },
                 icon: SvgPicture.asset(
                   !isDark ? 'assets/icons/profile.svg' : 'assets/icons/profile_dark.svg',

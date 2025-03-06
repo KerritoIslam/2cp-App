@@ -124,65 +124,72 @@ class _OpportunitesState extends State<Opportunites> {
 
     return  Padding(
       padding: EdgeInsets.only(left: 15.w,top: 10.h),
-      child: CustomScrollView(
-        slivers: [
-                   SliverToBoxAdapter(
-            child:  Column(
+      child: RefreshIndicator(
+        onRefresh: ()async{
+
+          context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
+         return  ;
+        },
+        child: CustomScrollView(
+          slivers: [
+                     SliverToBoxAdapter(
+              child:  Column(
+            
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                  
+         //           RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+         //             fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+         //           ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
+         //             ,
+         //           SizedBox(
+         //                         height: 169.h,
+         //             width: MediaQuery.sizeOf(context).width*2,
+         //             child:Align(
+         //alignment: Alignment.center,
+         //                   child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
+         //
+         //                   )), 
+         //
+         //
+         //           ),
+              //RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              //  fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
+              //),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
+                   
           
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-                
- //           RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
- //             fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
- //           ),children: [TextSpan(text: "type",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),)
- //             ,
- //           SizedBox(
- //                         height: 169.h,
- //             width: MediaQuery.sizeOf(context).width*2,
- //             child:Align(
- //alignment: Alignment.center,
- //                   child: ListView.separated(itemBuilder:(ctx,idx)=>OpportunityType(name: Types[idx]['name'] as String, imagePath: Types[idx]['imagePath'] as String, onTap: Types[idx]['onTap'], isSelected: Types[idx]['name']==selectedType.name,) , separatorBuilder: (ctx,idx)=>SizedBox(width: 17.w,), itemCount:Types.length,scrollDirection: Axis.horizontal,
- //
- //                   )), 
- //
- //
- //           ),
-            //RichText(text: TextSpan(text: 'Opportunites ',style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            //  fontWeight: FontWeight.w800,color: Theme.of(context).primaryColor
-            //),children: [TextSpan(text: "For you",style: TextStyle(color: Theme.of(context).secondaryHeaderColor))]),),
-                 
+            ],
+            
         
-          ],
-          
-
-                      ),
-
-        ),
-             BlocBuilder<OpportunitiesBloc, OpportunitiesBlocState>(
-      builder: (context, state) {
-        if (state is OpportunitiesBlocInitial) {
-          return const SliverToBoxAdapter(child: Text('initState'));
-        } else if (state is OpportuntitiesLoadInProgress) {
-          return const SliverToBoxAdapter(
-            child: Loadingindicator(),
-          );
-        } else if (state is OpportuntitiesLoadSuccess) {
-          return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, idx) => opportunityCard(
-                opportunity: state.opportunities[idx],
+                        ),
+        
+          ),
+               BlocBuilder<OpportunitiesBloc, OpportunitiesBlocState>(
+        builder: (context, state) {
+          if (state is OpportunitiesBlocInitial) {
+            return const SliverToBoxAdapter(child: Text('initState'));
+          } else if (state is OpportuntitiesLoadInProgress) {
+            return const SliverToBoxAdapter(
+              child: Loadingindicator(),
+            );
+          } else if (state is OpportuntitiesLoadSuccess) {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (ctx, idx) => opportunityCard(
+                  opportunity: state.opportunities[idx],
+                ),
+                childCount: state.opportunities.length,
               ),
-              childCount: state.opportunities.length,
+            );
+          } else {
+            return SliverToBoxAdapter(child: Text((state as OpportuntitiesLoadFailure).message));
+          }
+        },
             ),
-          );
-        } else {
-          return const SliverToBoxAdapter(child: Text('Unknown error'));
-        }
-      },
-    ),
-
-
-        ]),
+        
+        
+          ]),
+      ),
        
     );  
   }

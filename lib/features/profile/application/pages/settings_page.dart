@@ -194,10 +194,10 @@ shrinkWrap: true,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
-                                      .copyWith(color: Theme.of(context).secondaryHeaderColor,fontWeight: FontWeight.w500),
+                                      .copyWith(color: Colors.white,fontWeight: FontWeight.w500),
                                 ),
                         SizedBox(width: 10.w,),
-                  Icon(Icons.logout,color: Theme.of(context).secondaryHeaderColor,weight: 700,size: 30.r,)
+                  Icon(Icons.logout,color: Colors.white,weight: 700,size: 30.r,)
                               ],
                             ),
                           ),
