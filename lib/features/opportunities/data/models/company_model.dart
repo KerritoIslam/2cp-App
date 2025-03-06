@@ -10,11 +10,14 @@ class CompanyModel with _$CompanyModel {
   const factory CompanyModel({
     required String id,
     required String name,
-    required String category,
-    required String profilepic,
+   @Default('None') String category ,
+  @Default('') String profilepic,
   }) = _CompanyModel;
-  factory CompanyModel.fromJson(Map<String, dynamic> json) =>
-      _$CompanyModelFromJson(json);
+  factory CompanyModel.fromJson(Map<String, dynamic> json) {
+    json['id']=json['id'].toString();
+    
+      return _$CompanyModelFromJson(json);
+  }
   
   Company toEntity(){
     return Company(

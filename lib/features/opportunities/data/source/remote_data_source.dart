@@ -10,7 +10,7 @@ class MockData{
   static List<Map<String,dynamic>> opportunityList=
 [
   {
-    "type": "internship",
+    "Type": "internship",
     "id": "1",
     "title": "Software Engineering Internship",
     "description": "Gain hands-on experience in software development.",
@@ -26,7 +26,7 @@ class MockData{
     "category": "CS"
   },
   {
-    "type": "internship",
+    "Type": "internship",
     "id": "2",
     "title": "Data Science Internship",
     "description": "Work on cutting-edge AI models and data analysis.",
@@ -42,7 +42,7 @@ class MockData{
     "category": "CS"
   },
   {
-    "type": "Problem",
+    "Type": "Problem",
     "id": "3",
     "title": "AI Bias Detection",
     "description": "Develop an AI model to detect biases in hiring processes.",
@@ -57,7 +57,7 @@ class MockData{
     "category": "CS"
   },
   {
-    "type": "Problem",
+    "Type": "Problem",
     "id": "4",
     "title": "Sustainable Energy Challenge",
     "description": "Create a model to optimize energy consumption in urban areas.",
@@ -72,7 +72,7 @@ class MockData{
     "category": "EG"
   },
   {
-    "type": "internship",
+    "Type": "internship",
     "id": "5",
     "title": "Healthcare Data Analyst",
     "description": "Analyze patient data and optimize medical processes.",
@@ -88,7 +88,7 @@ class MockData{
     "category": "HL"
   },
   {
-    "type": "Problem",
+    "Type": "Problem",
     "id": "6",
     "title": "LegalTech Innovation",
     "description": "Build an AI-powered contract review system.",

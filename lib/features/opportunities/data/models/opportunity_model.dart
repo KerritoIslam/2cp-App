@@ -14,10 +14,10 @@ sealed class OpportunityModel with _$OpportunityModel {
     required String id,
     required String title,
     required String description,
-    required List<String> skills,
+    @Default([]) List<String> skills,
     required CompanyModel company,
-    @Default(OpportunityStatus.ongoing) OpportunityStatus status,
-    required String duration,
+    @Default(OpportunityStatus.open) OpportunityStatus status,
+    @Default("") String duration,
     required OpportunityCategory category,
   }) = InternshipModel;
 
@@ -26,14 +26,15 @@ sealed class OpportunityModel with _$OpportunityModel {
     required String id,
     required String title,
     required String description,
-    required List<String> skills,
+    @Default([]) List<String> skills,
     required CompanyModel company,
-    @Default(OpportunityStatus.ongoing) OpportunityStatus status,
+    @Default(OpportunityStatus.open) OpportunityStatus status,
     required OpportunityCategory category,
   }) = ProblemModel;
 
   factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
-      _$OpportunityModelFromJson({...json, 'runtimeType': json['type']});
+
+      _$OpportunityModelFromJson({...json, 'runtimeType': json['Type'],'id':json['id'].toString()});
     Opportunity toEntity() {
    return map(
      internship: (model) => Internship(

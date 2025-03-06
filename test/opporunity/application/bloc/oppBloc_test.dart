@@ -68,7 +68,7 @@ void main() {
               category: 'Tech',
               profilepic: 'profilepic.jpg',
             ),
-            status: OpportunityStatus.ongoing,
+            status: OpportunityStatus.open,
             duration: '6 months',
             category: 'Software', applicantsAvatars: [], totalApplications: 10,
           )

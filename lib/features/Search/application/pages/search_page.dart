@@ -124,10 +124,16 @@ class SearchPage extends StatelessWidget {
                         ],
                       ),
                     );
+                  case SearchError():
+                    return SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(state.message),
+                      ),
+                    );
 
                   default:
                     return const SliverToBoxAdapter(
-                      child: Center(child: Text("Unknown Error")),
+                      child: Center(child: Text("Unknown state")),
                     );
                 }
               },

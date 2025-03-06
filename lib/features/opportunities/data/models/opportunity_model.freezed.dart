@@ -308,10 +308,10 @@ class _$InternshipModelImpl extends InternshipModel {
       {required this.id,
       required this.title,
       required this.description,
-      required final List<String> skills,
+      final List<String> skills = const [],
       required this.company,
-      this.status = OpportunityStatus.ongoing,
-      required this.duration,
+      this.status = OpportunityStatus.open,
+      this.duration = "",
       required this.category,
       final String? $type})
       : _skills = skills,
@@ -329,6 +329,7 @@ class _$InternshipModelImpl extends InternshipModel {
   final String description;
   final List<String> _skills;
   @override
+  @JsonKey()
   List<String> get skills {
     if (_skills is EqualUnmodifiableListView) return _skills;
     // ignore: implicit_dynamic_type
@@ -341,6 +342,7 @@ class _$InternshipModelImpl extends InternshipModel {
   @JsonKey()
   final OpportunityStatus status;
   @override
+  @JsonKey()
   final String duration;
   @override
   final OpportunityCategory category;
@@ -522,10 +524,10 @@ abstract class InternshipModel extends OpportunityModel {
       {required final String id,
       required final String title,
       required final String description,
-      required final List<String> skills,
+      final List<String> skills,
       required final CompanyModel company,
       final OpportunityStatus status,
-      required final String duration,
+      final String duration,
       required final OpportunityCategory category}) = _$InternshipModelImpl;
   const InternshipModel._() : super._();
 
@@ -638,9 +640,9 @@ class _$ProblemModelImpl extends ProblemModel {
       {required this.id,
       required this.title,
       required this.description,
-      required final List<String> skills,
+      final List<String> skills = const [],
       required this.company,
-      this.status = OpportunityStatus.ongoing,
+      this.status = OpportunityStatus.open,
       required this.category,
       final String? $type})
       : _skills = skills,
@@ -658,6 +660,7 @@ class _$ProblemModelImpl extends ProblemModel {
   final String description;
   final List<String> _skills;
   @override
+  @JsonKey()
   List<String> get skills {
     if (_skills is EqualUnmodifiableListView) return _skills;
     // ignore: implicit_dynamic_type
@@ -836,7 +839,7 @@ abstract class ProblemModel extends OpportunityModel {
       {required final String id,
       required final String title,
       required final String description,
-      required final List<String> skills,
+      final List<String> skills,
       required final CompanyModel company,
       final OpportunityStatus status,
       required final OpportunityCategory category}) = _$ProblemModelImpl;
