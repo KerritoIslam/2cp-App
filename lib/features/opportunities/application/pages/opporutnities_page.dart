@@ -167,10 +167,31 @@ class _OpportunitesState extends State<Opportunites> {
           if (state is OpportunitiesBlocInitial) {
             return const SliverToBoxAdapter(child: Text('initState'));
           } else if (state is OpportuntitiesLoadInProgress) {
-            return const SliverToBoxAdapter(
+          if (state.opportunities.isEmpty){
+  return  SliverToBoxAdapter(
               child: Loadingindicator(),
             );
-          } else if (state is OpportuntitiesLoadSuccess) {
+                     }
+                     return SliverToBoxAdapter(
+                     child: Column(
+                     children: [
+                      SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (ctx, idx) { 
+               if (idx>=state.opportunities.length-OpportunitiesBloc.nextPageTrigger){
+                 context.read<OpportunitiesBloc>().add(CheckIfNeedMoreDataEvent(idx));}
+                return opportunityCard(
+                  opportunity: state.opportunities[idx],
+                );},
+                childCount: state.opportunities.length,
+              ),
+            ),
+            Loadingindicator(),
+                     ],
+                     ),
+                     );
+
+                    } else if (state is OpportuntitiesLoadSuccess) {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
                 (ctx, idx) => opportunityCard(
