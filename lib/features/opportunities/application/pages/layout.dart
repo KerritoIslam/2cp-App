@@ -113,9 +113,16 @@ class _LayoutState extends State<Layout> {
               elevation: 0,
               selectedItemColor: Theme.of(context).primaryColor,
               currentIndex: index,
-              onTap: (value) => setState(() {
-                    index = value;
-                  }),
+              onTap: (value) {
+ if (index==value && value==0) {
+ //TODO:maybe add this
+                      //context.read<OpportunitiesBloc>().add(refreshOpportunitiesEvent());
+                    }
+
+                setState(() {
+                    
+                                       index = value;
+                  });},
               items: [
                 BottomNavigationBarItem(
                   icon:SvgPicture.asset(

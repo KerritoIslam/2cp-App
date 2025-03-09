@@ -1,12 +1,13 @@
-import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
-import 'package:app/features/applications%20status/domain/entities/application.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
+import 'package:app/features/opportunities/application/widgets/attachmentField.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
+import 'package:app/shared/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/forui.dart';
 import 'package:forui/widgets/badge.dart';
 class opportunityCard extends StatefulWidget {
   
@@ -131,10 +132,14 @@ class _opportunityCardState extends State<opportunityCard> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: (){
-                                        setState(() {
-                      isApplied=!isApplied;
-                    });
-                  },
+                    showModalBottomSheet(
+ 
+                      context: context, builder: (ctx)=>SizedBox(
+ height: MediaQuery.sizeOf(context).height*0.85,
+                          child: FullScreenDialog(
+                          jobTitle: widget.opportunity.title,
+                        )));
+                                                          },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
                     foregroundColor: Theme.of(context).secondaryHeaderColor,
@@ -154,6 +159,95 @@ class _opportunityCardState extends State<opportunityCard> {
                 ),
               ),   
           ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FullScreenDialog extends StatefulWidget {
+  final String jobTitle;
+  const FullScreenDialog({
+
+    super.key, required this.jobTitle,
+  });
+
+  @override
+  State<FullScreenDialog> createState() => _FullScreenDialogState();
+}
+
+class _FullScreenDialogState extends State<FullScreenDialog> {
+  late TextEditingController _proposalController;
+  @override
+    void initState() {
+      super.initState();
+      _proposalController=TextEditingController();
+    }
+  @override
+    void dispose() {
+    _proposalController.dispose();
+    super.dispose();
+    }
+  @override
+
+  Widget build(BuildContext context) {
+    // Get the height of the keyboard
+
+    return Dialog.fullscreen(
+      
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      child: Padding(
+        padding: EdgeInsets.all(20.0.r),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'You want to apply for ${widget.jobTitle}?',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).secondaryHeaderColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'Write a few sentences to highlight your skills and what makes you stand out.',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).secondaryHeaderColor,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              TextField(
+                controller: _proposalController,
+                maxLines: 5,
+                cursorColor: Theme.of(context).secondaryHeaderColor,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).secondaryHeaderColor,
+                    ),
+                  ),
+                  focusColor: Theme.of(context).secondaryHeaderColor,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).secondaryHeaderColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.h,),
+              AttachmentField(
+              ), 
+                          SizedBox(height: 24.h), 
+              ActionButton(
+                onPressed: () {},
+                text: "Apply Now",
+              ),
+              SizedBox(height: 24.h),
+            ],
           ),
         ),
       ),

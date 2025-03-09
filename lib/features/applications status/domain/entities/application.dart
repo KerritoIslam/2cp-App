@@ -1,6 +1,5 @@
 import 'package:app/features/applications%20status/constants/status.dart';
 import 'package:app/features/applications%20status/data/models/application_model.dart';
-import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:equatable/equatable.dart';
 

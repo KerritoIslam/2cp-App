@@ -12,7 +12,7 @@ class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocSt
   //The current Page Number 
   int page=1;
   //Number of posts per Page
-  int limit=15;
+  int limit=5;
   //To check if we have reached the last page
   bool hasReachedMax=false;
   //number of pages before loading more data
@@ -42,6 +42,12 @@ class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocSt
       }
     });
        
+    on<refreshOpportunitiesEvent>((event, emit) async {
+      page=1;
+      hasReachedMax=false;
+      opportunities=[];
+      add(LoadOpportunitiesEvent());
+    });
   }
 
 }
@@ -71,6 +77,7 @@ class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesS
         emit(OpportunitySavedSucces(savedOpportunities));
       });
     });
+
     
   on<LoadSavedOpportunitiesEvent>((event, emit) async {
       emit(OpportunitySavedInProgress());

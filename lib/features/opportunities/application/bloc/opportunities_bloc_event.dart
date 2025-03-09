@@ -7,6 +7,7 @@ class CheckIfNeedMoreDataEvent extends OpportunitiesBlocEvent {
   final int index;
   CheckIfNeedMoreDataEvent(this.index);
 }
+class refreshOpportunitiesEvent extends OpportunitiesBlocEvent{}
 class SaveOpportunityEvent extends OpportunitiesSavedEvent{
   final String id;
   SaveOpportunityEvent(this.id);
@@ -18,3 +19,4 @@ class RemoveSavedOpportunityEvent extends OpportunitiesSavedEvent{
 class LoadSavedOpportunitiesEvent extends OpportunitiesSavedEvent{
   LoadSavedOpportunitiesEvent();
 }
+
