@@ -9,10 +9,19 @@ part 'user_entity.g.dart';
 class User with _$User {
    const User._();
   const factory User({
-    required int id,
+   required int id,
     required String name,
     required String email,
-     String? password,
+    String? number,
+    String? profilepic,
+    String? links,
+    required String date_joined,
+    String? education,
+    required String gendre,
+    required List<String> skills,
+     int? rating,
+    String? category,
+    String? cv,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

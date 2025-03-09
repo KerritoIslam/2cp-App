@@ -23,7 +23,16 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String? get password => throw _privateConstructorUsedError;
+  String? get number => throw _privateConstructorUsedError;
+  String? get profilepic => throw _privateConstructorUsedError;
+  String? get links => throw _privateConstructorUsedError;
+  String get date_joined => throw _privateConstructorUsedError;
+  String? get education => throw _privateConstructorUsedError;
+  String get gendre => throw _privateConstructorUsedError;
+  List<String> get skills => throw _privateConstructorUsedError;
+  int? get rating => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
+  String? get cv => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +48,20 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({int id, String name, String email, String? password});
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      String? number,
+      String? profilepic,
+      String? links,
+      String date_joined,
+      String? education,
+      String gendre,
+      List<String> skills,
+      int? rating,
+      String? category,
+      String? cv});
 }
 
 /// @nodoc
@@ -60,7 +82,16 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? password = freezed,
+    Object? number = freezed,
+    Object? profilepic = freezed,
+    Object? links = freezed,
+    Object? date_joined = null,
+    Object? education = freezed,
+    Object? gendre = null,
+    Object? skills = null,
+    Object? rating = freezed,
+    Object? category = freezed,
+    Object? cv = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,9 +106,45 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profilepic: freezed == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
+              as String?,
+      links: freezed == links
+          ? _value.links
+          : links // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date_joined: null == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String,
+      education: freezed == education
+          ? _value.education
+          : education // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gendre: null == gendre
+          ? _value.gendre
+          : gendre // ignore: cast_nullable_to_non_nullable
+              as String,
+      skills: null == skills
+          ? _value.skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cv: freezed == cv
+          ? _value.cv
+          : cv // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -90,7 +157,20 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String email, String? password});
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      String? number,
+      String? profilepic,
+      String? links,
+      String date_joined,
+      String? education,
+      String gendre,
+      List<String> skills,
+      int? rating,
+      String? category,
+      String? cv});
 }
 
 /// @nodoc
@@ -108,7 +188,16 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? password = freezed,
+    Object? number = freezed,
+    Object? profilepic = freezed,
+    Object? links = freezed,
+    Object? date_joined = null,
+    Object? education = freezed,
+    Object? gendre = null,
+    Object? skills = null,
+    Object? rating = freezed,
+    Object? category = freezed,
+    Object? cv = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -123,9 +212,45 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profilepic: freezed == profilepic
+          ? _value.profilepic
+          : profilepic // ignore: cast_nullable_to_non_nullable
+              as String?,
+      links: freezed == links
+          ? _value.links
+          : links // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date_joined: null == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String,
+      education: freezed == education
+          ? _value.education
+          : education // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gendre: null == gendre
+          ? _value.gendre
+          : gendre // ignore: cast_nullable_to_non_nullable
+              as String,
+      skills: null == skills
+          ? _value._skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cv: freezed == cv
+          ? _value.cv
+          : cv // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -138,8 +263,18 @@ class _$UserImpl extends _User {
       {required this.id,
       required this.name,
       required this.email,
-      this.password})
-      : super._();
+      this.number,
+      this.profilepic,
+      this.links,
+      required this.date_joined,
+      this.education,
+      required this.gendre,
+      required final List<String> skills,
+      this.rating,
+      this.category,
+      this.cv})
+      : _skills = skills,
+        super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -151,11 +286,35 @@ class _$UserImpl extends _User {
   @override
   final String email;
   @override
-  final String? password;
+  final String? number;
+  @override
+  final String? profilepic;
+  @override
+  final String? links;
+  @override
+  final String date_joined;
+  @override
+  final String? education;
+  @override
+  final String gendre;
+  final List<String> _skills;
+  @override
+  List<String> get skills {
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_skills);
+  }
+
+  @override
+  final int? rating;
+  @override
+  final String? category;
+  @override
+  final String? cv;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, password: $password)';
+    return 'User(id: $id, name: $name, email: $email, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, category: $category, cv: $cv)';
   }
 
   @override
@@ -166,13 +325,39 @@ class _$UserImpl extends _User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.profilepic, profilepic) ||
+                other.profilepic == profilepic) &&
+            (identical(other.links, links) || other.links == links) &&
+            (identical(other.date_joined, date_joined) ||
+                other.date_joined == date_joined) &&
+            (identical(other.education, education) ||
+                other.education == education) &&
+            (identical(other.gendre, gendre) || other.gendre == gendre) &&
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.cv, cv) || other.cv == cv));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, password);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      email,
+      number,
+      profilepic,
+      links,
+      date_joined,
+      education,
+      gendre,
+      const DeepCollectionEquality().hash(_skills),
+      rating,
+      category,
+      cv);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -195,7 +380,16 @@ abstract class _User extends User {
       {required final int id,
       required final String name,
       required final String email,
-      final String? password}) = _$UserImpl;
+      final String? number,
+      final String? profilepic,
+      final String? links,
+      required final String date_joined,
+      final String? education,
+      required final String gendre,
+      required final List<String> skills,
+      final int? rating,
+      final String? category,
+      final String? cv}) = _$UserImpl;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -207,7 +401,25 @@ abstract class _User extends User {
   @override
   String get email;
   @override
-  String? get password;
+  String? get number;
+  @override
+  String? get profilepic;
+  @override
+  String? get links;
+  @override
+  String get date_joined;
+  @override
+  String? get education;
+  @override
+  String get gendre;
+  @override
+  List<String> get skills;
+  @override
+  int? get rating;
+  @override
+  String? get category;
+  @override
+  String? get cv;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

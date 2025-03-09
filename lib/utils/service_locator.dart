@@ -26,6 +26,7 @@ Future<void> setUpLocator() async {
         ),
       ));
   locator.registerLazySingleton<AuthRepository>(() => AuthRepository(
+        localStorage: locator.get<LocalStorage>(),
         restAuthRemote: locator.get<RestAuthRemote>(),
         localSecureStorage: locator.get<LocalSecureStorage>(),
       ));
@@ -36,7 +37,11 @@ Future<void> setUpLocator() async {
   locator.registerLazySingleton<LocalStorage>(() => LocalStorage(locator.get<SharedPreferences>()));
 
   // Auth Bloc
-  locator.registerFactory<AuthBloc>(() => AuthBloc(locator.get<AuthRepository>()));
+  locator.registerFactory<AuthBloc>(() => AuthBloc(
+    authRepository: locator.get<AuthRepository>(), 
+    localSecureStorage: locator.get<LocalSecureStorage>(),
+    localStorage: locator.get<LocalStorage>(),
+  ));
 
   // Opportunities
   locator.registerLazySingleton<OpportunityRemoteSource>(() => OpportunityRemoteSource());

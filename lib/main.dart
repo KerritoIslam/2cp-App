@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
                 themeMode: ThemeMode.system,
                 theme: theme.lightTheme,
                 darkTheme: theme.darkTheme,
+                //todo : fix the theme mode
               ),
             );
           },

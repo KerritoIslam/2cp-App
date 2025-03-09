@@ -127,6 +127,27 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
+  Future<Either <Failure,TokensModel>> refrechTokens(String refreshToken) async {
+    try {
+      final response = await _dio.post(
+        '/Auth/Refresh',
+        data: {
+          'refresh': refreshToken,
+        },
+      );
+      return right(TokensModel(accessToken: response.data['access'], refreshToken: response.data['refresh']));
+    } on DioException catch (e) {
+      if (e.response == null) {
+        return left(Failure('Unkonw error Please Try Again Later!'));
+      }
+      if (e.response!.statusCode == 401) {
+        return left(Failure('Invalid Refresh Token'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 
   Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
     try {

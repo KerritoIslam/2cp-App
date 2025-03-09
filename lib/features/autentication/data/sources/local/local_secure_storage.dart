@@ -10,26 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalSecureStorage {
   final FlutterSecureStorage storage;
   LocalSecureStorage(this.storage);
-  Future<Either<Failure, Unit>> setUser(Map<String,dynamic> user) async {
-    try {
-      await storage.write(key: 'user', value: jsonEncode(user));
-      return Right(unit);
-    } on Exception catch (e) {
-      return Left(Failure('Error setting user: $e'));
-    }
-  }
-
-  Future<Either<Failure, String>> getUser() async {
-    try {
-      final user = await storage.read(key: 'user');
-      if (user == null) {
-        return left(Failure('No user found'));
-      }
-      return right(user);
-    } catch (e) {
-      return left(Failure('Error getting user: $e'));
-    }
-  }
 
   Future<Either<Failure, Unit>> setTokens(
       String accessToken, String refreshToken) async {
@@ -88,6 +68,27 @@ class LocalStorage {
       return localStorage.getBool('welcomePage') ?? false;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<Either<Failure, Unit>> setUser(Map<String, dynamic> user) async {
+    try {
+      await localStorage.setString('user', jsonEncode(user));
+      return Right(unit);
+    } on Exception catch (e) {
+      return Left(Failure('Error setting user: $e'));
+    }
+  }
+
+  Future<Either<Failure, String>> getUser() async {
+    try {
+      final user = localStorage.getString('user');
+      if (user == null) {
+        return left(Failure('No user found'));
+      }
+      return right(user);
+    } catch (e) {
+      return left(Failure('Error getting user: $e'));
     }
   }
 }

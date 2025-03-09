@@ -11,36 +11,39 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthRepository authRepository;
-  final datasource = locator.get<LocalSecureStorage>();
+  final AuthRepository authRepository;
+  final LocalSecureStorage localSecureStorage;
+  final LocalStorage localStorage;
   Future<Either<Failure, User>> _init() async {
-    final tokes = await datasource.getTokens();
-    final bool token = tokes.fold((l) {
-      return false;
-    }, (token) {
-      return true;
-    });
-    if (!token) {
-      return left(Failure('No token found'));
-    }
-    final user = await datasource.getUser();
-    return user.fold((l) {
-      return left(Failure('Error getting user: ${l.message}'));
-    }, (r) {
-      final userMap = jsonDecode(r);
-      return right(User.fromJson(userMap));
+    final tokens = await authRepository.checkTokens();
+    return await tokens.fold((l) {
+      return left(Failure(l.message));
+    }, (r) async {
+      print(r.accessToken + r.refreshToken);
+      final user = await localStorage.getUser();
+      return user.fold((l) {
+        return left(Failure('Error getting user: ${l.message}'));
+      }, (r) {
+        final userMap = jsonDecode(r);
+        return right(User.fromJson(userMap));
+      });
     });
   }
 
-  AuthBloc(this.authRepository) : super(AuthInitial()) {
-    /* _init().then((value) {
+  AuthBloc(
+      {required this.authRepository,
+      required this.localSecureStorage,
+      required this.localStorage})
+      : super(AuthInitial()) {
+    _init().then((value) {
       value.fold((l) {
-        print(l.message);
-        emit(Unauthenticated());
+        print(
+            '${l.message}------------------------1111111111111111111111----------------------------');
+        add(AuthLogoutRequested());
       }, (user) {
-        emit(Authenticated(user));
+        add(UserLoaded(user));
       });
-    }); */
+    });
 
     on<AuthLoginRequested>((event, emit) async {
       print(
@@ -63,7 +66,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user.fold(
           (failure) {
             emit(AuthError(failure.message));
-            print(failure.message);
+            print(
+                '${failure.message}------------------------------------------------1111111111111111111--------------------------------------------');
           },
           (user) {
             emit(Authenticated(user));
@@ -90,8 +94,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthResetPasswordRequested>(
       (event, emit) async {
         emit(AuthLoading());
-        final response = await authRepository.resetPassword(
-            event.email, event.password);
+        final response =
+            await authRepository.resetPassword(event.email, event.password);
         response.fold(
           (l) {
             emit(AuthError(l.message));
@@ -132,6 +136,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print(e.toString());
       }
       emit(Unauthenticated());
+    });
+    on<UserLoaded>((event, emit) async {
+      emit(Authenticated(event.user));
     });
   }
 }

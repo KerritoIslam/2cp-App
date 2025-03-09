@@ -234,6 +234,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                       Visibility(
+                          visible: _emailConfirmed,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'your email : ${emailController.text}',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          )),
+                      Visibility(
                         visible: !_otpConfirmed && _emailConfirmed,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -308,6 +317,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             } else {
                               setState(() {
                                 _emailConfirmed = true;
+                                for (var element in _otpControllers) {
+                                  element.clear();
+                                }
                               });
                               OTP = 123456;
                             }
@@ -318,7 +330,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 .join());
 
                             if (!_otpConfirmed && OTP == inputOtp) {
-                              _otpConfirmed = true;
+                              setState(() {
+                                _otpConfirmed = true;
+                                for (var element in _otpControllers) {
+                                  element.clear();
+                                }
+                              });
                             } else if (OTP != inputOtp) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

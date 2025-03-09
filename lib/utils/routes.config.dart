@@ -57,8 +57,10 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'LoginPage',
             pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
-
-        GoRoute(path: 'forgotpassword', pageBuilder: (context, state) => MaterialPage(child: ForgotPasswordPage())),
+        GoRoute(
+            path: 'forgotpassword',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: ForgotPasswordPage())),
       ],
     ),
     GoRoute(
@@ -68,23 +70,27 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'layout',
             pageBuilder: (context, state) => MaterialPage(child: Layout()),
-      routes:[
-          GoRoute(path: 'notifications', pageBuilder: (context, state) => MaterialPage(child: NotificationsPage())),
-        ]
-
-        ),
-        GoRoute(path: 'options',
- pageBuilder: (context,state)=>MaterialPage(child: SettingsTilesPage()),
-          routes: [
-          GoRoute(path: 'saved',pageBuilder: (context,state)=>MaterialPage(child: SavedopportuntitiesPage())),
-            GoRoute(path: 'notifications',pageBuilder: (context,state)=>MaterialPage(child: NotificationsSettingPage()))
-        ]
-        ),
-        
-        
-
-        
-                       ],
+            routes: [
+              GoRoute(
+                  path: 'notifications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: NotificationsPage())),
+            ]),
+        GoRoute(
+            path: 'options',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: SettingsTilesPage()),
+            routes: [
+              GoRoute(
+                  path: 'saved',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: SavedopportuntitiesPage())),
+              GoRoute(
+                  path: 'notifications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: NotificationsSettingPage()))
+            ]),
+      ],
     ),
   ],
   redirect: (context, state) async {
