@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/forui.dart';
 import 'package:forui/widgets/badge.dart';
+import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 class opportunityCard extends StatefulWidget {
   
   
@@ -243,7 +245,17 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               ), 
                           SizedBox(height: 24.h), 
               ActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                  toastification.show(
+                    type: ToastificationType.success,
+                title:Text(  "Application Sumbited succefully" ,style: TextStyle(color: Colors.white,),),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    autoCloseDuration: const Duration(milliseconds: 2300),
+                  );
+                  
+
+                },
                 text: "Apply Now",
               ),
               SizedBox(height: 24.h),

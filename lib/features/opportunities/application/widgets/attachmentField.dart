@@ -114,8 +114,8 @@ class _AttachmentFieldState extends State<AttachmentField> {
                                 child: _selectedFile == null
                     ? TextButton.icon(
                         onPressed: _pickFile,
-                        icon: Icon(Icons.attach_file, size: 18,color: Theme.of(context).primaryColor,),
-                        label: Text('Attach',style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        icon: Icon(Icons.attach_file, size: 25.r,color: Theme.of(context).primaryColor,),
+                        label: Text('Attach',style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).primaryColor.withOpacity(0.8
                   ),),),
                         style: ButtonStyle(
