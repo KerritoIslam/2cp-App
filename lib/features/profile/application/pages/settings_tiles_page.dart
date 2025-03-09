@@ -46,7 +46,7 @@ class SettingsTilesPage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 90.h,
       leading: IconButton(onPressed:(){
-          context.pop();
+          context.go('/protected/layout/0');
         } ,icon:Icon( Icons.arrow_back,color: Theme.of(context).secondaryHeaderColor, )),
         title: Text('Options',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Theme.of(context).secondaryHeaderColor),),
         centerTitle: true,
@@ -76,7 +76,7 @@ class SettingsTilesPage extends StatelessWidget {
                 }),
 
             Spacer(flex: 2,),
-            SvgPicture.asset('assets/images/settingsLootie.svg'),
+            FittedBox(fit: BoxFit.contain,child: SvgPicture.asset('assets/images/settingsLootie.svg')),
             Spacer(flex: 3,),
             ],
           );

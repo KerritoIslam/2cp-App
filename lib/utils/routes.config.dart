@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/protected/layout',
+  initialLocation: '/',
   routes: [
     GoRoute(
         path: '/offline',
@@ -67,8 +67,8 @@ GoRouter router = GoRouter(
       path: '/protected',
       routes: [
         GoRoute(
-            path: 'layout',
-            pageBuilder: (context, state) => MaterialPage(child: Layout()),
+            path: 'layout/:page',
+            pageBuilder: (context, state) => MaterialPage(child: Layout(initPage:int.parse(  state.pathParameters['page']??"0"),)),
       routes:[
           GoRoute(path: 'notifications', pageBuilder: (context, state) => MaterialPage(child: NotificationsPage())),
         ]
@@ -100,7 +100,7 @@ GoRouter router = GoRouter(
     }
     if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
-      return '/protected/layout';
+      return '/protected/layout/0';
     } else if (state.fullPath!.startsWith('/protected') &&
 
         authBloc.state is Unauthenticated) {

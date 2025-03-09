@@ -11,6 +11,7 @@ class notificationsBloc extends Bloc<notificationsEvent, notificationsState> {
   final List<ENotification> notifications = [];
   notificationsBloc(this.repo) : super(notificationsInitial()) {
     on<notificationsFetched>((event, emit)async {
+      emit(notificationsLoading());
      final res=await repo.getNotifications();
       return res.fold((l)=>emit(notificationsError(l.message,notifications)), (r){
         notifications.addAll(r);
@@ -19,6 +20,7 @@ class notificationsBloc extends Bloc<notificationsEvent, notificationsState> {
       
     });
     on<notificationsRefreshed>((event, emit)async {
+      emit(notificationsLoading());
         final res=await repo.getNotifications();
         return res.fold((l)=>emit(notificationsError(l.message,notifications)), (r){
           notifications.clear();

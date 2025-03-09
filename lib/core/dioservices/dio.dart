@@ -7,15 +7,17 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DioServices {
   static final Dio _dio = Dio(
+    
     BaseOptions(
-      baseUrl: 'http://192.168.40.95:8000/',
+      sendTimeout: Duration(seconds: 10),
+      baseUrl: 'http://192.168.1.8:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+      print(options.path);
         final  unprotected=options.path.contains("/Auth");
         if (unprotected) {
-          return handler.next(options);
-          
+          return handler.next(options); 
         }
       //TODO use repository instead of LocalSecureStorage
         final dataSource = locator.get<LocalSecureStorage>();
@@ -28,11 +30,10 @@ class DioServices {
           return;
         }
         //TODO check if bearer of Bearer
-        options.headers['Authorization'] = "bearer $token";
+        options.headers['Authorization'] = "Bearer $token";
         return handler.next(options);
       },
       onError: (error, handler) async {
-      print(error.requestOptions.path);
          if (error.requestOptions.path.startsWith('/Auth')){
          if (!error.requestOptions.path.contains('Refresh')) {
            return handler.next(error);
@@ -41,9 +42,10 @@ class DioServices {
         final authBloc = locator.get<AuthBloc>();
         if (error.response?.statusCode == 401) {
           
+          
           final dataSource = locator.get<LocalSecureStorage>();
           final res = await dataSource.getTokens();
-          final token = res.fold((l) => "", (r) => r.accessToken);
+          final token = res.fold((l) => "", (r) => r.refreshToken);
           if (token.isEmpty) {
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
@@ -69,6 +71,7 @@ class DioServices {
             await dataSource.setTokens(
                 response.data['access'], response.data['refresh']);
             final options = error.requestOptions;
+            print(response.data['access']);
             options.headers['Authorization'] = response.data['access'];
             final res = await dio.fetch(options);
             return handler.resolve(res);

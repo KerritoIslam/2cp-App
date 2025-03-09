@@ -1,5 +1,6 @@
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/shared/widgets/action_button.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -146,62 +147,37 @@ shrinkWrap: true,
               Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: ElevatedButton(
-                          onPressed: () {
-                            showAdaptiveDialog(
-                          context: context,
-                          builder: (ctx) => FDialog(
-                            direction: Axis.horizontal,
-                            title: const Text('Are you absolutely sure?'),
-                            body: const Text(
-                'This will log you out of the app and you will have to log in again.',
-                            ),
-                            actions: [
-                FButton(
-                  style: FButtonStyle.outline,
-                  label: const Text('Cancel'),
-                  onPress: () => Navigator.of(ctx).pop(),
+                child: ActionButton(
+                  onPressed:(){
+                                    showAdaptiveDialog(
+              context: context,
+              builder: (ctx) => FDialog(
+                direction: Axis.horizontal,
+                title: const Text('Are you absolutely sure?'),
+                body: const Text(
+    'This will log you out of the app and you will have to log in again.',
                 ),
-                FButton(
-                  label: const Text('Logout'),
-                  onPress: () {
-                    context.pop();
-                    context.read<AuthBloc>().add(AuthLogoutRequested());
-                  },
+                actions: [
+    FButton(
+      style: FButtonStyle.outline,
+      label: const Text('Cancel'),
+      onPress: () => Navigator.of(ctx).pop(),
+    ),
+    FButton(
+      label: const Text('Logout'),
+      onPress: () {
+        context.pop();
+        context.read<AuthBloc>().add(AuthLogoutRequested());
+      },
+    ),
+                ],
+              ),
+            );
+
+                  }, text: "Logout" ,
+                  suffix:  Icon(Icons.logout,color: Colors.white,weight: 700,size: 30.r,)
+,
                 ),
-                            ],
-                          ),
-                        );
-                
-                  },
-                          style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all(
-                                  Theme.of(context).primaryColor),
-                              shape: WidgetStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ))),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
-                            alignment: Alignment.center,
-                            width: double.infinity,
-                            height: 55.h,
-                            child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Logout',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .copyWith(color: Theme.of(context).secondaryHeaderColor,fontWeight: FontWeight.w500),
-                                ),
-                        SizedBox(width: 10.w,),
-                  Icon(Icons.logout,color: Theme.of(context).secondaryHeaderColor,weight: 700,size: 30.r,)
-                              ],
-                            ),
-                          ),
-                        ),
               ),
               Spacer(),
 
@@ -213,3 +189,5 @@ shrinkWrap: true,
     );
   }
 }
+
+

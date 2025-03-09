@@ -141,8 +141,8 @@ class _$CompanyModelImpl extends _CompanyModel {
   const _$CompanyModelImpl(
       {required this.id,
       required this.name,
-      required this.category,
-      required this.profilepic})
+      this.category = 'None',
+      this.profilepic = ''})
       : super._();
 
   factory _$CompanyModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -153,8 +153,10 @@ class _$CompanyModelImpl extends _CompanyModel {
   @override
   final String name;
   @override
+  @JsonKey()
   final String category;
   @override
+  @JsonKey()
   final String profilepic;
 
   @override
@@ -199,8 +201,8 @@ abstract class _CompanyModel extends CompanyModel {
   const factory _CompanyModel(
       {required final String id,
       required final String name,
-      required final String category,
-      required final String profilepic}) = _$CompanyModelImpl;
+      final String category,
+      final String profilepic}) = _$CompanyModelImpl;
   const _CompanyModel._() : super._();
 
   factory _CompanyModel.fromJson(Map<String, dynamic> json) =

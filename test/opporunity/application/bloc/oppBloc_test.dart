@@ -55,7 +55,7 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
-        OpportuntitiesLoadInProgress(),
+        OpportuntitiesLoadInProgress(opportunities: []),
         OpportuntitiesLoadSuccess([
           Opportunity.internship(
             id: '123',
@@ -68,7 +68,7 @@ void main() {
               category: 'Tech',
               profilepic: 'profilepic.jpg',
             ),
-            status: OpportunityStatus.ongoing,
+            status: OpportunityStatus.open,
             duration: '6 months',
             category: 'Software', applicantsAvatars: [], totalApplications: 10,
           )
@@ -88,7 +88,7 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
-        OpportuntitiesLoadInProgress(),
+        OpportuntitiesLoadInProgress(opportunities: []),
         OpportuntitiesLoadFailure('Failed to load opportunities'),
       ],
     );

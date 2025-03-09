@@ -53,7 +53,7 @@ class NotificationsPage extends StatelessWidget {
                 
               if (state is notificationsLoaded){
               return listBuilder(state.notifications);}
-                if (state is notficationsLoading ){
+                if (state is notificationsLoading ){
                 return SliverToBoxAdapter(
                   child: Center(
                     child:Loadingindicator(), 

@@ -10,6 +10,7 @@ import 'package:app/features/notifications/domain/repositories/notification_repo
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/data/source/remote_data_source.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +23,10 @@ Future<void> setUpLocator() async {
   locator.registerLazySingleton<RestAuthRemote>(() => RestAuthRemote());
   locator.registerLazySingleton<LocalSecureStorage>(() => LocalSecureStorage(
         FlutterSecureStorage(
-          aOptions: const AndroidOptions(encryptedSharedPreferences: true),
-        ),
+            aOptions: const AndroidOptions(encryptedSharedPreferences: true),
+            iOptions: IOSOptions(
+                accountName: '2CP',
+                accessibility: KeychainAccessibility.passcode)),
       ));
   locator.registerLazySingleton<AuthRepository>(() => AuthRepository(
         restAuthRemote: locator.get<RestAuthRemote>(),
@@ -31,27 +34,40 @@ Future<void> setUpLocator() async {
       ));
 
   // Shared Preferences
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
   locator.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  locator.registerLazySingleton<LocalStorage>(() => LocalStorage(locator.get<SharedPreferences>()));
+  locator.registerLazySingleton<LocalStorage>(
+      () => LocalStorage(locator.get<SharedPreferences>()));
 
   // Auth Bloc
-  locator.registerFactory<AuthBloc>(() => AuthBloc(locator.get<AuthRepository>()));
+  locator
+      .registerFactory<AuthBloc>(() => AuthBloc(locator.get<AuthRepository>()));
 
   // Opportunities
-  locator.registerLazySingleton<OpportunityRemoteSource>(() => OpportunityRemoteSource());
-  locator.registerLazySingleton<OpportunityRepository>(() => OpportunityRepository(remoteSource: locator.get<OpportunityRemoteSource>()));
-  locator.registerFactory<OpportunitiesBloc>(() => OpportunitiesBloc(locator.get<OpportunityRepository>()));
-  locator.registerFactory(() => OpportunitiesSavedBloc(locator.get<OpportunityRepository>()));
-
+  locator.registerLazySingleton<OpportunityRemoteSource>(
+      () => OpportunityRemoteSource());
+  locator.registerLazySingleton<OpportunityRepository>(() =>
+      OpportunityRepository(
+          remoteSource: locator.get<OpportunityRemoteSource>()));
+  locator.registerFactory<OpportunitiesBloc>(
+      () => OpportunitiesBloc(locator.get<OpportunityRepository>()));
+  locator.registerFactory(
+      () => OpportunitiesSavedBloc(locator.get<OpportunityRepository>()));
 
   // Notifications
-  locator.registerLazySingleton<NotificationRemoteDataSource>(() => NotificationRemoteDataSource());
-  locator.registerLazySingleton<NotificationRepository>(() => NotificationRepository(locator.get<NotificationRemoteDataSource>()));
-  locator.registerFactory<notificationsBloc>(() => notificationsBloc(locator.get<NotificationRepository>()));
+  locator.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSource());
+  locator.registerLazySingleton<NotificationRepository>(() =>
+      NotificationRepository(locator.get<NotificationRemoteDataSource>()));
+  locator.registerFactory<notificationsBloc>(
+      () => notificationsBloc(locator.get<NotificationRepository>()));
 
   // Search
-  locator.registerLazySingleton<Searchremotedatasource>(() => Searchremotedatasource());
-  locator.registerLazySingleton<SearchRepository>(() => SearchRepository(remoteDataSource: locator.get<Searchremotedatasource>()));
-  locator.registerFactory<SearchBloc>(() => SearchBloc(locator.get<SearchRepository>()));
+  locator.registerLazySingleton<Searchremotedatasource>(
+      () => Searchremotedatasource());
+  locator.registerLazySingleton<SearchRepository>(() => SearchRepository(
+      remoteDataSource: locator.get<Searchremotedatasource>()));
+  locator.registerFactory<SearchBloc>(
+      () => SearchBloc(locator.get<SearchRepository>()));
 }

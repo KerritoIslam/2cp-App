@@ -31,17 +31,10 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
     );
     
     // Add status listener to trigger actual deletion when animation completes
-    _controller.addStatusListener(_handleAnimationStatus);
   }
 
   // Handle animation completion
-  void _handleAnimationStatus(AnimationStatus status) {
-    if (status == AnimationStatus.completed && _isDeleting) {
-      // Actually delete the notification after animation completes
-      context.read<notificationsBloc>().add(notificationDeleted(widget.notification));
-    }
-  }
-
+  
   // Start the deletion process
   void _deleteNotification() {
     setState(() {
@@ -52,7 +45,6 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
 
   @override
   void dispose() {
-    _controller.removeStatusListener(_handleAnimationStatus);
     _controller.dispose();
     super.dispose();
   }
@@ -82,7 +74,7 @@ class _NotifcationTileState extends State<NotifcationTile> with SingleTickerProv
                         icon: Icons.delete,
                         onPressed: (ctx) {
                           // Start the fade out animation
-                          _deleteNotification();
+                          context.read<notificationsBloc>().add(notificationDeleted(widget.notification));
                         },
                       ),
                     ]
