@@ -55,7 +55,7 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
-        OpportuntitiesLoadInProgress(),
+        OpportuntitiesLoadInProgress(opportunities: []),
         OpportuntitiesLoadSuccess([
           Opportunity.internship(
             id: '123',
@@ -88,7 +88,7 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadOpportunitiesEvent()),
       expect: () => [
-        OpportuntitiesLoadInProgress(),
+        OpportuntitiesLoadInProgress(opportunities: []),
         OpportuntitiesLoadFailure('Failed to load opportunities'),
       ],
     );
