@@ -348,7 +348,7 @@ class _$InternshipImpl extends Internship {
       required this.description,
       required final List<String> skills,
       required this.company,
-      this.status = OpportunityStatus.ongoing,
+      this.status = OpportunityStatus.open,
       required this.duration,
       required final List<String> applicantsAvatars,
       required this.totalApplications,
@@ -729,7 +729,7 @@ class _$ProblemImpl extends Problem {
       required final List<String> skills,
       required final List<String> applicantsAvatars,
       required this.company,
-      this.status = OpportunityStatus.ongoing,
+      this.status = OpportunityStatus.open,
       required this.category,
       final String? $type})
       : _skills = skills,

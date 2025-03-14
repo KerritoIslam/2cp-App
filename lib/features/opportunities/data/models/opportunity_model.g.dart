@@ -12,12 +12,14 @@ _$InternshipModelImpl _$$InternshipModelImplFromJson(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      skills:
-          (json['skills'] as List<dynamic>).map((e) => e as String).toList(),
+      skills: (json['skills'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.ongoing,
-      duration: json['duration'] as String,
+          OpportunityStatus.open,
+      duration: json['duration'] as String? ?? "",
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
     );
@@ -37,9 +39,8 @@ Map<String, dynamic> _$$InternshipModelImplToJson(
     };
 
 const _$OpportunityStatusEnumMap = {
-  OpportunityStatus.pending: 'pending',
-  OpportunityStatus.ended: 'ended',
-  OpportunityStatus.ongoing: 'ongoing',
+  OpportunityStatus.open: 'open',
+  OpportunityStatus.close: 'close',
 };
 
 const _$OpportunityCategoryEnumMap = {
@@ -59,11 +60,13 @@ _$ProblemModelImpl _$$ProblemModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      skills:
-          (json['skills'] as List<dynamic>).map((e) => e as String).toList(),
+      skills: (json['skills'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.ongoing,
+          OpportunityStatus.open,
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
     );

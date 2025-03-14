@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/theme.dart';
+import 'package:toastification/toastification.dart';
 
 final authBloc = locator.get<AuthBloc>();
 
@@ -93,20 +94,24 @@ class MyApp extends StatelessWidget {
               data: state is LightTheme
                   ? FThemes.green.light
                   : FThemes.green.dark,
-              child: MaterialApp.router(
-                builder: (context, child) {
-                  ErrorWidget.builder = (FlutterErrorDetails details) {
-                    return CustomError(errorDetails: details, key: null);
-                  };
-                  return child!;
-                },
-                routerConfig: router,
-                debugShowCheckedModeBanner: false,
-                title: 'Step in',
-                themeMode: ThemeMode.system,
-                theme: theme.lightTheme,
-                darkTheme: theme.darkTheme,
-                //todo : fix the theme mode
+              child: ToastificationWrapper(
+                child: MaterialApp.router(
+                  builder: (context, child) {
+                    ErrorWidget.builder = (FlutterErrorDetails details) {
+                      return CustomError(errorDetails: details, key: null);
+                    };
+                    return child!;
+                  },
+                  routerConfig: router,
+                  
+                  debugShowCheckedModeBanner: false,
+                  title: 'Step in',
+                  themeMode: (state is LightTheme)
+                      ? ThemeMode.light
+                      : ThemeMode.dark, 
+                  theme: theme.lightTheme,
+                  darkTheme: theme.darkTheme,
+                ),
               ),
             );
           },

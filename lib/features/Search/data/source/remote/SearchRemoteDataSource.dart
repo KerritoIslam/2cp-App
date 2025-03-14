@@ -40,7 +40,7 @@ try  {     // Mock companies
         description: 'Work on building a cutting-edge Flutter application.',
         skills: ['Flutter', 'Dart', 'Firebase'],
         company: mockCompanies[0],
-        status: OpportunityStatus.ongoing,
+        status: OpportunityStatus.open,
         duration: '3 months',
         category: OpportunityCategory.CS,
       ),
@@ -50,7 +50,7 @@ try  {     // Mock companies
         description: 'Find security vulnerabilities in APIs.',
         skills: ['Cybersecurity', 'Pentesting'],
         company: mockCompanies[1],
-        status: OpportunityStatus.ongoing,
+        status: OpportunityStatus.open,
         category: OpportunityCategory.CS
         ,
       ),
@@ -59,18 +59,28 @@ try  {     // Mock companies
     await Future.delayed(Duration(milliseconds: 500));
     if (query.isEmpty){
     return Right(SearchResultModel(
-      opportunities: [],
-      companies: [],
+     opportunity : [],
+      company: [],
     ));
     }
-    return Right(SearchResultModel(
-      opportunities: mockOpportunities,
-      companies: mockCompanies,
-    ));
+    final res=await dio.get('app/search/',queryParameters: {'q':query});
+
+
+      print(res.data);
+ 
+      if (res.statusCode==200){
+      return Right(SearchResultModel.fromJson(res.data));
+      }
+      return Left(Failure('Try again'));
+    //return Right(SearchResultModel(
+    //  opportunities: mockOpportunities,
+    //  companies: mockCompanies,
+    //));
   }on DioException catch(e){
-    return Left(Failure(e.message.toString()));
+    return Left(Failure('Try again'));
     }
       catch(e){
+      print("error is $e");
       return Left(Failure('Unkonw error'));
     } }
 }

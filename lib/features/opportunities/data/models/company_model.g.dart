@@ -10,8 +10,8 @@ _$CompanyModelImpl _$$CompanyModelImplFromJson(Map<String, dynamic> json) =>
     _$CompanyModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      category: json['category'] as String,
-      profilepic: json['profilepic'] as String,
+      category: json['category'] as String? ?? 'None',
+      profilepic: json['profilepic'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$CompanyModelImplToJson(_$CompanyModelImpl instance) =>

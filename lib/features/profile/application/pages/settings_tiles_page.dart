@@ -26,7 +26,7 @@ class SettingsTilesPage extends StatelessWidget {
   "name":"Settings",
   "iconDark":"assets/icons/settingsDark.svg",
   "icon":"assets/icons/settings.svg",
-   "href":"/protected/Options/settings"
+   "href":"/protected/options/settings"
 },
   {
   "name":"Notifications",
@@ -46,7 +46,7 @@ class SettingsTilesPage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 90.h,
       leading: IconButton(onPressed:(){
-          context.pop();
+          context.go('/protected/layout/0');
         } ,icon:Icon( Icons.arrow_back,color: Theme.of(context).secondaryHeaderColor, )),
         title: Text('Options',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Theme.of(context).secondaryHeaderColor),),
         centerTitle: true,
@@ -75,9 +75,8 @@ class SettingsTilesPage extends StatelessWidget {
                   );
                 }),
 
-            LogoutButton(),
             Spacer(flex: 2,),
-            SvgPicture.asset('assets/images/settingsLootie.svg'),
+            FittedBox(fit: BoxFit.contain,child: SvgPicture.asset('assets/images/settingsLootie.svg')),
             Spacer(flex: 3,),
             ],
           );

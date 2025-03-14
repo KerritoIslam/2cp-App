@@ -3,19 +3,19 @@ import 'package:app/features/opportunities/data/models/company_model.dart';
 import 'package:app/features/opportunities/data/models/opportunity_model.dart';
 
 class SearchResultModel {
-  final List<OpportunityModel> opportunities;
-  final List<CompanyModel> companies;
+  final List<OpportunityModel> opportunity;
+  final List<CompanyModel> company;
 
-  SearchResultModel({required this.opportunities, required this.companies});
+  SearchResultModel({required this.opportunity, required this.company});
   factory SearchResultModel.fromJson(Map<String, dynamic> json) {
     return SearchResultModel(
-      opportunities: List<OpportunityModel>.from(
-          json['opportunities'].map((x) => OpportunityModel.fromJson(x))),
-      companies: List<CompanyModel>.from(
-          json['companies'].map((x) => CompanyModel.fromJson(x))),
+      opportunity: List<OpportunityModel>.from(
+          json['opportunity'].map((x) => OpportunityModel.fromJson(x))),
+      company: List<CompanyModel>.from(
+          json['company'].map((x) => CompanyModel.fromJson(x))),
     );
   }
   SearchResult toEntity(){
-    return SearchResult(opportunities: opportunities.map((e) => e.toEntity()).toList(), companies: companies.map((e) => e.toEntity()).toList());
+    return SearchResult(opportunities: opportunity.map((e) => e.toEntity()).toList(), companies: company.map((e) => e.toEntity()).toList());
   }
 }

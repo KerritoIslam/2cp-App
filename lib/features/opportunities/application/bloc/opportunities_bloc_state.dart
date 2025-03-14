@@ -28,7 +28,8 @@ class OpportunitiesBlocInitial extends OpportunitiesBlocState {
 }
 
 class OpportuntitiesLoadInProgress extends OpportunitiesBlocState {
-  const OpportuntitiesLoadInProgress();
+  const OpportuntitiesLoadInProgress({required this.opportunities});
+  final List<Opportunity> opportunities;
 
   @override
   List<Object?> get props => [];

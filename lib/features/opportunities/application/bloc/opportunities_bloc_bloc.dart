@@ -1,3 +1,4 @@
+import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -8,29 +9,25 @@ part 'opportunities_bloc_state.dart';
 
 class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocState> {
   final OpportunityRepository repository;
-  List<Opportunity> savedOpportunities=[];
-  //TODO pass the params in the constructor
   //The current Page Number 
   int page=1;
   //Number of posts per Page
-  int limit=15;
+  int limit=5;
   //To check if we have reached the last page
   bool hasReachedMax=false;
   //number of pages before loading more data
-  int nextPageTrigger=4;
+ static int nextPageTrigger=4;
   List<Opportunity> opportunities=[];
   OpportunitiesBloc(this.repository) : super(OpportunitiesBlocInitial()) {
    on<LoadOpportunitiesEvent>((event, emit) async {
-      // To show the loading indicator on the whole page instead only below the list of already loaded posts
-      if (opportunities.isEmpty) {
-        emit(OpportuntitiesLoadInProgress());
-      }
+      // To not show the loading indicator on the whole page instead only below the list of already loaded posts
+      emit(OpportuntitiesLoadInProgress(opportunities: opportunities));
       final result=await repository.getOpportunitiesPagination(page, limit);
       result.fold((failure){
         emit(OpportuntitiesLoadFailure(failure.message));
       }, (oppList){
-        opportunities.addAll(oppList);
-        if(oppList.length<limit){
+       opportunities=List<Opportunity>.from(opportunities)..addAll(oppList); 
+          if(oppList.length<limit){
         //Because the lastPage either have less number than the limit or when we fetch the next page it will be empty
           hasReachedMax=true;
         }
@@ -45,12 +42,18 @@ class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocSt
       }
     });
        
+    on<refreshOpportunitiesEvent>((event, emit) async {
+      page=1;
+      hasReachedMax=false;
+      opportunities=[];
+      add(LoadOpportunitiesEvent());
+    });
   }
 
 }
 class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesSavedState>{
   final OpportunityRepository repository;
- final List<Opportunity> savedOpportunities=[];
+ List<Opportunity> savedOpportunities=[];
   OpportunitiesSavedBloc(this.repository) : super(OpportunitiesSavedInitial()){
      on<SaveOpportunityEvent>((event, emit) async {
       if (savedOpportunities.any((element) => element.id==event.id)) {
@@ -74,6 +77,7 @@ class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesS
         emit(OpportunitySavedSucces(savedOpportunities));
       });
     });
+
     
   on<LoadSavedOpportunitiesEvent>((event, emit) async {
       emit(OpportunitySavedInProgress());
@@ -81,8 +85,8 @@ class OpportunitiesSavedBloc extends Bloc<OpportunitiesSavedEvent,OpportunitiesS
       result.fold((failure){
         emit(OpportunitySavedFailure(failure.message));
       }, (oppList){
-        savedOpportunities.addAll(oppList);
-        emit(SavedOpportunitiesLoadSuccess(savedOpportunities));
+      savedOpportunities=List<Opportunity>.from(savedOpportunities)..addAll(oppList);
+          emit(SavedOpportunitiesLoadSuccess(savedOpportunities));
       });
     });  
 

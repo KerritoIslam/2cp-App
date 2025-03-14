@@ -3,7 +3,7 @@ part of 'notifications_bloc.dart';
 abstract class notificationsState {}
 
  class notificationsInitial extends notificationsState {}
-class notficationsLoading extends notificationsState {}
+class notificationsLoading extends notificationsState {}
 class notificationsLoaded extends notificationsState {
   final List<ENotification> notifications;
   notificationsLoaded(this.notifications);

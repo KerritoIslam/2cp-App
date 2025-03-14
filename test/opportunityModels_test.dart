@@ -77,9 +77,9 @@ void main() {
           'category': 'CS',
           'profilepic': 'https://example.com/image.png'
         },
-        'status': 'ongoing',
+        'status': 'open',
         'duration': '6 months',
-        'type': 'Problem',
+        'Type': 'Problem',
         'category': 'CS'
       };
       final model = OpportunityModel.fromJson(json) as ProblemModel;
