@@ -151,7 +151,7 @@ try  {     await Future.delayed(Duration(milliseconds: 20));
   }  }
 Future<Either<Failure,OpportunityModel>>saveOpportunity(String id)async{
 try  {     await Future.delayed(Duration(milliseconds: 20));
-  return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).firstWhere((element) => element.id==id));
+  return Right(OpportunityModel.fromJson(MockData.opportunityList[2]));
 }catch(e){
     return left(Failure(e.toString()));
   }  }
