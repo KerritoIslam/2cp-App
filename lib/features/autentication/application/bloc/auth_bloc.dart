@@ -34,7 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       {required this.authRepository,
       required this.localSecureStorage,
       required this.localStorage})
-      : super(AuthInitial()) {
+      : super(AuthLoading()) {
+        
     _init().then((value) {
       value.fold((l) {
         print(

@@ -11,6 +11,8 @@ import 'package:app/features/notifications/application/pages/notifications_page.
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
+
+import 'package:app/features/profile/application/pages/profile_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
 import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
@@ -76,6 +78,10 @@ GoRouter router = GoRouter(
                   pageBuilder: (context, state) =>
                       MaterialPage(child: NotificationsPage())),
             ]),
+        GoRoute(
+          path: 'profile',
+          pageBuilder: (context, state) => MaterialPage(child: ProfilePage()),
+        ),
         GoRoute(
             path: 'options',
             pageBuilder: (context, state) =>

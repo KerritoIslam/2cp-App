@@ -22,6 +22,7 @@ class Layout extends StatefulWidget {
   @override
   State<Layout> createState() => _LayoutState();
 }
+
 class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
   static const List<Widget> pages = [
@@ -66,7 +67,7 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                        context.push('/protected/layout/notifications');                                        //showFPersistentSheet(
+                    context.push('/protected/lyout/notifications'); //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {
@@ -75,16 +76,20 @@ class _LayoutState extends State<Layout> {
                     //);
                   },
                   icon: SvgPicture.asset(
-                    !isDark ? 'assets/icons/notification.svg' : 'assets/icons/notification_dark.svg',
+                    !isDark
+                        ? 'assets/icons/notification.svg'
+                        : 'assets/icons/notification_dark.svg',
                   ),
                 ),
               ),
               IconButton(
                 onPressed: () {
-                  context.push('/protected/options');
+                  context.push('/protected/profile');
                 },
                 icon: SvgPicture.asset(
-                  !isDark ? 'assets/icons/profile.svg' : 'assets/icons/profile_dark.svg',
+                  !isDark
+                      ? 'assets/icons/profile.svg'
+                      : 'assets/icons/profile_dark.svg',
                 ),
               ),
             ],
@@ -110,45 +115,53 @@ class _LayoutState extends State<Layout> {
               selectedItemColor: Theme.of(context).primaryColor,
               currentIndex: index,
               onTap: (value) => setState(() {
-                    index = value;
-                  }),
+                index = value;
+              }),
               items: [
                 BottomNavigationBarItem(
-                  icon:SvgPicture.asset(
-                    !isDark ? 'assets/icons/opportunityInactive.svg' : 'assets/icons/opportunity_dark.svg',
+                  icon: SvgPicture.asset(
+                    !isDark
+                        ? 'assets/icons/opportunityInactive.svg'
+                        : 'assets/icons/opportunity_dark.svg',
                   ),
                   activeIcon: SvgPicture.asset('assets/icons/opportunity.svg'),
                   label: "Internship",
                 ),
                 BottomNavigationBarItem(
-                  activeIcon:SvgPicture.asset('assets/icons/search.svg'),
-                  icon:SvgPicture.asset(
-                    !isDark ? 'assets/icons/searchInactive.svg' : 'assets/icons/search_dark.svg',
+                  activeIcon: SvgPicture.asset('assets/icons/search.svg'),
+                  icon: SvgPicture.asset(
+                    !isDark
+                        ? 'assets/icons/searchInactive.svg'
+                        : 'assets/icons/search_dark.svg',
                   ),
                   label: "Search",
                 ),
                 BottomNavigationBarItem(
-                  icon:SvgPicture.asset(
-                    !isDark ? 'assets/icons/teamsInactive.svg' : 'assets/icons/teams_dark.svg',
+                  icon: SvgPicture.asset(
+                    !isDark
+                        ? 'assets/icons/teamsInactive.svg'
+                        : 'assets/icons/teams_dark.svg',
                   ),
                   label: "Teams",
                   activeIcon: SvgPicture.asset('assets/icons/teams.svg'),
                 ),
                 BottomNavigationBarItem(
-                  label: "Chat",
-                  icon: Icon(Icons.messenger_outline,color: Theme.of(context).secondaryHeaderColor,
-
-                  ),
-                  activeIcon:Icon(Icons.messenger_outline,color: Theme.of(context).primaryColor
-
-                )),
+                    label: "Chat",
+                    icon: Icon(
+                      Icons.messenger_outline,
+                      color: Theme.of(context).secondaryHeaderColor,
+                    ),
+                    activeIcon: Icon(Icons.messenger_outline,
+                        color: Theme.of(context).primaryColor)),
               ],
             ),
           ),
           body: MultiBlocProvider(
             providers: [
-              BlocProvider<OpportunitiesBloc>(create: (ctx) => locator.get<OpportunitiesBloc>()),
-              BlocProvider<OpportunitiesSavedBloc>(create: (ctx) => locator.get<OpportunitiesSavedBloc>())
+              BlocProvider<OpportunitiesBloc>(
+                  create: (ctx) => locator.get<OpportunitiesBloc>()),
+              BlocProvider<OpportunitiesSavedBloc>(
+                  create: (ctx) => locator.get<OpportunitiesSavedBloc>())
             ],
             child: IndexedStack(
               index: index,
@@ -169,25 +182,25 @@ class NotificationModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:MediaQuery.sizeOf(context).height,
-      width: 700.w,      color:Theme.of(context).primaryColor.withOpacity(1) ,
+      height: MediaQuery.sizeOf(context).height,
+      width: 700.w,
+      color: Theme.of(context).primaryColor.withOpacity(1),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-      children: [
+        children: [
           ListView.separated(
-            separatorBuilder: (ctx,idx)=>Divider(),
-          shrinkWrap: true,
-            itemBuilder: (ctx,idx){
-
-          
-            return SizedBox
-              (
-                  width: 700.w,
-                
-              child: FCard(
-                  title: Text('Hello $idx'),),
-            );
-          },itemCount: 10,)
+            separatorBuilder: (ctx, idx) => Divider(),
+            shrinkWrap: true,
+            itemBuilder: (ctx, idx) {
+              return SizedBox(
+                width: 700.w,
+                child: FCard(
+                  title: Text('Hello $idx'),
+                ),
+              );
+            },
+            itemCount: 10,
+          )
         ],
       ),
     );
