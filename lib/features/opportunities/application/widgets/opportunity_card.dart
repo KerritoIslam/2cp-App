@@ -1,5 +1,6 @@
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/attachmentField.dart';
+import 'package:app/features/opportunities/application/widgets/skill_bubble.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/shared/widgets/action_button.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:forui/forui.dart';
-import 'package:forui/widgets/badge.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 class opportunityCard extends StatefulWidget {
@@ -45,123 +44,117 @@ class _opportunityCardState extends State<opportunityCard> {
     @override
   Widget build(BuildContext context) {
    
-    return GestureDetector(
-      child: Card(
-        
-         
-        elevation:1 ,
-        color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.85),
-        
-        
-        margin: EdgeInsets.all(16.r),
-        shadowColor: Theme.of(context).shadowColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.r),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: widget.opportunity.company.profilepic,
-                    width: 40.w,
-                    height: 40.h,
-                  ),
+    return Card(
+      elevation:1 ,
+      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.85),
       
-                                  const SizedBox(width: 12),
-                  Text(
-                    widget.opportunity.company.name,
-                    style: Theme.of(context).textTheme.displayMedium!                ),
-                  const Spacer(),
-                  IconButton(
-                    icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp,color: Theme.of(context).secondaryHeaderColor,),
-                    onPressed: (){
-                      if (!isSaved){
- context.read<OpportunitiesSavedBloc>().add(
-                        SaveOpportunityEvent(
-                          widget.opportunity.id
-                        )
       
-                      );
-
-                      }
-                      else{
-                      context.read<OpportunitiesSavedBloc>().add(
-                      RemoveSavedOpportunityEvent(widget.opportunity.id)
-                      );
-                      }
+      margin: EdgeInsets.all(2.r),
+      shadowColor: Theme.of(context).shadowColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
                       
-                                           setState(() {
-                      isSaved=!isSaved;            
-                                          });
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.opportunity.title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                                    
-                  SizedBox(
-                    width:250.w,
-                    child: Wrap(
-                      runSpacing: 8.h,
-                      spacing:8.w ,
-                      children: widget.opportunity.skills.map((s)=>FBadge(label: Text(s),style: FBadgeStyle.outline,)).toList(),
+                      imageUrl: widget.opportunity.company.profilepic,
+                      
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 20.r,
+                        backgroundImage: imageProvider,
+                      ),
+                      width: 60.w,
+                      height: 60.h,
                     ),
-                  ),
-                                                  Text('view more')
-                    ],
-      
-                  ),
-                
-              
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: (){
-                    showModalBottomSheet(
- 
-                      context: context, builder: (ctx)=>SizedBox(
- height: MediaQuery.sizeOf(context).height*0.85,
-                          child: FullScreenDialog(
-                          jobTitle: widget.opportunity.title,
-                        )));
-                                                          },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
-                    foregroundColor: Theme.of(context).secondaryHeaderColor,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                                    SizedBox(height: 12.h),
+                SizedBox(
+                      width: 300.w,
+
                   child: Text(
-                !isApplied?'Apply':'Applied',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white
-                    )
-                    
-                  ),
+                        overflow: TextOverflow.clip,
+                    widget.opportunity.title,
+                    style: Theme.of(context).textTheme.displayMedium!                ),
                 ),
-              ),   
-          ],
-          ),
+
+                  ],
+                ),
+    
+                                const Spacer(),
+                IconButton(
+                  icon: Icon(isSaved?Icons.bookmark_outlined:Icons.bookmark_outline_sharp,color: Theme.of(context).secondaryHeaderColor,),
+                  onPressed: (){
+                    if (!isSaved){
+     context.read<OpportunitiesSavedBloc>().add(
+                      SaveOpportunityEvent(
+                        widget.opportunity.id
+                      )
+    
+                    );
+    
+                    }
+                    else{
+                    context.read<OpportunitiesSavedBloc>().add(
+                    RemoveSavedOpportunityEvent(widget.opportunity.id)
+                    );
+                    }
+                    
+                                         setState(() {
+                    isSaved=!isSaved;            
+                                        });
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              widget.opportunity.company.name,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
+
+                fontSize: 25.r
+              ),),
+            const SizedBox(height: 16),
+            SizedBox(
+              child: Wrap(
+                runSpacing: 8.h,
+                spacing:8.w ,
+                children: widget.opportunity.skills.map((s)=>SkillBubble(skill: s)).toList(),
+            ),),
+            SizedBox(
+              height: 10.h,
+            ),
+                                            Text('view more'),
+              
+            
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+            
+              child:ActionButton(onPressed: (){
+                                  showModalBottomSheet(
+     
+                    context: context, builder: (ctx)=>SizedBox(
+     height: MediaQuery.sizeOf(context).height*0.85,
+                        child: FullScreenDialog(
+                        jobTitle: widget.opportunity.title,
+                      )));
+
+              }, text: "Apply")
+
+              //child: ElevatedButton(
+                           ),   
+        ],
         ),
       ),
     );

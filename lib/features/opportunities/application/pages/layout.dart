@@ -32,14 +32,21 @@ class _LayoutState extends State<Layout> {
   ];
   late int index;
   late bool isDark;
-
+  late int numberOfUndreadNotif;
   @override
   void initState() {
     super.initState();
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
+    
     index = widget.initPage;
+   final notificationState= context.read<notificationsBloc>().state;
+    if (notificationState is notificationsLoaded) {
+
+      numberOfUndreadNotif = notificationState.notifications.where((element) => !element.isRead).length;
+    }
+    numberOfUndreadNotif=5;
   }
   @override
     void dispose() {

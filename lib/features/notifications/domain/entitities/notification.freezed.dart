@@ -22,6 +22,7 @@ mixin _$ENotification {
   String get time => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
 
   /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +43,8 @@ abstract class $ENotificationCopyWith<$Res> {
       String description,
       String time,
       String image,
-      bool isRead});
+      bool isRead,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$ENotificationCopyWithImpl<$Res, $Val extends ENotification>
     Object? time = null,
     Object? image = null,
     Object? isRead = null,
+    Object? imageUrl = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -92,6 +95,10 @@ class _$ENotificationCopyWithImpl<$Res, $Val extends ENotification>
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -110,7 +117,8 @@ abstract class _$$NotificationImplCopyWith<$Res>
       String description,
       String time,
       String image,
-      bool isRead});
+      bool isRead,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -132,6 +140,7 @@ class __$$NotificationImplCopyWithImpl<$Res>
     Object? time = null,
     Object? image = null,
     Object? isRead = null,
+    Object? imageUrl = null,
   }) {
     return _then(_$NotificationImpl(
       id: null == id
@@ -158,6 +167,10 @@ class __$$NotificationImplCopyWithImpl<$Res>
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -171,7 +184,8 @@ class _$NotificationImpl extends _Notification {
       required this.description,
       required this.time,
       required this.image,
-      required this.isRead})
+      required this.isRead,
+      required this.imageUrl})
       : super._();
 
   @override
@@ -186,10 +200,12 @@ class _$NotificationImpl extends _Notification {
   final String image;
   @override
   final bool isRead;
+  @override
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'ENotification(id: $id, title: $title, description: $description, time: $time, image: $image, isRead: $isRead)';
+    return 'ENotification(id: $id, title: $title, description: $description, time: $time, image: $image, isRead: $isRead, imageUrl: $imageUrl)';
   }
 
   @override
@@ -203,12 +219,14 @@ class _$NotificationImpl extends _Notification {
                 other.description == description) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.isRead, isRead) || other.isRead == isRead));
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, description, time, image, isRead);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, description, time, image, isRead, imageUrl);
 
   /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.
@@ -226,7 +244,8 @@ abstract class _Notification extends ENotification {
       required final String description,
       required final String time,
       required final String image,
-      required final bool isRead}) = _$NotificationImpl;
+      required final bool isRead,
+      required final String imageUrl}) = _$NotificationImpl;
   _Notification._() : super._();
 
   @override
@@ -241,6 +260,8 @@ abstract class _Notification extends ENotification {
   String get image;
   @override
   bool get isRead;
+  @override
+  String get imageUrl;
 
   /// Create a copy of ENotification
   /// with the given fields replaced by the non-null parameter values.

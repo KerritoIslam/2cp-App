@@ -12,7 +12,9 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "Don't forget your meeting with the team at 3 PM.",
     "date": "2024-02-04T14:00:00.000Z",
     "type": "reminder",
-    "isRead":false
+    "isRead":false,
+    
+    "imageUrl":"https://shorturl.at/yV4Ls"
   },
   {
     "id": "2",
@@ -20,7 +22,9 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "Your project submission is due by midnight.",
     "date": "2024-02-05T23:59:00.000Z",
     "type": "deadline",
-    "isRead":false
+    "isRead":false,
+"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
   {
     "id": "3",
@@ -28,7 +32,8 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "A new version of the app is available. Please update.",
     "date": "2024-02-05T08:30:00.000Z",
     "type": "update",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
   {
     "id": "4",
@@ -36,7 +41,8 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have received a new message from John.",
     "date": "2024-02-05T15:45:00.000Z",
     "type": "message",
-    "isRead":false
+    "isRead":false,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
   {
     "id": "5",
@@ -44,7 +50,8 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
     {
     "id": "6",
@@ -52,7 +59,8 @@ static final List<Map<String,dynamic>> mockNotifications =
    "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
     {
     "id": "7",
@@ -60,7 +68,8 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },
     {
     "id": "8",
@@ -68,14 +77,16 @@ static final List<Map<String,dynamic>> mockNotifications =
     "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   },{
     "id": "9",
     "title": "Event Invitation",
     "description": "You have been invited to the annual tech conference.",
     "date": "2024-02-03T10:00:00.000Z",
     "type": "invitation",
-    "isRead":true
+    "isRead":true,"imageUrl":"https://shorturl.at/yV4Ls"
+
   }
 ]
 ;

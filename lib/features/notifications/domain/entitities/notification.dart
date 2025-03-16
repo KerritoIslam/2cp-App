@@ -15,6 +15,7 @@ class ENotification with _$ENotification {
     required String time,
     required String image,
    required bool isRead,
+    required String imageUrl,
   }) = _Notification;
    factory ENotification.fromModel(NotificationModel model) {
     return ENotification(
@@ -22,8 +23,8 @@ class ENotification with _$ENotification {
       title: model.title,
       description: model.description,
       time:getElapsedTime(DateTime.now().difference(model.date)), 
-      image:"example.com/image.jpg",
-      isRead: model.isRead,
+      image:model.imageUrl,
+      isRead: model.isRead, imageUrl:model.imageUrl,
     );
   }
   ENotification markAsRead() {

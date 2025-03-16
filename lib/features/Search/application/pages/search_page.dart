@@ -2,6 +2,7 @@ import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/application/widgets/search_bar.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -57,23 +58,7 @@ class SearchPage extends StatelessWidget {
                               ),
                             ),
                             ...state.data.opportunities
-                                .map((opportunity) => ListTile(
-                                      title: Text(opportunity.title),
-                                      titleTextStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              color: Theme.of(context)
-                                                  .secondaryHeaderColor),
-                                      subtitleTextStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                              color: Theme.of(context)
-                                                  .secondaryHeaderColor
-                                                  .withOpacity(0.45)),
-                                      subtitle: Text(opportunity.description),
-                                    )),
+                                .map((opportunity) =>opportunityCard(opportunity: opportunity)),
                           ],
                           ...[
                             Padding(
