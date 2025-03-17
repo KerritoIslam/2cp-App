@@ -1,0 +1,205 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
+class EducationForm extends StatefulWidget {
+  const EducationForm({super.key});
+
+  @override
+  _EducationFormState createState() => _EducationFormState();
+}
+
+class _EducationFormState extends State<EducationForm> {
+  final TextEditingController _internshipController = TextEditingController();
+  final TextEditingController _companyNameController = TextEditingController();
+
+  String? _startDate;
+  String? _endDate;
+
+  @override
+  void dispose() {
+    _companyNameController.dispose();
+    _internshipController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Text(
+                  'Add Internship experience',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+              ),
+              TextField(
+                controller: _internshipController,
+                cursorColor: Color(0xFF5BA470),
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration(
+                  labelText: 'Education Status',
+                  labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Color(0xFF5BA470),
+                      ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF5BA470)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: TextField(
+                  controller: _companyNameController,
+                  cursorColor: Color(0xFF5BA470),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    labelText: 'School',
+                    labelStyle:
+                        Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Color(0xFF5BA470),
+                            ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF5BA470)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 160.0,
+                    child: TextButton(
+                        onPressed: () async {
+                          final result = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime.now(),
+                          );
+                          if (result != null) {
+                            setState(() {
+                              _startDate =
+                                  "${result.day}/${result.month}/${result.year}";
+                            });
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Start date',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                      color: Color(0xFF5BA470),
+                                    ),
+                              ),
+                              Text(_startDate ?? 'Select date',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                            ],
+                          ),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 160.0,
+                    child: TextButton(
+                        onPressed: () async {
+                          final result = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime.now(),
+                          );
+                          if (result != null &&
+                              result.isAfter(DateFormat('dd/MM/yyyy')
+                                  .parse(_startDate!))) {
+                            setState(() {
+                              _endDate =
+                                  "${result.day}/${result.month}/${result.year}";
+                            });
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'End date',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                      color: Color(0xFF5BA470),
+                                    ),
+                              ),
+                              Text(_endDate ?? 'Select date',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                            ],
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+              SizedBox(height: 100.h),
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {
+                    //todo: edit the return value
+                    context.pop(_companyNameController.text);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text('Submit',
+                        style: Theme.of(context).textTheme.displaySmall),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

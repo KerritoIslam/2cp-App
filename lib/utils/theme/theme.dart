@@ -78,6 +78,12 @@ class theme {
         color: Color(0xFF9D9D9D),
         fontWeight: FontWeight.w600,
       ),
+      labelLarge: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displaySmallFontSize,
+        color: Color(0xFF9D9D9D),
+        fontWeight: FontWeight.w600,
+      ),
     ),
   );
 
@@ -85,7 +91,6 @@ class theme {
     splashColor: Colors.transparent,
     secondaryHeaderColor: Colors.white,
     snackBarTheme: SnackBarThemeData(
-      
       contentTextStyle: TextStyle(
         color: Colors.red,
         fontSize: 15.sp,
@@ -150,6 +155,12 @@ class theme {
         color: Color(0xFF9D9D9D),
         fontWeight: FontWeight.w500,
       ),
+      labelLarge: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: displaySmallFontSize,
+        color: Color(0xFF9D9D9D),
+        fontWeight: FontWeight.w500,
+      ),
     ),
   );
 }
@@ -160,7 +171,8 @@ class Forms {
     borderRadius: BorderRadius.circular(8.0),
   );
   static OutlineInputBorder errorBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: const Color.fromARGB(255, 233, 53, 40), width: 2),
+    borderSide:
+        BorderSide(color: const Color.fromARGB(255, 233, 53, 40), width: 2),
     borderRadius: BorderRadius.circular(8.0),
   );
 }

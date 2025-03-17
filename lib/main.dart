@@ -77,6 +77,7 @@ String _getPlatform() {
   } else if (Platform.isWindows) {
     return 'WINDOWS';
   }
+
   return 'WEB'; // Default to Web
 }
 
