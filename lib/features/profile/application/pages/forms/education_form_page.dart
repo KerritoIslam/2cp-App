@@ -191,7 +191,7 @@ class _EducationFormState extends State<EducationForm> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text('Submit',
+                    child: Text('Save',
                         style: Theme.of(context).textTheme.displaySmall),
                   ),
                 ),

@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class CvAttachmentField extends StatefulWidget {
@@ -15,9 +18,9 @@ class CvAttachmentField extends StatefulWidget {
   // ignore: use_super_parameters
   const CvAttachmentField({
     Key? key,
-    this.hintText = 'Add Attachment',
-    this.allowedExtensions,
-    this.maxFileSizeInMB = 10,
+    this.hintText = 'Upload CV/Resume',
+    this.allowedExtensions = const ['pdf'],
+    this.maxFileSizeInMB = 5,
     this.onFileSelected,
     this.onFileRemoved,
   }) : super(key: key);
@@ -86,71 +89,92 @@ class _CvAttachmentFieldState extends State<CvAttachmentField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          height: 48,
-          decoration: BoxDecoration(
-            border: Border.all(
-                color: Theme.of(context).secondaryHeaderColor.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: _selectedFile == null
-                      ? Text(
-                          widget.hintText,
-                          style: TextStyle(
-                              color: Theme.of(context).secondaryHeaderColor),
-                        )
-                      : Text(
-                          path.basename(_selectedFile!.path),
-                          style: TextStyle(
+        DottedBorder(
+          color: Theme.of(context).dividerColor,
+          strokeWidth: 1,
+          radius: Radius.circular(15),
+          borderType: BorderType.RRect,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 30.h),
+            width: 366.w,
+            decoration: BoxDecoration(
+              color: _selectedFile == null
+                  ? const Color.fromRGBO(0, 0, 0, 0)
+                  : Color(0x889D97B5),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton.icon(
+                    onPressed: _pickFile,
+                    icon: _selectedFile != null &&
+                            path.extension(_selectedFile!.path) == '.pdf'
+                        ? SvgPicture.asset(
+                            'assets/icons/pdf_file.svg',
+                            height: 50.h,
+                            width: 50.w,
+                          )
+                        : SvgPicture.asset(
+                            'assets/icons/filepick.svg',
+                            height: 40.h,
+                            width: 40.w,
                             color: Theme.of(context).secondaryHeaderColor,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                ),
-              ),
-              SizedBox(
-                height: 50.h,
-                width: 120.w,
-                child: _selectedFile == null
-                    ? TextButton.icon(
-                        onPressed: _pickFile,
-                        icon: Icon(
-                          Icons.attach_file,
-                          size: 25.r,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        label: Text(
-                          'Attach',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.8),
+                    label: SizedBox(
+                      width: 200.w,
+                      child: _selectedFile == null
+                          ? Text(
+                              widget.hintText,
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
+                            )
+                          : Column(
+                              children: [
+                                Text(
+                                  path.basename(_selectedFile!.path),
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
                                   ),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStatePropertyAll(Colors.transparent),
-                          foregroundColor:
-                              WidgetStatePropertyAll(Colors.grey[600]),
-                        ))
-                    : IconButton(
-                        icon: const Icon(
-                          Icons.close,
-                          size: 18,
-                          color: Colors.red,
-                        ),
-                        onPressed: _removeFile,
-                        color: Colors.transparent,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  '${(_selectedFile!.lengthSync() / 1024).toStringAsFixed(2)} KB.${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())}',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                  maxLines: 4,
+                                ),
+                              ],
+                            ),
+                    ),
+                    style: ButtonStyle(
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _selectedFile != null,
+                    child: TextButton.icon(
+                      onPressed: _removeFile,
+                      label: Text('Remove file',
+                          style: TextStyle(
+                            color: Colors.red,
+                          )),
+                      icon: SvgPicture.asset('assets/icons/delete.svg',
+                          width: 30.w, height: 30.h),
+                      style: ButtonStyle(
+                        overlayColor: WidgetStateProperty.all(
+                            Colors.transparent), // Removes splash effect
                       ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         if (_errorMessage != null)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class SkillsPage extends StatefulWidget {
   const SkillsPage({super.key});
@@ -35,79 +36,115 @@ class _SkillsPageState extends State<SkillsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            Padding(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   'Add Skills',
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 300.w,
-                  child: TextField(
-                    onChanged: (value) => setState(() {}),
-                    controller: _skillsController,
-                    cursorColor: Color(0xFF5BA470),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    decoration: InputDecoration(
-                      hintText: 'Add Skills',
-                      hintStyle: Theme.of(context).textTheme.labelMedium,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF5BA470)),
-                        borderRadius: BorderRadius.circular(10),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 300.w,
+                    child: TextField(
+                      onChanged: (value) => setState(() {}),
+                      controller: _skillsController,
+                      cursorColor: Color(0xFF5BA470),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      decoration: InputDecoration(
+                        hintText: 'Add Skills',
+                        hintStyle: Theme.of(context).textTheme.labelMedium,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF5BA470)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF5BA470)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF5BA470)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _skillsController.text.isNotEmpty,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_skills.contains(_skillsController.text)) return;
+                          _skills.add(_skillsController.text);
+                          _skillsController.clear();
+                        });
+                      },
+                      icon: SvgPicture.asset(
+                        'assets/icons/add.svg',
+                        width: 40.w,
+                        height: 40.h,
+                      ),
+                      color: Color(0xFF5BA470),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Wrap(
+                children: _skills
+                    .map(
+                      (e) => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: Chip(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: BorderSide(width: 0)),
+                          backgroundColor: Theme.of(context).dividerColor,
+                          label: Text(e,
+                              style: Theme.of(context).textTheme.bodyMedium),
+                          onDeleted: () {
+                            setState(() {
+                              _skills.remove(e);
+                            });
+                          },
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+              SizedBox(
+                height: 100.h,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    //todo: edit the return value
+                    context.pop();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                ),
-                Visibility(
-                  visible: _skillsController.text.isNotEmpty,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_skills.contains(_skillsController.text)) return;
-                        _skills.add(_skillsController.text);
-                        _skillsController.clear();
-                      });
-                    },
-                    icon: SvgPicture.asset(
-                      'assets/icons/add.svg',
-                      width: 40.w,
-                      height: 40.h,
-                    ),
-                    color: Color(0xFF5BA470),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text('Save',
+                        style: Theme.of(context).textTheme.displaySmall),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Wrap(
-              children: _skills
-                  .map(
-                    (e) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Chip(
-                        label: Text(e),
-                        onDeleted: () {
-                          setState(() {
-                            _skills.remove(e);
-                          });
-                        },
-                      ),
-                    ),
-                  )
-                  .toList(),
-            )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
