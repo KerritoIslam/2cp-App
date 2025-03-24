@@ -21,7 +21,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "CS",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "open",
+  "status": "opened",
   "duration": "3 months",
   "category": "CS"
 },
@@ -37,7 +37,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "CS",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "close",
+  "status": "closed",
   "duration": "6 months",
   "category": "CS"
 },
@@ -53,7 +53,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "CS",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "open",
+  "status": "opened",
   "category": "CS"
 },
 {
@@ -68,7 +68,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "EG",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "close",
+  "status": "closed",
   "category": "EG"
 },
 {
@@ -83,7 +83,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "HL",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "open",
+  "status": "opened",
   "duration": "4 months",
   "category": "HL"
 },
@@ -99,7 +99,7 @@ static List<Map<String,dynamic>> opportunityList=
     "category": "LW",
     "profilepic": "https://avatars.githubusercontent.com/u/145935984?v=4"
   },
-  "status": "close",
+  "status": "closed",
   "category": "LW"
 }
 ];

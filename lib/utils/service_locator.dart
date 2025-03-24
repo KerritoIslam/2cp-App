@@ -1,6 +1,9 @@
 import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.dart';
 import 'package:app/features/Search/domain/repositories/search_repostitory.dart';
+import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
+import 'package:app/features/applications%20status/data/remote/remote_data_source.dart';
+import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
 import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/autentication/domain/auth_repository.dart';
@@ -10,7 +13,6 @@ import 'package:app/features/notifications/domain/repositories/notification_repo
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/data/source/remote_data_source.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,6 +64,10 @@ Future<void> setUpLocator() async {
       NotificationRepository(locator.get<NotificationRemoteDataSource>()));
   locator.registerFactory<notificationsBloc>(
       () => notificationsBloc(locator.get<NotificationRepository>()));
+  //applications
+  locator.registerLazySingleton<RemoteDataSource>(()=>RemoteDataSource());
+  locator.registerLazySingleton<Applicationsrepository>(()=>Applicationsrepository(locator.get<RemoteDataSource>()));
+  locator.registerFactory<ApplicationBloc>(()=>ApplicationBloc(locator.get<Applicationsrepository>()));
 
   // Search
   locator.registerLazySingleton<Searchremotedatasource>(

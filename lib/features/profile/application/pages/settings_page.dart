@@ -58,7 +58,8 @@ class _SettingsPageState extends State<SettingsPage> {
     'name': 'Feedback',
     'icon': 'assets/icons/chat.svg',
     'iconDark': 'assets/icons/chat_dark.svg'
-  }
+  },
+   
 ];
 
   @override

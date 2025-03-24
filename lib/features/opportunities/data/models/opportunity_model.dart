@@ -16,7 +16,7 @@ sealed class OpportunityModel with _$OpportunityModel {
     required String description,
     @Default([]) List<String> skills,
     required CompanyModel company,
-    @Default(OpportunityStatus.open) OpportunityStatus status,
+    @Default(OpportunityStatus.opened) OpportunityStatus status,
     @Default("") String duration,
     required OpportunityCategory category,
   }) = InternshipModel;
@@ -28,7 +28,7 @@ sealed class OpportunityModel with _$OpportunityModel {
     required String description,
     @Default([]) List<String> skills,
     required CompanyModel company,
-    @Default(OpportunityStatus.open) OpportunityStatus status,
+    @Default(OpportunityStatus.opened) OpportunityStatus status,
     required OpportunityCategory category,
   }) = ProblemModel;
 
