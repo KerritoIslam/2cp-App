@@ -15,7 +15,7 @@ _$InternshipImpl _$$InternshipImplFromJson(Map<String, dynamic> json) =>
           (json['skills'] as List<dynamic>).map((e) => e as String).toList(),
       company: Company.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.open,
+          OpportunityStatus.opened,
       duration: json['duration'] as String,
       applicantsAvatars: (json['applicantsAvatars'] as List<dynamic>)
           .map((e) => e as String)
@@ -41,8 +41,9 @@ Map<String, dynamic> _$$InternshipImplToJson(_$InternshipImpl instance) =>
     };
 
 const _$OpportunityStatusEnumMap = {
-  OpportunityStatus.open: 'open',
-  OpportunityStatus.close: 'close',
+  OpportunityStatus.opened: 'opened',
+  OpportunityStatus.closed: 'closed',
+  OpportunityStatus.pending: 'pending',
 };
 
 _$ProblemImpl _$$ProblemImplFromJson(Map<String, dynamic> json) =>
@@ -58,7 +59,7 @@ _$ProblemImpl _$$ProblemImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       company: Company.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.open,
+          OpportunityStatus.opened,
       category: json['category'] as String,
       $type: json['runtimeType'] as String?,
     );

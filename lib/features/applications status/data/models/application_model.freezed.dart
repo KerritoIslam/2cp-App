@@ -193,7 +193,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
       required this.post,
       required this.sumbittedAt,
       required this.type,
-      this.status = ApplicationStatus.sumbitted})
+      this.status = ApplicationStatus.submitted})
       : super._();
 
   factory _$ApplicationModelImpl.fromJson(Map<String, dynamic> json) =>

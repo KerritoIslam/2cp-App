@@ -10,7 +10,7 @@ class DioServices {
     
     BaseOptions(
       sendTimeout: Duration(seconds: 10),
-      baseUrl: 'http://192.168.1.8:8000/',
+      baseUrl: 'http://10.0.2.2:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {

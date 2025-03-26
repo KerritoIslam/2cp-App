@@ -12,21 +12,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 none,
  }
 
-class OpporutnitiesPage extends StatefulWidget {
+class OpporutnitiesPage extends StatelessWidget {
   const OpporutnitiesPage({super.key});
 
-  @override
-  State<OpporutnitiesPage> createState() => _OpporutnitiesPageState();
-}
-
-class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
- 
-  @override
-  void initState() {
-    context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
-    super.initState();
-  }
-  @override
+    @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 15.w, top: 10.h),
@@ -36,6 +25,10 @@ class _OpporutnitiesPageState extends State<OpporutnitiesPage> {
         },
         child: BlocBuilder<OpportunitiesBloc, OpportunitiesBlocState>(
           builder: (context, state) {
+            if (state is OpportunitiesBlocInitial) {
+              context.read<OpportunitiesBloc>().add(LoadOpportunitiesEvent());
+              return Center(child: Loadingindicator());
+            }
             return CustomScrollView(
               slivers: [
                 // Header Section

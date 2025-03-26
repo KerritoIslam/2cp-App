@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:app/features/Search/application/pages/search_page.dart';
+import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
+import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/chat/application/pages/chats_page.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
@@ -32,14 +34,21 @@ class _LayoutState extends State<Layout> {
   ];
   late int index;
   late bool isDark;
-
+  late int numberOfUndreadNotif;
   @override
   void initState() {
     super.initState();
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
+    
     index = widget.initPage;
+   final notificationState= context.read<notificationsBloc>().state;
+    if (notificationState is notificationsLoaded) {
+
+      numberOfUndreadNotif = notificationState.notifications.where((element) => !element.isRead).length;
+    }
+    numberOfUndreadNotif=5;
   }
   @override
     void dispose() {
@@ -158,6 +167,7 @@ class _LayoutState extends State<Layout> {
           ),
           body: MultiBlocProvider(
             providers: [
+              BlocProvider<ApplicationBloc>(create: (ctx)=>locator.get<ApplicationBloc>(),child: Trackapplicationspage(),),
               BlocProvider<OpportunitiesBloc>(create: (ctx) => locator.get<OpportunitiesBloc>()),
               BlocProvider<OpportunitiesSavedBloc>(create: (ctx) => locator.get<OpportunitiesSavedBloc>())
             ],

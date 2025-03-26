@@ -14,7 +14,7 @@ class ApplicationModel with _$ApplicationModel{
     required OpportunityModel post,
     required DateTime sumbittedAt,
     required String type,
-   @Default(ApplicationStatus.sumbitted) ApplicationStatus status,
+   @Default(ApplicationStatus.submitted) ApplicationStatus status,
   }) = _ApplicationModel;
   factory ApplicationModel.fromJson(Map<String, dynamic> json) =>
       _$ApplicationModelFromJson(json);

@@ -25,6 +25,7 @@ mixin _$NotificationModel {
   String get description => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
 
   /// Serializes this NotificationModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +48,8 @@ abstract class $NotificationModelCopyWith<$Res> {
       String title,
       String description,
       DateTime date,
-      bool isRead});
+      bool isRead,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -70,6 +72,7 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
     Object? description = null,
     Object? date = null,
     Object? isRead = null,
+    Object? imageUrl = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -92,6 +95,10 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$NotificationModelImplCopyWith<$Res>
       String title,
       String description,
       DateTime date,
-      bool isRead});
+      bool isRead,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -130,6 +138,7 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? date = null,
     Object? isRead = null,
+    Object? imageUrl = null,
   }) {
     return _then(_$NotificationModelImpl(
       id: null == id
@@ -152,6 +161,10 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$NotificationModelImpl extends _NotificationModel {
       required this.title,
       required this.description,
       required this.date,
-      required this.isRead})
+      required this.isRead,
+      required this.imageUrl})
       : super._();
 
   factory _$NotificationModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -180,10 +194,12 @@ class _$NotificationModelImpl extends _NotificationModel {
   final DateTime date;
   @override
   final bool isRead;
+  @override
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'NotificationModel(id: $id, title: $title, description: $description, date: $date, isRead: $isRead)';
+    return 'NotificationModel(id: $id, title: $title, description: $description, date: $date, isRead: $isRead, imageUrl: $imageUrl)';
   }
 
   @override
@@ -196,13 +212,15 @@ class _$NotificationModelImpl extends _NotificationModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.isRead, isRead) || other.isRead == isRead));
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, description, date, isRead);
+      Object.hash(runtimeType, id, title, description, date, isRead, imageUrl);
 
   /// Create a copy of NotificationModel
   /// with the given fields replaced by the non-null parameter values.
@@ -227,7 +245,8 @@ abstract class _NotificationModel extends NotificationModel {
       required final String title,
       required final String description,
       required final DateTime date,
-      required final bool isRead}) = _$NotificationModelImpl;
+      required final bool isRead,
+      required final String imageUrl}) = _$NotificationModelImpl;
   _NotificationModel._() : super._();
 
   factory _NotificationModel.fromJson(Map<String, dynamic> json) =
@@ -243,6 +262,8 @@ abstract class _NotificationModel extends NotificationModel {
   DateTime get date;
   @override
   bool get isRead;
+  @override
+  String get imageUrl;
 
   /// Create a copy of NotificationModel
   /// with the given fields replaced by the non-null parameter values.

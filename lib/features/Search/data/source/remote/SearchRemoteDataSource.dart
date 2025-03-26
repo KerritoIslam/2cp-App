@@ -40,7 +40,7 @@ try  {     // Mock companies
         description: 'Work on building a cutting-edge Flutter application.',
         skills: ['Flutter', 'Dart', 'Firebase'],
         company: mockCompanies[0],
-        status: OpportunityStatus.open,
+        status: OpportunityStatus.opened,
         duration: '3 months',
         category: OpportunityCategory.CS,
       ),
@@ -50,7 +50,7 @@ try  {     // Mock companies
         description: 'Find security vulnerabilities in APIs.',
         skills: ['Cybersecurity', 'Pentesting'],
         company: mockCompanies[1],
-        status: OpportunityStatus.open,
+        status: OpportunityStatus.opened,
         category: OpportunityCategory.CS
         ,
       ),
