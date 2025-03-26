@@ -1,17 +1,22 @@
-import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
-import 'package:app/features/autentication/application/pages/forgotpassword.dart';
-import 'package:app/features/autentication/application/pages/login_page.dart';
-import 'package:app/features/autentication/application/pages/noConnection.dart';
-import 'package:app/features/autentication/application/pages/onboarding/onboarding_page.dart';
-import 'package:app/features/autentication/application/pages/signup_page.dart';
-import 'package:app/features/autentication/application/pages/signuppassword_page.dart';
-import 'package:app/features/autentication/application/pages/welcome_page.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/application/pages/forgotpassword.dart';
+import 'package:app/features/authentication/application/pages/login_page.dart';
+import 'package:app/features/authentication/application/pages/noConnection.dart';
+import 'package:app/features/authentication/application/pages/onboarding/onboarding_page.dart';
+import 'package:app/features/authentication/application/pages/signup_page.dart';
+import 'package:app/features/authentication/application/pages/signuppassword_page.dart';
+import 'package:app/features/authentication/application/pages/welcome_page.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
+import 'package:app/features/profile/application/pages/forms/aboutme.dart';
+import 'package:app/features/profile/application/pages/forms/education_form_page.dart';
+import 'package:app/features/profile/application/pages/forms/intership_expirience_form.dart';
+import 'package:app/features/profile/application/pages/forms/resume.dart';
+import 'package:app/features/profile/application/pages/forms/skills.dart';
+import 'package:app/features/profile/application/pages/profile_page.dart';
 import 'package:app/features/profile/application/pages/settings_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
 import 'package:app/main.dart';
@@ -59,8 +64,10 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'LoginPage',
             pageBuilder: (context, state) => MaterialPage(child: LogInPage())),
-
-        GoRoute(path: 'forgotpassword', pageBuilder: (context, state) => MaterialPage(child: ForgotPasswordPage())),
+        GoRoute(
+            path: 'forgotpassword',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: ForgotPasswordPage())),
       ],
     ),
     GoRoute(
@@ -69,26 +76,73 @@ GoRouter router = GoRouter(
       routes: [
         GoRoute(
             path: 'layout/:page',
-            pageBuilder: (context, state) => MaterialPage(child: Layout(initPage:int.parse(  state.pathParameters['page']??"0"),)),
-      routes:[
-          GoRoute(path: 'notifications', pageBuilder: (context, state) => MaterialPage(child: NotificationsPage())),
-        ]
+            pageBuilder: (context, state) => MaterialPage(
+                    child: Layout(
+                  initPage: int.parse(state.pathParameters['page'] ?? "0"),
+                )),
+            routes: [
+              GoRoute(
+                  path: 'notifications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: NotificationsPage())),
+            ]),
+        GoRoute(
+            path: 'profile',
+            pageBuilder: (context, state) => MaterialPage(child: ProfilePage()),
+            routes: [
+              GoRoute(
+                  path: 'internship_expirience_form',
+                  pageBuilder: (context, state) {
+                    final int? index = state.extra as int?;
+                    return MaterialPage(
+                        child: IntershipExpirienceForm(
+                      index: index,
+                    ));
+                  }),
+              GoRoute(
+                  path: 'education_form',
+                  pageBuilder: (context, state) {
+                    final int? index = state.extra as int?;
+                    return MaterialPage(
+                        child: EducationForm(
+                      index: index,
+                    ));
 
-        ),
-        GoRoute(path: 'options',
- pageBuilder: (context,state)=>MaterialPage(child: SettingsTilesPage()),
-          routes: [
-            GoRoute(path: 'applications',pageBuilder:(context,state)=>MaterialPage(child:Trackapplicationspage() ) ),
-          GoRoute(path: 'saved',pageBuilder: (context,state)=>MaterialPage(child: SavedopportuntitiesPage())),
-            GoRoute(path: 'notifications',pageBuilder: (context,state)=>MaterialPage(child: NotificationsSettingPage())),
-            GoRoute(path: 'settings',pageBuilder: (context,state)=>MaterialPage(child: SettingsPage()))
-        ]
-        ),
-        
-        
-
-        
-                       ],
+                  }),
+              GoRoute(path:'about_me',
+                  pageBuilder: (context, state) {
+                    return MaterialPage(child: AboutMe());
+                  }),
+              GoRoute(
+                  path: 'Skills',
+                  pageBuilder: (context, state) {
+                    return MaterialPage(child: SkillsPage());
+                  }),
+              GoRoute(
+                  path: 'resume',
+                  pageBuilder: (context, state) {
+                    return MaterialPage(child: ResumePage());
+                  }),
+            ]),
+        GoRoute(
+            path: 'options',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: SettingsTilesPage()),
+            routes: [
+              GoRoute(
+                  path: 'saved',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: SavedopportuntitiesPage())),
+              GoRoute(
+                  path: 'notifications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: NotificationsSettingPage())),
+              GoRoute(
+                  path: 'settings',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: SettingsPage()))
+            ]),
+      ],
     ),
   ],
   redirect: (context, state) async {
@@ -104,9 +158,8 @@ GoRouter router = GoRouter(
         authBloc.state is Authenticated) {
       return '/protected/layout/0';
     } else if (state.fullPath!.startsWith('/protected') &&
-
         authBloc.state is Unauthenticated) {
-        print("Here");
+      print("Here");
       return '/auth/welcome';
     }
     return null;

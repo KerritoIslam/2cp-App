@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
+
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
@@ -77,6 +78,7 @@ String _getPlatform() {
   } else if (Platform.isWindows) {
     return 'WINDOWS';
   }
+
   return 'WEB'; // Default to Web
 }
 

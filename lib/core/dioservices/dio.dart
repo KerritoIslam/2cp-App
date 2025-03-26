@@ -1,6 +1,6 @@
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_events.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -9,17 +9,15 @@ class DioServices {
   static final Dio _dio = Dio(
     
     BaseOptions(
-      sendTimeout: Duration(seconds: 10),
-      baseUrl: 'http://10.0.2.2:8000/',
+      baseUrl: 'http://192.168.100.199:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-      print(options.path);
-        final  unprotected=options.path.contains("/Auth");
+        final unprotected = options.path.contains("/Auth");
         if (unprotected) {
-          return handler.next(options); 
+          return handler.next(options);
         }
-      //TODO use repository instead of LocalSecureStorage
+        //TODO use repository instead of LocalSecureStorage
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;
         final accesToken = await dataSource.getTokens();
@@ -34,15 +32,14 @@ class DioServices {
         return handler.next(options);
       },
       onError: (error, handler) async {
-         if (error.requestOptions.path.startsWith('/Auth')){
-         if (!error.requestOptions.path.contains('Refresh')) {
-           return handler.next(error);
-         }
-         }
+        print(error.requestOptions.path);
+        if (error.requestOptions.path.startsWith('/Auth')) {
+          if (!error.requestOptions.path.contains('Refresh')) {
+            return handler.next(error);
+          }
+        }
         final authBloc = locator.get<AuthBloc>();
         if (error.response?.statusCode == 401) {
-          
-          
           final dataSource = locator.get<LocalSecureStorage>();
           final res = await dataSource.getTokens();
           final token = res.fold((l) => "", (r) => r.refreshToken);

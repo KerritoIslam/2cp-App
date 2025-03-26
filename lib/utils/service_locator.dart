@@ -4,9 +4,10 @@ import 'package:app/features/Search/domain/repositories/search_repostitory.dart'
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/applications%20status/data/remote/remote_data_source.dart';
 import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/domain/auth_repository.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/domain/auth_repository.dart';
+
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/notifications/data/source/remote/remoteDataSource.dart';
 import 'package:app/features/notifications/domain/repositories/notification_repository.dart';
@@ -16,7 +17,7 @@ import 'package:app/features/opportunities/domain/opportunity_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
+import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -31,6 +32,7 @@ Future<void> setUpLocator() async {
                 accessibility: KeychainAccessibility.passcode)),
       ));
   locator.registerLazySingleton<AuthRepository>(() => AuthRepository(
+        localStorage: locator.get<LocalStorage>(),
         restAuthRemote: locator.get<RestAuthRemote>(),
         localSecureStorage: locator.get<LocalSecureStorage>(),
       ));
@@ -43,8 +45,11 @@ Future<void> setUpLocator() async {
       () => LocalStorage(locator.get<SharedPreferences>()));
 
   // Auth Bloc
-  locator
-      .registerFactory<AuthBloc>(() => AuthBloc(locator.get<AuthRepository>()));
+  locator.registerFactory<AuthBloc>(() => AuthBloc(
+    authRepository: locator.get<AuthRepository>(), 
+    localSecureStorage: locator.get<LocalSecureStorage>(),
+    localStorage: locator.get<LocalStorage>(),
+  ));
 
   // Opportunities
   locator.registerLazySingleton<OpportunityRemoteSource>(

@@ -27,7 +27,8 @@ final json={
       title: 'Congratulations',
       description: 'You have been selected for the internship',
       date: DateTime.now(),
-      isRead: true
+      isRead: true,
+      imageUrl: 'https://example.com/image.jpg'
     );
     //ACT
     final json = model.toJson();

@@ -1,0 +1,239 @@
+import 'package:app/core/dioservices/dio.dart';
+import 'package:app/core/failure/failure.dart';
+import 'package:app/features/authentication/data/models/login_dto_model.dart';
+import 'package:app/features/authentication/data/models/user_model.dart';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:signin_with_linkedin/signin_with_linkedin.dart';
+
+class RestAuthRemote {
+  final Dio _dio = DioServices.dio;
+
+  Future<Either<Failure, LoginResDtoModel>> login(
+      String email, String password) async {
+    try {
+      final response = await _dio.post(
+        '/Auth/Login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+      return right(LoginResDtoModel.fromJson(response.data));
+    } on DioException catch (e) {
+      if (e.response == null) {
+        return left(Failure('Unkonw error Please Try Again Later!'));
+      }
+      if (e.response!.statusCode == 401) {
+        return left(Failure('email or password is incorrect'));
+      }
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
+      }
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LoginResDtoModel>> register(
+      String name, String email, String password) async {
+    try {
+      final response = await _dio.post('/Auth/Signup', data: {
+        "name": name,
+        "email": email,
+        "type": "Student",
+        "password": password
+      });
+
+      return right(LoginResDtoModel.fromJson(response.data));
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 400) {
+        return left(Failure('this email or name is already used'));
+      }
+      if (e.response!.statusCode == 404) {
+        return left(Failure('Internal Erro'));
+      }
+
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return left(Failure('An error occurred'));
+    }
+  }
+
+//todo: check if needed
+  Future<Either<Failure, UserModel>> getUserProfile() async {
+    try {
+      final response = await _dio.get(
+        '/user',
+      );
+      print(response.data);
+      return right(UserModel.fromJson(response.data['user']));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> updateUser(UserModel user) async {
+    try {
+      final response = await _dio.put(
+        '/edit_user',
+        data: user.toJson(),
+      );
+      return right(UserModel.fromJson(response.data['user']));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, int>> getOTP(String email) async {
+    try {
+      final response = await _dio.post(
+        '/Auth/otpemail',
+        data: {
+          'email': email,
+        },
+      );
+      return right(response.data['OTP']);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, Unit>> resetPassword(
+      String email, String password) async {
+    try {
+      await _dio.post(
+        '/Auth/userpassword',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+      return right(unit);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404) {
+        return left(Failure('User not found'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, TokensModel>> refrechTokens(
+      String refreshToken) async {
+    try {
+      final response = await _dio.post(
+        '/Auth/Refresh',
+        data: {
+          'refresh': refreshToken,
+        },
+      );
+      return right(TokensModel(
+          accessToken: response.data['access'],
+          refreshToken: response.data['refresh']));
+    } on DioException catch (e) {
+      if (e.response == null) {
+        return left(Failure('Unkonw error Please Try Again Later!'));
+      }
+      if (e.response!.statusCode == 401) {
+        return left(Failure('Invalid Refresh Token'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LoginResDtoModel>> googleSignIn() async {
+    try {
+      await dotenv.load();
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: <String>[
+          'email',
+        ],
+        clientId:
+            "181976856956-q4s0u4b6d1ijh97n1vi55q73pjce64j8.apps.googleusercontent.com",
+      );
+      final googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        return left(Failure('Sign In Canceled'));
+      }
+      final googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      try {
+        print(googleSignInAuthentication.idToken);
+
+        final response = await _dio.post(
+          '/Auth/Google',
+          data: {
+            'token': googleSignInAuthentication.serverAuthCode,
+          },
+        );
+        return right(LoginResDtoModel.fromJson(response.data));
+      } on DioException catch (e) {
+        return left(Failure(e.toString()));
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return left(Failure('Google Sign In Failed'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LoginResDtoModel>> linkedInSignIn(
+      BuildContext context) async {
+    try {
+      String linkedInToken = '';
+      await dotenv.load();
+      final linkedInConfig = LinkedInConfig(
+        clientId: dotenv.env['LINKEDIN_CLIENT_ID'] ?? '<<CLIENT ID>>',
+        clientSecret:
+            dotenv.env['LINKEDIN_CLIENT_SECRET'] ?? '<<CLIENT SECRET>>',
+        redirectUrl: dotenv.env['LINKEDIN_REDIRECT_URL'] ?? '<<REDIRECT URL>>',
+        scope: ['openid', 'profile', 'email'],
+      );
+
+      await SignInWithLinkedIn.signIn(
+        context,
+        config: linkedInConfig,
+        onGetAuthToken: (data) {
+          linkedInToken = data.toJson()['access_token'];
+        },
+        onSignInError: (error) {
+          print('Error on sign in: $error');
+        },
+      );
+      try {
+        final response = await _dio.post(
+          '/Auth/LinkedIn',
+          data: {
+            'token': linkedInToken,
+          },
+        );
+        return right(LoginResDtoModel.fromJson(response.data));
+      } on DioException catch (e) {
+        return left(Failure(e.toString()));
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return left(Failure('LinkedIn Sign In Failed'));
+      }
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+}
