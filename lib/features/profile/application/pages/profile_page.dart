@@ -89,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                '80',
+                                user.internships.length.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -107,7 +107,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                               ),
                               Text(
-                                '60%',
+                                () {
+                                  double strength = 0;
+                                  if (user.skills.isNotEmpty) {
+                                    strength += 0.2;
+                                  }
+                                  if (user.education.isNotEmpty) {
+                                    strength += 0.2;
+                                  }
+                                  if (user.internships.isNotEmpty) {
+                                    strength += 0.2;
+                                  }
+                                  if (user.discription != null &&
+                                      user.discription!.isNotEmpty) {
+                                    strength += 0.2;
+                                  }
+                                  if (user.profilepic != null) {
+                                    strength += 0.2;
+                                  }
+                                  return '${(strength * 100).toInt()}%';
+                                }(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
