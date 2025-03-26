@@ -19,7 +19,7 @@ void main() {
       post: OpportunityModel.problem(id: "5", title: "Test", description: "Test", skills: ['Dart'], company: company, category: OpportunityCategory.CS),
       sumbittedAt: DateTime(2023, 1, 1),
       type: 'Full-time',
-      status: ApplicationStatus.sumbitted,
+      status: ApplicationStatus.submitted,
     );
 
     // Test the toJson method
@@ -31,7 +31,7 @@ void main() {
       expect(json['proposal'], 'This is a proposal');
       expect(json['sumbittedAt'], '2023-01-01T00:00:00.000');
       expect(json['type'], 'Full-time');
-      expect(json['status'], ApplicationStatus.sumbitted.name);
+      expect(json['status'], ApplicationStatus.submitted.name);
     });
 
     // Test the fromJson method

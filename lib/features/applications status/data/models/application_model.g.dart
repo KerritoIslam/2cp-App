@@ -14,8 +14,8 @@ _$ApplicationModelImpl _$$ApplicationModelImplFromJson(
       post: OpportunityModel.fromJson(json['post'] as Map<String, dynamic>),
       sumbittedAt: DateTime.parse(json['sumbittedAt'] as String),
       type: json['type'] as String,
-      status: $enumDecodeNullable(_$ApplicationStatusEnumMap, json['status']) ??
-          ApplicationStatus.sumbitted,
+      status: ApplicationStatusMixin.statusMapReverse[json['status']] ??
+          ApplicationStatus.inReview,
     );
 
 Map<String, dynamic> _$$ApplicationModelImplToJson(
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$ApplicationModelImplToJson(
     };
 
 const _$ApplicationStatusEnumMap = {
-  ApplicationStatus.sumbitted: 'sumbitted',
+  ApplicationStatus.submitted: 'submitted',
   ApplicationStatus.inReview: 'inReview',
   ApplicationStatus.accepted: 'accepted',
   ApplicationStatus.rejected: 'rejected',

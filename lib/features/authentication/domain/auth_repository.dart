@@ -74,6 +74,15 @@ class AuthRepository {
     }
   }
 
+  Future<Either<Failure, User>> getUser() async {
+    try {
+      final response = await restAuthRemote.getUserProfile();
+      return response.fold((l) => left(l), (r) => right(userModelToEntity(r)));
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   Future<Either<Failure, User>> googleSignIn() async {
     try {
       final response = await restAuthRemote.googleSignIn();
@@ -176,15 +185,8 @@ class AuthRepository {
       final response = await localSecureStorage.getTokens();
       return response.fold((failure) => left(failure), (res) async {
         if (res.accessToken.isNotEmpty) {
-          if (JwtDecoder.isExpired(res.accessToken)) {
-            if (res.refreshToken.isNotEmpty) {
-              final response = await restAuthRemote.refrechTokens(res.refreshToken);
-              return response.fold((failure) => left(failure), (res) async {
-                final tokenResult = await _saveTokens(
-                    res.accessToken, res.refreshToken);
-                return tokenResult.fold(
-                    (l) => left(l), (_) => right(res));
-              });}
+          if (JwtDecoder.isExpired(res.refreshToken)) {
+            return left(Failure('Token is expired'));
           }
           return right(res);
         } else {

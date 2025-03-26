@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:384180080362:android:e03abf4b65514fdaf9d193",
+        "mobilesdk_app_id": "1:384180080362:android:4b5b8e695a5360cdf9d193",
         "android_client_info": {
           "package_name": "com.career.bridge.app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "384180080362-roe504o21u05odr62qaovcf8ofg45ssr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.career.bridge.app",
+            "certificate_hash": "d37b92d2a63a5e6feaaf96b1d02e95d65ec70856"
+          }
+        },
         {
           "client_id": "384180080362-3656gdig4i3jq3dcom3mrf6unt5aoi4g.apps.googleusercontent.com",
           "client_type": 3
@@ -34,7 +42,7 @@
               "client_id": "384180080362-rpr9jr53etu68mrqir9gdm5am5t448jf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.career.bridge.app"
+                "bundle_id": "com.example.app"
               }
             }
           ]

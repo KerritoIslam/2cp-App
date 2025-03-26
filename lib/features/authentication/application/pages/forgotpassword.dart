@@ -17,9 +17,7 @@ bool _otpConfirmed = false;
 int? OTP;
 bool _passwordObscure = true;
 bool _confirmPasswordObscure = true;
-final List<TextEditingController> _otpControllers =
-    List.generate(6, (index) => TextEditingController());
-
+late final List<TextEditingController> _otpControllers ;
 late TextEditingController passwordController;
 late TextEditingController confirmPasswordController;
 
@@ -63,6 +61,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     emailController = TextEditingController();
+    _otpControllers== List.generate(6, (index) => TextEditingController());
+
     super.initState();
   }
 
@@ -71,6 +71,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     if (_formKey.currentState != null) _formKey.currentState!.dispose();
 
     emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    for (var element in _otpControllers) {
+      element.dispose();
+    }
     super.dispose();
   }
 

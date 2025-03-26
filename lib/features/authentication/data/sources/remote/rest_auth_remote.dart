@@ -68,8 +68,9 @@ class RestAuthRemote {
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
       final response = await _dio.get(
-        '/profile',
+        '/user',
       );
+      print(response.data);
       return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));
@@ -127,7 +128,9 @@ class RestAuthRemote {
       return left(Failure(e.toString()));
     }
   }
-  Future<Either <Failure,TokensModel>> refrechTokens(String refreshToken) async {
+
+  Future<Either<Failure, TokensModel>> refrechTokens(
+      String refreshToken) async {
     try {
       final response = await _dio.post(
         '/Auth/Refresh',
@@ -135,7 +138,9 @@ class RestAuthRemote {
           'refresh': refreshToken,
         },
       );
-      return right(TokensModel(accessToken: response.data['access'], refreshToken: response.data['refresh']));
+      return right(TokensModel(
+          accessToken: response.data['access'],
+          refreshToken: response.data['refresh']));
     } on DioException catch (e) {
       if (e.response == null) {
         return left(Failure('Unkonw error Please Try Again Later!'));

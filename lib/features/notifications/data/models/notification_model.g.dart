@@ -14,6 +14,7 @@ _$NotificationModelImpl _$$NotificationModelImplFromJson(
       description: json['description'] as String,
       date: DateTime.parse(json['date'] as String),
       isRead: json['isRead'] as bool,
+      imageUrl: json['imageUrl'] as String,
     );
 
 Map<String, dynamic> _$$NotificationModelImplToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$NotificationModelImplToJson(
       'description': instance.description,
       'date': instance.date.toIso8601String(),
       'isRead': instance.isRead,
+      'imageUrl': instance.imageUrl,
     };

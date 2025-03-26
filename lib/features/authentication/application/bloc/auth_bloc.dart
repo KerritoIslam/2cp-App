@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
@@ -17,15 +15,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<Either<Failure, User>> _init() async {
     final tokens = await authRepository.checkTokens();
     return await tokens.fold((l) {
-      return left(Failure(l.message));
+      return left(Failure('Error getting tokens :${l.message}'));
     }, (r) async {
-      print(r.accessToken + r.refreshToken);
-      final user = await localStorage.getUser();
+      final user = await authRepository.getUser();
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
       }, (r) {
-        final userMap = jsonDecode(r);
-        return right(User.fromJson(userMap));
+        return right(r);
       });
     });
   }
@@ -38,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _init().then((value) {
       value.fold((l) {
         print(
-            '${l.message}------------------------1111111111111111111111----------------------------');
+            '${l.message}----------------------------------------------------');
         add(AuthLogoutRequested());
       }, (user) {
         add(UserLoaded(user));
@@ -147,6 +143,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (r) => emit(AuthError(r.message)), (l) => emit(Authenticated(l))); */
       emit(Authenticated(event.user));
     });
-    
   }
 }

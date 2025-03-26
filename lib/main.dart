@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
+
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
@@ -14,9 +16,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/theme.dart';
 import 'package:toastification/toastification.dart';
-
 final authBloc = locator.get<AuthBloc>();
-
 class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
   BlocListenable(this.bloc) {
@@ -42,6 +42,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_)=>locator.get<ApplicationBloc>()),
         BlocProvider(create: (_) => ThemeProviderBloc()),
         BlocProvider(create: (_) => authBloc),
         BlocProvider(create: (_) => locator.get<notificationsBloc>()),

@@ -11,6 +11,7 @@ class NotificationModel with _$NotificationModel {
     required String description,
     required DateTime date,
     required bool isRead,
+    required String imageUrl,
      }) = _NotificationModel;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
