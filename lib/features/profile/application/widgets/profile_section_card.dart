@@ -7,11 +7,13 @@ class ProfileCard extends StatelessWidget {
   final String icon;
   final List<Widget> children;
   final Function()? onAdd;
+  final bool edit;
   const ProfileCard(
       {super.key,
       required this.title,
       required this.icon,
       required this.children,
+      this.edit= false,
       this.onAdd});
 
   @override
@@ -46,7 +48,9 @@ class ProfileCard extends StatelessWidget {
               ),
               trailing: IconButton(
                 onPressed: onAdd ?? () {},
-                icon: SvgPicture.asset(
+                icon: SvgPicture.asset(edit
+                    ? 'assets/icons/edit.svg'
+                    :
                   'assets/icons/add.svg',
                   width: 40.w,
                   height: 40.h,

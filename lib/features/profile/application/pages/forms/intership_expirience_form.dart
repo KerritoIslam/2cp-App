@@ -1,28 +1,62 @@
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class IntershipExpirienceForm extends StatefulWidget {
-  const IntershipExpirienceForm({super.key});
+  final int? index;
+  const IntershipExpirienceForm({super.key, this.index});
 
   @override
   _IntershipExpirienceFormState createState() =>
       _IntershipExpirienceFormState();
 }
 
+late TextEditingController _internshipController;
+late TextEditingController _companyNameController;
+late TextEditingController _descriptionController;
+String? _startDate;
+String? _endDate;
+bool _currentPosition = false;
+late User user;
+
 class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
-  final TextEditingController _internshipController = TextEditingController();
-  final TextEditingController _companyNameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  String? _startDate;
-  String? _endDate;
-  bool _currentPosition = false;
   @override
   void dispose() {
     _companyNameController.dispose();
     _internshipController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    final state = context.read<AuthBloc>().state;
+    if (state is Authenticated) {
+      user = state.user;
+
+      if (widget.index != null) {
+        final internship = user.internships[widget.index!];
+        _internshipController =
+            TextEditingController(text: internship['title'] ?? '');
+        _companyNameController =
+            TextEditingController(text: internship['company'] ?? '');
+        _descriptionController =
+            TextEditingController(text: internship['description'] ?? '');
+        _startDate = internship['startDate'];
+        _endDate = internship['endDate'];
+        _currentPosition = internship['currentPosition'] ?? false;
+      } else {
+        _internshipController = TextEditingController();
+        _companyNameController = TextEditingController();
+        _descriptionController = TextEditingController();
+      }
+    }
+    super.initState();
   }
 
   @override
@@ -37,7 +71,6 @@ class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: SingleChildScrollView(
           child: Column(
-            
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
@@ -224,8 +257,34 @@ class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () {
-                    //todo: edit the return value
-                    context.pop(_companyNameController.text);
+                    List<Map<String, dynamic>> internships =
+                        List.from(user.internships);
+
+                    if (widget.index != null) {
+                      internships[widget.index!] = {
+                        'title': _internshipController.text,
+                        'company': _companyNameController.text,
+                        'startDate': _startDate,
+                        'endDate': _endDate,
+                        'currentPosition': _currentPosition,
+                        'description': _descriptionController.text,
+                      };
+                      
+                    } else {
+                      internships.add({
+                        'title': _internshipController.text,
+                        'company': _companyNameController.text,
+                        'startDate': _startDate,
+                        'endDate': _endDate,
+                        'currentPosition': _currentPosition,
+                        'description': _descriptionController.text,
+                      });
+
+                      
+                    }
+context.read<AuthBloc>().add(AuthUserUpdated(
+                          user.copyWith(internships: internships)));
+                    context.go('/protected/profile');
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),

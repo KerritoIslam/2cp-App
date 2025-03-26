@@ -10,16 +10,20 @@ class UserModel with _$UserModel {
     required int id,
     required String name,
     required String email,
+    String? discription,
     String? number,
     String? profilepic,
     String? links,
     required String date_joined,
-    String? education,
+   @Default([]) List<Map<String,dynamic>> education,
     required String gendre,
-    required List<String> skills,
+   @Default([])  List<String> skills,
      int? rating,
+    
+   @Default([]) List<Map<String, dynamic>> internships,
     String? category,
     String? cv,
+
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

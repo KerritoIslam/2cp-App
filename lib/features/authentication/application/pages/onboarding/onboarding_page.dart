@@ -1,5 +1,5 @@
-import 'package:app/features/autentication/application/pages/onboarding/pages_data.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/application/pages/onboarding/pages_data.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

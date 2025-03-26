@@ -1,4 +1,4 @@
-import 'package:app/features/autentication/data/models/user_model.dart';
+import 'package:app/features/authentication/data/models/user_model.dart';
 
 class LoginResDtoModel {
   final TokensModel tokens;

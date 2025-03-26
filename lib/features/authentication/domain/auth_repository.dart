@@ -1,9 +1,9 @@
 import 'package:app/core/failure/failure.dart';
-import 'package:app/features/autentication/data/models/login_dto_model.dart';
-import 'package:app/features/autentication/data/models/user_model.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
+import 'package:app/features/authentication/data/models/login_dto_model.dart';
+import 'package:app/features/authentication/data/models/user_model.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -190,6 +190,22 @@ class AuthRepository {
         } else {
           return left(Failure('Token is empty'));
         }
+      });
+    } on Failure catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+  Future<Either<Failure,User>> updateUser(User user) async {
+    try {
+      final response = await restAuthRemote.updateUser(userEntityToModel(user));
+      return response.fold((failure) => left(failure), (res) async {
+        final user = userModelToEntity(res);
+        final userResult = await localStorage.setUser(user.toJson());
+        if (userResult.isLeft()) {
+          return left(Failure(
+              'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
+        }
+        return right(userModelToEntity(res));
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));

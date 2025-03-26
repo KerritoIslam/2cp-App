@@ -1,4 +1,9 @@
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +15,7 @@ class SkillsPage extends StatefulWidget {
   State<SkillsPage> createState() => _SkillsPageState();
 }
 
+late User user;
 late TextEditingController _skillsController;
 List<String> _skills = [];
 
@@ -17,6 +23,9 @@ class _SkillsPageState extends State<SkillsPage> {
   @override
   void initState() {
     _skillsController = TextEditingController();
+    user = (context.read<AuthBloc>().state as Authenticated).user;
+
+    _skills = List.from(user.skills);
     super.initState();
   }
 
@@ -121,9 +130,13 @@ class _SkillsPageState extends State<SkillsPage> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     //todo: edit the return value
-                    context.pop();
+
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthUserUpdated(user.copyWith(skills: _skills)));
+                    context.go('/protected/profile');
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),

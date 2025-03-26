@@ -1,4 +1,4 @@
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 
 abstract class AuthEvent {}
@@ -38,8 +38,11 @@ class AuthLinkedInSignInRequested extends AuthEvent {
 class UserLoaded extends AuthEvent {
   final User user;
   UserLoaded(this.user);
-  
 }
 
+class AuthUserUpdated extends AuthEvent {
+  final User user;
+  AuthUserUpdated(this.user);
+}
 
 class AuthLogoutRequested extends AuthEvent {}

@@ -12,16 +12,20 @@ class User with _$User {
    required int id,
     required String name,
     required String email,
+    String? discription,
     String? number,
     String? profilepic,
     String? links,
     required String date_joined,
-    String? education,
+    @Default([]) List<Map<String,dynamic>> education,
     required String gendre,
-    required List<String> skills,
+    @Default([]) List<String> skills,
      int? rating,
+    
+    @Default([]) List<Map<String, dynamic>> internships,
     String? category,
     String? cv,
+
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

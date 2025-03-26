@@ -1,5 +1,5 @@
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

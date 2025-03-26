@@ -1,6 +1,6 @@
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_events.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';

@@ -1,7 +1,7 @@
 import 'package:app/core/dioservices/dio.dart';
 import 'package:app/core/failure/failure.dart';
-import 'package:app/features/autentication/data/models/login_dto_model.dart';
-import 'package:app/features/autentication/data/models/user_model.dart';
+import 'package:app/features/authentication/data/models/login_dto_model.dart';
+import 'package:app/features/authentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';

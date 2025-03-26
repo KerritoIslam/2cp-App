@@ -1,7 +1,7 @@
 import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/application/widgets/search_bar.dart';
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -1,12 +1,13 @@
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/profile/application/widgets/profile_section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,17 +16,13 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-late List<bool> _isExpanded;
 String? test;
 
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    _isExpanded = List.generate(5, (index) => false);
-    super.initState();
-  }
+bool _editing = false;
+bool _expanded = false;
+ExpansionTileController _controller = ExpansionTileController();
 
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     User user = (context.read<AuthBloc>().state as Authenticated).user;
@@ -48,9 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _editing = !_editing;
+                      });
+                    },
                     icon: Icon(
-                      Icons.edit,
+                      _editing ? Icons.done : Icons.edit,
                       color: Colors.white,
                     ),
                   ),
@@ -170,10 +171,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             child: ExpansionTile(
+                              controller: _controller,
                               onExpansionChanged: (isExpanded) {
-                                setState(() {
-                                  _isExpanded[0] = isExpanded;
-                                });
+                                if (user.discription == null) {
+                                  _controller.collapse();
+                                  _expanded = false;
+                                  context.go('/protected/profile/about_me');
+                                  return;
+                                }
+                                if (_editing) {
+                                  _controller.expand();
+                                  _expanded = true;
+                                  context.go('/protected/profile/about_me');
+                                  return;
+                                }
+                                setState(() {});
+                                _expanded = isExpanded;
                               },
                               shape:
                                   RoundedRectangleBorder(side: BorderSide.none),
@@ -187,13 +200,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                 'About me',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              trailing: SvgPicture.asset(
-                                _isExpanded[0]
-                                    ? 'assets/icons/edit.svg'
-                                    : 'assets/icons/add.svg',
-                                width: 40.w,
-                                height: 40.h,
-                              ),
+                              trailing: user.discription == null ||
+                                      user.discription!.isEmpty ||
+                                      _editing
+                                  ? SvgPicture.asset(
+                                      user.discription != null &&
+                                              user.discription!.isNotEmpty
+                                          ? 'assets/icons/edit.svg'
+                                          : 'assets/icons/add.svg',
+                                      width: 40.w,
+                                      height: 40.h,
+                                    )
+                                  : _expanded
+                                      ? Icon(
+                                          Icons.expand_less,
+                                          color: Theme.of(context).primaryColor,
+                                        )
+                                      : Icon(Icons.expand_more,
+                                          color:
+                                              Theme.of(context).primaryColor),
                               children: [
                                 Divider(
                                   color: Theme.of(context).dividerColor,
@@ -206,7 +231,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       horizontal: 20.w, vertical: 10.h),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    'data',
+                                    user.discription ?? '',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ],
@@ -215,41 +242,165 @@ class _ProfilePageState extends State<ProfilePage> {
                           ProfileCard(
                             title: 'Internship Experience',
                             icon: 'internship_experience.svg',
-                            children: [
-                              Text(
-                                  test ?? 'data....1'), //TODO: remove this line
-                            ],
+                            children: user.internships.map((e) {
+                              late String datedisplay;
+                              if (e['startDate'] != null &&
+                                  e['endDate'] != null) {
+                                try {
+                                  DateFormat mainformat =
+                                      DateFormat('dd/mm/yyyy');
+                                  DateTime startDate =
+                                      mainformat.parse(e['startDate']);
+                                  DateTime endDate =
+                                      mainformat.parse(e['endDate']);
+                                  Duration? difference =
+                                      endDate.difference(startDate);
+
+                                  if (difference.inDays > 365) {
+                                    datedisplay =
+                                        '${DateFormat('MMM yyyy').format(startDate)}-${DateFormat('MMM yyyy').format(endDate)}   .${difference.inDays ~/ 365} years';
+                                  } else if (difference.inDays > 30) {
+                                    datedisplay =
+                                        '${DateFormat('MMM dd').format(startDate)}-${DateFormat('MMM dd').format(endDate)}   .${difference.inDays} days';
+                                  }
+                                } catch (e) {
+                                  datedisplay = '';
+                                }
+                              } else {
+                                datedisplay = '';
+                              }
+                              return ListTile(
+                                title: Text(e['title'],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                subtitle: Text(
+                                  '${e['company']} \n $datedisplay',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                                isThreeLine: true,
+                                trailing: IconButton(
+                                  icon: SvgPicture.asset(
+                                    'assets/icons/edit.svg',
+                                  ),
+                                  onPressed: () {
+                                    context.go(
+                                      '/protected/profile/internship_expirience_form',
+                                      extra: user.internships.indexOf(e),
+                                    );
+                                  },
+                                ),
+                              );
+                            }).toList(),
                             onAdd: () {
-                              context.push<String?>(
-                                  '/protected/profile/internship_expirience_form');
+                              context.go(
+                                '/protected/profile/internship_expirience_form',
+                              );
                             },
                           ),
                           ProfileCard(
                             title: 'Education',
                             icon: 'education.svg',
-                            children: [],
+                            children: user.education.map((e) {
+                              late String datedisplay;
+                              if (e['startDate'] != null &&
+                                  e['endDate'] != null) {
+                                try {
+                                  DateFormat mainformat =
+                                      DateFormat('dd/mm/yyyy');
+                                  DateTime startDate =
+                                      mainformat.parse(e['startDate']);
+                                  DateTime endDate =
+                                      mainformat.parse(e['endDate']);
+                                  Duration? difference =
+                                      endDate.difference(startDate);
+
+                                  if (difference.inDays > 365) {
+                                    datedisplay =
+                                        '${DateFormat('MMM yyyy').format(startDate)}-${DateFormat('MMM yyyy').format(endDate)}   .${difference.inDays ~/ 365} years';
+                                  } else if (difference.inDays > 30) {
+                                    datedisplay =
+                                        '${DateFormat('MMM dd').format(startDate)}-${DateFormat('MMM dd').format(endDate)}   .${difference.inDays} days';
+                                  }
+                                } catch (e) {
+                                  datedisplay = '';
+                                }
+                              } else {
+                                datedisplay = '';
+                              }
+                              return ListTile(
+                                title: Text(e['education'],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                subtitle: Text(
+                                  '${e['school']} \n $datedisplay',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                                isThreeLine: true,
+                                trailing: IconButton(
+                                  icon: SvgPicture.asset(
+                                    'assets/icons/edit.svg',
+                                  ),
+                                  onPressed: () {
+                                    context.go(
+                                      '/protected/profile/internship_expirience_form',
+                                      extra: user.internships.indexOf(e),
+                                    );
+                                  },
+                                ),
+                              );
+                            }).toList(),
                             onAdd: () {
-                              context.push<String?>(
-                                  '/protected/profile/education_form');
+                              context.go('/protected/profile/education_form');
                             },
                           ),
                           ProfileCard(
                             title: 'Skills',
                             icon: 'skills.svg',
+                            edit: user.skills.isNotEmpty,
                             children: [
-                              Text('data....4'),
+                              if (user.skills.isNotEmpty)
+                                Wrap(
+                                  children: user.skills
+                                      .map(
+                                        (e) => Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.w),
+                                          child: Chip(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                side: BorderSide(width: 0)),
+                                            backgroundColor:
+                                                Theme.of(context).dividerColor,
+                                            label: Text(e,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium),
+                                            deleteIcon: null,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                             ],
                             onAdd: () {
-                              context
-                                  .push<String?>('/protected/profile/Skills');
+                              context.go('/protected/profile/Skills');
                             },
                           ),
                           ProfileCard(
                             title: 'Resume',
                             icon: 'resume.svg',
-                            children: [
-                              Text('data....5'),
-                            ],
+                            children: [],
                             onAdd: () {
                               context.push('/protected/profile/resume');
                             },

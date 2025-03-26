@@ -1,9 +1,9 @@
 import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.dart';
 import 'package:app/features/Search/domain/repositories/search_repostitory.dart';
-import 'package:app/features/autentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/domain/auth_repository.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/domain/auth_repository.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/notifications/data/source/remote/remoteDataSource.dart';
 import 'package:app/features/notifications/domain/repositories/notification_repository.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app/features/autentication/data/sources/remote/rest_auth_remote.dart';
+import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 
 final GetIt locator = GetIt.instance;
 

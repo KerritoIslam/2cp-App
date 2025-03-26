@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/core/failure/failure.dart';
-import 'package:app/features/autentication/data/models/login_dto_model.dart';
+import 'package:app/features/authentication/data/models/login_dto_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

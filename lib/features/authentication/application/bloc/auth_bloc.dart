@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:app/core/failure/failure.dart';
-import 'package:app/features/autentication/application/bloc/auth_events.dart';
-import 'package:app/features/autentication/application/bloc/auth_state.dart';
-import 'package:app/features/autentication/data/sources/local/local_secure_storage.dart';
-import 'package:app/features/autentication/domain/auth_repository.dart';
-import 'package:app/features/autentication/domain/entities/user_entity.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/domain/auth_repository.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       required this.localSecureStorage,
       required this.localStorage})
       : super(AuthLoading()) {
-        
     _init().then((value) {
       value.fold((l) {
         print(
@@ -141,5 +140,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UserLoaded>((event, emit) async {
       emit(Authenticated(event.user));
     });
+    on<AuthUserUpdated>((event, emit) async {
+      /* emit(AuthLoading());
+      final response = await authRepository.updateUser(event.user);
+      response.fold(
+          (r) => emit(AuthError(r.message)), (l) => emit(Authenticated(l))); */
+      emit(Authenticated(event.user));
+    });
+    
   }
 }

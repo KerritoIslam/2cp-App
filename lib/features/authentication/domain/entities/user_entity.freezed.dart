@@ -23,14 +23,18 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String? get discription => throw _privateConstructorUsedError;
   String? get number => throw _privateConstructorUsedError;
   String? get profilepic => throw _privateConstructorUsedError;
   String? get links => throw _privateConstructorUsedError;
   String get date_joined => throw _privateConstructorUsedError;
-  String? get education => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get education =>
+      throw _privateConstructorUsedError;
   String get gendre => throw _privateConstructorUsedError;
   List<String> get skills => throw _privateConstructorUsedError;
   int? get rating => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get internships =>
+      throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
   String? get cv => throw _privateConstructorUsedError;
 
@@ -52,14 +56,16 @@ abstract class $UserCopyWith<$Res> {
       {int id,
       String name,
       String email,
+      String? discription,
       String? number,
       String? profilepic,
       String? links,
       String date_joined,
-      String? education,
+      List<Map<String, dynamic>> education,
       String gendre,
       List<String> skills,
       int? rating,
+      List<Map<String, dynamic>> internships,
       String? category,
       String? cv});
 }
@@ -82,14 +88,16 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? discription = freezed,
     Object? number = freezed,
     Object? profilepic = freezed,
     Object? links = freezed,
     Object? date_joined = null,
-    Object? education = freezed,
+    Object? education = null,
     Object? gendre = null,
     Object? skills = null,
     Object? rating = freezed,
+    Object? internships = null,
     Object? category = freezed,
     Object? cv = freezed,
   }) {
@@ -106,6 +114,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      discription: freezed == discription
+          ? _value.discription
+          : discription // ignore: cast_nullable_to_non_nullable
+              as String?,
       number: freezed == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
@@ -122,10 +134,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.date_joined
           : date_joined // ignore: cast_nullable_to_non_nullable
               as String,
-      education: freezed == education
+      education: null == education
           ? _value.education
           : education // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<Map<String, dynamic>>,
       gendre: null == gendre
           ? _value.gendre
           : gendre // ignore: cast_nullable_to_non_nullable
@@ -138,6 +150,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      internships: null == internships
+          ? _value.internships
+          : internships // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -161,14 +177,16 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       {int id,
       String name,
       String email,
+      String? discription,
       String? number,
       String? profilepic,
       String? links,
       String date_joined,
-      String? education,
+      List<Map<String, dynamic>> education,
       String gendre,
       List<String> skills,
       int? rating,
+      List<Map<String, dynamic>> internships,
       String? category,
       String? cv});
 }
@@ -188,14 +206,16 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? discription = freezed,
     Object? number = freezed,
     Object? profilepic = freezed,
     Object? links = freezed,
     Object? date_joined = null,
-    Object? education = freezed,
+    Object? education = null,
     Object? gendre = null,
     Object? skills = null,
     Object? rating = freezed,
+    Object? internships = null,
     Object? category = freezed,
     Object? cv = freezed,
   }) {
@@ -212,6 +232,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      discription: freezed == discription
+          ? _value.discription
+          : discription // ignore: cast_nullable_to_non_nullable
+              as String?,
       number: freezed == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
@@ -228,10 +252,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.date_joined
           : date_joined // ignore: cast_nullable_to_non_nullable
               as String,
-      education: freezed == education
-          ? _value.education
+      education: null == education
+          ? _value._education
           : education // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<Map<String, dynamic>>,
       gendre: null == gendre
           ? _value.gendre
           : gendre // ignore: cast_nullable_to_non_nullable
@@ -244,6 +268,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      internships: null == internships
+          ? _value._internships
+          : internships // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -263,17 +291,21 @@ class _$UserImpl extends _User {
       {required this.id,
       required this.name,
       required this.email,
+      this.discription,
       this.number,
       this.profilepic,
       this.links,
       required this.date_joined,
-      this.education,
+      final List<Map<String, dynamic>> education = const [],
       required this.gendre,
-      required final List<String> skills,
+      final List<String> skills = const [],
       this.rating,
+      final List<Map<String, dynamic>> internships = const [],
       this.category,
       this.cv})
-      : _skills = skills,
+      : _education = education,
+        _skills = skills,
+        _internships = internships,
         super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -286,6 +318,8 @@ class _$UserImpl extends _User {
   @override
   final String email;
   @override
+  final String? discription;
+  @override
   final String? number;
   @override
   final String? profilepic;
@@ -293,12 +327,20 @@ class _$UserImpl extends _User {
   final String? links;
   @override
   final String date_joined;
+  final List<Map<String, dynamic>> _education;
   @override
-  final String? education;
+  @JsonKey()
+  List<Map<String, dynamic>> get education {
+    if (_education is EqualUnmodifiableListView) return _education;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_education);
+  }
+
   @override
   final String gendre;
   final List<String> _skills;
   @override
+  @JsonKey()
   List<String> get skills {
     if (_skills is EqualUnmodifiableListView) return _skills;
     // ignore: implicit_dynamic_type
@@ -307,6 +349,15 @@ class _$UserImpl extends _User {
 
   @override
   final int? rating;
+  final List<Map<String, dynamic>> _internships;
+  @override
+  @JsonKey()
+  List<Map<String, dynamic>> get internships {
+    if (_internships is EqualUnmodifiableListView) return _internships;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_internships);
+  }
+
   @override
   final String? category;
   @override
@@ -314,7 +365,7 @@ class _$UserImpl extends _User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, category: $category, cv: $cv)';
+    return 'User(id: $id, name: $name, email: $email, discription: $discription, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, internships: $internships, category: $category, cv: $cv)';
   }
 
   @override
@@ -325,17 +376,21 @@ class _$UserImpl extends _User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.discription, discription) ||
+                other.discription == discription) &&
             (identical(other.number, number) || other.number == number) &&
             (identical(other.profilepic, profilepic) ||
                 other.profilepic == profilepic) &&
             (identical(other.links, links) || other.links == links) &&
             (identical(other.date_joined, date_joined) ||
                 other.date_joined == date_joined) &&
-            (identical(other.education, education) ||
-                other.education == education) &&
+            const DeepCollectionEquality()
+                .equals(other._education, _education) &&
             (identical(other.gendre, gendre) || other.gendre == gendre) &&
             const DeepCollectionEquality().equals(other._skills, _skills) &&
             (identical(other.rating, rating) || other.rating == rating) &&
+            const DeepCollectionEquality()
+                .equals(other._internships, _internships) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.cv, cv) || other.cv == cv));
@@ -348,14 +403,16 @@ class _$UserImpl extends _User {
       id,
       name,
       email,
+      discription,
       number,
       profilepic,
       links,
       date_joined,
-      education,
+      const DeepCollectionEquality().hash(_education),
       gendre,
       const DeepCollectionEquality().hash(_skills),
       rating,
+      const DeepCollectionEquality().hash(_internships),
       category,
       cv);
 
@@ -380,14 +437,16 @@ abstract class _User extends User {
       {required final int id,
       required final String name,
       required final String email,
+      final String? discription,
       final String? number,
       final String? profilepic,
       final String? links,
       required final String date_joined,
-      final String? education,
+      final List<Map<String, dynamic>> education,
       required final String gendre,
-      required final List<String> skills,
+      final List<String> skills,
       final int? rating,
+      final List<Map<String, dynamic>> internships,
       final String? category,
       final String? cv}) = _$UserImpl;
   const _User._() : super._();
@@ -401,6 +460,8 @@ abstract class _User extends User {
   @override
   String get email;
   @override
+  String? get discription;
+  @override
   String? get number;
   @override
   String? get profilepic;
@@ -409,13 +470,15 @@ abstract class _User extends User {
   @override
   String get date_joined;
   @override
-  String? get education;
+  List<Map<String, dynamic>> get education;
   @override
   String get gendre;
   @override
   List<String> get skills;
   @override
   int? get rating;
+  @override
+  List<Map<String, dynamic>> get internships;
   @override
   String? get category;
   @override

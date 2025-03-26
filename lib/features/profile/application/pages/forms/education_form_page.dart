@@ -1,26 +1,59 @@
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class EducationForm extends StatefulWidget {
-  const EducationForm({super.key});
+  final int? index;
+  const EducationForm({super.key, this.index});
 
   @override
   _EducationFormState createState() => _EducationFormState();
 }
 
-class _EducationFormState extends State<EducationForm> {
-  final TextEditingController _internshipController = TextEditingController();
-  final TextEditingController _companyNameController = TextEditingController();
+late TextEditingController _educationController;
+late TextEditingController _schoolNameController;
+String? _startDate;
+String? _endDate;
+late User user;
 
-  String? _startDate;
-  String? _endDate;
+class _EducationFormState extends State<EducationForm> {
+  @override
+  void initState() {
+    final state = context.read<AuthBloc>().state;
+    if (state is Authenticated) {
+      user = state.user;
+    } else {
+      context.read<AuthBloc>().add(AuthLogoutRequested());
+      return;
+    }
+
+    _educationController = TextEditingController(
+        text: widget.index != null
+            ? user.education[widget.index!]['education']
+            : '');
+    _schoolNameController = TextEditingController(
+        text: widget.index != null
+            ? user.education[widget.index!]['school']
+            : '');
+    _startDate = widget.index != null
+        ? user.education[widget.index!]['start_date']
+        : null;
+    _endDate =
+        widget.index != null ? user.education[widget.index!]['end_date'] : null;
+
+    super.initState();
+  }
 
   @override
   void dispose() {
-    _companyNameController.dispose();
-    _internshipController.dispose();
+    _schoolNameController.dispose();
+    _educationController.dispose();
 
     super.dispose();
   }
@@ -28,7 +61,7 @@ class _EducationFormState extends State<EducationForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).secondaryHeaderColor,
@@ -42,12 +75,12 @@ class _EducationFormState extends State<EducationForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
-                  'Add Internship experience',
+                  'Add education',
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
               TextField(
-                controller: _internshipController,
+                controller: _educationController,
                 cursorColor: Color(0xFF5BA470),
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
@@ -68,7 +101,7 @@ class _EducationFormState extends State<EducationForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextField(
-                  controller: _companyNameController,
+                  controller: _schoolNameController,
                   cursorColor: Color(0xFF5BA470),
                   style: Theme.of(context).textTheme.bodyMedium,
                   decoration: InputDecoration(
@@ -138,13 +171,20 @@ class _EducationFormState extends State<EducationForm> {
                             firstDate: DateTime(2000),
                             lastDate: DateTime.now(),
                           );
-                          if (result != null &&
-                              result.isAfter(DateFormat('dd/MM/yyyy')
-                                  .parse(_startDate!))) {
-                            setState(() {
-                              _endDate =
-                                  "${result.day}/${result.month}/${result.year}";
-                            });
+                          if (result != null) {
+                            try {
+                              final startDate =
+                                  DateFormat('dd/MM/yyyy').parse(_startDate!);
+                              if (result.isAfter(startDate)) {
+                                setState(() {
+                                  _endDate =
+                                      "${result.day}/${result.month}/${result.year}";
+                                });
+                              }
+                            } catch (e) {
+                              // Handle the exception, e.g., show an error message
+                              print('Invalid start date format: $e');
+                            }
                           }
                         },
                         child: Align(
@@ -175,8 +215,30 @@ class _EducationFormState extends State<EducationForm> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () {
-                    //todo: edit the return value
-                    context.pop(_companyNameController.text);
+                    List<Map<String, dynamic>> education =
+                        List.from(user.education);
+
+                    if (widget.index != null) {
+                      education[widget.index!] = {
+                        'education': _educationController.text,
+                        'school': _schoolNameController.text,
+                        'start_date': _startDate,
+                        'end_date': _endDate,
+                      };
+                    } else {
+                      education.add({
+                        'education': _educationController.text,
+                        'school': _schoolNameController.text,
+                        'start_date': _startDate,
+                        'end_date': _endDate,
+                      });
+                      
+                    }
+                    
+                    context.read<AuthBloc>().add(
+                          AuthUserUpdated(user.copyWith(education: education)));
+                          context.go('/profile');
+                        
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),
