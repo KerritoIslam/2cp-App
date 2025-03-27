@@ -4,20 +4,23 @@ import 'package:app/features/authentication/data/sources/local/local_secure_stor
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:path/path.dart';
+
+
 
 class DioServices {
   static final Dio _dio = Dio(
-    
     BaseOptions(
       baseUrl: 'http://192.168.100.199:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final unprotected = options.path.contains("/Auth");
+        final unprotected =
+            options.path.contains("/Auth") && options.path != "/Auth/user";
         if (unprotected) {
           return handler.next(options);
         }
-        //TODO use repository instead of LocalSecureStorage
+
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;
         final accesToken = await dataSource.getTokens();
@@ -25,9 +28,12 @@ class DioServices {
           return token;
         }, (token) => token.accessToken);
         if (token == "") {
+          locator.get<AuthBloc>().add(AuthLogoutRequested());
           return;
         }
         //TODO check if bearer of Bearer
+        
+        print(token);
         options.headers['Authorization'] = "Bearer $token";
         return handler.next(options);
       },
