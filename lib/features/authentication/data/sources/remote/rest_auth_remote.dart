@@ -68,10 +68,10 @@ class RestAuthRemote {
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
       final response = await _dio.get(
-        '/user',
+        '/Auth/user',
       );
-      print(response.data);
-      return right(UserModel.fromJson(response.data['user']));
+      
+      return right(UserModel.fromJson(response.data));
     } catch (e) {
       return left(Failure(e.toString()));
     }
