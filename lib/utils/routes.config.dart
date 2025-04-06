@@ -23,6 +23,7 @@ import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:app/features/chat/application/pages/conversation_page.dart';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -87,6 +88,14 @@ GoRouter router = GoRouter(
                       MaterialPage(child: NotificationsPage())),
             ]),
         GoRoute(
+          path: 'chat/conversation/:companyId',
+          pageBuilder: (context, state) => MaterialPage(
+            child: ConversationPage(
+              companyId: state.pathParameters['companyId']!,
+            ),
+          ),
+        ),
+        GoRoute(
             path: 'profile',
             pageBuilder: (context, state) => MaterialPage(child: ProfilePage()),
             routes: [
@@ -107,9 +116,9 @@ GoRouter router = GoRouter(
                         child: EducationForm(
                       index: index,
                     ));
-
                   }),
-              GoRoute(path:'about_me',
+              GoRoute(
+                  path: 'about_me',
                   pageBuilder: (context, state) {
                     return MaterialPage(child: AboutMe());
                   }),
