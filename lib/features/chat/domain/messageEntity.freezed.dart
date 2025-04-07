@@ -37,6 +37,9 @@ abstract class $MessageEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String id, String text, DateTime createdAt, User user, Company company});
+
+  $UserCopyWith<$Res> get user;
+  $CompanyCopyWith<$Res> get company;
 }
 
 /// @nodoc
@@ -57,8 +60,8 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
     Object? id = null,
     Object? text = null,
     Object? createdAt = null,
-    Object? user = freezed,
-    Object? company = freezed,
+    Object? user = null,
+    Object? company = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,15 +76,35 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      user: freezed == user
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      company: freezed == company
+      company: null == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
               as Company,
     ) as $Val);
+  }
+
+  /// Create a copy of MessageEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get user {
+    return $UserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  /// Create a copy of MessageEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CompanyCopyWith<$Res> get company {
+    return $CompanyCopyWith<$Res>(_value.company, (value) {
+      return _then(_value.copyWith(company: value) as $Val);
+    });
   }
 }
 
@@ -95,6 +118,11 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id, String text, DateTime createdAt, User user, Company company});
+
+  @override
+  $UserCopyWith<$Res> get user;
+  @override
+  $CompanyCopyWith<$Res> get company;
 }
 
 /// @nodoc
@@ -113,8 +141,8 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? text = null,
     Object? createdAt = null,
-    Object? user = freezed,
-    Object? company = freezed,
+    Object? user = null,
+    Object? company = null,
   }) {
     return _then(_$MessageEntityImpl(
       id: null == id
@@ -129,11 +157,11 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      user: freezed == user
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      company: freezed == company
+      company: null == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
               as Company,
@@ -177,18 +205,13 @@ class _$MessageEntityImpl extends _MessageEntity {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality().equals(other.company, company));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.company, company) || other.company == company));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      text,
-      createdAt,
-      const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(company));
+  int get hashCode =>
+      Object.hash(runtimeType, id, text, createdAt, user, company);
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
