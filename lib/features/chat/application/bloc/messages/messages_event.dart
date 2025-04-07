@@ -1,18 +1,18 @@
-part of 'chat_bloc.dart';
+part of 'messages_bloc.dart';
 
-abstract class ChatEvent {}
+abstract class MessagesEvent {}
 
-class MessageReceivedEvent extends ChatEvent {
+class MessageReceivedEvent extends MessagesEvent {
   MessageEntity receivedMessage;
   MessageReceivedEvent(this.receivedMessage);
 }
 
-class MessageSentEvent extends ChatEvent {
+class MessageSentEvent extends MessagesEvent {
   MessageEntity sentMessage;
   MessageSentEvent(this.sentMessage);
 }
 
-class DbMessagesRequestedEvent extends ChatEvent {
+class DbMessagesRequestedEvent extends MessagesEvent {
   final int companyId;
   final int userId;
   final int page;
@@ -25,11 +25,11 @@ class DbMessagesRequestedEvent extends ChatEvent {
       required this.limit});
 }
 
-class CheckIfNeedMoreMessageEvent extends ChatEvent {
+class CheckIfNeedMoreMessageEvent extends MessagesEvent {
   final int companyId;
   final int userId;
 
   CheckIfNeedMoreMessageEvent({required this.companyId, required this.userId});
 }
 
-class ClearMessagesEvent extends ChatEvent {}
+class ClearMessagesEvent extends MessagesEvent {}

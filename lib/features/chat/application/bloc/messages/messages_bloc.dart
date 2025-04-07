@@ -1,16 +1,16 @@
 import 'package:app/features/chat/domain/messageEntity.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-part 'chat_event.dart';
-part 'chat_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+part 'messages_event.dart';
+part 'messages_state.dart';
 
-class ChatBloc extends Bloc<ChatEvent, ChatState> {
+class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
   List<MessageEntity> dbMesssages = [];
   List<MessageEntity> socketMessages = [];
   int page = 20;
   int limit = 20;
   bool isLastPage = false;
-  ChatBloc() : super(ChatInit()) {
+  MessagesBloc() : super(MessagesInit()) {
     //TODO:Add socket listner Here
     on<MessageReceivedEvent>((event, emit) {
       final newDbMessages = [...dbMesssages, event.receivedMessage];
@@ -28,7 +28,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(MessageSentSuccess(newDbMessages, newSocketMessages));
     });
     on<DbMessagesRequestedEvent>((event, emit) {
-      emit(ChatLoading(dbMesssages, socketMessages));
+      emit(MessagesLoading(dbMesssages, socketMessages));
       //Mock Call api
 
       //Mock Reponse
@@ -40,7 +40,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final newSocketMessages = [...socketMessages, ...res];
       dbMesssages = newDbMessages;
       socketMessages = newSocketMessages;
-      emit(ChatLoaded(newDbMessages, newSocketMessages));
+      emit(MessagesLoaded(newDbMessages, newSocketMessages));
     });
     on<CheckIfNeedMoreMessageEvent>((event, emit) {
       if (!isLastPage) {
@@ -58,7 +58,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       page = 20;
       limit = 20;
       isLastPage = false;
-      emit(ChatInit());
+      emit(MessagesInit());
     });
   }
 }

@@ -1,42 +1,42 @@
-part of 'chat_bloc.dart';
+part of 'messages_bloc.dart';
 
-sealed class ChatState extends Equatable {
+sealed class MessagesState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ChatInit extends ChatState {}
+class MessagesInit extends MessagesState {}
 
-class ChatLoading extends ChatState {
+class MessagesLoading extends MessagesState {
   final List<MessageEntity> dbMessages;
   final List<MessageEntity> socketMessages;
 
-  ChatLoading(this.dbMessages, this.socketMessages);
+  MessagesLoading(this.dbMessages, this.socketMessages);
 
   @override
   List<Object?> get props => [dbMessages, socketMessages];
 }
 
-class ChatError extends ChatState {
+class MessagesError extends MessagesState {
   final List<MessageEntity> messages;
 
-  ChatError(this.messages);
+  MessagesError(this.messages);
 
   @override
   List<Object?> get props => [messages];
 }
 
-class ChatLoaded extends ChatState {
+class MessagesLoaded extends MessagesState {
   final List<MessageEntity> dbMessages;
   final List<MessageEntity> socketMessages;
 
-  ChatLoaded(this.dbMessages, this.socketMessages);
+  MessagesLoaded(this.dbMessages, this.socketMessages);
 
   @override
   List<Object?> get props => [dbMessages, socketMessages];
 }
 
-class MessageSentSuccess extends ChatState {
+class MessageSentSuccess extends MessagesState {
   final List<MessageEntity> dbMessages;
   final List<MessageEntity> socketMessages;
 
@@ -46,7 +46,7 @@ class MessageSentSuccess extends ChatState {
   List<Object?> get props => [dbMessages, socketMessages];
 }
 
-class MessageReceivedSucces extends ChatState {
+class MessageReceivedSucces extends MessagesState {
   final List<MessageEntity> dbMessages;
   final List<MessageEntity> socketMessages;
 
