@@ -1,6 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:app/features/Search/application/pages/search_page.dart';
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/chat/application/pages/chats_page.dart';
@@ -8,6 +7,7 @@ import 'package:app/features/notifications/application/bloc/notifications_bloc.d
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
+import 'package:app/features/teams/application/pages/invitation_page.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +29,8 @@ class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
   static const List<Widget> pages = [
     OpporutnitiesPage(),
-    SearchPage(),
-    Center(child: Text("Hello You")),
+    Placeholder(),
+    InvitationsPage(),
     ChatsPage(),
   ];
   late int index;
@@ -42,14 +42,14 @@ class _LayoutState extends State<Layout> {
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
-    
     index = widget.initPage;
-   final notificationState= context.read<notificationsBloc>().state;
+    final notificationState = context.read<notificationsBloc>().state;
     if (notificationState is notificationsLoaded) {
-
-      numberOfUndreadNotif = notificationState.notifications.where((element) => !element.isRead).length;
+      numberOfUndreadNotif = notificationState.notifications
+          .where((element) => !element.isRead)
+          .length;
     }
-    numberOfUndreadNotif=5;
+    numberOfUndreadNotif = 5;
   }
 
   @override
@@ -180,9 +180,14 @@ class _LayoutState extends State<Layout> {
           ),
           body: MultiBlocProvider(
             providers: [
-              BlocProvider<ApplicationBloc>(create: (ctx)=>locator.get<ApplicationBloc>(),child: Trackapplicationspage(),),
-              BlocProvider<OpportunitiesBloc>(create: (ctx) => locator.get<OpportunitiesBloc>()),
-              BlocProvider<OpportunitiesSavedBloc>(create: (ctx) => locator.get<OpportunitiesSavedBloc>())
+              BlocProvider<ApplicationBloc>(
+                create: (ctx) => locator.get<ApplicationBloc>(),
+                child: Trackapplicationspage(),
+              ),
+              BlocProvider<OpportunitiesBloc>(
+                  create: (ctx) => locator.get<OpportunitiesBloc>()),
+              BlocProvider<OpportunitiesSavedBloc>(
+                  create: (ctx) => locator.get<OpportunitiesSavedBloc>())
             ],
             child: IndexedStack(
               index: index,

@@ -17,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return await tokens.fold((l) {
       return left(Failure('Error getting tokens :${l.message}'));
     }, (r) async {
-      print('tokens are ${r.accessToken}');
+      
       final user = await authRepository.getUser();
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
@@ -34,8 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(AuthLoading()) {
     _init().then((value) {
       value.fold((l) {
-        print(
-            '${l.message}----------------------------------------------------');
         add(AuthLogoutRequested());
       }, (user) {
         add(UserLoaded(user));
@@ -43,8 +41,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthLoginRequested>((event, emit) async {
-      print(
-          'login requested ------------------------1111111111111111111111----------------------------');
       final user = await authRepository.login(event.email, event.password);
       user.fold((l) {
         print(
