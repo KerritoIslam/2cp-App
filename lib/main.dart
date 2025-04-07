@@ -25,7 +25,6 @@ class BlocListenable extends ChangeNotifier implements Listenable {
     });
   }
 }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
