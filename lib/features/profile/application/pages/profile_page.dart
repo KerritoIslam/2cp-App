@@ -72,6 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
+                          ElevatedButton(onPressed:(){
+                            context.push('/protected/options');
+                          },child: Text('Set'),),
                           Text(
                             user.name,
                             style: Theme.of(context).textTheme.displayMedium,

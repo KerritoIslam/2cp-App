@@ -18,7 +18,7 @@ _$InternshipModelImpl _$$InternshipModelImplFromJson(
           const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.opened,
+          OpportunityStatus.open,
       duration: json['duration'] as String? ?? "",
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
@@ -39,8 +39,8 @@ Map<String, dynamic> _$$InternshipModelImplToJson(
     };
 
 const _$OpportunityStatusEnumMap = {
-  OpportunityStatus.opened: 'opened',
-  OpportunityStatus.closed: 'closed',
+  OpportunityStatus.open: 'open',
+  OpportunityStatus.close: 'close',
   OpportunityStatus.pending: 'pending',
 };
 
@@ -67,7 +67,7 @@ _$ProblemModelImpl _$$ProblemModelImplFromJson(Map<String, dynamic> json) =>
           const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.opened,
+          OpportunityStatus.open,
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
     );

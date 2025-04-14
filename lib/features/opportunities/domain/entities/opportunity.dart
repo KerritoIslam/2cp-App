@@ -12,12 +12,12 @@ sealed class Opportunity with _$Opportunity {
 
   @FreezedUnionValue('internship')
   const factory Opportunity.internship({
-    required String id,
+    required int id,
     required String title,
     required String description,
     required List<String> skills,
     required Company company,
-    @Default(OpportunityStatus.opened) OpportunityStatus status,
+    @Default(OpportunityStatus.open) OpportunityStatus status,
     required String duration,
     required List<String> applicantsAvatars,
     required int totalApplications,
@@ -27,7 +27,7 @@ sealed class Opportunity with _$Opportunity {
 
   @FreezedUnionValue('problem')
   const factory Opportunity.problem({
-    required String id,
+    required int id,
     required String title,
     required String description,
     required int totalApplications,
@@ -35,7 +35,7 @@ sealed class Opportunity with _$Opportunity {
     required List<String> applicantsAvatars,
 
     required Company company,
-    @Default(OpportunityStatus.opened) OpportunityStatus status,
+    @Default(OpportunityStatus.open) OpportunityStatus status,
     required String category,
   }) = Problem;
 

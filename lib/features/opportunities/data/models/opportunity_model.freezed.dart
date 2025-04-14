@@ -310,7 +310,7 @@ class _$InternshipModelImpl extends InternshipModel {
       required this.description,
       final List<String> skills = const [],
       required this.company,
-      this.status = OpportunityStatus.opened,
+      this.status = OpportunityStatus.open,
       this.duration = "",
       required this.category,
       final String? $type})
@@ -642,7 +642,7 @@ class _$ProblemModelImpl extends ProblemModel {
       required this.description,
       final List<String> skills = const [],
       required this.company,
-      this.status = OpportunityStatus.opened,
+      this.status = OpportunityStatus.open,
       required this.category,
       final String? $type})
       : _skills = skills,

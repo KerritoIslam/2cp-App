@@ -1,6 +1,9 @@
 import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
+import 'package:app/features/opportunities/domain/entities/opportunity.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 part 'applications_event.dart';
 part 'applications_state.dart';
@@ -33,6 +36,20 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
       emit(ApplictationsLoading());
       try {
         final res = await repository.submitApplication(event.application);
+        return res.fold((l) {
+          toastification.show(
+            title: Text(l.message),
+            type: ToastificationType.error,
+          
+          );
+           return emit(ApplicationsError(l.message));
+        }, (r) {
+          toastification.show(
+            title:Text(  'Application Submitted' ),
+            type: ToastificationType.success,
+          );
+          emit(ApplicationsLoaded(applications));
+        });
 
         //TODO do something here
       } catch (e) {
