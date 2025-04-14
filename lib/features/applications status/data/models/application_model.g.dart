@@ -9,7 +9,7 @@ part of 'application_model.dart';
 _$ApplicationModelImpl _$$ApplicationModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ApplicationModelImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       proposal: json['proposal'] as String,
       post: OpportunityModel.fromJson(json['post'] as Map<String, dynamic>),
       sumbittedAt: DateTime.parse(json['sumbittedAt'] as String),

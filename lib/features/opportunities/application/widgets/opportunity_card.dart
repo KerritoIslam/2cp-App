@@ -18,8 +18,7 @@ class opportunityCard extends StatefulWidget {
   final Opportunity opportunity;
   final bool saved;
   const opportunityCard(
-      {Key? key, required this.opportunity, this.saved = false})
-      : super(key: key);
+      {super.key, required this.opportunity, this.saved = false});
 
   @override
   State<opportunityCard> createState() => _opportunityCardState();
@@ -262,7 +261,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               ActionButton(
                 onPressed: () {
                   context.pop();
-                  Application application=Application(id: "5",status: ApplicationStatus.inReview, proposal:_proposalController.text,  opportunity: widget.application);
+                  Application application=Application(id: 0,status: ApplicationStatus.inReview, proposal:_proposalController.text,  opportunity: widget.application);
                   context.read<ApplicationBloc>().add(
                     submitApplicationEvent(application)
                   );
@@ -282,9 +281,9 @@ class OpportunityDetailsSheet extends StatelessWidget {
   final Opportunity opportunity;
 
   const OpportunityDetailsSheet({
-    Key? key,
+    super.key,
     required this.opportunity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

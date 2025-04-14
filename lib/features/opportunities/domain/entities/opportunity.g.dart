@@ -8,7 +8,7 @@ part of 'opportunity.dart';
 
 _$InternshipImpl _$$InternshipImplFromJson(Map<String, dynamic> json) =>
     _$InternshipImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       skills:
@@ -48,7 +48,7 @@ const _$OpportunityStatusEnumMap = {
 
 _$ProblemImpl _$$ProblemImplFromJson(Map<String, dynamic> json) =>
     _$ProblemImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       totalApplications: (json['totalApplications'] as num).toInt(),

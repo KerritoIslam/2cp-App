@@ -19,13 +19,13 @@ try  {     // Mock companies
 
     final mockCompanies = [
       CompanyModel(
-        id: '101',
+        id: 101,
         name: 'Tech Corp',
         category: 'Software Development',
         profilepic: 'https://github.com/mouloud240.png',
       ),
       CompanyModel(
-        id: '102',
+        id: 102,
         name: 'NestJS Solutions',
         category: 'Backend Development',
         profilepic: 'https://github.com/mouloud240.png',
@@ -35,7 +35,7 @@ try  {     // Mock companies
     // Mock opportunities
     final mockOpportunities = [
       OpportunityModel.internship(
-        id: '1',
+        id: 1,
         title: 'Flutter Developer Intern',
         description: 'Work on building a cutting-edge Flutter application.',
         skills: ['Flutter', 'Dart', 'Firebase'],
@@ -45,7 +45,7 @@ try  {     // Mock companies
         category: OpportunityCategory.CS,
       ),
       OpportunityModel.problem(
-        id: '2',
+        id: 2,
         title: 'API Security Challenge',
         description: 'Find security vulnerabilities in APIs.',
         skills: ['Cybersecurity', 'Pentesting'],
@@ -76,7 +76,7 @@ try  {     // Mock companies
     //  opportunities: mockOpportunities,
     //  companies: mockCompanies,
     //));
-  }on DioException catch(e){
+  }on DioException {
     return Left(Failure('Try again'));
     }
       catch(e){

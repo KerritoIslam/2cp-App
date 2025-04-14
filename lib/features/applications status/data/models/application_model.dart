@@ -1,7 +1,6 @@
 import 'package:app/features/applications%20status/constants/status.dart';
 import 'package:app/features/opportunities/data/models/opportunity_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:app/features/opportunities/data/models/company_model.dart';
 part 'application_model.freezed.dart';
 part 'application_model.g.dart';
 @Freezed(fromJson: true,toJson: true)
@@ -9,7 +8,7 @@ part 'application_model.g.dart';
 class ApplicationModel with _$ApplicationModel{
   const ApplicationModel._();
   factory ApplicationModel({
-    required String id,
+    required int id,
     required String proposal,
     required OpportunityModel post,
     required DateTime sumbittedAt,

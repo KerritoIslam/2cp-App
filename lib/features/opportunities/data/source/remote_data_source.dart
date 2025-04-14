@@ -161,25 +161,25 @@ Future<Either<Failure,List<OpportunityModel>>>getOpportunitiesPagination(int pag
     return left(Failure(e.toString()));
   }
 }
-Future<Either<Failure,OpportunityModel>> getOpportunityById(String id)async{
+Future<Either<Failure,OpportunityModel>> getOpportunityById(int id)async{
 try  {     await Future.delayed(Duration(milliseconds: 20));
   return Right(MockData.opportunityList.map((e) => OpportunityModel.fromJson(e)).firstWhere((element) => element.id==id));
 }catch(e){
     return left( Failure(e.toString()) );
   }  }
-Future<Either<Failure,CompanyModel>> getCompanyById(String id)async{
+Future<Either<Failure,CompanyModel>> getCompanyById(int id)async{
 try  {     await Future.delayed(Duration(milliseconds: 20));
   return Right(MockData.companies.map((e) => CompanyModel.fromJson(e)).firstWhere((element) => element.id==id));
 }catch(e){
     return left( Failure(e.toString()) );
   }  }
-Future<Either<Failure,OpportunityModel>>saveOpportunity(String id)async{
+Future<Either<Failure,OpportunityModel>>saveOpportunity(int id)async{
 try  {     await Future.delayed(Duration(milliseconds: 20));
   return Right(OpportunityModel.fromJson(MockData.opportunityList[2]));
 }catch(e){
     return left(Failure(e.toString()));
   }  }
-Future<Either<Failure,Unit>>removeSavedOpportunity(String id)async{
+Future<Either<Failure,Unit>>removeSavedOpportunity(int id)async{
   try{
 await Future.delayed(Duration(milliseconds: 20));
   return Right(unit);

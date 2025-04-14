@@ -1,6 +1,5 @@
 import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
-import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';

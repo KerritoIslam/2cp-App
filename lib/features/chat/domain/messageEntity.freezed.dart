@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MessageEntity {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $MessageEntityCopyWith<$Res> {
       _$MessageEntityCopyWithImpl<$Res, MessageEntity>;
   @useResult
   $Res call(
-      {String id, String text, DateTime createdAt, User user, Company company});
+      {int id, String text, DateTime createdAt, User user, Company company});
 
   $UserCopyWith<$Res> get user;
   $CompanyCopyWith<$Res> get company;
@@ -67,7 +67,7 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String text, DateTime createdAt, User user, Company company});
+      {int id, String text, DateTime createdAt, User user, Company company});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -148,7 +148,7 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -181,7 +181,7 @@ class _$MessageEntityImpl extends _MessageEntity {
       : super._();
 
   @override
-  final String id;
+  final int id;
   @override
   final String text;
   @override
@@ -224,7 +224,7 @@ class _$MessageEntityImpl extends _MessageEntity {
 
 abstract class _MessageEntity extends MessageEntity {
   const factory _MessageEntity(
-      {required final String id,
+      {required final int id,
       required final String text,
       required final DateTime createdAt,
       required final User user,
@@ -232,7 +232,7 @@ abstract class _MessageEntity extends MessageEntity {
   const _MessageEntity._() : super._();
 
   @override
-  String get id;
+  int get id;
   @override
   String get text;
   @override

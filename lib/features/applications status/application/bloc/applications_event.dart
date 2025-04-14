@@ -13,6 +13,6 @@ class submitApplicationEvent extends ApplicationEvent {
 class submitTeamApplicationEvent extends ApplicationEvent {}
 
 class deleteApplicationEvent extends ApplicationEvent {
-  final String id;
+  final int id;
   deleteApplicationEvent(this.id);
 }

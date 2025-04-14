@@ -9,9 +9,9 @@ class ConversationPage extends StatelessWidget {
   final String companyId;
 
   const ConversationPage({
-    Key? key,
+    super.key,
     required this.companyId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

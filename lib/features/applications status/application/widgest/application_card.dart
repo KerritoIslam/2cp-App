@@ -13,9 +13,9 @@ import 'package:go_router/go_router.dart';
 class ApplicationCard extends StatefulWidget {
   final Application application;
   const ApplicationCard({
-    Key? key,
+    super.key,
     required this.application,
-  }) : super(key: key);
+  });
 
   @override
   State<ApplicationCard> createState() => _ApplicationCardState();
@@ -236,7 +236,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
 }
 
 class DeleteButton extends StatelessWidget {
-  final String id;
+  final int id;
   const DeleteButton({
     required this.id,
     super.key,

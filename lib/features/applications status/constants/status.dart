@@ -3,7 +3,7 @@
 
 enum ApplicationStatus {
   submitted,
-  inReview,
+  under_review,
   accepted,
   rejected,
 }
@@ -11,13 +11,13 @@ enum ApplicationStatus {
 mixin ApplicationStatusMixin {
   static const Map<ApplicationStatus, String> statusMap = {
     ApplicationStatus.submitted: 'Submitted',
-    ApplicationStatus.inReview: 'In Review',
+    ApplicationStatus.under_review: 'In Review',
     ApplicationStatus.accepted: 'Accepted',
     ApplicationStatus.rejected: 'Rejected',
   };
   static const Map<String, ApplicationStatus> statusMapReverse = {
     'Submitted': ApplicationStatus.submitted,
-    'In Review': ApplicationStatus.inReview,
+    'In Review': ApplicationStatus.under_review,
     'Accepted': ApplicationStatus.accepted,
     'Rejected': ApplicationStatus.rejected,
   };

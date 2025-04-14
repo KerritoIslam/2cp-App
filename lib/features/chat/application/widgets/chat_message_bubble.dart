@@ -8,12 +8,12 @@ class ChatMessageBubble extends StatelessWidget {
   final String status;
 
   const ChatMessageBubble({
-    Key? key,
+    super.key,
     required this.message,
     required this.time,
     required this.isMe,
     required this.status,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -21,16 +21,20 @@ class RemoteDataSource {
     // some code to get data from remote
     try {
           
-         await Future.delayed(Duration(seconds: 2)); 
-    return Right(ApplicationStatics.applications.map((e) => ApplicationModel.fromJson(e)).toList());
-        } catch (e) {
+      final res=await dio.get<List<dynamic>>('app/application');
+      if (res.statusCode==200){
+      return Right(res.data!.map((e) => ApplicationModel.fromJson(e)).toList());
+      }
+      return Left(Failure('Unknown Error'));
+
+                 } catch (e) {
          return Left(Failure(e.toString()));  
         }
   }
   Future<Either<Failure,Unit>>submitApplication(ApplicationModel application) async {
     // some code to get data from remote
     try {
-      final res=await dio.post('app/application/${application.id}/',data: application.toJson());
+      final res=await dio.post('app/application/${application.post.id}/',data: application.toJson());
       if (res.statusCode==200){
       return Right(unit);
       }

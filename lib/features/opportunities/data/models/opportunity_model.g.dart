@@ -9,7 +9,7 @@ part of 'opportunity_model.dart';
 _$InternshipModelImpl _$$InternshipModelImplFromJson(
         Map<String, dynamic> json) =>
     _$InternshipModelImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       skills: (json['skills'] as List<dynamic>?)
@@ -58,7 +58,7 @@ const _$OpportunityCategoryEnumMap = {
 
 _$ProblemModelImpl _$$ProblemModelImplFromJson(Map<String, dynamic> json) =>
     _$ProblemModelImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       skills: (json['skills'] as List<dynamic>?)

@@ -1,4 +1,3 @@
-import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/features/opportunities/domain/opportunity_repository.dart';
 import 'package:equatable/equatable.dart';

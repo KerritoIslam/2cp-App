@@ -32,35 +32,35 @@ sealed class OpportunityModel with _$OpportunityModel {
     required OpportunityCategory category,
   }) = ProblemModel;
   @override
-    factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
+  factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
+      _$OpportunityModelFromJson(
+          {...json, 'runtimeType': json['Type'], });
 
-      _$OpportunityModelFromJson({...json, 'runtimeType': json['Type'],'id':json['id'].toString()});
-
-    Opportunity toEntity() {
-   return map(
-     internship: (model) => Internship(
-       
-       id: model.id,
-       title: model.title,
-       description: model.description,
-       skills: model.skills,
-       company: model.company.toEntity(),
-       status: model.status,
-       duration: model.duration,
-       category: model.category.name, 
-        applicantsAvatars: [
-        ], totalApplications: 10,
-     ),
-     problem: (model) => Problem(
-       id: model.id,
-       title: model.title,
-       description: model.description,
-       skills: model.skills,
-       company: model.company.toEntity(),
-       status: model.status,
-       category: model.category.name, totalApplications: 10, applicantsAvatars: [
-        ],
-     ),
-   );
+  Opportunity toEntity() {
+    return map(
+      internship: (model) => Internship(
+        id: model.id,
+        title: model.title,
+        description: model.description,
+        skills: model.skills,
+        company: model.company.toEntity(),
+        status: model.status,
+        duration: model.duration,
+        category: model.category.name,
+        applicantsAvatars: [],
+        totalApplications: 10,
+      ),
+      problem: (model) => Problem(
+        id: model.id,
+        title: model.title,
+        description: model.description,
+        skills: model.skills,
+        company: model.company.toEntity(),
+        status: model.status,
+        category: model.category.name,
+        totalApplications: 10,
+        applicantsAvatars: [],
+      ),
+    );
   }
 }
