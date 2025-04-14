@@ -16,13 +16,14 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-String? test;
 
-bool _editing = false;
-bool _expanded = false;
-ExpansionTileController _controller = ExpansionTileController();
+
+
 
 class _ProfilePageState extends State<ProfilePage> {
+bool _editing = false;
+bool _expanded = false;
+final ExpansionTileController _controller = ExpansionTileController();
   @override
   Widget build(BuildContext context) {
     User user = (context.read<AuthBloc>().state as Authenticated).user;
@@ -41,6 +42,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     icon: Icon(
                       Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      context.go('/protected/company_profile/0');
+                    },
+                    icon: Icon(
+                      Icons.settings,
                       color: Colors.white,
                     ),
                   ),
