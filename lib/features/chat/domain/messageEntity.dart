@@ -3,10 +3,11 @@ import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'messageEntity.freezed.dart';
+
 @freezed
-class MessageEntity  with _$MessageEntity {
+class MessageEntity with _$MessageEntity {
   const factory MessageEntity({
-    required String id,
+    required int id,
     required String text,
     required DateTime createdAt,
     required User user,
@@ -14,5 +15,4 @@ class MessageEntity  with _$MessageEntity {
   }) = _MessageEntity;
 
   const MessageEntity._();
-
-  }
+}

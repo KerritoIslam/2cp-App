@@ -8,14 +8,12 @@ part 'company_model.freezed.dart';
 class CompanyModel with _$CompanyModel {
   const CompanyModel._();
   const factory CompanyModel({
-    required String id,
+    required int id,
     required String name,
    @Default('None') String category ,
   @Default('') String profilepic,
   }) = _CompanyModel;
   factory CompanyModel.fromJson(Map<String, dynamic> json) {
-    json['id']=json['id'].toString();
-    
       return _$CompanyModelFromJson(json);
   }
   

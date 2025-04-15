@@ -4,7 +4,6 @@ import 'package:app/features/authentication/data/sources/local/local_secure_stor
 import 'package:app/utils/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:path/path.dart';
 
 class DioServices {
   static final Dio _dio = Dio(

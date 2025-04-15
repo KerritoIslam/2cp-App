@@ -63,7 +63,7 @@ class _TrackapplicationspageState extends State<Trackapplicationspage> {
           return RefreshIndicator(
             onRefresh: () {
               BlocProvider.of<ApplicationBloc>(context)
-                  .add(fetchApplicationsEvent());
+                  .add(refreshApplicationsEvent());
               return Future.delayed(Duration(milliseconds: 500));
             },
             child: ListView.builder(

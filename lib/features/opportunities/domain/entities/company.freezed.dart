@@ -20,7 +20,7 @@ Company _$CompanyFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Company {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get profilepic => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $CompanyCopyWith<$Res> {
   factory $CompanyCopyWith(Company value, $Res Function(Company) then) =
       _$CompanyCopyWithImpl<$Res, Company>;
   @useResult
-  $Res call({String id, String name, String category, String profilepic});
+  $Res call({int id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -66,7 +66,7 @@ class _$CompanyCopyWithImpl<$Res, $Val extends Company>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -90,7 +90,7 @@ abstract class _$$CompanyImplCopyWith<$Res> implements $CompanyCopyWith<$Res> {
       __$$CompanyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String category, String profilepic});
+  $Res call({int id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -115,7 +115,7 @@ class __$$CompanyImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -146,7 +146,7 @@ class _$CompanyImpl extends _Company {
       _$$CompanyImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String name;
   @override
@@ -194,7 +194,7 @@ class _$CompanyImpl extends _Company {
 
 abstract class _Company extends Company {
   const factory _Company(
-      {required final String id,
+      {required final int id,
       required final String name,
       required final String category,
       required final String profilepic}) = _$CompanyImpl;
@@ -203,7 +203,7 @@ abstract class _Company extends Company {
   factory _Company.fromJson(Map<String, dynamic> json) = _$CompanyImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get name;
   @override

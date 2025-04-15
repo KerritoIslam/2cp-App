@@ -1,3 +1,6 @@
+import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
+import 'package:app/features/applications%20status/constants/status.dart';
+import 'package:app/features/applications%20status/domain/entities/application.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/attachmentField.dart';
 import 'package:app/features/opportunities/application/widgets/skill_bubble.dart';
@@ -15,8 +18,7 @@ class opportunityCard extends StatefulWidget {
   final Opportunity opportunity;
   final bool saved;
   const opportunityCard(
-      {Key? key, required this.opportunity, this.saved = false})
-      : super(key: key);
+      {super.key, required this.opportunity, this.saved = false});
 
   @override
   State<opportunityCard> createState() => _opportunityCardState();
@@ -156,6 +158,7 @@ class _opportunityCardState extends State<opportunityCard> {
                           builder: (ctx) => SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.85,
                               child: FullScreenDialog(
+                        application: widget.opportunity,
                                 jobTitle: widget.opportunity.title,
                               )));
                     },
@@ -172,9 +175,10 @@ class _opportunityCardState extends State<opportunityCard> {
 
 class FullScreenDialog extends StatefulWidget {
   final String jobTitle;
+  final Opportunity application;
   const FullScreenDialog({
     super.key,
-    required this.jobTitle,
+    required this.jobTitle, required this.application,
   });
 
   @override
@@ -226,6 +230,13 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                 controller: _proposalController,
                 maxLines: 5,
                 cursorColor: Theme.of(context).secondaryHeaderColor,
+              style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(
+                      color: Theme.of(context).secondaryHeaderColor,
+                      fontSize: 16.sp,
+                    ),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -250,18 +261,11 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               ActionButton(
                 onPressed: () {
                   context.pop();
-                  toastification.show(
-                    type: ToastificationType.success,
-                    title: Text(
-                      "Application Sumbited succefully",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    autoCloseDuration: const Duration(milliseconds: 2300),
+                  Application application=Application(id: 0,status: ApplicationStatus.submitted, proposal:_proposalController.text,  opportunity: widget.application);
+                  context.read<ApplicationBloc>().add(
+                    submitApplicationEvent(application)
                   );
-                },
+                                  },
                 text: "Apply Now",
               ),
               SizedBox(height: 24.h),
@@ -277,9 +281,9 @@ class OpportunityDetailsSheet extends StatelessWidget {
   final Opportunity opportunity;
 
   const OpportunityDetailsSheet({
-    Key? key,
+    super.key,
     required this.opportunity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -451,6 +455,7 @@ class OpportunityDetailsSheet extends StatelessWidget {
                                   isScrollControlled: true,
                                   builder: (ctx) => FullScreenDialog(
                                     jobTitle: opportunity.title,
+                                    application:opportunity, 
                                   ),
                                 );
                               },

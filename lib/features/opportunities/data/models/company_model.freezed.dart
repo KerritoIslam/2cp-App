@@ -20,7 +20,7 @@ CompanyModel _$CompanyModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CompanyModel {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get profilepic => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $CompanyModelCopyWith<$Res> {
           CompanyModel value, $Res Function(CompanyModel) then) =
       _$CompanyModelCopyWithImpl<$Res, CompanyModel>;
   @useResult
-  $Res call({String id, String name, String category, String profilepic});
+  $Res call({int id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -93,7 +93,7 @@ abstract class _$$CompanyModelImplCopyWith<$Res>
       __$$CompanyModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String category, String profilepic});
+  $Res call({int id, String name, String category, String profilepic});
 }
 
 /// @nodoc
@@ -118,7 +118,7 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ class _$CompanyModelImpl extends _CompanyModel {
       _$$CompanyModelImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String name;
   @override
@@ -199,7 +199,7 @@ class _$CompanyModelImpl extends _CompanyModel {
 
 abstract class _CompanyModel extends CompanyModel {
   const factory _CompanyModel(
-      {required final String id,
+      {required final int id,
       required final String name,
       final String category,
       final String profilepic}) = _$CompanyModelImpl;
@@ -209,7 +209,7 @@ abstract class _CompanyModel extends CompanyModel {
       _$CompanyModelImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get name;
   @override

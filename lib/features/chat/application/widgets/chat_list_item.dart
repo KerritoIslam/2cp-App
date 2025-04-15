@@ -13,7 +13,7 @@ class ChatListItem extends StatelessWidget {
   final int unreadCount;
 
   const ChatListItem({
-    Key? key,
+    super.key,
     required this.companyId,
     required this.companyName,
     required this.lastMessage,
@@ -21,7 +21,7 @@ class ChatListItem extends StatelessWidget {
     required this.imageUrl,
     this.isOnline = false,
     this.unreadCount = 0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

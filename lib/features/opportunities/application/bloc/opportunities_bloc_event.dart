@@ -9,11 +9,11 @@ class CheckIfNeedMoreDataEvent extends OpportunitiesBlocEvent {
 }
 class refreshOpportunitiesEvent extends OpportunitiesBlocEvent{}
 class SaveOpportunityEvent extends OpportunitiesSavedEvent{
-  final String id;
+  final int id;
   SaveOpportunityEvent(this.id);
 }
 class RemoveSavedOpportunityEvent extends OpportunitiesSavedEvent{
-  final String id;
+  final int id;
   RemoveSavedOpportunityEvent(this.id); 
 }
 class LoadSavedOpportunitiesEvent extends OpportunitiesSavedEvent{

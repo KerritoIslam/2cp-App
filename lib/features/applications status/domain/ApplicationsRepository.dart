@@ -26,4 +26,7 @@ class Applicationsrepository {
   Future<Either<Failure,Unit>>submitTeamApplication(Application application,dynamic team)async{
     return Right(unit);
   }
+  Future<Either<Failure,Unit>>deleteApplication(int id)async{
+    return await remoteDataSource.deleteApplication(id);
+  }
 }

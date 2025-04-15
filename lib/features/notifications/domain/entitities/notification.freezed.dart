@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ENotification {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get time => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $ENotificationCopyWith<$Res> {
       _$ENotificationCopyWithImpl<$Res, ENotification>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String title,
       String description,
       String time,
@@ -74,7 +74,7 @@ class _$ENotificationCopyWithImpl<$Res, $Val extends ENotification>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ abstract class _$$NotificationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String title,
       String description,
       String time,
@@ -146,7 +146,7 @@ class __$$NotificationImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -189,7 +189,7 @@ class _$NotificationImpl extends _Notification {
       : super._();
 
   @override
-  final String id;
+  final int id;
   @override
   final String title;
   @override
@@ -239,7 +239,7 @@ class _$NotificationImpl extends _Notification {
 
 abstract class _Notification extends ENotification {
   factory _Notification(
-      {required final String id,
+      {required final int id,
       required final String title,
       required final String description,
       required final String time,
@@ -249,7 +249,7 @@ abstract class _Notification extends ENotification {
   _Notification._() : super._();
 
   @override
-  String get id;
+  int get id;
   @override
   String get title;
   @override

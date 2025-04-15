@@ -1,3 +1,4 @@
+import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
 import 'package:app/features/authentication/application/pages/forgotpassword.dart';
 import 'package:app/features/authentication/application/pages/login_page.dart';
@@ -150,6 +151,10 @@ GoRouter router = GoRouter(
                   path: 'settings',
                   pageBuilder: (context, state) =>
                       MaterialPage(child: SettingsPage()))
+            ,
+            GoRoute(path: 'applications',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: Trackapplicationspage())),
             ]),
       ],
     ),

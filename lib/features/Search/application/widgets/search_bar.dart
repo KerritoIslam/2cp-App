@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CoolSearchBar extends StatelessWidget {
-  const CoolSearchBar({Key? key}) : super(key: key);
+  const CoolSearchBar({super.key});
 
   @override
   Widget build(BuildContext context) {

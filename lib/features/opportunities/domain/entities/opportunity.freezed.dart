@@ -29,7 +29,7 @@ Opportunity _$OpportunityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Opportunity {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<String> get skills => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ mixin _$Opportunity {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -53,7 +53,7 @@ mixin _$Opportunity {
             String category)
         internship,
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -68,7 +68,7 @@ mixin _$Opportunity {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -80,7 +80,7 @@ mixin _$Opportunity {
             String category)?
         internship,
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -95,7 +95,7 @@ mixin _$Opportunity {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -107,7 +107,7 @@ mixin _$Opportunity {
             String category)?
         internship,
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -157,7 +157,7 @@ abstract class $OpportunityCopyWith<$Res> {
       _$OpportunityCopyWithImpl<$Res, Opportunity>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String title,
       String description,
       List<String> skills,
@@ -199,7 +199,7 @@ class _$OpportunityCopyWithImpl<$Res, $Val extends Opportunity>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -255,7 +255,7 @@ abstract class _$$InternshipImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String title,
       String description,
       List<String> skills,
@@ -298,7 +298,7 @@ class __$$InternshipImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -348,7 +348,7 @@ class _$InternshipImpl extends Internship {
       required this.description,
       required final List<String> skills,
       required this.company,
-      this.status = OpportunityStatus.opened,
+      this.status = OpportunityStatus.open,
       required this.duration,
       required final List<String> applicantsAvatars,
       required this.totalApplications,
@@ -363,7 +363,7 @@ class _$InternshipImpl extends Internship {
       _$$InternshipImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String title;
   @override
@@ -454,7 +454,7 @@ class _$InternshipImpl extends Internship {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -466,7 +466,7 @@ class _$InternshipImpl extends Internship {
             String category)
         internship,
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -485,7 +485,7 @@ class _$InternshipImpl extends Internship {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -497,7 +497,7 @@ class _$InternshipImpl extends Internship {
             String category)?
         internship,
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -516,7 +516,7 @@ class _$InternshipImpl extends Internship {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -528,7 +528,7 @@ class _$InternshipImpl extends Internship {
             String category)?
         internship,
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -588,7 +588,7 @@ class _$InternshipImpl extends Internship {
 
 abstract class Internship extends Opportunity {
   const factory Internship(
-      {required final String id,
+      {required final int id,
       required final String title,
       required final String description,
       required final List<String> skills,
@@ -604,7 +604,7 @@ abstract class Internship extends Opportunity {
       _$InternshipImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get title;
   @override
@@ -640,7 +640,7 @@ abstract class _$$ProblemImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String title,
       String description,
       int totalApplications,
@@ -681,7 +681,7 @@ class __$$ProblemImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -729,7 +729,7 @@ class _$ProblemImpl extends Problem {
       required final List<String> skills,
       required final List<String> applicantsAvatars,
       required this.company,
-      this.status = OpportunityStatus.opened,
+      this.status = OpportunityStatus.open,
       required this.category,
       final String? $type})
       : _skills = skills,
@@ -741,7 +741,7 @@ class _$ProblemImpl extends Problem {
       _$$ProblemImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String title;
   @override
@@ -827,7 +827,7 @@ class _$ProblemImpl extends Problem {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -839,7 +839,7 @@ class _$ProblemImpl extends Problem {
             String category)
         internship,
     required TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -858,7 +858,7 @@ class _$ProblemImpl extends Problem {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -870,7 +870,7 @@ class _$ProblemImpl extends Problem {
             String category)?
         internship,
     TResult? Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -889,7 +889,7 @@ class _$ProblemImpl extends Problem {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             List<String> skills,
@@ -901,7 +901,7 @@ class _$ProblemImpl extends Problem {
             String category)?
         internship,
     TResult Function(
-            String id,
+            int id,
             String title,
             String description,
             int totalApplications,
@@ -961,7 +961,7 @@ class _$ProblemImpl extends Problem {
 
 abstract class Problem extends Opportunity {
   const factory Problem(
-      {required final String id,
+      {required final int id,
       required final String title,
       required final String description,
       required final int totalApplications,
@@ -975,7 +975,7 @@ abstract class Problem extends Opportunity {
   factory Problem.fromJson(Map<String, dynamic> json) = _$ProblemImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get title;
   @override
