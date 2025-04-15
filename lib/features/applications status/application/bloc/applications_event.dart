@@ -16,3 +16,6 @@ class deleteApplicationEvent extends ApplicationEvent {
   final int id;
   deleteApplicationEvent(this.id);
 }
+class refreshApplicationsEvent extends ApplicationEvent {
+  refreshApplicationsEvent();
+}

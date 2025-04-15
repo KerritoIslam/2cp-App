@@ -1,4 +1,4 @@
-enum OpportunityStatus { open,close,pending }
+enum OpportunityStatus { open,closed,pending }
 enum OpportunityType { internship, Problem }
 enum OpportunityCategory { EC, CS, EG, AH, HL, BM, LW, ED, None }
 

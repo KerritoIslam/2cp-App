@@ -15,11 +15,24 @@ class ApplicationModel with _$ApplicationModel{
     required String type,
    @Default(ApplicationStatus.submitted) ApplicationStatus status,
   }) = _ApplicationModel;
-  factory ApplicationModel.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationModelFromJson(json);
+  factory ApplicationModel.fromJson(Map<String, dynamic> json) {
+    try {
+     json['sumbittedAt']=DateTime.now().toIso8601String();
+    json['type']=json['Type']?? 'application';
+     return  _$ApplicationModelFromJson(json);
+
+        } catch (e) {
+        print(e);
+       throw Exception('Failed to parse ApplicationModel: $e');
+      
+        }
+      }
   Map<String,dynamic> toCustomJson() {
     final json=toJson();
     json['post']=post.toJson();
+    //FallBack to current time if sumbittedAt is null
+    json['sumbittedAt']=DateTime.now().toIso8601String();
+    json['type']=json['Type']?? 'application';
     return json;
   }  
 }

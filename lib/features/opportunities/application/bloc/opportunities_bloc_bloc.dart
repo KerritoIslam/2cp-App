@@ -11,11 +11,11 @@ class OpportunitiesBloc extends Bloc<OpportunitiesBlocEvent, OpportunitiesBlocSt
   //The current Page Number 
   int page=1;
   //Number of posts per Page
-  int limit=5;
+  int limit=10;
   //To check if we have reached the last page
   bool hasReachedMax=false;
   //number of pages before loading more data
- static int nextPageTrigger=4;
+ static int nextPageTrigger=3;
   List<Opportunity> opportunities=[];
   OpportunitiesBloc(this.repository) : super(OpportunitiesBlocInitial()) {
    on<LoadOpportunitiesEvent>((event, emit) async {

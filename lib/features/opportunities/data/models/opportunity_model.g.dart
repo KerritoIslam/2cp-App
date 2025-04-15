@@ -40,7 +40,7 @@ Map<String, dynamic> _$$InternshipModelImplToJson(
 
 const _$OpportunityStatusEnumMap = {
   OpportunityStatus.open: 'open',
-  OpportunityStatus.close: 'close',
+  OpportunityStatus.closed: 'closed',
   OpportunityStatus.pending: 'pending',
 };
 

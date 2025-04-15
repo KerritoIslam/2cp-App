@@ -31,7 +31,7 @@ Map<String, dynamic> _$$ApplicationModelImplToJson(
 
 const _$ApplicationStatusEnumMap = {
   ApplicationStatus.submitted: 'submitted',
-  ApplicationStatus.inReview: 'inReview',
+  ApplicationStatus.under_review: 'under_review',
   ApplicationStatus.accepted: 'accepted',
   ApplicationStatus.rejected: 'rejected',
 };

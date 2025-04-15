@@ -261,7 +261,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               ActionButton(
                 onPressed: () {
                   context.pop();
-                  Application application=Application(id: 0,status: ApplicationStatus.inReview, proposal:_proposalController.text,  opportunity: widget.application);
+                  Application application=Application(id: 0,status: ApplicationStatus.submitted, proposal:_proposalController.text,  opportunity: widget.application);
                   context.read<ApplicationBloc>().add(
                     submitApplicationEvent(application)
                   );
