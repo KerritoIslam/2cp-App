@@ -12,6 +12,7 @@ import 'package:app/features/notifications/application/pages/notifications_page.
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
+import 'package:app/features/profile/application/pages/company_profile_page.dart';
 import 'package:app/features/profile/application/pages/forms/aboutme.dart';
 import 'package:app/features/profile/application/pages/forms/education_form_page.dart';
 import 'package:app/features/profile/application/pages/forms/intership_expirience_form.dart';
@@ -89,12 +90,23 @@ GoRouter router = GoRouter(
                       MaterialPage(child: NotificationsPage())),
             ]),
         GoRoute(
+
+          path: 'company_profile/:id',
+          pageBuilder: (context, state) {
+            final int id = int.parse(state.pathParameters['id']!);
+            return MaterialPage(
+                child: CompanyProfilePage(
+              id: id,
+            ));
+          },
+
           path: 'chat/conversation/:companyId',
           pageBuilder: (context, state) => MaterialPage(
             child: ConversationPage(
               companyId: state.pathParameters['companyId']!,
             ),
           ),
+
         ),
         GoRoute(
             path: 'profile',
