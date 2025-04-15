@@ -99,7 +99,7 @@ imageBuilder: (context, imageProvider) => CircleAvatar(
 
                                     child: TextButton(
                             style: ButtonStyle(
-                              padding: MaterialStateProperty.all(EdgeInsets.zero),
+                              padding: WidgetStateProperty.all(EdgeInsets.zero),
                               splashFactory: NoSplash.splashFactory,
                             ),
                             onPressed: (){

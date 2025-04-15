@@ -1,3 +1,4 @@
+import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
 import 'package:app/features/authentication/application/pages/forgotpassword.dart';
 import 'package:app/features/authentication/application/pages/login_page.dart';
@@ -24,6 +25,7 @@ import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:app/features/chat/application/pages/conversation_page.dart';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -88,6 +90,7 @@ GoRouter router = GoRouter(
                       MaterialPage(child: NotificationsPage())),
             ]),
         GoRoute(
+
           path: 'company_profile/:id',
           pageBuilder: (context, state) {
             final int id = int.parse(state.pathParameters['id']!);
@@ -96,6 +99,14 @@ GoRouter router = GoRouter(
               id: id,
             ));
           },
+
+          path: 'chat/conversation/:companyId',
+          pageBuilder: (context, state) => MaterialPage(
+            child: ConversationPage(
+              companyId: state.pathParameters['companyId']!,
+            ),
+          ),
+
         ),
         GoRoute(
             path: 'profile',
@@ -152,6 +163,10 @@ GoRouter router = GoRouter(
                   path: 'settings',
                   pageBuilder: (context, state) =>
                       MaterialPage(child: SettingsPage()))
+            ,
+            GoRoute(path: 'applications',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: Trackapplicationspage())),
             ]),
       ],
     ),

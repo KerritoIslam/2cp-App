@@ -20,7 +20,7 @@ class NotificationRepository {
           return Left( Failure("An error occured while fetching notifications") );
         }
   }
-  Future<Either<Failure,Unit>> markAsRead(String id) async {
+  Future<Either<Failure,Unit>> markAsRead(int id) async {
     // Mark notification as read
     try {
       return _remoteDataSource.markNotificationAsRead(id);
@@ -31,7 +31,7 @@ class NotificationRepository {
       return Left( Failure("An error occured while marking notification as read") );
     }
   }
-  Future<Either<Failure,Unit>> deleteNotification(String id) async {
+  Future<Either<Failure,Unit>> deleteNotification(int id) async {
     // Delete notification
     try {
       return _remoteDataSource.deleteNotification(id);

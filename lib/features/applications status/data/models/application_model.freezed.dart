@@ -20,7 +20,7 @@ ApplicationModel _$ApplicationModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ApplicationModel {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get proposal => throw _privateConstructorUsedError;
   OpportunityModel get post => throw _privateConstructorUsedError;
   DateTime get sumbittedAt => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $ApplicationModelCopyWith<$Res> {
       _$ApplicationModelCopyWithImpl<$Res, ApplicationModel>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String proposal,
       OpportunityModel post,
       DateTime sumbittedAt,
@@ -80,7 +80,7 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       proposal: null == proposal
           ? _value.proposal
           : proposal // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ abstract class _$$ApplicationModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String proposal,
       OpportunityModel post,
       DateTime sumbittedAt,
@@ -159,7 +159,7 @@ class __$$ApplicationModelImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       proposal: null == proposal
           ? _value.proposal
           : proposal // ignore: cast_nullable_to_non_nullable
@@ -200,7 +200,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
       _$$ApplicationModelImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String proposal;
   @override
@@ -257,7 +257,7 @@ class _$ApplicationModelImpl extends _ApplicationModel {
 
 abstract class _ApplicationModel extends ApplicationModel {
   factory _ApplicationModel(
-      {required final String id,
+      {required final int id,
       required final String proposal,
       required final OpportunityModel post,
       required final DateTime sumbittedAt,
@@ -269,7 +269,7 @@ abstract class _ApplicationModel extends ApplicationModel {
       _$ApplicationModelImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get proposal;
   @override

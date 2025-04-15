@@ -13,9 +13,9 @@ import 'package:go_router/go_router.dart';
 class ApplicationCard extends StatefulWidget {
   final Application application;
   const ApplicationCard({
-    Key? key,
+    super.key,
     required this.application,
-  }) : super(key: key);
+  });
 
   @override
   State<ApplicationCard> createState() => _ApplicationCardState();
@@ -114,15 +114,13 @@ class _ApplicationCardState extends State<ApplicationCard> {
       switch (status) {
         case ApplicationStatus.submitted:
           return Colors.blue;
-        case ApplicationStatus.inReview:
+        case ApplicationStatus.under_review:
           return Colors.orange;
         case ApplicationStatus.accepted:
           return Colors.green;
         case ApplicationStatus.rejected:
           return Colors.red;
-        default:
-          return Colors.grey; // Default color
-      }
+             }
     }
 
     // Get status icon based on application status
@@ -130,15 +128,13 @@ class _ApplicationCardState extends State<ApplicationCard> {
       switch (status) {
         case ApplicationStatus.submitted:
           return Icons.check_circle_outline;
-        case ApplicationStatus.inReview:
+        case ApplicationStatus.under_review:
           return Icons.pending_outlined;
         case ApplicationStatus.accepted:
           return Icons.verified_outlined;
         case ApplicationStatus.rejected:
           return Icons.cancel_outlined;
-        default:
-          return Icons.help_outline; // Default icon
-      }
+             }
     }
 
     return Container(
@@ -236,7 +232,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
 }
 
 class DeleteButton extends StatelessWidget {
-  final String id;
+  final int id;
   const DeleteButton({
     required this.id,
     super.key,

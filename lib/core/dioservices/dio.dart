@@ -8,7 +8,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://192.168.230.106:8000/',
+
+      baseUrl: 'http://10.0.2.2:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {

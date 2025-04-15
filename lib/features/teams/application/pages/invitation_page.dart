@@ -148,8 +148,8 @@ class _InvitationsPageState extends State<InvitationsPage> {
                       ),
                     ],
                   ),
-                )))
-          ],
+                ))),
+                        ],
         ),
       ),
     );

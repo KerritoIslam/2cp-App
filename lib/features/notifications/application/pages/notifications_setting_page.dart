@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/widgets/divider.dart';
 
 class NotificationsSettingPage extends StatefulWidget {
+  const NotificationsSettingPage({super.key});
+
   @override
   createState() =>
       _NotificationSettingsPageState();

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomError extends StatelessWidget {
   final FlutterErrorDetails errorDetails;
 
+  @override
   final Key key=Key('CustomError');
    CustomError({
     required this.errorDetails, required super.key,

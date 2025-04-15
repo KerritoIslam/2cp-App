@@ -9,7 +9,7 @@ part of 'opportunity_model.dart';
 _$InternshipModelImpl _$$InternshipModelImplFromJson(
         Map<String, dynamic> json) =>
     _$InternshipModelImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       skills: (json['skills'] as List<dynamic>?)
@@ -18,7 +18,7 @@ _$InternshipModelImpl _$$InternshipModelImplFromJson(
           const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.opened,
+          OpportunityStatus.open,
       duration: json['duration'] as String? ?? "",
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$$InternshipModelImplToJson(
     };
 
 const _$OpportunityStatusEnumMap = {
-  OpportunityStatus.opened: 'opened',
+  OpportunityStatus.open: 'open',
   OpportunityStatus.closed: 'closed',
   OpportunityStatus.pending: 'pending',
 };
@@ -58,7 +58,7 @@ const _$OpportunityCategoryEnumMap = {
 
 _$ProblemModelImpl _$$ProblemModelImplFromJson(Map<String, dynamic> json) =>
     _$ProblemModelImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       skills: (json['skills'] as List<dynamic>?)
@@ -67,7 +67,7 @@ _$ProblemModelImpl _$$ProblemModelImplFromJson(Map<String, dynamic> json) =>
           const [],
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
-          OpportunityStatus.opened,
+          OpportunityStatus.open,
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
     );

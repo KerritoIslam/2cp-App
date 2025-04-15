@@ -31,6 +31,7 @@ void main() async {
   // Load the .env file asynchronously
   await dotenv.load();
 
+
   // Initialize Firebase asynchronously
   await _initializeFirebase();
 

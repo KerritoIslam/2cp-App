@@ -83,6 +83,9 @@ final ExpansionTileController _controller = ExpansionTileController();
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
+                          ElevatedButton(onPressed:(){
+                            context.push('/protected/options');
+                          },child: Text('Set'),),
                           Text(
                             user.name,
                             style: Theme.of(context).textTheme.displayMedium,
@@ -313,16 +316,24 @@ final ExpansionTileController _controller = ExpansionTileController();
                                       Theme.of(context).textTheme.labelMedium,
                                 ),
                                 isThreeLine: true,
-                                trailing: IconButton(
-                                  icon: SvgPicture.asset(
-                                    'assets/icons/edit.svg',
-                                  ),
-                                  onPressed: () {
-                                    context.go(
-                                      '/protected/profile/internship_expirience_form',
-                                      extra: user.internships.indexOf(e),
+                                trailing: Row(
+                                  children: [
+                                IconButton(onPressed: (){
+                                      context.go('/protected/options',
                                     );
-                                  },
+                                    }, icon: Icon(Icons.settings)) 
+                                ,   IconButton(
+                                      icon: SvgPicture.asset(
+                                        'assets/icons/edit.svg',
+                                      ),
+                                      onPressed: () {
+                                        context.go(
+                                          '/protected/profile/internship_expirience_form',
+                                          extra: user.internships.indexOf(e),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               );
                             }).toList(),

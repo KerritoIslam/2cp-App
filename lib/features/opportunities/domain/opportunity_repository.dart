@@ -8,7 +8,7 @@ class OpportunityRepository{
   final OpportunityRemoteSource remoteSource;
 
   OpportunityRepository({required this.remoteSource});
- Future<Either<Failure,Opportunity>> getOpportunity(String id)async{
+ Future<Either<Failure,Opportunity>> getOpportunity(int id)async{
     try{
       final result=await remoteSource.getOpportunityById(id);
       return result.fold((failure)=>left(failure), (opp)=>right(opp.toEntity()));
@@ -25,7 +25,7 @@ class OpportunityRepository{
     } 
   }
 
-  Future<Either<Failure,Company>>getCompany(String id)async{
+  Future<Either<Failure,Company>>getCompany(int id)async{
 
    try {
        final result=await remoteSource.getCompanyById(id);
@@ -34,7 +34,7 @@ class OpportunityRepository{
        return left(Failure(e.toString())); 
       }
   } 
-  Future<Either<Failure,Opportunity>>saveOpportunity(String id)async{
+  Future<Either<Failure,Opportunity>>saveOpportunity(int id)async{
     try{
       final result=await remoteSource.saveOpportunity(id);
       return result.fold((failure)=>left(failure), (opp)=>right(opp.toEntity()));
@@ -42,7 +42,7 @@ class OpportunityRepository{
       return Left(e);
     }
   }
-  Future<Either<Failure,Unit>>removeSavedOpportunity(String id)async{
+  Future<Either<Failure,Unit>>removeSavedOpportunity(int id)async{
     try{
       final result=await remoteSource.removeSavedOpportunity(id);
       return result.fold((failure)=>left(failure), (unit)=>right(unit));
