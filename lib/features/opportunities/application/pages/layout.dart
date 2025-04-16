@@ -7,7 +7,7 @@ import 'package:app/features/notifications/application/bloc/notifications_bloc.d
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
-import 'package:app/features/teams/application/pages/invitation_page.dart';
+import 'package:app/features/teams/application/widgets/teams_wraper.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,26 +19,28 @@ import 'package:go_router/go_router.dart';
 
 class Layout extends StatefulWidget {
   final int initPage;
-
-  const Layout({super.key, required this.initPage});
+  final int teamsPageState;
+  const Layout({super.key, required this.initPage, this.teamsPageState = 0});
   @override
   State<Layout> createState() => _LayoutState();
 }
 
 class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
-  static const List<Widget> pages = [
-    OpporutnitiesPage(),
-    Placeholder(),
-    InvitationsPage(),
-    ChatsPage(),
-  ];
+  static late List<Widget> pages;
   late int index;
   late bool isDark;
   late int numberOfUndreadNotif;
   @override
   void initState() {
     super.initState();
+    print(widget.teamsPageState);
+    pages = [
+      OpporutnitiesPage(),
+      Placeholder(),
+      TeamsPageWraper(index: widget.teamsPageState),
+      ChatsPage(),
+    ];
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 

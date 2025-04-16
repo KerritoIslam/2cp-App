@@ -77,10 +77,15 @@ GoRouter router = GoRouter(
       routes: [
         GoRoute(
             path: 'layout/:page',
-            pageBuilder: (context, state) => MaterialPage(
-                    child: Layout(
-                  initPage: int.parse(state.pathParameters['page'] ?? "0"),
-                )),
+            pageBuilder: (context, state) {
+              final int? teamsstate = state.extra as int?;
+              print(teamsstate);
+              return MaterialPage(
+                  child: Layout(
+                initPage: int.parse(state.pathParameters['page'] ?? "0"),
+                teamsPageState: teamsstate ?? 0,
+              ));
+            },
             routes: [
               GoRoute(
                   path: 'notifications',
