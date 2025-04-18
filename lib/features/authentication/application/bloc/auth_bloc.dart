@@ -13,7 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LocalSecureStorage localSecureStorage;
   final LocalStorage localStorage;
   Future<Either<Failure, User>> _init() async {
-    print('init');
+    
     final tokens = await authRepository.checkTokens();
     return await tokens.fold((l) {
       return left(Failure('Error getting tokens :${l.message}'));
@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
       }, (r) {
-        print('r');
         return right(r);
       });
     });
@@ -33,15 +32,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       required this.localSecureStorage,
       required this.localStorage})
       : super(AuthLoading()) {
-    _init().then((value) {
-      value.fold((l) {
-        print(l.message);
-        add(AuthLogoutRequested());
-      }, (user) {
-        add(UserLoaded(user));
+    on<UserDataLoaded>((event, emit) async {
+      _init().then((value) {
+        value.fold((l) {
+          add(AuthLogoutRequested());
+        }, (user) {
+          add(UserLoaded(user));
+        });
       });
     });
-
     on<AuthLoginRequested>((event, emit) async {
       final user = await authRepository.login(event.email, event.password);
       user.fold((l) {

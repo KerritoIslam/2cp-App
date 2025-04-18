@@ -71,11 +71,8 @@ class RestAuthRemote {
         '/Auth/user',
       );
 
-      print(response.data);
       return right(UserModel.fromJson(response.data));
     } catch (e) {
-      print('---------------');
-      print(e.toString());
       return left(Failure(e.toString()));
     }
   }

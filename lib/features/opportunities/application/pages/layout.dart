@@ -19,8 +19,8 @@ import 'package:go_router/go_router.dart';
 
 class Layout extends StatefulWidget {
   final int initPage;
-  final int teamsPageState;
-  const Layout({super.key, required this.initPage, this.teamsPageState = 0});
+
+  const Layout({super.key, required this.initPage});
   @override
   State<Layout> createState() => _LayoutState();
 }
@@ -31,20 +31,22 @@ class _LayoutState extends State<Layout> {
   late int index;
   late bool isDark;
   late int numberOfUndreadNotif;
+  late int teamIndex;
   @override
   void initState() {
     super.initState();
-    print(widget.teamsPageState);
+    teamIndex = 0;
     pages = [
       OpporutnitiesPage(),
       Placeholder(),
-      TeamsPageWraper(index: widget.teamsPageState),
+      TeamsPageWraper(initialindex: teamIndex),
       ChatsPage(),
     ];
+
+    index = widget.initPage;
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
-    index = widget.initPage;
     final notificationState = context.read<notificationsBloc>().state;
     if (notificationState is notificationsLoaded) {
       numberOfUndreadNotif = notificationState.notifications
@@ -61,6 +63,10 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
+    pages[2] = TeamsPageWraper(
+      key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+      initialindex: teamIndex,
+    );
     return FSheets(
       child: BlocListener<ThemeProviderBloc, ThemeProviderState>(
         listener: (context, state) {
@@ -83,8 +89,16 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                    context.push(
-                        '/protected/layout/0/notifications'); //showFPersistentSheet(
+                    if (index == 2) {
+                      setState(() {
+                        print('teamIndex: $teamIndex');
+                        teamIndex = 0;
+                      });
+                    } else {
+                      context
+                          .pushReplacement('/protected/layout/0/opportunities');
+                    }
+                    //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {
@@ -101,13 +115,22 @@ class _LayoutState extends State<Layout> {
               ),
               IconButton(
                 onPressed: () {
-                  context.pushReplacement('/protected/profile');
+                  if (index == 2) {
+                    setState(() {
+                      teamIndex = 2;
+                    });
+                  } else {
+                    context.pushReplacement('/protected/profile');
+                  }
                 },
-                icon: SvgPicture.asset(
-                  !isDark
-                      ? 'assets/icons/profile.svg'
-                      : 'assets/icons/profile_dark.svg',
-                ),
+                icon: index == 2
+                    ? SvgPicture.asset('assets/icons/teams_app_bar.svg',
+                        color: Theme.of(context).secondaryHeaderColor)
+                    : SvgPicture.asset(
+                        !isDark
+                            ? 'assets/icons/profile.svg'
+                            : 'assets/icons/profile_dark.svg',
+                      ),
               ),
             ],
             leadingWidth: 250.w,

@@ -1,3 +1,4 @@
+import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
 import 'package:app/features/authentication/application/pages/forgotpassword.dart';
 import 'package:app/features/authentication/application/pages/login_page.dart';
@@ -7,6 +8,7 @@ import 'package:app/features/authentication/application/pages/signup_page.dart';
 import 'package:app/features/authentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/authentication/application/pages/welcome_page.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/chat/application/pages/conversation_page.dart';
 import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
@@ -78,13 +80,14 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'layout/:page',
             pageBuilder: (context, state) {
-              final int? teamsstate = state.extra as int?;
-              print(teamsstate);
+             
+              
               return MaterialPage(
+                  
                   child: Layout(
-                initPage: int.parse(state.pathParameters['page'] ?? "0"),
-                teamsPageState: teamsstate ?? 0,
-              ));
+                    initPage: int.parse(state.pathParameters['page'] ?? "0"),
+                    
+                  ));
             },
             routes: [
               GoRoute(
@@ -101,6 +104,14 @@ GoRouter router = GoRouter(
               id: id,
             ));
           },
+        ),
+        GoRoute(
+          path: 'chat/conversation/:companyId',
+          pageBuilder: (context, state) => MaterialPage(
+            child: ConversationPage(
+              companyId: state.pathParameters['companyId']!,
+            ),
+          ),
         ),
         GoRoute(
             path: 'profile',
@@ -156,7 +167,11 @@ GoRouter router = GoRouter(
               GoRoute(
                   path: 'settings',
                   pageBuilder: (context, state) =>
-                      MaterialPage(child: SettingsPage()))
+                      MaterialPage(child: SettingsPage())),
+              GoRoute(
+                  path: 'applications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: Trackapplicationspage())),
             ]),
       ],
     ),

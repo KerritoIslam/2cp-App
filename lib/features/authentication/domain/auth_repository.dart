@@ -79,7 +79,7 @@ class AuthRepository {
   Future<Either<Failure, User>> getUser() async {
     try {
       final response = await restAuthRemote.getUserProfile();
-      print(response.toString());
+      
       return response.fold((l) => left(l), (r) => right(userModelToEntity(r)));
     } on Failure catch (e) {
       return left(Failure(e.toString()));

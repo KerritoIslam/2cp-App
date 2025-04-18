@@ -12,11 +12,11 @@ import 'package:app/features/opportunities/data/models/company_model.dart';
 void main() {
   group('ApplicationModel', () {
     // Test data for a dummy company model and application model
-    final company = CompanyModel(id: '1',category: OpportunityCategory.CS.name,name: 'Test Company', profilepic: 'https://example.com/logo.png');
+    final company = CompanyModel(id: 1,category: OpportunityCategory.CS.name,name: 'Test Company', profilepic: 'https://example.com/logo.png');
     final application = ApplicationModel(
-      id: '123',
+      id: 123,
       proposal: 'This is a proposal',
-      post: OpportunityModel.problem(id: "5", title: "Test", description: "Test", skills: ['Dart'], company: company, category: OpportunityCategory.CS),
+      post: OpportunityModel.problem(id: 5, title: "Test", description: "Test", skills: ['Dart'], company: company, category: OpportunityCategory.CS),
       sumbittedAt: DateTime(2023, 1, 1),
       type: 'Full-time',
       status: ApplicationStatus.submitted,

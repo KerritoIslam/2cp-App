@@ -22,13 +22,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   bool _isLoadingMore = false;
   final List<Opportunity> _opportunites = [
     Opportunity.problem(
-      id: '20',
+      id: 20,
       title: 'Software Engineer Intern',
       description:
           'An exciting opportunity to work with a leading tech company.',
       totalApplications: 10,
       company: Company(
-        id: '10',
+        id: 10,
         name: 'Tech Innovators',
         category: 'Software',
         profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -42,13 +42,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       skills: ['Java', 'Python', 'Dart'],
     ),
     Opportunity.problem(
-      id: '20',
+      id: 20,
       title: 'Software Engineer Intern',
       description:
           'An exciting opportunity to work with a leading tech company.',
       totalApplications: 10,
       company: Company(
-        id: '10',
+        id: 10,
         name: 'Tech Innovators',
         category: 'Software',
         profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -62,13 +62,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       skills: ['Java', 'Python', 'Dart'],
     ),
     Opportunity.problem(
-      id: '20',
+      id: 20,
       title: 'Software Engineer Intern',
       description:
           'An exciting opportunity to work with a leading tech company.',
       totalApplications: 10,
       company: Company(
-        id: '10',
+        id: 10,
         name: 'Tech Innovators',
         category: 'Software',
         profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -82,13 +82,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       skills: ['Java', 'Python', 'Dart'],
     ),
     Opportunity.problem(
-      id: '20',
+      id: 20,
       title: 'Software Engineer Intern',
       description:
           'An exciting opportunity to work with a leading tech company.',
       totalApplications: 10,
       company: Company(
-        id: '10',
+        id: 10,
         name: 'Tech Innovators',
         category: 'Software',
         profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -128,13 +128,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       // Append fake items for now, or call your BLoC/repo to fetch
       _opportunites.addAll([
         Opportunity.problem(
-          id: '20',
+          id: 20,
           title: 'Software Engineer Intern',
           description:
               'An exciting opportunity to work with a leading tech company.',
           totalApplications: 10,
           company: Company(
-            id: '10',
+            id: 10,
             name: 'Tech Innovators',
             category: 'Software',
             profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -148,13 +148,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
           skills: ['Java', 'Python', 'Dart'],
         ),
         Opportunity.problem(
-          id: '20',
+          id: 20,
           title: 'Software Engineer Intern',
           description:
               'An exciting opportunity to work with a leading tech company.',
           totalApplications: 10,
           company: Company(
-            id: '10',
+            id: 10,
             name: 'Tech Innovators',
             category: 'Software',
             profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
@@ -168,13 +168,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
           skills: ['Java', 'Python', 'Dart'],
         ),
         Opportunity.problem(
-          id: '20',
+          id: 20,
           title: 'Software Engineer Intern',
           description:
               'An exciting opportunity to work with a leading tech company.',
           totalApplications: 10,
           company: Company(
-            id: '10',
+            id: 10,
             name: 'Tech Innovators',
             category: 'Software',
             profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",

@@ -1,21 +1,20 @@
-
-import 'package:app/features/opportunities/domain/entities/opportunity_constants.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:app/features/opportunities/data/models/company_model.dart';
 import 'package:app/features/opportunities/data/models/opportunity_model.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
+import 'package:app/features/opportunities/domain/entities/opportunity_constants.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('CompanyModel Tests', () {
     test('fromJson should return a valid model', () {
       final json = {
-        'id': '1',
+        'id': 1,
         'name': 'Tech Corp',
         'category': 'Tech',
         'profilepic': 'https://example.com/image.png'
       };
       final model = CompanyModel.fromJson(json);
-      expect(model.id, '1');
+      expect(model.id, 1);
       expect(model.name, 'Tech Corp');
       expect(model.category, 'Tech');
       expect(model.profilepic, 'https://example.com/image.png');
@@ -23,13 +22,13 @@ void main() {
 
     test('toJson should return a valid map', () {
       final model = CompanyModel(
-        id: '1',
+        id: 1,
         name: 'Tech Corp',
         category: 'Tech',
         profilepic: 'https://example.com/image.png',
       );
       final json = model.toJson();
-      expect(json['id'], '1');
+      expect(json['id'], 1);
       expect(json['name'], 'Tech Corp');
       expect(json['category'], 'Tech');
       expect(json['profilepic'], 'https://example.com/image.png');
@@ -39,7 +38,7 @@ void main() {
   group('Company Entity Tests', () {
     test('fromModel should correctly map CompanyModel to Company', () {
       final model = CompanyModel(
-        id: '1',
+        id: 1,
         name: 'Tech Corp',
         category: 'Law',
         profilepic: 'https://example.com/image.png',
@@ -52,7 +51,7 @@ void main() {
 
     test('toModel should correctly map Company to CompanyModel', () {
       final entity = Company(
-        id: '1',
+        id: 1,
         name: 'Tech Corp',
         category: 'Law',
         profilepic: 'https://example.com/image.png',
@@ -72,7 +71,7 @@ void main() {
         'description': 'Internship at Tech Corp',
         'skills': ['Dart', 'Flutter'],
         'company': {
-          'id': '1',
+          'id': 1,
           'name': 'Tech Corp',
           'category': 'CS',
           'profilepic': 'https://example.com/image.png'
@@ -90,19 +89,18 @@ void main() {
 
     test('toJson should return a valid map', () {
       final model = OpportunityModel.internship(
-        id: '101',
+        id: 101,
         title: 'Software Internship',
         description: 'Internship at Tech Corp',
         skills: ['Dart', 'Flutter'],
         company: CompanyModel(
-          id: '1',
+          id: 1,
           name: 'Tech Corp',
           category: 'Law',
           profilepic: 'https://example.com/image.png',
         ),
         duration: '6 months',
         category: OpportunityCategory.CS,
-      
       );
       final json = model.toJson();
       expect(json['id'], '101');

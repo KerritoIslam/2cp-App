@@ -11,13 +11,14 @@ class Company with _$Company {
   const Company._();
 
   const factory Company({
-    required String id,
+    required int id,
     required String name,
     required String category,
     required String profilepic,
   }) = _Company;
 
-  factory Company.fromJson(Map<String, dynamic> json) => _$CompanyFromJson(json);
+  factory Company.fromJson(Map<String, dynamic> json) =>
+      _$CompanyFromJson(json);
 
   factory Company.fromModel(CompanyModel model) {
     return Company(

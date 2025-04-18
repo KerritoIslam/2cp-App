@@ -1,10 +1,10 @@
-import 'package:app/features/teams/application/pages/new_teams.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class InvitationsPage extends StatefulWidget {
-  const InvitationsPage({super.key});
+  final VoidCallback? onfabpressed;
+  const InvitationsPage({super.key, required this.onfabpressed});
 
   @override
   State<InvitationsPage> createState() => _InvitationsPageState();
@@ -15,12 +15,8 @@ List<Map<String, dynamic>> invitations = [
 ];
 
 class _InvitationsPageState extends State<InvitationsPage> {
-  int index = 0;
   @override
   Widget build(BuildContext context) {
-    if (index == 1) {
-      return NewTeam();
-    }
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {},
@@ -163,15 +159,16 @@ class _InvitationsPageState extends State<InvitationsPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        /* context.go(
-            "/protected/layout/0?refresh=${DateTime.now().millisecondsSinceEpoch}",
-            extra: 1); */
-        setState(() {
-          index = 1;
-        });
-      }),
-     
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          widget.onfabpressed!();
+        },
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
     );
   }
 }

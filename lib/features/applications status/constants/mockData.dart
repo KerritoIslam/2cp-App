@@ -21,7 +21,7 @@ class ApplicationStatics {
       },
       "sumbittedAt": "2025-02-05T00:00:00Z",
       "type": "Full-time",
-      "status": "Submitted"
+      "status": "submitted"
     },
     {
       "id": "124",
@@ -44,7 +44,7 @@ class ApplicationStatics {
       "category": "EC",
       "sumbittedAt": "2025-02-06T00:00:00Z",
       "type": "Part-time",
-      "status": "Accepted"
+      "status": "accepted"
     },
     {
       "id": "125",
@@ -66,7 +66,7 @@ class ApplicationStatics {
       },
       "sumbittedAt": "2025-02-07T00:00:00Z",
       "type": "Contract",
-      "status": "In Review"
+      "status": "inReview"
     }
   ];
 }
