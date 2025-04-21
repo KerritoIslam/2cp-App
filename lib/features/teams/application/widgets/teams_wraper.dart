@@ -28,7 +28,6 @@ class _TeamsPageWraperState extends State<TeamsPageWraper> {
 
   @override
   Widget build(BuildContext context) {
-    print("current index is $currentIndex");
     switch (currentIndex) {
       case 0:
         return InvitationsPage(
@@ -37,7 +36,9 @@ class _TeamsPageWraperState extends State<TeamsPageWraper> {
       case 1:
         return const NewTeam();
       case 2:
-        return const MyTeamsPage();
+        return MyTeamsPage(
+          onfabpressed: () => onPageChanged(1),
+        );
       default:
         return InvitationsPage(onfabpressed: () => onPageChanged(1));
     }

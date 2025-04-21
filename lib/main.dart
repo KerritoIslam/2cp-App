@@ -20,7 +20,7 @@ import 'package:toastification/toastification.dart';
 
 final authBloc = locator.get<AuthBloc>();
 
-class BlocListenable extends ChangeNotifier implements Listenable {
+class BlocListenable extends ChangeNotifier implements Listenable { 
   final AuthBloc bloc;
   BlocListenable(this.bloc) {
     bloc.stream.listen((state) {

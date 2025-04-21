@@ -7,11 +7,11 @@ part 'team_model.g.dart';
 @freezed
 class TeamModel with _$TeamModel {
   const factory TeamModel({
-    required String id,
+    required int id,
     required String name,
-    @Default([]) List<User> members,
-    @Default([]) List<String> skills,
-    required String lastActiveDate,
+   @Default([]) List<User> students,
+   required User leader,
+   required String createdAt
   }) = _TeamModel;
 
   factory TeamModel.fromJson(Map<String, dynamic> json) =>

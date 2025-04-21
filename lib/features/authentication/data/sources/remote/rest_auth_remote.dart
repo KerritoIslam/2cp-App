@@ -203,13 +203,17 @@ class RestAuthRemote {
         clientSecret:
             dotenv.env['LINKEDIN_CLIENT_SECRET'] ?? '<<CLIENT SECRET>>',
         redirectUrl: dotenv.env['LINKEDIN_REDIRECT_URL'] ?? '<<REDIRECT URL>>',
-        scope: ['openid', 'profile', 'email'],
+        scope: [
+          'r_email_address',
+          'r_liteprofile',
+        ],
       );
-
       await SignInWithLinkedIn.signIn(
         context,
         config: linkedInConfig,
         onGetAuthToken: (data) {
+          print("-----------------------------------------1113");
+          print(data);
           linkedInToken = data.toJson()['access_token'];
         },
         onSignInError: (error) {
@@ -217,22 +221,32 @@ class RestAuthRemote {
         },
       );
       try {
+        print(linkedInToken);
+        if (linkedInToken.isEmpty) {
+          return left(Failure('Sign In Canceled'));
+        }
         final response = await _dio.post(
-          '/Auth/LinkedIn',
+          '/Auth/linkdein',
           data: {
-            'token': linkedInToken,
+            'access_token': linkedInToken,
           },
         );
+        print("-----------------------------------------1114");
+        print(response.toString());
         return right(LoginResDtoModel.fromJson(response.data));
       } on DioException catch (e) {
         return left(Failure(e.toString()));
       }
     } on DioException catch (e) {
+      print("-----------------------------------------1115");
+      print(e.toString());
       if (e.response!.statusCode == 401) {
         return left(Failure('LinkedIn Sign In Failed'));
       }
       return left(Failure(e.toString()));
     } catch (e) {
+      print("-----------------------------------------116");
+      print(e.toString());
       return left(Failure(e.toString()));
     }
   }

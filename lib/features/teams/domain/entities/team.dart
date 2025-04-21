@@ -6,13 +6,16 @@ part 'team.g.dart';
 
 @freezed
 class Team with _$Team {
-  const factory Team({
-    required String id,
-    required String name,
-    @Default([]) List<User> members,
-    @Default([]) List<String> skills,
-    required String lastActiveDate,
-  }) = _Team;
+  const factory Team(
+      {required int id,
+      required String name,
+      @Default([]) List<User> students,
+      required User leader,
+      required DateTime createdAt}) = _Team;
+  
+  
+  factory Team.fromJson(Map<String, dynamic> json) {
 
-  factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
+    return _$TeamFromJson(json);
+  }
 }

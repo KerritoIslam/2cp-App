@@ -7,24 +7,21 @@ part of 'team.dart';
 // **************************************************************************
 
 _$TeamImpl _$$TeamImplFromJson(Map<String, dynamic> json) => _$TeamImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
-      members: (json['members'] as List<dynamic>?)
+      students: (json['students'] as List<dynamic>?)
               ?.map((e) => User.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      skills: (json['skills'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      lastActiveDate: json['lastActiveDate'] as String,
+      leader: User.fromJson(json['leader'] as Map<String, dynamic>),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$TeamImplToJson(_$TeamImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'members': instance.members,
-      'skills': instance.skills,
-      'lastActiveDate': instance.lastActiveDate,
+      'students': instance.students,
+      'leader': instance.leader,
+      'createdAt': instance.createdAt.toIso8601String(),
     };

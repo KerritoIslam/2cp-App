@@ -1,3 +1,8 @@
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
+import 'package:app/features/teams/application/widgets/invitation_card.dart';
+import 'package:app/features/teams/domain/entities/invitation.dart';
+import 'package:app/features/teams/domain/entities/team.dart';
+import 'package:app/features/teams/domain/enum/invitation_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,94 +72,41 @@ class _InvitationsPageState extends State<InvitationsPage> {
               const SizedBox(
                 height: 20,
               ),
-              ...invitations.map((invitation) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: (invitation["pic"] ?? "").isEmpty
-                        ? AssetImage("assets/images/avatar.png")
-                        : NetworkImage(invitation["pic"]) as ImageProvider,
-                  ),
-                  title: RichText(
-                      text: TextSpan(
-                    text: '${invitation["name"]}',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                    children: [
-                      TextSpan(
-                        text: " invited you to join\nhis team",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).primaryColor,
+              ...invitations.map((invitation) => InvitationCard(
+                    invitation: Invitation(
+                      id: 0,
+                      createdate: DateTime.now(),
+                      team: Team(
+                        id: 0,
+                        name: 'Team Name',
+                        createdAt:DateTime.now(),
+                        students: [],
+                        leader: User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: ''
                             ),
-                      ),
-                    ],
-                  )),
-                  subtitle: Text(invitation["date"],
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w200,
-                            color: Theme.of(context).secondaryHeaderColor,
-                          )),
-                  trailing: SizedBox(
-                    width: 144.w,
-                    height: 40.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 60.w,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).dividerColor,
-                            ),
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "join",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor,
-                                  ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Container(
-                          width: 74.w,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).dividerColor,
-                            ),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Delete",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ],
+                        )
+                      ,
+                      inviter: User(
+                          id: 0,
+                          name: 'Sender Name',
+                          email: 'sender@example.com',
+                          date_joined: '15/10/2023',
+                          gendre: 'm'),
+                      receiver: User(
+                          id: 1,
+                          name: invitation['name'],
+                          email: 'receiver@example.com',
+                          date_joined: '15/10/2023',
+                          gendre: 'm'),
+                      
+                      status: InvitationStatus.pending,
                     ),
-                  )))
+                  )),
             ],
           ),
         ),
@@ -163,10 +115,13 @@ class _InvitationsPageState extends State<InvitationsPage> {
         onPressed: () {
           widget.onfabpressed!();
         },
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        backgroundColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60.r),
+        ),
         child: Icon(
           Icons.add,
-          color: Theme.of(context).primaryColor,
+          color: Colors.white,
         ),
       ),
     );

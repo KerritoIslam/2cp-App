@@ -20,11 +20,11 @@ Team _$TeamFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Team {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<User> get members => throw _privateConstructorUsedError;
-  List<String> get skills => throw _privateConstructorUsedError;
-  String get lastActiveDate => throw _privateConstructorUsedError;
+  List<User> get students => throw _privateConstructorUsedError;
+  User get leader => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Team to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,11 +41,13 @@ abstract class $TeamCopyWith<$Res> {
       _$TeamCopyWithImpl<$Res, Team>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String name,
-      List<User> members,
-      List<String> skills,
-      String lastActiveDate});
+      List<User> students,
+      User leader,
+      DateTime createdAt});
+
+  $UserCopyWith<$Res> get leader;
 }
 
 /// @nodoc
@@ -65,32 +67,42 @@ class _$TeamCopyWithImpl<$Res, $Val extends Team>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? members = null,
-    Object? skills = null,
-    Object? lastActiveDate = null,
+    Object? students = null,
+    Object? leader = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      members: null == members
-          ? _value.members
-          : members // ignore: cast_nullable_to_non_nullable
+      students: null == students
+          ? _value.students
+          : students // ignore: cast_nullable_to_non_nullable
               as List<User>,
-      skills: null == skills
-          ? _value.skills
-          : skills // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      lastActiveDate: null == lastActiveDate
-          ? _value.lastActiveDate
-          : lastActiveDate // ignore: cast_nullable_to_non_nullable
-              as String,
+      leader: null == leader
+          ? _value.leader
+          : leader // ignore: cast_nullable_to_non_nullable
+              as User,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
+  }
+
+  /// Create a copy of Team
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get leader {
+    return $UserCopyWith<$Res>(_value.leader, (value) {
+      return _then(_value.copyWith(leader: value) as $Val);
+    });
   }
 }
 
@@ -102,11 +114,14 @@ abstract class _$$TeamImplCopyWith<$Res> implements $TeamCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String name,
-      List<User> members,
-      List<String> skills,
-      String lastActiveDate});
+      List<User> students,
+      User leader,
+      DateTime createdAt});
+
+  @override
+  $UserCopyWith<$Res> get leader;
 }
 
 /// @nodoc
@@ -123,31 +138,31 @@ class __$$TeamImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? members = null,
-    Object? skills = null,
-    Object? lastActiveDate = null,
+    Object? students = null,
+    Object? leader = null,
+    Object? createdAt = null,
   }) {
     return _then(_$TeamImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      members: null == members
-          ? _value._members
-          : members // ignore: cast_nullable_to_non_nullable
+      students: null == students
+          ? _value._students
+          : students // ignore: cast_nullable_to_non_nullable
               as List<User>,
-      skills: null == skills
-          ? _value._skills
-          : skills // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      lastActiveDate: null == lastActiveDate
-          ? _value.lastActiveDate
-          : lastActiveDate // ignore: cast_nullable_to_non_nullable
-              as String,
+      leader: null == leader
+          ? _value.leader
+          : leader // ignore: cast_nullable_to_non_nullable
+              as User,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -158,43 +173,35 @@ class _$TeamImpl implements _Team {
   const _$TeamImpl(
       {required this.id,
       required this.name,
-      final List<User> members = const [],
-      final List<String> skills = const [],
-      required this.lastActiveDate})
-      : _members = members,
-        _skills = skills;
+      final List<User> students = const [],
+      required this.leader,
+      required this.createdAt})
+      : _students = students;
 
   factory _$TeamImpl.fromJson(Map<String, dynamic> json) =>
       _$$TeamImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String name;
-  final List<User> _members;
+  final List<User> _students;
   @override
   @JsonKey()
-  List<User> get members {
-    if (_members is EqualUnmodifiableListView) return _members;
+  List<User> get students {
+    if (_students is EqualUnmodifiableListView) return _students;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_members);
-  }
-
-  final List<String> _skills;
-  @override
-  @JsonKey()
-  List<String> get skills {
-    if (_skills is EqualUnmodifiableListView) return _skills;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_skills);
+    return EqualUnmodifiableListView(_students);
   }
 
   @override
-  final String lastActiveDate;
+  final User leader;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Team(id: $id, name: $name, members: $members, skills: $skills, lastActiveDate: $lastActiveDate)';
+    return 'Team(id: $id, name: $name, students: $students, leader: $leader, createdAt: $createdAt)';
   }
 
   @override
@@ -204,21 +211,16 @@ class _$TeamImpl implements _Team {
             other is _$TeamImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other._members, _members) &&
-            const DeepCollectionEquality().equals(other._skills, _skills) &&
-            (identical(other.lastActiveDate, lastActiveDate) ||
-                other.lastActiveDate == lastActiveDate));
+            const DeepCollectionEquality().equals(other._students, _students) &&
+            (identical(other.leader, leader) || other.leader == leader) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      const DeepCollectionEquality().hash(_members),
-      const DeepCollectionEquality().hash(_skills),
-      lastActiveDate);
+  int get hashCode => Object.hash(runtimeType, id, name,
+      const DeepCollectionEquality().hash(_students), leader, createdAt);
 
   /// Create a copy of Team
   /// with the given fields replaced by the non-null parameter values.
@@ -238,24 +240,24 @@ class _$TeamImpl implements _Team {
 
 abstract class _Team implements Team {
   const factory _Team(
-      {required final String id,
+      {required final int id,
       required final String name,
-      final List<User> members,
-      final List<String> skills,
-      required final String lastActiveDate}) = _$TeamImpl;
+      final List<User> students,
+      required final User leader,
+      required final DateTime createdAt}) = _$TeamImpl;
 
   factory _Team.fromJson(Map<String, dynamic> json) = _$TeamImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get name;
   @override
-  List<User> get members;
+  List<User> get students;
   @override
-  List<String> get skills;
+  User get leader;
   @override
-  String get lastActiveDate;
+  DateTime get createdAt;
 
   /// Create a copy of Team
   /// with the given fields replaced by the non-null parameter values.
