@@ -179,6 +179,7 @@ GoRouter router = GoRouter(
   redirect: (context, state) async {
     print(state.fullPath);
     if (state.fullPath == "/") {
+      
       final localstorage = locator.get<LocalStorage>();
       final didViewWeclomePage = await localstorage.DidViewWelcomePage();
       if (didViewWeclomePage) {
@@ -190,7 +191,7 @@ GoRouter router = GoRouter(
       return '/protected/layout/0';
     } else if (state.fullPath!.startsWith('/protected') &&
         authBloc.state is Unauthenticated) {
-      print("Here");
+      print("user is not authenticated");
       return '/auth/welcome';
     }
     return null;

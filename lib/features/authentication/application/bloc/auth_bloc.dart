@@ -130,12 +130,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         tokens.fold((l) {
           print(l.message);
         }, (r) {
-          print('Tokens are : ${r.accessToken}, ${r.refreshToken}');
+          print(
+              'logout triggered Tokens are : ${r.accessToken}, ${r.refreshToken}');
         });
       } catch (e) {
         print(e.toString());
       }
       emit(Unauthenticated());
+      print(state.toString());
     });
     on<UserLoaded>((event, emit) async {
       emit(Authenticated(event.user));

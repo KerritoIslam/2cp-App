@@ -25,6 +25,7 @@ class DioServices {
           return token;
         }, (token) => token.accessToken);
         if (token == "") {
+          print("logout triggered 000");
           locator.get<AuthBloc>().add(AuthLogoutRequested());
           return;
         }
@@ -46,6 +47,7 @@ class DioServices {
           final res = await dataSource.getTokens();
           final token = res.fold((l) => "", (r) => r.refreshToken);
           if (token.isEmpty) {
+            print("logout triggered 00");
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
@@ -56,6 +58,7 @@ class DioServices {
           DateTime exp = DateTime.fromMillisecondsSinceEpoch(
               decodedrefrechtoken['exp'] * 1000);
           if (DateTime.now().isAfter(exp)) {
+            print("logout triggered 01");
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
@@ -76,7 +79,7 @@ class DioServices {
             return handler.resolve(res);
           }
         }
-        authBloc.add(AuthLogoutRequested());
+
         return handler.next(error);
       },
     ));
