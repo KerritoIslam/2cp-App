@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/applications%20status/constants/status.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
@@ -158,7 +160,9 @@ class _opportunityCardState extends State<opportunityCard> {
                           builder: (ctx) => SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.85,
                               child: FullScreenDialog(
+                        
                         application: widget.opportunity,
+                        
                                 jobTitle: widget.opportunity.title,
                               )));
                     },
@@ -187,6 +191,7 @@ class FullScreenDialog extends StatefulWidget {
 
 class _FullScreenDialogState extends State<FullScreenDialog> {
   late TextEditingController _proposalController;
+  late File selectedFile;
   @override
   void initState() {
     super.initState();
@@ -256,14 +261,23 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               SizedBox(
                 height: 20.h,
               ),
-              AttachmentField(),
+              AttachmentField(
+                onFileSelected: (file){
+                  print("file selected");
+                  print(file.path);
+                  setState(() {
+                    selectedFile = file;
+                  });
+                },
+              ),
               SizedBox(height: 24.h),
               ActionButton(
                 onPressed: () {
+
                   context.pop();
                   Application application=Application(id: 0,status: ApplicationStatus.submitted, proposal:_proposalController.text,  opportunity: widget.application);
                   context.read<ApplicationBloc>().add(
-                    submitApplicationEvent(application)
+                    submitApplicationEvent(application,selectedFile??null)
                   );
                                   },
                 text: "Apply Now",

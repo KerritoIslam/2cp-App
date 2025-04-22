@@ -17,7 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return await tokens.fold((l) {
       return left(Failure('Error getting tokens :${l.message}'));
     }, (r) async {
-      
       final user = await authRepository.getUser();
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
@@ -32,14 +31,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       required this.localSecureStorage,
       required this.localStorage})
       : super(AuthLoading()) {
-    _init().then((value) {
-      value.fold((l) {
-        add(AuthLogoutRequested());
-      }, (user) {
-        add(UserLoaded(user));
+    print(state.toString());
+    on<UserDataLoaded>((event, emit) async {
+      _init().then((value) {
+        value.fold((l) {
+          add(AuthLogoutRequested());
+        }, (user) {
+          add(UserLoaded(user));
+        });
       });
     });
-
     on<AuthLoginRequested>((event, emit) async {
       final user = await authRepository.login(event.email, event.password);
       user.fold((l) {
@@ -123,12 +124,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLogoutRequested>((event, emit) async {
       final dataSource = locator.get<LocalSecureStorage>();
       try {
-        await dataSource.deleteToken('access');
-        await dataSource.deleteToken('refresh');
+        await dataSource.deleteToken('accessToken');
+        await dataSource.deleteToken('refreshToken');
+        final tokens = await dataSource.getTokens();
+        tokens.fold((l) {
+          print(l.message);
+        }, (r) {
+          print(
+              'logout triggered Tokens are : ${r.accessToken}, ${r.refreshToken}');
+        });
       } catch (e) {
         print(e.toString());
       }
       emit(Unauthenticated());
+      print(state.toString());
     });
     on<UserLoaded>((event, emit) async {
       emit(Authenticated(event.user));

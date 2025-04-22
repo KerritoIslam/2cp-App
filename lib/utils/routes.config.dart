@@ -8,6 +8,7 @@ import 'package:app/features/authentication/application/pages/signup_page.dart';
 import 'package:app/features/authentication/application/pages/signuppassword_page.dart';
 import 'package:app/features/authentication/application/pages/welcome_page.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/chat/application/pages/conversation_page.dart';
 import 'package:app/features/notifications/application/pages/notifications_page.dart';
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
@@ -25,7 +26,6 @@ import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:app/features/chat/application/pages/conversation_page.dart';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -79,10 +79,16 @@ GoRouter router = GoRouter(
       routes: [
         GoRoute(
             path: 'layout/:page',
-            pageBuilder: (context, state) => MaterialPage(
-                    child: Layout(
-                  initPage: int.parse(state.pathParameters['page'] ?? "0"),
-                )),
+            pageBuilder: (context, state) {
+             
+              
+              return MaterialPage(
+                  
+                  child: Layout(
+                    initPage: int.parse(state.pathParameters['page'] ?? "0"),
+                    
+                  ));
+            },
             routes: [
               GoRoute(
                   path: 'notifications',
@@ -90,7 +96,6 @@ GoRouter router = GoRouter(
                       MaterialPage(child: NotificationsPage())),
             ]),
         GoRoute(
-
           path: 'company_profile/:id',
           pageBuilder: (context, state) {
             final int id = int.parse(state.pathParameters['id']!);
@@ -99,14 +104,14 @@ GoRouter router = GoRouter(
               id: id,
             ));
           },
-
+        ),
+        GoRoute(
           path: 'chat/conversation/:companyId',
           pageBuilder: (context, state) => MaterialPage(
             child: ConversationPage(
               companyId: state.pathParameters['companyId']!,
             ),
           ),
-
         ),
         GoRoute(
             path: 'profile',
@@ -162,11 +167,11 @@ GoRouter router = GoRouter(
               GoRoute(
                   path: 'settings',
                   pageBuilder: (context, state) =>
-                      MaterialPage(child: SettingsPage()))
-            ,
-            GoRoute(path: 'applications',
-                pageBuilder: (context, state) =>
-                    MaterialPage(child: Trackapplicationspage())),
+                      MaterialPage(child: SettingsPage())),
+              GoRoute(
+                  path: 'applications',
+                  pageBuilder: (context, state) =>
+                      MaterialPage(child: Trackapplicationspage())),
             ]),
       ],
     ),
@@ -174,6 +179,7 @@ GoRouter router = GoRouter(
   redirect: (context, state) async {
     print(state.fullPath);
     if (state.fullPath == "/") {
+      
       final localstorage = locator.get<LocalStorage>();
       final didViewWeclomePage = await localstorage.DidViewWelcomePage();
       if (didViewWeclomePage) {
@@ -185,7 +191,7 @@ GoRouter router = GoRouter(
       return '/protected/layout/0';
     } else if (state.fullPath!.startsWith('/protected') &&
         authBloc.state is Unauthenticated) {
-      print("Here");
+      print("user is not authenticated");
       return '/auth/welcome';
     }
     return null;

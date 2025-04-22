@@ -13,7 +13,9 @@ class AuthRepository {
   final LocalSecureStorage localSecureStorage;
   final LocalStorage localStorage;
   AuthRepository(
-      {required this.localSecureStorage, required this.restAuthRemote , required this.localStorage});
+      {required this.localSecureStorage,
+      required this.restAuthRemote,
+      required this.localStorage});
   //NOTE: this refactoring was made to avoid nested Try catch blocs
   Future<Either<Failure, User>> login(String email, String password) async {
     try {
@@ -77,6 +79,7 @@ class AuthRepository {
   Future<Either<Failure, User>> getUser() async {
     try {
       final response = await restAuthRemote.getUserProfile();
+
       return response.fold((l) => left(l), (r) => right(userModelToEntity(r)));
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -185,7 +188,8 @@ class AuthRepository {
       final response = await localSecureStorage.getTokens();
       return response.fold((failure) => left(failure), (res) async {
         if (res.accessToken.isNotEmpty) {
-          if (JwtDecoder.isExpired(res.refreshToken)) {
+          if (res.refreshToken.isNotEmpty &&
+              JwtDecoder.isExpired(res.refreshToken)) {
             return left(Failure('Token is expired'));
           }
           return right(res);
@@ -197,7 +201,8 @@ class AuthRepository {
       return left(Failure(e.toString()));
     }
   }
-  Future<Either<Failure,User>> updateUser(User user) async {
+
+  Future<Either<Failure, User>> updateUser(User user) async {
     try {
       final response = await restAuthRemote.updateUser(userEntityToModel(user));
       return response.fold((failure) => left(failure), (res) async {

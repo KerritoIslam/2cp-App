@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/applications%20status/data/remote/remote_data_source.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
@@ -8,14 +10,26 @@ class Applicationsrepository {
 
   Applicationsrepository(this.remoteDataSource);
   Future<Either<Failure,List<Application>>>getApplications()async{
-    
-    final res=await remoteDataSource.getCurrentApplications();
-    return res.fold((l)=>Left(l), (r)=>Right(r.map((e)=>Application.fromModel(e)).toList()));
+try  {     
 
-  }
-  Future<Either<Failure,Unit>>submitApplication(Application application)async{
+    final res=await remoteDataSource.getCurrentApplications();
+    return res.fold((l)=>Left(l), (r){
+final map= r.map((e) => e.toJson()).toList();
+        print('repo');
+        print(map);
+        return Right( 
+     r.map((e){
+      return Application.fromModel(e);}).toList()
+    );});
+
+    
+  }catch(e){
+
+    return Left(Failure('Unknown Error'));
+    }  }
+  Future<Either<Failure,Unit>>submitApplication(Application application,File? attachement)async{
     try {
-         return await remoteDataSource.submitApplication(application.toModel()) ;
+         return await remoteDataSource.submitApplication(application.toModel(),attachement) ;
         } catch (e) {
           
       return Left(Failure('Unknown Error'));

@@ -29,14 +29,14 @@ void main() {
       'emits [OpportuntitiesLoadInProgress, OpportuntitiesLoadSuccess] when LoadOpportunitiesEvent is added',
       build: () {
         final company = Company(
-          id: '1',
+          id: 1,
           name: 'Company A',
           category: 'Tech',
           profilepic: 'profilepic.jpg',
         );
         final opportunities = [
           Opportunity.internship(
-            id: '123',
+            id: 123,
             title: 'Internship at Company A',
             description: 'An amazing internship opportunity',
             skills: ['Flutter', 'Dart'],
@@ -59,17 +59,17 @@ void main() {
         OpportuntitiesLoadInProgress(opportunities: []),
         OpportuntitiesLoadSuccess([
           Opportunity.internship(
-            id: '123',
+            id: 123,
             title: 'Internship at Company A',
             description: 'An amazing internship opportunity',
             skills: ['Flutter', 'Dart'],
             company: Company(
-              id: '1',
+              id: 1,
               name: 'Company A',
               category: 'Tech',
               profilepic: 'profilepic.jpg',
             ),
-            status: OpportunityStatus.opened,
+            status: OpportunityStatus.open,
             duration: '6 months',
             category: 'Software',
             applicantsAvatars: [],
@@ -107,12 +107,12 @@ void main() {
         build: () {
           when(() => mockRepository.saveOpportunity(any()))
               .thenAnswer((_) async => Right(Opportunity.internship(
-                    id: '5',
+                    id: 5,
                     title: 'Internship at Company A',
                     description: 'An amazing internship opportunity',
                     skills: ['Flutter', 'Dart'],
                     company: Company(
-                      id: '1',
+                      id: 1,
                       name: 'Company A',
                       category: 'Tech',
                       profilepic: 'profilepic.jpg',
@@ -125,19 +125,19 @@ void main() {
           return OpportunitiesSavedBloc(mockRepository);
         },
         act: (bloc) {
-          bloc.add(SaveOpportunityEvent('5'));
-          return bloc.add(SaveOpportunityEvent('5'));
+          bloc.add(SaveOpportunityEvent(5));
+          return bloc.add(SaveOpportunityEvent(5));
         },
         expect: () => [
               OpportunitySavedSucces(
                 [
                   Opportunity.internship(
-                    id: '5',
+                    id: 5,
                     title: 'Internship at Company A',
                     description: 'An amazing internship opportunity',
                     skills: ['Flutter', 'Dart'],
                     company: Company(
-                      id: '1',
+                      id: 1,
                       name: 'Company A',
                       category: 'Tech',
                       profilepic: 'profilepic.jpg',
@@ -158,10 +158,10 @@ void main() {
               (_) async => Left(Failure('Failed to save opportunity')));
           return OpportunitiesSavedBloc(mockRepository);
         },
-        act: (bloc) => bloc.add(SaveOpportunityEvent('5')),
+        act: (bloc) => bloc.add(SaveOpportunityEvent(5)),
         expect: () => [OpportunitySavedFailure('Failed to save opportunity')]);
     final company = Company(
-      id: '1',
+      id: 1,
       name: 'Company A',
       category: 'Tech',
       profilepic: 'profilepic.jpg',
@@ -169,7 +169,7 @@ void main() {
 
     final opportunities = [
       Opportunity.internship(
-        id: '123',
+        id: 123,
         title: 'Internship at Company A',
         description: 'An amazing internship opportunity',
         skills: ['Flutter', 'Dart'],
@@ -180,7 +180,7 @@ void main() {
         totalApplications: 10,
       ),
       Opportunity.problem(
-        id: '123',
+        id: 123,
         title: 'Storage Management Company A',
         description: 'We need a way to manage our storage',
         skills: ['Flutter', 'Dart'],

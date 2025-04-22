@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 
+import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
@@ -16,8 +17,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/theme.dart';
 import 'package:toastification/toastification.dart';
+
 final authBloc = locator.get<AuthBloc>();
-class BlocListenable extends ChangeNotifier implements Listenable {
+
+class BlocListenable extends ChangeNotifier implements Listenable { 
   final AuthBloc bloc;
   BlocListenable(this.bloc) {
     bloc.stream.listen((state) {
@@ -25,12 +28,12 @@ class BlocListenable extends ChangeNotifier implements Listenable {
     });
   }
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Load the .env file asynchronously
   await dotenv.load();
-
 
   // Initialize Firebase asynchronously
   await _initializeFirebase();
@@ -42,7 +45,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=>locator.get<ApplicationBloc>()),
+        BlocProvider(create: (_) => locator.get<ApplicationBloc>()),
         BlocProvider(create: (_) => ThemeProviderBloc()),
         BlocProvider(create: (_) => authBloc),
         BlocProvider(create: (_) => locator.get<notificationsBloc>()),
@@ -57,7 +60,8 @@ Future<void> _initializeFirebase() async {
     options: FirebaseOptions(
       apiKey: dotenv.env['FIREBASE_API_KEY_${_getPlatform()}']!,
       appId: dotenv.env['FIREBASE_APP_ID_${_getPlatform()}']!,
-      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID_${_getPlatform()}']!,
+      messagingSenderId:
+          dotenv.env['FIREBASE_MESSAGING_SENDER_ID_${_getPlatform()}']!,
       projectId: dotenv.env['FIREBASE_PROJECT_ID_${_getPlatform()}']!,
       storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET_${_getPlatform()}']!,
       authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN_${_getPlatform()}'] ?? '',
@@ -90,6 +94,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(440, 956),
       builder: (_, child) {
+        authBloc.add(UserDataLoaded());
         return BlocBuilder<ThemeProviderBloc, ThemeProviderState>(
           builder: (context, state) {
             return FTheme(
@@ -105,12 +110,10 @@ class MyApp extends StatelessWidget {
                     return child!;
                   },
                   routerConfig: router,
-                  
                   debugShowCheckedModeBanner: false,
                   title: 'Step in',
-                  themeMode: (state is LightTheme)
-                      ? ThemeMode.light
-                      : ThemeMode.dark, 
+                  themeMode:
+                      (state is LightTheme) ? ThemeMode.light : ThemeMode.dark,
                   theme: theme.lightTheme,
                   darkTheme: theme.darkTheme,
                 ),

@@ -8,7 +8,7 @@ import 'package:app/features/notifications/application/bloc/notifications_bloc.d
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/pages/opporutnities_page.dart';
 import 'package:app/features/opportunities/application/widgets/app_name.dart';
-import 'package:app/features/teams/application/pages/invitation_page.dart';
+import 'package:app/features/teams/application/widgets/teams_wraper.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,22 +28,26 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> {
   final GetIt locator = GetIt.instance;
-  static const List<Widget> pages = [
-    OpporutnitiesPage(),
-    SearchPage(),
-    InvitationsPage(),
-    ChatsPage(),
-  ];
+  static late List<Widget> pages;
   late int index;
   late bool isDark;
   late int numberOfUndreadNotif;
+  late int teamIndex;
   @override
   void initState() {
     super.initState();
+    teamIndex = 0;
+    pages = [
+      OpporutnitiesPage(),
+      SearchPage(),
+      TeamsPageWraper(initialindex: teamIndex),
+      ChatsPage(),
+    ];
+
+    index = widget.initPage;
     context.read<notificationsBloc>().add(notificationsFetched());
     isDark = BlocProvider.of<ThemeProviderBloc>(context).state is DarkTheme;
 
-    index = widget.initPage;
     final notificationState = context.read<notificationsBloc>().state;
     if (notificationState is notificationsLoaded) {
       numberOfUndreadNotif = notificationState.notifications
@@ -60,6 +64,10 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
+    pages[2] = TeamsPageWraper(
+      key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+      initialindex: teamIndex,
+    );
     return FSheets(
       child: BlocListener<ThemeProviderBloc, ThemeProviderState>(
         listener: (context, state) {
@@ -82,8 +90,16 @@ class _LayoutState extends State<Layout> {
               Builder(
                 builder: (context) => IconButton(
                   onPressed: () {
-                    context.push(
-                        '/protected/layout/0/notifications'); //showFPersistentSheet(
+                    if (index == 2) {
+                      setState(() {
+                        print('teamIndex: $teamIndex');
+                        teamIndex = 0;
+                      });
+                    } else {
+                      context
+                          .pushReplacement('/protected/layout/0/opportunities');
+                    }
+                    //showFPersistentSheet(
                     //  context: context,
                     //  side: FLayout.rtl,
                     //  builder: (ctx, state) {
@@ -100,13 +116,22 @@ class _LayoutState extends State<Layout> {
               ),
               IconButton(
                 onPressed: () {
-                  context.pushReplacement('/protected/profile');
+                  if (index == 2) {
+                    setState(() {
+                      teamIndex = 2;
+                    });
+                  } else {
+                    context.pushReplacement('/protected/profile');
+                  }
                 },
-                icon: SvgPicture.asset(
-                  !isDark
-                      ? 'assets/icons/profile.svg'
-                      : 'assets/icons/profile_dark.svg',
-                ),
+                icon: index == 2
+                    ? SvgPicture.asset('assets/icons/teams_app_bar.svg',
+                        color: Theme.of(context).secondaryHeaderColor)
+                    : SvgPicture.asset(
+                        !isDark
+                            ? 'assets/icons/profile.svg'
+                            : 'assets/icons/profile_dark.svg',
+                      ),
               ),
             ],
             leadingWidth: 250.w,

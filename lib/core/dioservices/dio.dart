@@ -8,7 +8,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-
       baseUrl: 'http://10.0.2.2:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
@@ -26,12 +25,12 @@ class DioServices {
           return token;
         }, (token) => token.accessToken);
         if (token == "") {
+          print("logout triggered 000");
           locator.get<AuthBloc>().add(AuthLogoutRequested());
           return;
         }
         //TODO check if bearer of Bearer
 
-        print(token);
         options.headers['Authorization'] = "Bearer $token";
         return handler.next(options);
       },
@@ -48,6 +47,7 @@ class DioServices {
           final res = await dataSource.getTokens();
           final token = res.fold((l) => "", (r) => r.refreshToken);
           if (token.isEmpty) {
+            print("logout triggered 00");
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
@@ -58,6 +58,7 @@ class DioServices {
           DateTime exp = DateTime.fromMillisecondsSinceEpoch(
               decodedrefrechtoken['exp'] * 1000);
           if (DateTime.now().isAfter(exp)) {
+            print("logout triggered 01");
             authBloc.add(AuthLogoutRequested());
             return handler.next(error);
           }
@@ -72,13 +73,13 @@ class DioServices {
             await dataSource.setTokens(
                 response.data['access'], response.data['refresh']);
             final options = error.requestOptions;
-            print(response.data['access']);
+
             options.headers['Authorization'] = response.data['access'];
             final res = await dio.fetch(options);
             return handler.resolve(res);
           }
         }
-        authBloc.add(AuthLogoutRequested());
+
         return handler.next(error);
       },
     ));

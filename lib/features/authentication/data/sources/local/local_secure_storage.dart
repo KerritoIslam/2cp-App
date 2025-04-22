@@ -44,7 +44,7 @@ class LocalSecureStorage {
 
   Future<void> deleteToken(String key) async {
     try {
-      await storage.delete(key: 'token');
+      await storage.delete(key: key);
     } catch (e) {
       throw Failure('Error deleting token: $e');
     }

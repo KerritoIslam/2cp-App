@@ -16,14 +16,10 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-
-
-
-
 class _ProfilePageState extends State<ProfilePage> {
-bool _editing = false;
-bool _expanded = false;
-final ExpansionTileController _controller = ExpansionTileController();
+  bool _editing = false;
+  bool _expanded = false;
+  final ExpansionTileController _controller = ExpansionTileController();
   @override
   Widget build(BuildContext context) {
     User user = (context.read<AuthBloc>().state as Authenticated).user;
@@ -83,9 +79,12 @@ final ExpansionTileController _controller = ExpansionTileController();
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          ElevatedButton(onPressed:(){
-                            context.push('/protected/options');
-                          },child: Text('Set'),),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.push('/protected/options');
+                            },
+                            child: Text('Set'),
+                          ),
                           Text(
                             user.name,
                             style: Theme.of(context).textTheme.displayMedium,
@@ -318,11 +317,14 @@ final ExpansionTileController _controller = ExpansionTileController();
                                 isThreeLine: true,
                                 trailing: Row(
                                   children: [
-                                IconButton(onPressed: (){
-                                      context.go('/protected/options',
-                                    );
-                                    }, icon: Icon(Icons.settings)) 
-                                ,   IconButton(
+                                    IconButton(
+                                        onPressed: () {
+                                          context.go(
+                                            '/protected/options',
+                                          );
+                                        },
+                                        icon: Icon(Icons.settings)),
+                                    IconButton(
                                       icon: SvgPicture.asset(
                                         'assets/icons/edit.svg',
                                       ),

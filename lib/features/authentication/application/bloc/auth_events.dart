@@ -44,5 +44,5 @@ class AuthUserUpdated extends AuthEvent {
   final User user;
   AuthUserUpdated(this.user);
 }
-
+class UserDataLoaded extends AuthEvent {}
 class AuthLogoutRequested extends AuthEvent {}

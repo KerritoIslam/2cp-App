@@ -3,6 +3,7 @@ import 'package:app/features/applications%20status/domain/entities/application.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
+import 'dart:io';
 
 part 'applications_event.dart';
 part 'applications_state.dart';
@@ -21,7 +22,8 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
           applications.addAll(r);
           emit(ApplicationsLoaded(applications));
         });
-      } catch (e) {
+      } catch (e,stk) {
+        print(stk);
         emit(ApplicationsError(e.toString()));
       }
     });
@@ -30,11 +32,13 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
       try {
         final res = await repository.getApplications();
         return res.fold((l) => emit(ApplicationsError(l.message)), (r) {
+          print('Here');
           applications.addAll(r);
           emit(ApplicationsLoaded(applications));
         });
-      } catch (e) {
-        emit(ApplicationsError(e.toString()));
+      } catch (e,stk) {
+        print(stk);
+        emit(ApplicationsError(stk.toString()));
       }
     });
     on<deleteApplicationEvent>((event, emit) async {
@@ -58,12 +62,12 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
         applications.removeWhere((element) => element.id == event.id);
         return emit(ApplicationsLoaded([...applications]));
       });
-      emit(ApplicationsLoaded([...applications]));
     });
     on<submitApplicationEvent>((event, emit) async {
       emit(ApplictationsLoading());
       try {
-        final res = await repository.submitApplication(event.application);
+        print('Submitting');
+        final res = await repository.submitApplication(event.application,event.file);
         return res.fold((l) {
           toastification.show(
             title: Text(l.message),
