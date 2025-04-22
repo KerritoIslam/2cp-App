@@ -2,7 +2,6 @@ import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'team.freezed.dart';
-part 'team.g.dart';
 
 @freezed
 class Team with _$Team {
@@ -14,8 +13,4 @@ class Team with _$Team {
       required DateTime createdAt}) = _Team;
   
   
-  factory Team.fromJson(Map<String, dynamic> json) {
-
-    return _$TeamFromJson(json);
-  }
 }

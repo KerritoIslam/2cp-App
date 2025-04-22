@@ -25,7 +25,7 @@ class TeamsRestRemote {
     }
   }
 
-  Future<void> createTeam(Team team) async {
+  Future<void> createTeam(TeamModel team) async {
     try {
       await dio.post('/teams', data: team.toJson());
     } catch (e) {

@@ -16,23 +16,23 @@ class ApplicationModel with _$ApplicationModel{
    @Default(ApplicationStatus.submitted) ApplicationStatus status,
   }) = _ApplicationModel;
   factory ApplicationModel.fromJson(Map<String, dynamic> json) {
-    try {
-     json['sumbittedAt']=DateTime.now().toIso8601String();
-    json['type']=json['Type']?? 'application';
-     return  _$ApplicationModelFromJson(json);
-
-        } catch (e) {
-        print(e);
-       throw Exception('Failed to parse ApplicationModel: $e');
-      
-        }
-      }
-  Map<String,dynamic> toCustomJson() {
+    print(json);
+  return ApplicationModel(
+    
+    id: json['id'] as int,
+    proposal: json['proposal'] as String,
+    post: OpportunityModel.fromJson(json['post'] as Map<String, dynamic>),
+    sumbittedAt: json['sumbittedAt'] != null
+        ? DateTime.parse(json['sumbittedAt'])
+        : DateTime.now(), // Dummy value
+    type: json['type'] ?? 'default_type', // Dummy string value
+    status: $enumDecodeNullable(_$ApplicationStatusEnumMap, json['status']) ??
+        ApplicationStatus.submitted,
+  );
+}  Map<String,dynamic> toCustomJson() {
     final json=toJson();
+    json['sumbittedAt']=sumbittedAt.toIso8601String();
     json['post']=post.toJson();
-    //FallBack to current time if sumbittedAt is null
-    json['sumbittedAt']=DateTime.now().toIso8601String();
-    json['type']=json['Type']?? 'application';
     return json;
   }  
 }

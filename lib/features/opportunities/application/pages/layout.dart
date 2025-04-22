@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:app/features/Search/application/pages/search_page.dart';
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/applications%20status/application/pages/TrackApplicationsPage.dart';
 import 'package:app/features/chat/application/pages/chats_page.dart';
@@ -38,7 +39,7 @@ class _LayoutState extends State<Layout> {
     teamIndex = 0;
     pages = [
       OpporutnitiesPage(),
-      Placeholder(),
+      SearchPage(),
       TeamsPageWraper(initialindex: teamIndex),
       ChatsPage(),
     ];

@@ -1,5 +1,5 @@
-import 'package:app/features/teams/domain/Teams_repository.dart';
 import 'package:app/features/teams/domain/entities/team.dart';
+import 'package:app/features/teams/domain/teams_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 

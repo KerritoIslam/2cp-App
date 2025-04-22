@@ -25,6 +25,7 @@ class RestAuthRemote {
       );
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
+      print(e.toString());
       if (e.response == null) {
         return left(Failure('Unkonw error Please Try Again Later!'));
       }

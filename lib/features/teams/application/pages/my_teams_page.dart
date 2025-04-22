@@ -24,14 +24,72 @@ class _MyTeamsPageState extends State<MyTeamsPage> {
                         id: 0,
                         name: 'Team Name',
                         createdAt:DateTime.now(),
-                        students: [],
+                        students: [ User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ), User(
+                            id: 0,
+                            name: 'Sender Name',
+                            email: '',
+                            date_joined: '15/10/2023',
+                            gendre: 'm',
+                            profilepic: 'https://github.com/Zaki-goumri.png'
+                            ),
+
+
+
+
+
+
+
+
+              ],
                         leader: User(
                             id: 0,
                             name: 'Sender Name',
                             email: '',
                             date_joined: '15/10/2023',
                             gendre: 'm',
-                            profilepic: ''
+                            profilepic: 'https://github.com/Zaki-goumri.png'
                             ),
                         )
           );

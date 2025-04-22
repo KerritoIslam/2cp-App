@@ -4,7 +4,6 @@ import 'package:app/features/teams/domain/enum/invitation_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'invitation.freezed.dart';
-part 'invitation.g.dart';
 
 @freezed
 class Invitation with _$Invitation {
@@ -17,6 +16,4 @@ class Invitation with _$Invitation {
     required  InvitationStatus status,
   }) = _Invitation;
 
-  factory Invitation.fromJson(Map<String, dynamic> json) =>
-      _$InvitationFromJson(json);
-}
+  }

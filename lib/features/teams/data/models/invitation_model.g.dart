@@ -10,7 +10,7 @@ _$InvitationModelImpl _$$InvitationModelImplFromJson(
         Map<String, dynamic> json) =>
     _$InvitationModelImpl(
       id: (json['id'] as num).toInt(),
-      team: Team.fromJson(json['team'] as Map<String, dynamic>),
+      team: TeamModel.fromJson(json['team'] as Map<String, dynamic>),
       inviter: json['inviter'] == null
           ? null
           : User.fromJson(json['inviter'] as Map<String, dynamic>),

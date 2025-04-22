@@ -21,7 +21,7 @@ InvitationModel _$InvitationModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$InvitationModel {
   int get id => throw _privateConstructorUsedError;
-  Team get team => throw _privateConstructorUsedError;
+  TeamModel get team => throw _privateConstructorUsedError;
   User? get inviter => throw _privateConstructorUsedError;
   User? get receiver => throw _privateConstructorUsedError;
   String get createdate => throw _privateConstructorUsedError;
@@ -45,13 +45,13 @@ abstract class $InvitationModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      Team team,
+      TeamModel team,
       User? inviter,
       User? receiver,
       String createdate,
       String status});
 
-  $TeamCopyWith<$Res> get team;
+  $TeamModelCopyWith<$Res> get team;
   $UserCopyWith<$Res>? get inviter;
   $UserCopyWith<$Res>? get receiver;
 }
@@ -86,7 +86,7 @@ class _$InvitationModelCopyWithImpl<$Res, $Val extends InvitationModel>
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as Team,
+              as TeamModel,
       inviter: freezed == inviter
           ? _value.inviter
           : inviter // ignore: cast_nullable_to_non_nullable
@@ -110,8 +110,8 @@ class _$InvitationModelCopyWithImpl<$Res, $Val extends InvitationModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TeamCopyWith<$Res> get team {
-    return $TeamCopyWith<$Res>(_value.team, (value) {
+  $TeamModelCopyWith<$Res> get team {
+    return $TeamModelCopyWith<$Res>(_value.team, (value) {
       return _then(_value.copyWith(team: value) as $Val);
     });
   }
@@ -155,14 +155,14 @@ abstract class _$$InvitationModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      Team team,
+      TeamModel team,
       User? inviter,
       User? receiver,
       String createdate,
       String status});
 
   @override
-  $TeamCopyWith<$Res> get team;
+  $TeamModelCopyWith<$Res> get team;
   @override
   $UserCopyWith<$Res>? get inviter;
   @override
@@ -197,7 +197,7 @@ class __$$InvitationModelImplCopyWithImpl<$Res>
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as Team,
+              as TeamModel,
       inviter: freezed == inviter
           ? _value.inviter
           : inviter // ignore: cast_nullable_to_non_nullable
@@ -235,7 +235,7 @@ class _$InvitationModelImpl implements _InvitationModel {
   @override
   final int id;
   @override
-  final Team team;
+  final TeamModel team;
   @override
   final User? inviter;
   @override
@@ -290,7 +290,7 @@ class _$InvitationModelImpl implements _InvitationModel {
 abstract class _InvitationModel implements InvitationModel {
   const factory _InvitationModel(
       {required final int id,
-      required final Team team,
+      required final TeamModel team,
       required final User? inviter,
       required final User? receiver,
       required final String createdate,
@@ -302,7 +302,7 @@ abstract class _InvitationModel implements InvitationModel {
   @override
   int get id;
   @override
-  Team get team;
+  TeamModel get team;
   @override
   User? get inviter;
   @override

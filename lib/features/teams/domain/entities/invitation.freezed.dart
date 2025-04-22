@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Invitation _$InvitationFromJson(Map<String, dynamic> json) {
-  return _Invitation.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Invitation {
   int get id => throw _privateConstructorUsedError;
@@ -26,9 +22,6 @@ mixin _$Invitation {
   User? get receiver => throw _privateConstructorUsedError;
   DateTime get createdate => throw _privateConstructorUsedError;
   InvitationStatus get status => throw _privateConstructorUsedError;
-
-  /// Serializes this Invitation to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Invitation
   /// with the given fields replaced by the non-null parameter values.
@@ -219,7 +212,7 @@ class __$$InvitationImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$InvitationImpl implements _Invitation {
   const _$InvitationImpl(
       {required this.id,
@@ -228,9 +221,6 @@ class _$InvitationImpl implements _Invitation {
       required this.receiver,
       required this.createdate,
       required this.status});
-
-  factory _$InvitationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$InvitationImplFromJson(json);
 
   @override
   final int id;
@@ -265,7 +255,6 @@ class _$InvitationImpl implements _Invitation {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, team, inviter, receiver, createdate, status);
@@ -277,13 +266,6 @@ class _$InvitationImpl implements _Invitation {
   @pragma('vm:prefer-inline')
   _$$InvitationImplCopyWith<_$InvitationImpl> get copyWith =>
       __$$InvitationImplCopyWithImpl<_$InvitationImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$InvitationImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Invitation implements Invitation {
@@ -294,9 +276,6 @@ abstract class _Invitation implements Invitation {
       required final User? receiver,
       required final DateTime createdate,
       required final InvitationStatus status}) = _$InvitationImpl;
-
-  factory _Invitation.fromJson(Map<String, dynamic> json) =
-      _$InvitationImpl.fromJson;
 
   @override
   int get id;

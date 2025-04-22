@@ -134,7 +134,7 @@ class OpportunityRemoteSource {
     try {
       
       final res =
-          await dio.get<List<dynamic>>('post/opportunity', queryParameters: {
+          await dio.get<List<dynamic>>('post/opportunity/', queryParameters: {
         'page': page,
         'limit': limit,
       });
