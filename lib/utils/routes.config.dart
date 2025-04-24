@@ -22,6 +22,8 @@ import 'package:app/features/profile/application/pages/forms/skills.dart';
 import 'package:app/features/profile/application/pages/profile_page.dart';
 import 'package:app/features/profile/application/pages/settings_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
+import 'package:app/features/teams/application/pages/teams_details.dart';
+import 'package:app/features/teams/domain/entities/team.dart';
 import 'package:app/main.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -80,20 +82,36 @@ GoRouter router = GoRouter(
         GoRoute(
             path: 'layout/:page',
             pageBuilder: (context, state) {
-             
-              
               return MaterialPage(
-                  
                   child: Layout(
-                    initPage: int.parse(state.pathParameters['page'] ?? "0"),
-                    
-                  ));
+                initPage: int.parse(state.pathParameters['page'] ?? "0"),
+              ));
             },
             routes: [
               GoRoute(
                   path: 'notifications',
                   pageBuilder: (context, state) =>
                       MaterialPage(child: NotificationsPage())),
+              GoRoute(
+                path: 'team_details',
+                pageBuilder: (context, state) {
+                  final team = state.extra;
+
+                  if (team == null || team is! Team) {
+                    Future.microtask(() {
+                      context.go('/protected/layout/0');
+                    });
+
+                    return const MaterialPage(
+                      child: Scaffold(
+                        body: Center(child: CircularProgressIndicator()),
+                      ),
+                    );
+                  }
+
+                  return MaterialPage(child: TeamDetails(team: team));
+                },
+              ),
             ]),
         GoRoute(
           path: 'company_profile/:id',
@@ -179,7 +197,6 @@ GoRouter router = GoRouter(
   redirect: (context, state) async {
     print(state.fullPath);
     if (state.fullPath == "/") {
-      
       final localstorage = locator.get<LocalStorage>();
       final didViewWeclomePage = await localstorage.DidViewWelcomePage();
       if (didViewWeclomePage) {
@@ -191,7 +208,6 @@ GoRouter router = GoRouter(
       return '/protected/layout/0';
     } else if (state.fullPath!.startsWith('/protected') &&
         authBloc.state is Unauthenticated) {
-      print("user is not authenticated");
       return '/auth/welcome';
     }
     return null;

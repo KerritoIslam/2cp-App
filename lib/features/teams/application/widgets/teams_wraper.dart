@@ -34,11 +34,14 @@ class _TeamsPageWraperState extends State<TeamsPageWraper> {
           onfabpressed: () => onPageChanged(1),
         );
       case 1:
-        return const NewTeam();
+        return NewTeam(
+          onfabpressed: () => onPageChanged(0),
+        );
       case 2:
         return MyTeamsPage(
           onfabpressed: () => onPageChanged(1),
         );
+
       default:
         return InvitationsPage(onfabpressed: () => onPageChanged(1));
     }

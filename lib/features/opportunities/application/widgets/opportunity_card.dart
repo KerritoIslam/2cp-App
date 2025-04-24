@@ -8,13 +8,11 @@ import 'package:app/features/opportunities/application/widgets/attachmentField.d
 import 'package:app/features/opportunities/application/widgets/skill_bubble.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
 import 'package:app/shared/widgets/action_button.dart';
-import 'package:flutter/material.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 class opportunityCard extends StatefulWidget {
   final Opportunity opportunity;
@@ -160,9 +158,7 @@ class _opportunityCardState extends State<opportunityCard> {
                           builder: (ctx) => SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.85,
                               child: FullScreenDialog(
-                        
-                        application: widget.opportunity,
-                        
+                                application: widget.opportunity,
                                 jobTitle: widget.opportunity.title,
                               )));
                     },
@@ -182,7 +178,8 @@ class FullScreenDialog extends StatefulWidget {
   final Opportunity application;
   const FullScreenDialog({
     super.key,
-    required this.jobTitle, required this.application,
+    required this.jobTitle,
+    required this.application,
   });
 
   @override
@@ -191,7 +188,7 @@ class FullScreenDialog extends StatefulWidget {
 
 class _FullScreenDialogState extends State<FullScreenDialog> {
   late TextEditingController _proposalController;
-  late File selectedFile;
+  File? selectedFile;
   @override
   void initState() {
     super.initState();
@@ -235,10 +232,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                 controller: _proposalController,
                 maxLines: 5,
                 cursorColor: Theme.of(context).secondaryHeaderColor,
-              style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).secondaryHeaderColor,
                       fontSize: 16.sp,
                     ),
@@ -262,7 +256,7 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                 height: 20.h,
               ),
               AttachmentField(
-                onFileSelected: (file){
+                onFileSelected: (file) {
                   print("file selected");
                   print(file.path);
                   setState(() {
@@ -273,13 +267,16 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
               SizedBox(height: 24.h),
               ActionButton(
                 onPressed: () {
-
                   context.pop();
-                  Application application=Application(id: 0,status: ApplicationStatus.submitted, proposal:_proposalController.text,  opportunity: widget.application);
-                  context.read<ApplicationBloc>().add(
-                    submitApplicationEvent(application,selectedFile??null)
-                  );
-                                  },
+                  Application application = Application(
+                      id: 0,
+                      status: ApplicationStatus.submitted,
+                      proposal: _proposalController.text,
+                      opportunity: widget.application);
+                  context
+                      .read<ApplicationBloc>()
+                      .add(submitApplicationEvent(application, selectedFile));
+                },
                 text: "Apply Now",
               ),
               SizedBox(height: 24.h),
@@ -469,7 +466,7 @@ class OpportunityDetailsSheet extends StatelessWidget {
                                   isScrollControlled: true,
                                   builder: (ctx) => FullScreenDialog(
                                     jobTitle: opportunity.title,
-                                    application:opportunity, 
+                                    application: opportunity,
                                   ),
                                 );
                               },

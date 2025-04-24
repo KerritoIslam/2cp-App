@@ -55,7 +55,7 @@ try  {     // Mock companies
         ,
       ),
     ];
-
+  //Warning: The following line is just for testing purposes and should be removed in production.
     await Future.delayed(Duration(milliseconds: 500));
     if (query.isEmpty){
     return Right(SearchResultModel(

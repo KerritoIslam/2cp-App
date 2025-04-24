@@ -8,14 +8,15 @@ part of 'team_model.dart';
 
 _$TeamModelImpl _$$TeamModelImplFromJson(Map<String, dynamic> json) =>
     _$TeamModelImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
       students: (json['students'] as List<dynamic>?)
               ?.map((e) => User.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       leader: User.fromJson(json['leader'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] as String,
+      createdate: json['createdate'] as String,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$$TeamModelImplToJson(_$TeamModelImpl instance) =>
@@ -24,5 +25,6 @@ Map<String, dynamic> _$$TeamModelImplToJson(_$TeamModelImpl instance) =>
       'name': instance.name,
       'students': instance.students,
       'leader': instance.leader,
-      'createdAt': instance.createdAt,
+      'createdate': instance.createdate,
+      'description': instance.description,
     };

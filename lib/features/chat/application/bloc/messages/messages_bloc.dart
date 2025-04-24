@@ -30,7 +30,6 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     on<DbMessagesRequestedEvent>((event, emit) {
       emit(MessagesLoading(dbMesssages, socketMessages));
       //Mock Call api
-
       //Mock Reponse
       final List<MessageEntity> res = [];
       if (res.length < limit) {

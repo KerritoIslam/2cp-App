@@ -1,5 +1,7 @@
+import 'package:app/features/teams/application/bloc/teams_bloc.dart';
 import 'package:app/features/teams/domain/entities/invitation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InvitationCard extends StatefulWidget {
@@ -79,7 +81,12 @@ class _InvitationCardState extends State<InvitationCard>
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (invitation.id != null)
+                      context.read<TeamsBloc>().add(TeamsAcceptInvitationEvent(
+                            inviteId: invitation.id!,
+                          ));
+                  },
                   child: Text(
                     "join",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -101,7 +108,12 @@ class _InvitationCardState extends State<InvitationCard>
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (invitation.id != null)
+                      context.read<TeamsBloc>().add(TeamsRejectInvitationEvent(
+                            inviteId: invitation.id!,
+                          ));
+                  },
                   child: Text(
                     "Delete",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(

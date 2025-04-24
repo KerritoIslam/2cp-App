@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Invitation {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   Team get team => throw _privateConstructorUsedError;
   User? get inviter => throw _privateConstructorUsedError;
   User? get receiver => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $InvitationCopyWith<$Res> {
       _$InvitationCopyWithImpl<$Res, Invitation>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       Team team,
       User? inviter,
       User? receiver,
@@ -64,7 +64,7 @@ class _$InvitationCopyWithImpl<$Res, $Val extends Invitation>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? team = null,
     Object? inviter = freezed,
     Object? receiver = freezed,
@@ -72,10 +72,10 @@ class _$InvitationCopyWithImpl<$Res, $Val extends Invitation>
     Object? status = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -147,7 +147,7 @@ abstract class _$$InvitationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       Team team,
       User? inviter,
       User? receiver,
@@ -175,7 +175,7 @@ class __$$InvitationImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? team = null,
     Object? inviter = freezed,
     Object? receiver = freezed,
@@ -183,10 +183,10 @@ class __$$InvitationImplCopyWithImpl<$Res>
     Object? status = null,
   }) {
     return _then(_$InvitationImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -213,17 +213,18 @@ class __$$InvitationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InvitationImpl implements _Invitation {
+class _$InvitationImpl extends _Invitation {
   const _$InvitationImpl(
       {required this.id,
       required this.team,
       required this.inviter,
       required this.receiver,
       required this.createdate,
-      required this.status});
+      required this.status})
+      : super._();
 
   @override
-  final int id;
+  final int? id;
   @override
   final Team team;
   @override
@@ -268,17 +269,18 @@ class _$InvitationImpl implements _Invitation {
       __$$InvitationImplCopyWithImpl<_$InvitationImpl>(this, _$identity);
 }
 
-abstract class _Invitation implements Invitation {
+abstract class _Invitation extends Invitation {
   const factory _Invitation(
-      {required final int id,
+      {required final int? id,
       required final Team team,
       required final User? inviter,
       required final User? receiver,
       required final DateTime createdate,
       required final InvitationStatus status}) = _$InvitationImpl;
+  const _Invitation._() : super._();
 
   @override
-  int get id;
+  int? get id;
   @override
   Team get team;
   @override

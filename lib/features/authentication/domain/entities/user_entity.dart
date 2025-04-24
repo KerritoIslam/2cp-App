@@ -1,4 +1,5 @@
 
+import 'package:app/features/authentication/data/models/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_entity.freezed.dart';
@@ -28,6 +29,44 @@ class User with _$User {
 
   }) = _User;
 
+ factory User.fromModel(UserModel model) {
+    return User(
+      id: model.id,
+      name: model.name,
+      email: model.email,
+      discription: model.discription,
+      number: model.number,
+      profilepic: model.profilepic,
+      links: model.links,
+      date_joined: model.date_joined,
+      education: model.education,
+      gendre: model.gendre,
+      skills: model.skills,
+      rating: model.rating,
+      internships: model.internships,
+      category: model.category,
+      cv: model.cv,
+    );
+  }
+  UserModel toModel() {
+    return UserModel(
+      id: id,
+      name: name,
+      email: email,
+      discription: discription,
+      number: number,
+      profilepic: profilepic,
+      links: links,
+      date_joined: date_joined,
+      education: education,
+      gendre: gendre,
+      skills: skills,
+      rating: rating,
+      internships: internships,
+      category: category,
+      cv: cv,
+    );
+  }
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   //somthing
 }
