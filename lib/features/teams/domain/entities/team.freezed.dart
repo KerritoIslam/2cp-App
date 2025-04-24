@@ -16,11 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Team {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<User> get students => throw _privateConstructorUsedError;
   User get leader => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdate => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   /// Create a copy of Team
   /// with the given fields replaced by the non-null parameter values.
@@ -34,11 +35,12 @@ abstract class $TeamCopyWith<$Res> {
       _$TeamCopyWithImpl<$Res, Team>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String name,
       List<User> students,
       User leader,
-      DateTime createdAt});
+      DateTime createdate,
+      String? description});
 
   $UserCopyWith<$Res> get leader;
 }
@@ -58,17 +60,18 @@ class _$TeamCopyWithImpl<$Res, $Val extends Team>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? students = null,
     Object? leader = null,
-    Object? createdAt = null,
+    Object? createdate = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -81,10 +84,14 @@ class _$TeamCopyWithImpl<$Res, $Val extends Team>
           ? _value.leader
           : leader // ignore: cast_nullable_to_non_nullable
               as User,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      createdate: null == createdate
+          ? _value.createdate
+          : createdate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -107,11 +114,12 @@ abstract class _$$TeamImplCopyWith<$Res> implements $TeamCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String name,
       List<User> students,
       User leader,
-      DateTime createdAt});
+      DateTime createdate,
+      String? description});
 
   @override
   $UserCopyWith<$Res> get leader;
@@ -129,17 +137,18 @@ class __$$TeamImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? students = null,
     Object? leader = null,
-    Object? createdAt = null,
+    Object? createdate = null,
+    Object? description = freezed,
   }) {
     return _then(_$TeamImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -152,27 +161,33 @@ class __$$TeamImplCopyWithImpl<$Res>
           ? _value.leader
           : leader // ignore: cast_nullable_to_non_nullable
               as User,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      createdate: null == createdate
+          ? _value.createdate
+          : createdate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TeamImpl implements _Team {
+class _$TeamImpl extends _Team {
   const _$TeamImpl(
       {required this.id,
       required this.name,
       final List<User> students = const [],
       required this.leader,
-      required this.createdAt})
-      : _students = students;
+      required this.createdate,
+      this.description})
+      : _students = students,
+        super._();
 
   @override
-  final int id;
+  final int? id;
   @override
   final String name;
   final List<User> _students;
@@ -187,11 +202,13 @@ class _$TeamImpl implements _Team {
   @override
   final User leader;
   @override
-  final DateTime createdAt;
+  final DateTime createdate;
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'Team(id: $id, name: $name, students: $students, leader: $leader, createdAt: $createdAt)';
+    return 'Team(id: $id, name: $name, students: $students, leader: $leader, createdate: $createdate, description: $description)';
   }
 
   @override
@@ -203,13 +220,21 @@ class _$TeamImpl implements _Team {
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._students, _students) &&
             (identical(other.leader, leader) || other.leader == leader) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.createdate, createdate) ||
+                other.createdate == createdate) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name,
-      const DeepCollectionEquality().hash(_students), leader, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      const DeepCollectionEquality().hash(_students),
+      leader,
+      createdate,
+      description);
 
   /// Create a copy of Team
   /// with the given fields replaced by the non-null parameter values.
@@ -220,16 +245,18 @@ class _$TeamImpl implements _Team {
       __$$TeamImplCopyWithImpl<_$TeamImpl>(this, _$identity);
 }
 
-abstract class _Team implements Team {
+abstract class _Team extends Team {
   const factory _Team(
-      {required final int id,
+      {required final int? id,
       required final String name,
       final List<User> students,
       required final User leader,
-      required final DateTime createdAt}) = _$TeamImpl;
+      required final DateTime createdate,
+      final String? description}) = _$TeamImpl;
+  const _Team._() : super._();
 
   @override
-  int get id;
+  int? get id;
   @override
   String get name;
   @override
@@ -237,7 +264,9 @@ abstract class _Team implements Team {
   @override
   User get leader;
   @override
-  DateTime get createdAt;
+  DateTime get createdate;
+  @override
+  String? get description;
 
   /// Create a copy of Team
   /// with the given fields replaced by the non-null parameter values.

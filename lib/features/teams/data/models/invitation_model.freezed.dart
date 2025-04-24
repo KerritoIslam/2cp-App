@@ -20,7 +20,7 @@ InvitationModel _$InvitationModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$InvitationModel {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   TeamModel get team => throw _privateConstructorUsedError;
   User? get inviter => throw _privateConstructorUsedError;
   User? get receiver => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $InvitationModelCopyWith<$Res> {
       _$InvitationModelCopyWithImpl<$Res, InvitationModel>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       TeamModel team,
       User? inviter,
       User? receiver,
@@ -71,7 +71,7 @@ class _$InvitationModelCopyWithImpl<$Res, $Val extends InvitationModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? team = null,
     Object? inviter = freezed,
     Object? receiver = freezed,
@@ -79,10 +79,10 @@ class _$InvitationModelCopyWithImpl<$Res, $Val extends InvitationModel>
     Object? status = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -154,7 +154,7 @@ abstract class _$$InvitationModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       TeamModel team,
       User? inviter,
       User? receiver,
@@ -182,7 +182,7 @@ class __$$InvitationModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? team = null,
     Object? inviter = freezed,
     Object? receiver = freezed,
@@ -190,10 +190,10 @@ class __$$InvitationModelImplCopyWithImpl<$Res>
     Object? status = null,
   }) {
     return _then(_$InvitationModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       team: null == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -233,7 +233,7 @@ class _$InvitationModelImpl implements _InvitationModel {
       _$$InvitationModelImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final TeamModel team;
   @override
@@ -289,7 +289,7 @@ class _$InvitationModelImpl implements _InvitationModel {
 
 abstract class _InvitationModel implements InvitationModel {
   const factory _InvitationModel(
-      {required final int id,
+      {required final int? id,
       required final TeamModel team,
       required final User? inviter,
       required final User? receiver,
@@ -300,7 +300,7 @@ abstract class _InvitationModel implements InvitationModel {
       _$InvitationModelImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   TeamModel get team;
   @override

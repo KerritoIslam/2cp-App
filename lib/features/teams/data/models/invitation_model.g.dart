@@ -9,7 +9,7 @@ part of 'invitation_model.dart';
 _$InvitationModelImpl _$$InvitationModelImplFromJson(
         Map<String, dynamic> json) =>
     _$InvitationModelImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       team: TeamModel.fromJson(json['team'] as Map<String, dynamic>),
       inviter: json['inviter'] == null
           ? null

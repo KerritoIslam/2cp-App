@@ -92,7 +92,7 @@ class _LayoutState extends State<Layout> {
                   onPressed: () {
                     if (index == 2) {
                       setState(() {
-                        print('teamIndex: $teamIndex');
+                        
                         teamIndex = 0;
                       });
                     } else {

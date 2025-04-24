@@ -7,7 +7,7 @@ part 'invitation_model.g.dart';
 @freezed
 class InvitationModel with _$InvitationModel {
   const factory InvitationModel({
-    required int id,
+    required int? id,
     required TeamModel team,
     required User? inviter,
     required User? receiver,  

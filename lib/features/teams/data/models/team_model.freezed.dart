@@ -20,11 +20,12 @@ TeamModel _$TeamModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TeamModel {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<User> get students => throw _privateConstructorUsedError;
   User get leader => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
+  String get createdate => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   /// Serializes this TeamModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,11 +43,12 @@ abstract class $TeamModelCopyWith<$Res> {
       _$TeamModelCopyWithImpl<$Res, TeamModel>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String name,
       List<User> students,
       User leader,
-      String createdAt});
+      String createdate,
+      String? description});
 
   $UserCopyWith<$Res> get leader;
 }
@@ -66,17 +68,18 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? students = null,
     Object? leader = null,
-    Object? createdAt = null,
+    Object? createdate = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -89,10 +92,14 @@ class _$TeamModelCopyWithImpl<$Res, $Val extends TeamModel>
           ? _value.leader
           : leader // ignore: cast_nullable_to_non_nullable
               as User,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      createdate: null == createdate
+          ? _value.createdate
+          : createdate // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -116,11 +123,12 @@ abstract class _$$TeamModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String name,
       List<User> students,
       User leader,
-      String createdAt});
+      String createdate,
+      String? description});
 
   @override
   $UserCopyWith<$Res> get leader;
@@ -139,17 +147,18 @@ class __$$TeamModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? students = null,
     Object? leader = null,
-    Object? createdAt = null,
+    Object? createdate = null,
+    Object? description = freezed,
   }) {
     return _then(_$TeamModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -162,10 +171,14 @@ class __$$TeamModelImplCopyWithImpl<$Res>
           ? _value.leader
           : leader // ignore: cast_nullable_to_non_nullable
               as User,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      createdate: null == createdate
+          ? _value.createdate
+          : createdate // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -178,14 +191,15 @@ class _$TeamModelImpl implements _TeamModel {
       required this.name,
       final List<User> students = const [],
       required this.leader,
-      required this.createdAt})
+      required this.createdate,
+      this.description})
       : _students = students;
 
   factory _$TeamModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TeamModelImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final String name;
   final List<User> _students;
@@ -200,11 +214,13 @@ class _$TeamModelImpl implements _TeamModel {
   @override
   final User leader;
   @override
-  final String createdAt;
+  final String createdate;
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'TeamModel(id: $id, name: $name, students: $students, leader: $leader, createdAt: $createdAt)';
+    return 'TeamModel(id: $id, name: $name, students: $students, leader: $leader, createdate: $createdate, description: $description)';
   }
 
   @override
@@ -216,14 +232,22 @@ class _$TeamModelImpl implements _TeamModel {
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._students, _students) &&
             (identical(other.leader, leader) || other.leader == leader) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.createdate, createdate) ||
+                other.createdate == createdate) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name,
-      const DeepCollectionEquality().hash(_students), leader, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      const DeepCollectionEquality().hash(_students),
+      leader,
+      createdate,
+      description);
 
   /// Create a copy of TeamModel
   /// with the given fields replaced by the non-null parameter values.
@@ -243,17 +267,18 @@ class _$TeamModelImpl implements _TeamModel {
 
 abstract class _TeamModel implements TeamModel {
   const factory _TeamModel(
-      {required final int id,
+      {required final int? id,
       required final String name,
       final List<User> students,
       required final User leader,
-      required final String createdAt}) = _$TeamModelImpl;
+      required final String createdate,
+      final String? description}) = _$TeamModelImpl;
 
   factory _TeamModel.fromJson(Map<String, dynamic> json) =
       _$TeamModelImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   String get name;
   @override
@@ -261,7 +286,9 @@ abstract class _TeamModel implements TeamModel {
   @override
   User get leader;
   @override
-  String get createdAt;
+  String get createdate;
+  @override
+  String? get description;
 
   /// Create a copy of TeamModel
   /// with the given fields replaced by the non-null parameter values.

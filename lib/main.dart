@@ -4,6 +4,7 @@ import 'package:app/features/applications%20status/application/bloc/applications
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
+import 'package:app/features/teams/application/bloc/teams_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
 import 'package:app/utils/error.dart';
 import 'package:app/utils/routes.config.dart';
@@ -20,7 +21,7 @@ import 'package:toastification/toastification.dart';
 
 final authBloc = locator.get<AuthBloc>();
 
-class BlocListenable extends ChangeNotifier implements Listenable { 
+class BlocListenable extends ChangeNotifier implements Listenable {
   final AuthBloc bloc;
   BlocListenable(this.bloc) {
     bloc.stream.listen((state) {
@@ -47,6 +48,7 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => locator.get<ApplicationBloc>()),
         BlocProvider(create: (_) => ThemeProviderBloc()),
+        BlocProvider(create: (_) => locator.get<TeamsBloc>()),
         BlocProvider(create: (_) => authBloc),
         BlocProvider(create: (_) => locator.get<notificationsBloc>()),
       ],
