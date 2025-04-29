@@ -15,5 +15,5 @@ class ChatEntity with _$ChatEntity {
     required bool isTyping,
     required String roomName,
   }) = _ChatEntity;
-  
+  //test commit
 }

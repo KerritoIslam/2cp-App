@@ -5,7 +5,7 @@ part of 'chat_model.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
+//test commit
 ChatModel _$ChatModelFromJson(Map<String, dynamic> json) => ChatModel(
       id: (json['id'] as num).toInt(),
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
