@@ -1,4 +1,3 @@
-import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/chat/domain/chatEntity.dart';
 import 'package:app/features/chat/domain/repositories/chat_search_repository.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
@@ -20,6 +19,7 @@ class ChatSearchBloc extends Bloc<ChatSearchEvent, ChatSearchState> {
     return (events, mapper) => events.debounce(duration).switchMap(mapper);
   }
 
+  //test commit
   final ChatSearchRepository chatSearchRepository;
   ChatSearchBloc(this.chatSearchRepository) : super(ChatSearchInitial()) {
     on<ChatSearchCompaniesEvent>((event, emit) async {
