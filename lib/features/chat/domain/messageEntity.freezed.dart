@@ -17,10 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MessageEntity {
   int get id => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
-  Company get company => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+  DateTime get sent_time => throw _privateConstructorUsedError;
+  int get sender => throw _privateConstructorUsedError;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -35,11 +34,7 @@ abstract class $MessageEntityCopyWith<$Res> {
           MessageEntity value, $Res Function(MessageEntity) then) =
       _$MessageEntityCopyWithImpl<$Res, MessageEntity>;
   @useResult
-  $Res call(
-      {int id, String text, DateTime createdAt, User user, Company company});
-
-  $UserCopyWith<$Res> get user;
-  $CompanyCopyWith<$Res> get company;
+  $Res call({int id, String message, DateTime sent_time, int sender});
 }
 
 /// @nodoc
@@ -58,53 +53,28 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? text = null,
-    Object? createdAt = null,
-    Object? user = null,
-    Object? company = null,
+    Object? message = null,
+    Object? sent_time = null,
+    Object? sender = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      sent_time: null == sent_time
+          ? _value.sent_time
+          : sent_time // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      company: null == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as Company,
+      sender: null == sender
+          ? _value.sender
+          : sender // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
-  }
-
-  /// Create a copy of MessageEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
-  }
-
-  /// Create a copy of MessageEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CompanyCopyWith<$Res> get company {
-    return $CompanyCopyWith<$Res>(_value.company, (value) {
-      return _then(_value.copyWith(company: value) as $Val);
-    });
   }
 }
 
@@ -116,13 +86,7 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
       __$$MessageEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id, String text, DateTime createdAt, User user, Company company});
-
-  @override
-  $UserCopyWith<$Res> get user;
-  @override
-  $CompanyCopyWith<$Res> get company;
+  $Res call({int id, String message, DateTime sent_time, int sender});
 }
 
 /// @nodoc
@@ -139,32 +103,27 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? text = null,
-    Object? createdAt = null,
-    Object? user = null,
-    Object? company = null,
+    Object? message = null,
+    Object? sent_time = null,
+    Object? sender = null,
   }) {
     return _then(_$MessageEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      sent_time: null == sent_time
+          ? _value.sent_time
+          : sent_time // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      company: null == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as Company,
+      sender: null == sender
+          ? _value.sender
+          : sender // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -174,26 +133,23 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
 class _$MessageEntityImpl extends _MessageEntity {
   const _$MessageEntityImpl(
       {required this.id,
-      required this.text,
-      required this.createdAt,
-      required this.user,
-      required this.company})
+      required this.message,
+      required this.sent_time,
+      required this.sender})
       : super._();
 
   @override
   final int id;
   @override
-  final String text;
+  final String message;
   @override
-  final DateTime createdAt;
+  final DateTime sent_time;
   @override
-  final User user;
-  @override
-  final Company company;
+  final int sender;
 
   @override
   String toString() {
-    return 'MessageEntity(id: $id, text: $text, createdAt: $createdAt, user: $user, company: $company)';
+    return 'MessageEntity(id: $id, message: $message, sent_time: $sent_time, sender: $sender)';
   }
 
   @override
@@ -202,16 +158,14 @@ class _$MessageEntityImpl extends _MessageEntity {
         (other.runtimeType == runtimeType &&
             other is _$MessageEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.user, user) || other.user == user) &&
-            (identical(other.company, company) || other.company == company));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.sent_time, sent_time) ||
+                other.sent_time == sent_time) &&
+            (identical(other.sender, sender) || other.sender == sender));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, text, createdAt, user, company);
+  int get hashCode => Object.hash(runtimeType, id, message, sent_time, sender);
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -225,22 +179,19 @@ class _$MessageEntityImpl extends _MessageEntity {
 abstract class _MessageEntity extends MessageEntity {
   const factory _MessageEntity(
       {required final int id,
-      required final String text,
-      required final DateTime createdAt,
-      required final User user,
-      required final Company company}) = _$MessageEntityImpl;
+      required final String message,
+      required final DateTime sent_time,
+      required final int sender}) = _$MessageEntityImpl;
   const _MessageEntity._() : super._();
 
   @override
   int get id;
   @override
-  String get text;
+  String get message;
   @override
-  DateTime get createdAt;
+  DateTime get sent_time;
   @override
-  User get user;
-  @override
-  Company get company;
+  int get sender;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.

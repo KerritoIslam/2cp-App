@@ -1,63 +1,147 @@
+import 'dart:convert';
+
+import 'package:app/features/authentication/domain/auth_repository.dart';
+import 'package:app/features/chat/application/bloc/messages/messages_state.dart';
+import 'package:app/features/chat/data/remote/ws.service.dart';
 import 'package:app/features/chat/domain/messageEntity.dart';
-import 'package:equatable/equatable.dart';
+import 'package:app/features/chat/domain/repositories/chat_repository.dart';
+import 'package:app/utils/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-part 'messages_event.dart';
-part 'messages_state.dart';
 
 class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
-  List<MessageEntity> dbMesssages = [];
-  List<MessageEntity> socketMessages = [];
-  int page = 20;
-  int limit = 20;
+  final WsService _wsService;
+  final ChatRepository _chatRepository;
+  final authRepository = locator.get<AuthRepository>();
+  int page = 1;
+  int limit = 15;
   bool isLastPage = false;
-  MessagesBloc() : super(MessagesInit()) {
-    //TODO:Add socket listner Here
-    on<MessageReceivedEvent>((event, emit) {
-      final newDbMessages = [...dbMesssages, event.receivedMessage];
-      final newSocketMessages = [...socketMessages, event.receivedMessage];
-      dbMesssages = newDbMessages;
-      socketMessages = newSocketMessages;
+  String? currentRoomName;
 
-      emit(MessageReceivedSucces(newDbMessages, newSocketMessages));
-    });
-    on<MessageSentEvent>((event, emit) {
-      final newDbMessages = [...dbMesssages, event.sentMessage];
-      final newSocketMessages = [...socketMessages, event.sentMessage];
-      dbMesssages = newDbMessages;
-      socketMessages = newSocketMessages;
-      emit(MessageSentSuccess(newDbMessages, newSocketMessages));
-    });
-    on<DbMessagesRequestedEvent>((event, emit) {
-      emit(MessagesLoading(dbMesssages, socketMessages));
-      //Mock Call api
-      //Mock Reponse
-      final List<MessageEntity> res = [];
-      if (res.length < limit) {
-        isLastPage = true;
+  MessagesBloc(this._wsService, this._chatRepository)
+      : super(MessagesInitial()) {
+    on<LoadMessages>(_onLoadMessages);
+    on<LoadMoreMessages>(_onLoadMoreMessages);
+    on<SendMessage>(_onSendMessage);
+    on<ReceiveMessage>(_onReceiveMessage);
+    on<closeConnection>(_onCloseConnection);
+  }
+
+  Future<void> _onLoadMessages(
+      LoadMessages event, Emitter<MessagesState> emit) async {
+    page = 1;
+    isLastPage = false;
+    currentRoomName = event.roomName;
+    emit(MessagesLoading([], []));
+
+    final res = await _chatRepository.getChatMessages(
+      event.roomName,
+      page: page,
+      limit: limit,
+    );
+
+    return res.fold(
+      (fail) => emit(MessagesError(message: fail.message)),
+      (messages) async {
+        if (messages.length < limit) isLastPage = true;
+        emit(MessagesLoaded(dbMessages: messages));
+        try {
+          final response = await authRepository.checkTokens();
+          final token =
+              response.fold((fail) => "", (token) => token.accessToken);
+          _wsService.connect(token, event.roomName);
+          _wsService.stream.listen((message) {
+            final messageData = jsonDecode(message);
+            add(ReceiveMessage(MessageEntity(
+                id: 3,
+                message: messageData['message'],
+                sent_time: DateTime.now(),
+                sender: messageData['sender'])));
+          });
+        } catch (e) {
+          emit(MessagesError(message: 'Error loading messages'));
+        }
+      },
+    );
+  }
+
+  Future<void> _onLoadMoreMessages(
+      LoadMoreMessages event, Emitter<MessagesState> emit) async {
+    if (isLastPage || currentRoomName == null) return;
+
+    page++;
+    final currentState = state;
+    if (currentState is MessagesLoaded) {
+      emit(MessagesLoading(
+          currentState.dbMessages, currentState.socketMessages));
+
+      final res = await _chatRepository.getChatMessages(
+        currentRoomName!,
+        page: page,
+        limit: limit,
+      );
+
+      return res.fold(
+        (fail) => emit(MessagesError(message: fail.message)),
+        (messages) {
+          if (messages.length < limit) isLastPage = true;
+          final updatedMessages = [...messages, ...currentState.dbMessages];
+          emit(MessagesLoaded(dbMessages: updatedMessages));
+        },
+      );
+    }
+  }
+
+  Future<void> _onSendMessage(
+      SendMessage event, Emitter<MessagesState> emit) async {
+    try {
+      _wsService.sendMessage(event.message);
+    } catch (e) {
+      emit(MessagesError(message: 'Error sending message'));
+    }
+  }
+
+  Future<void> _onReceiveMessage(
+      ReceiveMessage event, Emitter<MessagesState> emit) async {
+    try {
+      final currentState = state;
+      if (currentState is MessagesLoaded) {
+        final updatedMessages =
+            List<MessageEntity>.from(currentState.dbMessages)
+              ..add(event.message);
+        emit(MessageReceivedSuccess(
+            updatedMessages, currentState.socketMessages));
       }
-      final newDbMessages = [...dbMesssages, ...res];
-      final newSocketMessages = [...socketMessages, ...res];
-      dbMesssages = newDbMessages;
-      socketMessages = newSocketMessages;
-      emit(MessagesLoaded(newDbMessages, newSocketMessages));
-    });
-    on<CheckIfNeedMoreMessageEvent>((event, emit) {
-      if (!isLastPage) {
-        page++;
-        return add(DbMessagesRequestedEvent(
-            page: page,
-            limit: limit,
-            companyId: event.companyId,
-            userId: event.userId));
-      }
-    });
-    on<ClearMessagesEvent>((event, emit) {
-      dbMesssages = [];
-      socketMessages = [];
-      page = 20;
-      limit = 20;
-      isLastPage = false;
-      emit(MessagesInit());
-    });
+    } catch (e) {
+      emit(MessageReceivedError(
+          state is MessagesLoaded ? (state as MessagesLoaded).dbMessages : []));
+    }
+  }
+
+  void _onCloseConnection(MessagesEvent event, Emitter<MessagesState> emit) {
+    _wsService.disconnect();
+    emit(MessagesInitial());
   }
 }
+
+// Events
+abstract class MessagesEvent {}
+
+class LoadMessages extends MessagesEvent {
+  final String roomName;
+  LoadMessages({required this.roomName});
+}
+
+class LoadMoreMessages extends MessagesEvent {}
+
+class SendMessage extends MessagesEvent {
+  final String message;
+  final String roomName;
+  SendMessage({required this.message, required this.roomName});
+}
+
+class ReceiveMessage extends MessagesEvent {
+  final MessageEntity message;
+  ReceiveMessage(this.message);
+}
+
+class closeConnection extends MessagesEvent {}

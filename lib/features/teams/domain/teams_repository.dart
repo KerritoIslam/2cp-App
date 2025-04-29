@@ -116,18 +116,15 @@ class TeamsRepository {
     }
   }
 
-  Future<Either<Failure, List<User>>> searchForMembers(String query) async {
+  Future<Either<Failure, List<User>>> searchForMembers(
+      String query, int page, int limit) async {
     try {
-      final result = await remoteSource.searchForMembers(query);
-      return result.fold(
-        (failure) => left(failure),
-        (members) {
-          final memberEntities = members
-              .map((memberModel) => User.fromModel(memberModel))
-              .toList();
-          return right(memberEntities);
-        },
-      );
+      final result = await remoteSource.searchForMembers(query, page, limit);
+      return result.fold((failure) => left(failure), (members) {
+        final memberEntities =
+            members.map((memberModel) => User.fromModel(memberModel)).toList();
+        return right(memberEntities);
+      });
     } catch (e) {
       return left(Failure('Failed to convert members: $e'));
     }
@@ -145,15 +142,46 @@ class TeamsRepository {
     }
   }
 
-  Future<Either<Failure, Unit>> inviteMember(int teamId, String email) async {
+  Future<Either<Failure, Unit>> inviteMember(
+      int teamId, List<String> emails) async {
     try {
-      final result = await remoteSource.inviteMember(teamId, email);
+      final result = await remoteSource.inviteMember(teamId, emails);
       return result.fold(
         (failure) => left(failure),
         (unit) => right(unit),
       );
     } catch (e) {
       return left(Failure('Failed to add member: $e'));
+    }
+  }
+
+  Future<Either<Failure, List<Invitation>>> fetchMyInvitations(
+      int page, int limit) async {
+    try {
+      final result = await remoteSource.fetchMyInvitations(page, limit);
+      return result.fold(
+        (failure) => left(failure),
+        (invitations) {
+          final invitationEntities = invitations
+              .map((invitationModel) => Invitation.fromModel(invitationModel))
+              .toList();
+          return right(invitationEntities);
+        },
+      );
+    } catch (e) {
+      return left(Failure('Failed to convert invitations: $e'));
+    }
+  }
+
+  Future<Either<Failure, Unit>> deleteInvitation(int inviteId) async {
+    try {
+      final result = await remoteSource.deleteInvitation(inviteId);
+      return result.fold(
+        (failure) => left(failure),
+        (unit) => right(unit),
+      );
+    } catch (e) {
+      return left(Failure('Failed to delete invitation: $e'));
     }
   }
 }

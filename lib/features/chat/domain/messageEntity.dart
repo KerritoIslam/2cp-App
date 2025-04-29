@@ -1,18 +1,14 @@
-import 'package:app/features/authentication/domain/entities/user_entity.dart';
-import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'messageEntity.freezed.dart';
 
 @freezed
 class MessageEntity with _$MessageEntity {
+  const MessageEntity._();
   const factory MessageEntity({
     required int id,
-    required String text,
-    required DateTime createdAt,
-    required User user,
-    required Company company,
+    required String message,
+    required DateTime sent_time,
+    required int sender,
   }) = _MessageEntity;
-
-  const MessageEntity._();
 }

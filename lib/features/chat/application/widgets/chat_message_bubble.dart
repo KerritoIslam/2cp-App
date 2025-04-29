@@ -1,3 +1,4 @@
+import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,6 +7,7 @@ class ChatMessageBubble extends StatelessWidget {
   final String time;
   final bool isMe;
   final String status;
+  final Company company;
 
   const ChatMessageBubble({
     super.key,
@@ -13,6 +15,7 @@ class ChatMessageBubble extends StatelessWidget {
     required this.time,
     required this.isMe,
     required this.status,
+    required this.company,
   });
 
   @override
@@ -26,7 +29,9 @@ class ChatMessageBubble extends StatelessWidget {
           if (!isMe) ...[
             CircleAvatar(
               radius: 16.r,
-              backgroundImage: NetworkImage('https://picsum.photos/200'),
+              backgroundImage: company.profilepic.isEmpty
+                  ? const AssetImage('assets/images/avatar.png')
+                  : NetworkImage(company.profilepic) as ImageProvider,
             ),
             SizedBox(width: 8.w),
           ],

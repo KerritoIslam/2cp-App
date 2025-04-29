@@ -19,7 +19,7 @@ _$InternshipModelImpl _$$InternshipModelImplFromJson(
       company: CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$OpportunityStatusEnumMap, json['status']) ??
           OpportunityStatus.open,
-      duration: "",
+      duration: json['duration'] as String? ?? "",
       category: $enumDecode(_$OpportunityCategoryEnumMap, json['category']),
       $type: json['runtimeType'] as String?,
     );

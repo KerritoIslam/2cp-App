@@ -31,9 +31,12 @@ final class TeamsError extends TeamsState {
 
 final class TeamsSearchForMembersSuccess extends TeamsSuccess {
   final List<User> members;
+  final bool hasmore;
   TeamsSearchForMembersSuccess({
+    required this.hasmore,
     required this.members,
     required String message,
+    re
   }) : super(message: message);
 }
 
@@ -54,38 +57,41 @@ final class TeamsCreateError extends TeamsState {
     required this.message,
   });
 }
+
 final class TeamsSuccess extends TeamsState {
   final String message;
-  
+
   TeamsSuccess({
-     
     required this.message,
   });
 }
 
 final class TeamsDeleteSuccess extends TeamsSuccess {
   final String message;
-  
+
   TeamsDeleteSuccess({
     required this.message,
   }) : super(message: message);
 }
+
 final class TeamsUpdateSuccess extends TeamsSuccess {
   final Team team;
   final String message;
-  
+
   TeamsUpdateSuccess({
     required this.message,
     required this.team,
   }) : super(message: message);
 }
+
 final class TeamsLeaveSuccess extends TeamsSuccess {
   final String message;
-  
+
   TeamsLeaveSuccess({
     required this.message,
   }) : super(message: message);
 }
+
 final class TeamsKickMemberSuccess extends TeamsSuccess {
   final String message;
   final Team team;
@@ -95,3 +101,9 @@ final class TeamsKickMemberSuccess extends TeamsSuccess {
   }) : super(message: message);
 }
 
+final class TeamsMyInvitationsLoaded extends TeamsState {
+  final List<Invitation> invitations;
+  TeamsMyInvitationsLoaded({
+    required this.invitations,
+  });
+}

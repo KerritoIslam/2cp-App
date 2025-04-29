@@ -80,10 +80,13 @@ class RestAuthRemote {
 
   Future<Either<Failure, UserModel>> updateUser(UserModel user) async {
     try {
+      print('-------------------------------------------------------------');
+      print(user.toJson().toString());
       final response = await _dio.put(
-        '/edit_user',
+        '/Auth/user',
         data: user.toJson(),
       );
+
       return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
       return left(Failure(e.toString()));

@@ -116,20 +116,30 @@ class TeamsRestRemote {
   }
 
   Future<Either<Failure, List<UserModel>>> searchForMembers(
-      String query) async {
+      String? query, int page, int limit) async {
     try {
       final response = await dio.get('post/user/search', queryParameters: {
         'username': query,
+        'page': page,
+        'limit': limit,
+        'type': 'Student',
       });
+
       if (response.statusCode == 200) {
         final members = (response.data['results'] as List)
             .map((member) => UserModel.fromJson(member))
             .toList();
+
         return right(members);
+      } else if (response.statusCode == 404) {
+        return right([]);
       } else {
         return left(Failure('Failed to load members: ${response.statusCode}'));
       }
     } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return right([]);
+      }
       return left(Failure('Failed to load members: ${e.message}'));
     } catch (e) {
       throw Exception('Failed to load members: $e');
@@ -155,11 +165,12 @@ class TeamsRestRemote {
     }
   }
 
-  Future<Either<Failure, Unit>> inviteMember(int teamId, String email) async {
+  Future<Either<Failure, Unit>> inviteMember(
+      int teamId, List<String> emails) async {
     try {
       final response = await dio.post('post/team/inviter/', data: {
         'team_id': teamId,
-        'invited_email': email,
+        'invited_emails': emails,
       });
       if (response.statusCode == 200) {
         return right(unit);
@@ -223,6 +234,49 @@ class TeamsRestRemote {
       return left(Failure('Failed to update team: ${e.message}'));
     } catch (e) {
       throw Exception('Failed to update team: $e');
+    }
+  }
+
+  Future<Either<Failure, List<InvitationModel>>> fetchMyInvitations(
+      int page, int limit) async {
+    try {
+      final response = await dio.get('post/team/inviter/', queryParameters: {
+        'page': page,
+        'limit': limit,
+      });
+      if (response.statusCode == 200) {
+        final invitations = (response.data['results'] as List)
+            .map((invitation) => InvitationModel.fromJson(invitation))
+            .toList();
+        return right(invitations);
+      } else {
+        return left(
+            Failure('Failed to load invitations: ${response.statusCode}'));
+      }
+    } on DioException catch (e) {
+      return left(Failure('Failed to load invitations: ${e.message}'));
+    } catch (e) {
+      throw Exception('Failed to load invitations: $e');
+    }
+  }
+
+  Future<Either<Failure, Unit>> deleteInvitation(int inviteId) async {
+    try {
+      final response = await dio.delete('post/team/inviter/', data: {
+        'invite_id': inviteId,
+      });
+      if (response.statusCode == 200 ||
+          response.statusCode == 404 ||
+          response.statusCode == 204) {
+        return right(unit);
+      } else {
+        return left(
+            Failure('Failed to delete invitation: ${response.statusCode}'));
+      }
+    } on DioException catch (e) {
+      return left(Failure('Failed to delete invitation: ${e.message}'));
+    } catch (e) {
+      throw Exception('Failed to delete invitation: $e');
     }
   }
 }

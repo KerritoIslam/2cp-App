@@ -1,18 +1,23 @@
 part of 'chats_bloc.dart';
+
 abstract class ChatsState {
+  final List<ChatEntity> chats;
+  ChatsState(this.chats);
 }
+
 class ChatsInitialState extends ChatsState {
+  ChatsInitialState() : super([]);
 }
-class ChatsLoadingState extends ChatsState {
- final List<ChatEntity> chats;
-   ChatsLoadingState(this.chats);
-}
-class ChatsLoadedState extends ChatsState {
-  final List<ChatEntity> chats;
-    ChatsLoadedState(this.chats);
-}
+
 class ChatsErrorState extends ChatsState {
-  final String error;
-  final List<ChatEntity> chats;
-  ChatsErrorState(this.chats,this.error);
+  final String message;
+  ChatsErrorState(this.message) : super([]);
+}
+
+class ChatsLoadingState extends ChatsState {
+  ChatsLoadingState(List<ChatEntity> chats) : super(chats);
+}
+
+class ChatsLoadedState extends ChatsState {
+  ChatsLoadedState(List<ChatEntity> chats) : super(chats);
 }

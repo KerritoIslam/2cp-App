@@ -36,10 +36,6 @@ class _TeamDetailsState extends State<TeamDetails> {
     return skills;
   }
 
-  Future<void> _leaveTeam(int id) async {
-    context.read<TeamsBloc>().add(TeamsLeaveEvent(id: id));
-  }
-
   late Team team;
   @override
   void initState() {
@@ -100,7 +96,7 @@ class _TeamDetailsState extends State<TeamDetails> {
                 type: ToastificationType.success,
                 autoCloseDuration: const Duration(seconds: 2),
               );
-              print('deleted');
+
               context.go('/protected/layout/2');
             }
           },
@@ -416,7 +412,9 @@ class _TeamDetailsState extends State<TeamDetails> {
                                             'Are you sure you want to leave this team?',
                                         buttonText: 'Leave',
                                         onPressed: () async {
-                                          _leaveTeam(team.id!);
+                                          context.read<TeamsBloc>().add(
+                                              TeamsLeaveEvent(id: team.id!));
+                                          Navigator.of(context).pop();
                                         },
                                       );
                                     },
@@ -451,7 +449,17 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   List<Widget> _buildMemberList(List<User> members, User user) {
-    return members.map((member) {
+    List<User> sortedMembers = members.toList();
+    sortedMembers.sort((a, b) {
+      if (a.id == team.leader.id) {
+        return -1;
+      }
+      if (b.id == team.leader.id) {
+        return 1;
+      }
+      return a.name.compareTo(b.name);
+    });
+    return sortedMembers.map((member) {
       final role = member.id == team.leader.id ? 'Owner' : 'Member';
       return Container(
           height: 100.h,

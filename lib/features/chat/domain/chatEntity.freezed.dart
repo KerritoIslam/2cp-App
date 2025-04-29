@@ -22,6 +22,7 @@ mixin _$ChatEntity {
   String get lastMessageTime => throw _privateConstructorUsedError;
   bool get isOnline => throw _privateConstructorUsedError;
   bool get isTyping => throw _privateConstructorUsedError;
+  String get roomName => throw _privateConstructorUsedError;
 
   /// Create a copy of ChatEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +43,8 @@ abstract class $ChatEntityCopyWith<$Res> {
       String lastMessage,
       String lastMessageTime,
       bool isOnline,
-      bool isTyping});
+      bool isTyping,
+      String roomName});
 
   $CompanyCopyWith<$Res> get company;
 }
@@ -68,6 +70,7 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
     Object? lastMessageTime = null,
     Object? isOnline = null,
     Object? isTyping = null,
+    Object? roomName = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -94,6 +97,10 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
           ? _value.isTyping
           : isTyping // ignore: cast_nullable_to_non_nullable
               as bool,
+      roomName: null == roomName
+          ? _value.roomName
+          : roomName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -122,7 +129,8 @@ abstract class _$$ChatEntityImplCopyWith<$Res>
       String lastMessage,
       String lastMessageTime,
       bool isOnline,
-      bool isTyping});
+      bool isTyping,
+      String roomName});
 
   @override
   $CompanyCopyWith<$Res> get company;
@@ -147,6 +155,7 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
     Object? lastMessageTime = null,
     Object? isOnline = null,
     Object? isTyping = null,
+    Object? roomName = null,
   }) {
     return _then(_$ChatEntityImpl(
       id: null == id
@@ -173,6 +182,10 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
           ? _value.isTyping
           : isTyping // ignore: cast_nullable_to_non_nullable
               as bool,
+      roomName: null == roomName
+          ? _value.roomName
+          : roomName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -186,7 +199,8 @@ class _$ChatEntityImpl extends _ChatEntity {
       required this.lastMessage,
       required this.lastMessageTime,
       required this.isOnline,
-      required this.isTyping})
+      required this.isTyping,
+      required this.roomName})
       : super._();
 
   @override
@@ -201,10 +215,12 @@ class _$ChatEntityImpl extends _ChatEntity {
   final bool isOnline;
   @override
   final bool isTyping;
+  @override
+  final String roomName;
 
   @override
   String toString() {
-    return 'ChatEntity(id: $id, company: $company, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, isOnline: $isOnline, isTyping: $isTyping)';
+    return 'ChatEntity(id: $id, company: $company, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, isOnline: $isOnline, isTyping: $isTyping, roomName: $roomName)';
   }
 
   @override
@@ -221,12 +237,14 @@ class _$ChatEntityImpl extends _ChatEntity {
             (identical(other.isOnline, isOnline) ||
                 other.isOnline == isOnline) &&
             (identical(other.isTyping, isTyping) ||
-                other.isTyping == isTyping));
+                other.isTyping == isTyping) &&
+            (identical(other.roomName, roomName) ||
+                other.roomName == roomName));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, company, lastMessage,
-      lastMessageTime, isOnline, isTyping);
+      lastMessageTime, isOnline, isTyping, roomName);
 
   /// Create a copy of ChatEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -244,7 +262,8 @@ abstract class _ChatEntity extends ChatEntity {
       required final String lastMessage,
       required final String lastMessageTime,
       required final bool isOnline,
-      required final bool isTyping}) = _$ChatEntityImpl;
+      required final bool isTyping,
+      required final String roomName}) = _$ChatEntityImpl;
   const _ChatEntity._() : super._();
 
   @override
@@ -259,6 +278,8 @@ abstract class _ChatEntity extends ChatEntity {
   bool get isOnline;
   @override
   bool get isTyping;
+  @override
+  String get roomName;
 
   /// Create a copy of ChatEntity
   /// with the given fields replaced by the non-null parameter values.

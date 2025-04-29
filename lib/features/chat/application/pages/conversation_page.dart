@@ -1,143 +1,170 @@
-import 'package:app/features/chat/application/widgets/chat_message_bubble.dart';
-import 'package:app/features/chat/domain/messageEntity.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/chat/application/bloc/messages/messages_bloc.dart';
+import 'package:app/features/chat/application/bloc/messages/messages_state.dart';
+import 'package:app/features/chat/application/widgets/messages_list.dart';
+import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
-//TODO add pagination logic
-class ConversationPage extends StatelessWidget {
-  final String companyId;
-
+class ConversationPage extends StatefulWidget {
+  final Company company;
+  final String roomName;
   const ConversationPage({
     super.key,
-    required this.companyId,
+    required this.company,
+    required this.roomName,
   });
 
   @override
+  State<ConversationPage> createState() => _ConversationPageState();
+}
+
+class _ConversationPageState extends State<ConversationPage> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
+  int _currentId = 0;
+  late MessagesBloc bloc;
+  
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    bloc = context.read<MessagesBloc>();
+    final authState = context.read<AuthBloc>().state;
+    if (authState is Authenticated) {
+      _currentId = authState.user.id;
+    }
+    bloc.add(LoadMessages(roomName: widget.roomName));
+  }
+
+  @override
+  
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _messageController.dispose();
+    bloc.add(closeConnection());
+    super.dispose();
+  }
+
+ 
+
+  void _sendMessage() {
+    if (_messageController.text.trim().isEmpty) return;
+
+    final message = _messageController.text;
+    _messageController.clear();
+
+    context
+        .read<MessagesBloc>()
+        .add(SendMessage(message: message, roomName: widget.roomName));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: Use companyId to fetch messages and company details
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).secondaryHeaderColor,
-          ),
-          onPressed: () => context.pop(),
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Row(
           children: [
             CircleAvatar(
               radius: 20.r,
-              backgroundImage: NetworkImage('https://picsum.photos/200'),
+              backgroundImage: widget.company.profilepic == ''
+                  ? const AssetImage('assets/images/avatar.png')
+                  : NetworkImage(widget.company.profilepic) as ImageProvider,
             ),
-            SizedBox(width: 12.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Yassir', // TODO: Replace with actual company name
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                Text(
-                  'Online',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Colors.green,
-                        fontSize: 12.sp,
-                      ),
-                ),
-              ],
-            ),
+            SizedBox(width: 8.w),
+            Text(widget.company.name,
+                style: Theme.of(context).textTheme.displaySmall),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Theme.of(context).secondaryHeaderColor,
-            ),
-            onPressed: () {},
-          ),
-        ],
+        foregroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
         children: [
-          // Messages List
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 8.r),
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                final bool isMe = index % 2 == 0;
-                return ChatMessageBubble(
-                  message: "Hello sir, Good Morning",
-                  time: "09:30 am",
-                  isMe: isMe,
-                  status: index == 0 ? "sent" : "read",
-                );
+            child: BlocConsumer<MessagesBloc, MessagesState>(
+              listener: (context, state) {
+                
+              },
+              builder: (context, state) {
+                if (state is MessagesInitial || state is MessagesLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state is MessagesError) {
+                  return Center(
+                    child: Text(state.message ?? 'An error occurred'),
+                  );
+                }
+
+                if (state is MessagesLoaded) {
+                  return Stack(
+                    children: [
+                      MessagesList(
+                        company: widget.company,
+                        dbMessages: state.dbMessages,
+                        socketMessages: state.socketMessages,
+                        currentId: _currentId,
+                        scrollController: _scrollController,
+                      ),
+                      
+                    ],
+                  );
+                }
+
+                return const SizedBox();
               },
             ),
           ),
-          // Message Input
           Container(
-            padding: EdgeInsets.all(16.r),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              border: Border(
-                top: BorderSide(
-                  color:
-                      Theme.of(context).secondaryHeaderColor.withOpacity(0.1),
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.r),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(24.r),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Write your message',
-                        hintStyle:
-                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: Theme.of(context)
-                                      .secondaryHeaderColor
-                                      .withOpacity(0.5),
-                                ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, -1),
+                  blurRadius: 8,
+                  color: Colors.black.withOpacity(0.05),
                 ),
               ],
+            ),
+            child: SafeArea(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _messageController,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        hintText: 'Type a message',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Theme.of(context).cardColor,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.r,
+                          vertical: 8.r,
+                        ),
+                      ),
+                      textInputAction: TextInputAction.send,
+                      onSubmitted: (_) => _sendMessage(),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  IconButton(
+                    onPressed: _sendMessage,
+                    icon: const Icon(Icons.send),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

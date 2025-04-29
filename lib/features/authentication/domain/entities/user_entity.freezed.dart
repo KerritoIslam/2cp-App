@@ -23,7 +23,7 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String? get discription => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String? get number => throw _privateConstructorUsedError;
   String? get profilepic => throw _privateConstructorUsedError;
   String? get links => throw _privateConstructorUsedError;
@@ -56,7 +56,7 @@ abstract class $UserCopyWith<$Res> {
       {int id,
       String name,
       String email,
-      String? discription,
+      String? description,
       String? number,
       String? profilepic,
       String? links,
@@ -88,7 +88,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? discription = freezed,
+    Object? description = freezed,
     Object? number = freezed,
     Object? profilepic = freezed,
     Object? links = freezed,
@@ -114,9 +114,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      discription: freezed == discription
-          ? _value.discription
-          : discription // ignore: cast_nullable_to_non_nullable
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       number: freezed == number
           ? _value.number
@@ -177,7 +177,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       {int id,
       String name,
       String email,
-      String? discription,
+      String? description,
       String? number,
       String? profilepic,
       String? links,
@@ -206,7 +206,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? discription = freezed,
+    Object? description = freezed,
     Object? number = freezed,
     Object? profilepic = freezed,
     Object? links = freezed,
@@ -232,9 +232,9 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      discription: freezed == discription
-          ? _value.discription
-          : discription // ignore: cast_nullable_to_non_nullable
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       number: freezed == number
           ? _value.number
@@ -291,7 +291,7 @@ class _$UserImpl extends _User {
       {required this.id,
       required this.name,
       required this.email,
-      this.discription,
+      this.description,
       this.number,
       this.profilepic,
       this.links,
@@ -318,7 +318,7 @@ class _$UserImpl extends _User {
   @override
   final String email;
   @override
-  final String? discription;
+  final String? description;
   @override
   final String? number;
   @override
@@ -365,7 +365,7 @@ class _$UserImpl extends _User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, discription: $discription, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, internships: $internships, category: $category, cv: $cv)';
+    return 'User(id: $id, name: $name, email: $email, description: $description, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, internships: $internships, category: $category, cv: $cv)';
   }
 
   @override
@@ -376,8 +376,8 @@ class _$UserImpl extends _User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.discription, discription) ||
-                other.discription == discription) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.number, number) || other.number == number) &&
             (identical(other.profilepic, profilepic) ||
                 other.profilepic == profilepic) &&
@@ -403,7 +403,7 @@ class _$UserImpl extends _User {
       id,
       name,
       email,
-      discription,
+      description,
       number,
       profilepic,
       links,
@@ -437,7 +437,7 @@ abstract class _User extends User {
       {required final int id,
       required final String name,
       required final String email,
-      final String? discription,
+      final String? description,
       final String? number,
       final String? profilepic,
       final String? links,
@@ -460,7 +460,7 @@ abstract class _User extends User {
   @override
   String get email;
   @override
-  String? get discription;
+  String? get description;
   @override
   String? get number;
   @override

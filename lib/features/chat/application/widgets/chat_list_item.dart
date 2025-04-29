@@ -1,24 +1,23 @@
+import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class ChatListItem extends StatelessWidget {
-  final String companyId;
-  final String companyName;
+  final Company company;
+  final String roomName;
   final String lastMessage;
   final String time;
-  final String imageUrl;
   final bool isOnline;
   final int unreadCount;
 
   const ChatListItem({
     super.key,
-    required this.companyId,
-    required this.companyName,
+    required this.company,
+    required this.roomName,
     required this.lastMessage,
     required this.time,
-    required this.imageUrl,
     this.isOnline = false,
     this.unreadCount = 0,
   });
@@ -27,7 +26,7 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push('/protected/chat/conversation/$companyId');
+        context.push('/protected/chat/conversation/$roomName', extra: company);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.r, vertical: 12.r),
@@ -36,16 +35,18 @@ class ChatListItem extends StatelessWidget {
             // Company Avatar with Online Status
             Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                    radius: 25.r,
-                    backgroundImage: imageProvider,
-                  ),
-                  placeholder: (context, url) => CircleAvatar(
-                    radius: 25.r,
-                    backgroundColor: Theme.of(context).cardColor,
-                  ),
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: company.profilepic == ''
+                      ? const Icon(Icons.business, color: Colors.white)
+                      : CachedNetworkImage(
+                          imageUrl: company.profilepic,
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
+                            radius: 25.r,
+                            backgroundImage: imageProvider,
+                          ),
+                        ),
                 ),
                 if (isOnline)
                   Positioned(
@@ -76,7 +77,7 @@ class ChatListItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        companyName,
+                        company.name,
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   fontSize: 16.sp,

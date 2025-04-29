@@ -11,33 +11,25 @@ class ColleaguesSearchBar extends StatefulWidget {
 
 class _ColleaguesSearchBarState extends State<ColleaguesSearchBar> {
   void _triggerSearch(String query) {
-
-                context
-                    .read<TeamsBloc>()
-                    .add(TeamsSearchForMembersEvent(query: query));
-              
+    context.read<TeamsBloc>().add(TeamsSearchForMembersEvent(query: query));
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .shadowColor
-            .withOpacity(0.2), 
-        borderRadius: BorderRadius.circular(25), 
+        color: Theme.of(context).shadowColor.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
         children: [
-          
           Icon(
             Icons.search,
             color: Colors.grey[600],
           ),
           const SizedBox(width: 10),
-
-          
           Expanded(
             child: TextField(
               style: Theme.of(context)
@@ -45,7 +37,6 @@ class _ColleaguesSearchBarState extends State<ColleaguesSearchBar> {
                   .bodyMedium!
                   .copyWith(color: Theme.of(context).secondaryHeaderColor),
               onChanged: _triggerSearch,
-              
               cursorColor: Theme.of(context).primaryColor,
               decoration: InputDecoration(
                 hintText: 'Search...',

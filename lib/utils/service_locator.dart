@@ -1,3 +1,4 @@
+import 'package:app/core/dioservices/dio.dart';
 import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/data/source/remote/SearchRemoteDataSource.dart';
 import 'package:app/features/Search/domain/repositories/search_repostitory.dart';
@@ -6,8 +7,18 @@ import 'package:app/features/applications%20status/data/remote/remote_data_sourc
 import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
+import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 import 'package:app/features/authentication/domain/auth_repository.dart';
-
+import 'package:app/features/chat/application/bloc/chat_search/chat_search_bloc.dart';
+import 'package:app/features/chat/application/bloc/chats/chats_bloc.dart';
+import 'package:app/features/chat/application/bloc/messages/messages_bloc.dart';
+import 'package:app/features/chat/data/remote/chat_list_remote_data_source.dart';
+import 'package:app/features/chat/data/remote/chat_remote_data_source.dart';
+import 'package:app/features/chat/data/remote/ws.service.dart';
+import 'package:app/features/chat/data/remote/chat_search_rest_remote.dart';
+import 'package:app/features/chat/domain/repositories/chat_search_repository.dart';
+import 'package:app/features/chat/domain/repositories/chat_list_repository.dart';
+import 'package:app/features/chat/domain/repositories/chat_repository.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/notifications/data/source/remote/remoteDataSource.dart';
 import 'package:app/features/notifications/domain/repositories/notification_repository.dart';
@@ -20,7 +31,6 @@ import 'package:app/features/teams/domain/teams_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -49,10 +59,10 @@ Future<void> setUpLocator() async {
 
   // Auth Bloc
   locator.registerFactory<AuthBloc>(() => AuthBloc(
-    authRepository: locator.get<AuthRepository>(), 
-    localSecureStorage: locator.get<LocalSecureStorage>(),
-    localStorage: locator.get<LocalStorage>(),
-  ));
+        authRepository: locator.get<AuthRepository>(),
+        localSecureStorage: locator.get<LocalSecureStorage>(),
+        localStorage: locator.get<LocalStorage>(),
+      ));
 
   // Opportunities
   locator.registerLazySingleton<OpportunityRemoteSource>(
@@ -73,9 +83,11 @@ Future<void> setUpLocator() async {
   locator.registerFactory<notificationsBloc>(
       () => notificationsBloc(locator.get<NotificationRepository>()));
   //applications
-  locator.registerLazySingleton<RemoteDataSource>(()=>RemoteDataSource());
-  locator.registerLazySingleton<Applicationsrepository>(()=>Applicationsrepository(locator.get<RemoteDataSource>()));
-  locator.registerFactory<ApplicationBloc>(()=>ApplicationBloc(locator.get<Applicationsrepository>()));
+  locator.registerLazySingleton<RemoteDataSource>(() => RemoteDataSource());
+  locator.registerLazySingleton<Applicationsrepository>(
+      () => Applicationsrepository(locator.get<RemoteDataSource>()));
+  locator.registerFactory<ApplicationBloc>(
+      () => ApplicationBloc(locator.get<Applicationsrepository>()));
 
   // Search
   locator.registerLazySingleton<Searchremotedatasource>(
@@ -84,8 +96,41 @@ Future<void> setUpLocator() async {
       remoteDataSource: locator.get<Searchremotedatasource>()));
   locator.registerFactory<SearchBloc>(
       () => SearchBloc(locator.get<SearchRepository>()));
-  // teams 
-   locator.registerLazySingleton<TeamsRestRemote>(() =>TeamsRestRemote());
-   locator.registerLazySingleton<TeamsRepository>(() => TeamsRepository(locator.get<TeamsRestRemote>()));
-   locator.registerFactory<TeamsBloc>(() => TeamsBloc(locator.get<TeamsRepository>()));
+  // teams
+  locator.registerLazySingleton<TeamsRestRemote>(() => TeamsRestRemote());
+  locator.registerLazySingleton<TeamsRepository>(
+      () => TeamsRepository(locator.get<TeamsRestRemote>()));
+  locator.registerFactory<TeamsBloc>(
+      () => TeamsBloc(locator.get<TeamsRepository>()));
+  // chat
+  locator.registerLazySingleton<ChatListRemoteDataSource>(
+      () => ChatListRemoteDataSource());
+  locator.registerLazySingleton<ChatListRepository>(() => ChatListRepository(
+        locator.get<ChatListRemoteDataSource>(),
+      ));
+  locator.registerFactory<ChatsBloc>(() => ChatsBloc(
+        locator.get<ChatListRepository>(),
+      ));
+  // messages
+  locator.registerLazySingleton<ChatRemoteDataSource>(
+      () => ChatRemoteDataSource());
+  locator.registerLazySingleton<ChatRepository>(() => ChatRepository(
+        locator.get<ChatRemoteDataSource>(),
+      ));
+  locator.registerLazySingleton<WsService>(() => WsService());
+  locator.registerFactory<MessagesBloc>(() => MessagesBloc(
+        locator.get<WsService>(),
+        locator.get<ChatRepository>(),
+      ));
+
+  // Chat Search
+  locator.registerLazySingleton<ChatSearchRemote>(
+    () => ChatSearchRemote(),
+  );
+  locator.registerLazySingleton<ChatSearchRepository>(
+    () => ChatSearchRepository(locator.get<ChatSearchRemote>()),
+  );
+  locator.registerFactory<ChatSearchBloc>(
+    () => ChatSearchBloc(locator.get<ChatSearchRepository>()),
+  );
 }

@@ -1,6 +1,5 @@
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/authentication/data/models/login_dto_model.dart';
-import 'package:app/features/authentication/data/models/user_model.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
@@ -23,7 +22,7 @@ class AuthRepository {
       return response.fold(
         (failure) => left(failure), // Return failure if login fails
         (response) async {
-          final user = userModelToEntity(response.user);
+          final user = User.fromModel(response.user);
           final userResult = await localStorage.setUser(user.toJson());
           if (userResult.isLeft()) {
             return left(Failure(
@@ -34,7 +33,7 @@ class AuthRepository {
 
           return tokenResult.fold(
             (failure) => left(failure), // Return failure if saving tokens fails
-            (_) => right(userModelToEntity(
+            (_) => right(User.fromModel(
                 response.user)), // Return the user entity on success
           );
         },
@@ -60,7 +59,7 @@ class AuthRepository {
     try {
       final response = await restAuthRemote.register(name, email, password);
       return response.fold((failure) => left(failure), (res) async {
-        final user = userModelToEntity(res.user);
+        final user = User.fromModel(res.user);
         final userResult = await localStorage.setUser(user.toJson());
         if (userResult.isLeft()) {
           return left(Failure(
@@ -69,7 +68,7 @@ class AuthRepository {
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
         return tokensReponse.fold(
-            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+            (l) => left(l), (_) => right(User.fromModel(res.user)));
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -80,7 +79,7 @@ class AuthRepository {
     try {
       final response = await restAuthRemote.getUserProfile();
 
-      return response.fold((l) => left(l), (r) => right(userModelToEntity(r)));
+      return response.fold((l) => left(l), (r) => right(User.fromModel(r)));
     } on Failure catch (e) {
       return left(Failure(e.toString()));
     }
@@ -91,7 +90,7 @@ class AuthRepository {
       final response = await restAuthRemote.googleSignIn();
 
       return response.fold((failure) => left(failure), (res) async {
-        final user = userModelToEntity(res.user);
+        final user = User.fromModel(res.user);
         final userResult = await localStorage.setUser(user.toJson());
         if (userResult.isLeft()) {
           return left(Failure(
@@ -100,7 +99,7 @@ class AuthRepository {
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
         return tokensReponse.fold(
-            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+            (l) => left(l), (_) => right(User.fromModel(res.user)));
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -112,7 +111,7 @@ class AuthRepository {
       final response = await restAuthRemote.linkedInSignIn(context);
 
       return response.fold((failure) => left(failure), (res) async {
-        final user = userModelToEntity(res.user);
+        final user = User.fromModel(res.user);
         final userResult = await localStorage.setUser(user.toJson());
         if (userResult.isLeft()) {
           return left(Failure(
@@ -121,7 +120,7 @@ class AuthRepository {
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
         return tokensReponse.fold(
-            (l) => left(l), (_) => right(userModelToEntity(res.user)));
+            (l) => left(l), (_) => right(User.fromModel(res.user)));
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -147,42 +146,6 @@ class AuthRepository {
     }
   }
 
-  User userModelToEntity(UserModel userModel) {
-    return User(
-      id: userModel.id,
-      name: userModel.name,
-      email: userModel.email,
-      date_joined: userModel.date_joined,
-      gendre: userModel.gendre,
-      skills: userModel.skills,
-      number: userModel.number,
-      profilepic: userModel.profilepic,
-      links: userModel.links,
-      education: userModel.education,
-      rating: userModel.rating,
-      category: userModel.category,
-      cv: userModel.cv,
-    );
-  }
-
-  UserModel userEntityToModel(User user) {
-    return UserModel(
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      date_joined: user.date_joined,
-      gendre: user.gendre,
-      skills: user.skills,
-      number: user.number,
-      profilepic: user.profilepic,
-      links: user.links,
-      education: user.education,
-      rating: user.rating,
-      category: user.category,
-      cv: user.cv,
-    );
-  }
-
   Future<Either<Failure, TokensModel>> checkTokens() async {
     try {
       final response = await localSecureStorage.getTokens();
@@ -204,15 +167,15 @@ class AuthRepository {
 
   Future<Either<Failure, User>> updateUser(User user) async {
     try {
-      final response = await restAuthRemote.updateUser(userEntityToModel(user));
+      final response = await restAuthRemote.updateUser(user.toModel());
       return response.fold((failure) => left(failure), (res) async {
-        final user = userModelToEntity(res);
+        final user = User.fromModel(res);
         final userResult = await localStorage.setUser(user.toJson());
         if (userResult.isLeft()) {
           return left(Failure(
               'Error saving user: ${userResult.fold((l) => l.message, (r) => '')}'));
         }
-        return right(userModelToEntity(res));
+        return right(User.fromModel(res));
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));

@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/chat/application/bloc/chat_search/chat_search_bloc.dart';
+import 'package:app/features/chat/application/bloc/chats/chats_bloc.dart';
+import 'package:app/features/chat/application/bloc/messages/messages_bloc.dart';
 import 'package:app/features/notifications/application/bloc/notifications_bloc.dart';
 import 'package:app/features/teams/application/bloc/teams_bloc.dart';
 import 'package:app/utils/bloc/theme_provider_bloc.dart';
@@ -51,6 +54,9 @@ void main() async {
         BlocProvider(create: (_) => locator.get<TeamsBloc>()),
         BlocProvider(create: (_) => authBloc),
         BlocProvider(create: (_) => locator.get<notificationsBloc>()),
+        BlocProvider(create: (_) => locator.get<ChatsBloc>()),
+        BlocProvider(create: (_) => locator.get<MessagesBloc>()),
+        BlocProvider(create: (_) => locator.get<ChatSearchBloc>()),
       ],
       child: const MyApp(),
     ),

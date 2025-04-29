@@ -11,6 +11,9 @@ class Loadingindicator extends StatefulWidget {
 class _LoadingindicatorState extends State<Loadingindicator> {
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator();
+    return CircularProgressIndicator(
+      color: Theme.of(context).primaryColor,
+      strokeWidth: 2.0, // Adjust the stroke width as needed
+    );
   }
 }
