@@ -25,6 +25,7 @@ class _InvitationsPageState extends State<InvitationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //return LoadingPage();
     return BlocConsumer<TeamsBloc, TeamsState>(
       listener: (context, state) => print('${state.toString()}'),
       builder: (context, state) {
@@ -43,7 +44,7 @@ class _InvitationsPageState extends State<InvitationsPage> {
           return Scaffold(
             body: RefreshIndicator(
               color: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               onRefresh: () async {
                 context.read<TeamsBloc>().add(
                       TeamsLoadInvitationsEvent(

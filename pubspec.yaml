@@ -72,6 +72,7 @@ dependencies:
   dotted_border: ^2.1.0
   path: ^1.9.1
   web_socket_channel: ^3.0.3
+  loading_indicator: ^3.1.1
 
 
 

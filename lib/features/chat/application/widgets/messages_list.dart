@@ -3,6 +3,7 @@ import 'package:app/features/chat/application/bloc/messages/messages_state.dart'
 import 'package:app/features/chat/application/widgets/chat_message_bubble.dart';
 import 'package:app/features/chat/domain/messageEntity.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,7 @@ class _MessagesListState extends State<MessagesList> {
                 child: SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: Loadingindicator(),
                 ),
               ),
             );

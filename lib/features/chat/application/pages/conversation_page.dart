@@ -4,6 +4,7 @@ import 'package:app/features/chat/application/bloc/messages/messages_bloc.dart';
 import 'package:app/features/chat/application/bloc/messages/messages_state.dart';
 import 'package:app/features/chat/application/widgets/messages_list.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,7 +93,7 @@ class _ConversationPageState extends State<ConversationPage> {
               },
               builder: (context, state) {
                 if (state is MessagesInitial || state is MessagesLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: Loadingindicator());
                 }
 
                 if (state is MessagesError) {
