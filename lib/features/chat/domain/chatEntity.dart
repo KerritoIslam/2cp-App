@@ -1,3 +1,4 @@
+import 'package:app/features/chat/domain/models/chat_model.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chatEntity.freezed.dart';
@@ -12,5 +13,7 @@ class ChatEntity with _$ChatEntity {
     required String lastMessageTime,
     required bool isOnline,
     required bool isTyping,
+    required String roomName,
   }) = _ChatEntity;
+  //test commit
 }

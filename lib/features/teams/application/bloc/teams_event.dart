@@ -42,7 +42,13 @@ final class TeamsDeleteEvent extends TeamsEvent {
 
   TeamsDeleteEvent({
     required this.id,
-    
+  });
+}
+
+final class TeamsDeleteInvitationEvent extends TeamsEvent {
+  final int id;
+  TeamsDeleteInvitationEvent({
+    required this.id,
   });
 }
 
@@ -69,10 +75,10 @@ final class TeamsLeaveEvent extends TeamsEvent {
 
 final class TeamsinviteEvent extends TeamsEvent {
   final int id;
-  final String email;
+  final List<String> emails;
   TeamsinviteEvent({
     required this.id,
-    required this.email,
+    required this.emails,
   });
 }
 
@@ -82,6 +88,9 @@ final class TeamsSearchForMembersEvent extends TeamsEvent {
     required this.query,
   });
 }
+final class TeamsSearchForMoreMembersEvent extends TeamsEvent {
+}
+
 final class TeamsKickMemberEvent extends TeamsEvent {
   final int teamId;
   final int userId;
@@ -90,3 +99,14 @@ final class TeamsKickMemberEvent extends TeamsEvent {
     required this.userId,
   });
 }
+
+final class TeamsLoadMyInvitationsEvent extends TeamsEvent {
+  final int limit;
+  final int page;
+  TeamsLoadMyInvitationsEvent({
+    required this.limit,
+    required this.page,
+  });
+}
+
+

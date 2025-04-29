@@ -10,7 +10,7 @@ class UserModel with _$UserModel {
     required int id,
     required String name,
     required String email,
-    String? discription,
+    String? description,
     String? number,
     String? profilepic,
     String? links,

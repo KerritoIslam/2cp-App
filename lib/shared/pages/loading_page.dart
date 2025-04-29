@@ -1,3 +1,4 @@
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
@@ -11,19 +12,7 @@ class LoadingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: 0, end: 1),
-              duration: const Duration(seconds: 2),
-              builder: (context, value, child) {
-                return Transform.scale(
-                  scale: value,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).primaryColor),
-                  ),
-                );
-              },
-            ),
+            Loadingindicator(),
             const SizedBox(height: 20),
             const Text(
               'Please wait...',

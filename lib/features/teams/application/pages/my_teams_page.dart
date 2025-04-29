@@ -4,12 +4,10 @@ import 'package:app/shared/pages/loading_page.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
 class MyTeamsPage extends StatefulWidget {
-  final VoidCallback? onfabpressed;
-  const MyTeamsPage({super.key, required this.onfabpressed});
+  const MyTeamsPage({super.key});
 
   @override
   State<MyTeamsPage> createState() => _MyTeamsPageState();
@@ -63,8 +61,20 @@ class _MyTeamsPageState extends State<MyTeamsPage> {
               );
             case TeamsLoaded:
               final teams = (state as TeamsLoaded).teams;
+              if (teams.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No teams found',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                  ),
+                );
+              }
               return Scaffold(
                 body: RefreshIndicator(
+                  color: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   onRefresh: () async {
                     teamsBloc.add(
                       TeamsLoadEvent(
@@ -76,39 +86,8 @@ class _MyTeamsPageState extends State<MyTeamsPage> {
                   child: ListView.builder(
                     itemCount: teams.length,
                     itemBuilder: (context, index) {
-                      return TeamCard(
-                          team: teams[
-                              index] /* .copyWith(
-                          students: [
-                            ...teams[index].students,
-                            teams[index].students.first.copyWith(
-                              skills: [
-                                "flutter",
-                                "dart",
-                                "python",
-                                "java",
-                                "javascript",
-                                "html",
-                                "css"
-                              ],
-                            )
-                          ],
-                        ), */
-                          );
+                      return TeamCard(team: teams[index]);
                     },
-                  ),
-                ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    widget.onfabpressed!();
-                  },
-                  backgroundColor: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60.r),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
                   ),
                 ),
               );

@@ -5,6 +5,7 @@ import 'package:app/features/teams/domain/entities/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toastification/toastification.dart';
 
 class InviteDialog extends StatefulWidget {
   final Team team;
@@ -168,7 +169,25 @@ class _InviteDialogState extends State<InviteDialog> {
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 15.h),
               child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: ()async {
+                    if (invitations.isNotEmpty) {
+                       context.read<TeamsBloc>().add(
+                            TeamsinviteEvent(
+                              id: widget.team.id!,
+                              emails: invitations
+                                  .map((e) => e.email)
+                                  .toList(),
+                            ),
+                          );
+                      Navigator.pop(context);
+                    } else {
+                      toastification.show(
+                        title: Text('No invitations',style: TextStyle(color: Colors.red),),
+                        type: ToastificationType.error,
+                        autoCloseDuration: const Duration(seconds: 2), 
+                      );
+                    }
+                  },
                   child: Text(
                     'invite',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(

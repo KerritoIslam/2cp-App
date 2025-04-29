@@ -1,6 +1,6 @@
 import 'package:app/features/teams/application/pages/invitation_page.dart';
-import 'package:app/features/teams/application/pages/my_teams_page.dart';
 import 'package:app/features/teams/application/pages/new_teams.dart';
+import 'package:app/features/teams/application/pages/tracking_page.dart';
 import 'package:flutter/material.dart';
 
 class TeamsPageWraper extends StatefulWidget {
@@ -29,18 +29,16 @@ class _TeamsPageWraperState extends State<TeamsPageWraper> {
   @override
   Widget build(BuildContext context) {
     switch (currentIndex) {
-      case 0:
-        return InvitationsPage(
+      case 2:
+        return TrackinPage(
           onfabpressed: () => onPageChanged(1),
         );
       case 1:
         return NewTeam(
           onfabpressed: () => onPageChanged(0),
         );
-      case 2:
-        return MyTeamsPage(
-          onfabpressed: () => onPageChanged(1),
-        );
+      case 0:
+        return InvitationsPage(onfabpressed: () => onPageChanged(1));
 
       default:
         return InvitationsPage(onfabpressed: () => onPageChanged(1));

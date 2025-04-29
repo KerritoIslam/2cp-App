@@ -13,6 +13,7 @@ import 'package:app/features/notifications/application/pages/notifications_page.
 import 'package:app/features/notifications/application/pages/notifications_setting_page.dart';
 import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
+import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:app/features/profile/application/pages/company_profile_page.dart';
 import 'package:app/features/profile/application/pages/forms/aboutme.dart';
 import 'package:app/features/profile/application/pages/forms/education_form_page.dart';
@@ -124,10 +125,11 @@ GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'chat/conversation/:companyId',
+          path: 'chat/conversation/:roomName',
           pageBuilder: (context, state) => MaterialPage(
             child: ConversationPage(
-              companyId: state.pathParameters['companyId']!,
+              company: state.extra as Company,
+              roomName: state.pathParameters['roomName']!,
             ),
           ),
         ),
@@ -203,6 +205,7 @@ GoRouter router = GoRouter(
         return '/auth/welcome';
       }
     }
+
     if (state.fullPath!.startsWith('/auth') &&
         authBloc.state is Authenticated) {
       return '/protected/layout/0';

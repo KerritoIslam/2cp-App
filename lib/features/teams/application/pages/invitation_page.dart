@@ -25,6 +25,7 @@ class _InvitationsPageState extends State<InvitationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //return LoadingPage();
     return BlocConsumer<TeamsBloc, TeamsState>(
       listener: (context, state) => print('${state.toString()}'),
       builder: (context, state) {
@@ -42,6 +43,8 @@ class _InvitationsPageState extends State<InvitationsPage> {
         } else if (state is TeamsInvitationsLoaded) {
           return Scaffold(
             body: RefreshIndicator(
+              color: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               onRefresh: () async {
                 context.read<TeamsBloc>().add(
                       TeamsLoadInvitationsEvent(
@@ -100,6 +103,16 @@ class _InvitationsPageState extends State<InvitationsPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    if (state.invitations.isEmpty)
+                      Center(
+                        child: Text(
+                          'No invitations found',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                        ),
+                      ),
                     ...state.invitations.map((invitation) => InvitationCard(
                           invitation: invitation,
                         )),

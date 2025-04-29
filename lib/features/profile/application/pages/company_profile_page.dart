@@ -315,8 +315,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                             if (user.internships.isNotEmpty) {
                               strength += 0.2;
                             }
-                            if (user.discription != null &&
-                                user.discription!.isNotEmpty) {
+                            if (user.description != null &&
+                                user.description!.isNotEmpty) {
                               strength += 0.2;
                             }
                             if (user.profilepic != null) {

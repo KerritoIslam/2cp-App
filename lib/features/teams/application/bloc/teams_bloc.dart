@@ -10,6 +10,11 @@ part 'teams_event.dart';
 part 'teams_state.dart';
 
 class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
+  int _limit = 10;
+  String _currentQuery = '';
+  int _currentPage = 1;
+  bool _hasMore = true;
+  List<User> _allResults = [];
   EventTransformer<Event> debounce<Event>(Duration duration) {
     return (events, mapper) => events.debounce(duration).switchMap(mapper);
   }
@@ -97,36 +102,88 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
         );
       },
     );
-    on<TeamsLeaveEvent>((event, emit) {
+    on<TeamsLeaveEvent>((event, emit) async {
       emit(TeamsLoading());
-      teamsRepository.leaveTeam(event.id).then((result) {
-        result.fold(
-          (failure) => emit(TeamsError(message: failure.message)),
-          (unit) {
-            emit(TeamsLeaveSuccess(message: 'You left the team'));
-          },
-        );
-      });
+
+      final result = await teamsRepository.leaveTeam(event.id);
+      result.fold(
+        (failure) => emit(TeamsError(message: failure.message)),
+        (unit) {
+          emit(TeamsLeaveSuccess(message: 'You left the team'));
+        },
+      );
     });
-    on<TeamsinviteEvent>((event, emit) {
+
+    on<TeamsinviteEvent>((event, emit) async {
+      print(event.toString());
       emit(TeamsLoading());
-      teamsRepository.inviteMember(event.id, event.email).then((result) {
-        result.fold(
-          (failure) => emit(TeamsError(message: failure.message)),
-          (unit) {
-            emit(TeamsSuccess(message: 'Invitations sent successfully'));
-          },
-        );
-      });
+      final result = await teamsRepository.inviteMember(event.id, event.emails);
+      result.fold(
+        (failure) => emit(TeamsError(message: failure.message)),
+        (unit) {
+          emit(TeamsSuccess(message: 'Invitations sent successfully'));
+        },
+      );
     });
     on<TeamsSearchForMembersEvent>((event, emit) async {
       emit(TeamsSearchForMembersLoading());
-      final result = await teamsRepository.searchForMembers(event.query);
+      _hasMore = false;
+      _limit = 2;
+      _currentPage = 1;
+      _currentQuery = event.query;
+      if (_currentQuery.isEmpty) {
+        emit(TeamsSearchForMembersSuccess(
+          members: [],
+          hasmore: false,
+          message: 'No results found',
+        ));
+        return;
+      }
+      final result = await teamsRepository.searchForMembers(
+          event.query, _currentPage, _limit);
+
       result.fold(
         (failure) => emit(TeamsSearchForMembersError(message: failure.message)),
-        (members) =>
-            emit(TeamsSearchForMembersSuccess(members: members, message: '')),
+        (res) {
+          _allResults = res;
+          _hasMore = res.length == _limit;
+
+          emit(TeamsSearchForMembersSuccess(
+            members: res,
+            hasmore: _hasMore,
+            message: '',
+          ));
+        },
       );
+    }, transformer: debounce(const Duration(milliseconds: 300)));
+    on<TeamsSearchForMoreMembersEvent>((event, emit) async {
+      if (!_hasMore || state is TeamsSearchForMembersLoading) return;
+      _currentPage++;
+      try {
+        print('Loading more members...');
+        print(_currentPage);
+        print(_currentQuery);
+        print(_limit);
+        print(_hasMore);
+        print(_allResults.length);
+        final newResult = await teamsRepository.searchForMembers(
+            _currentQuery, _currentPage, _limit);
+        newResult.fold(
+            (failure) =>
+                emit(TeamsSearchForMembersError(message: failure.message)),
+            (res) {
+          _allResults.addAll(res);
+          print(_allResults.length);
+          _hasMore = res.length == _limit;
+          emit(TeamsSearchForMembersSuccess(
+            members: _allResults,
+            hasmore: _hasMore,
+            message: '',
+          ));
+        });
+      } catch (e) {
+        emit(TeamsSearchForMembersError(message: e.toString()));
+      }
     }, transformer: debounce(const Duration(milliseconds: 300)));
     on<TeamsKickMemberEvent>((event, emit) async {
       emit(TeamsLoading());
@@ -137,6 +194,26 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
         (team) {
           emit(TeamsKickMemberSuccess(
               message: 'Member kicked successfully', team: team));
+        },
+      );
+    });
+    on<TeamsLoadMyInvitationsEvent>((event, emit) async {
+      emit(TeamsLoading());
+      final result =
+          await teamsRepository.fetchMyInvitations(event.page, event.limit);
+      result.fold(
+        (failure) => emit(TeamsError(message: failure.message)),
+        (invitations) =>
+            emit(TeamsMyInvitationsLoaded(invitations: invitations)),
+      );
+    });
+    on<TeamsDeleteInvitationEvent>((event, emit) async {
+      emit(TeamsLoading());
+      final result = await teamsRepository.deleteInvitation(event.id);
+      result.fold(
+        (failure) => emit(TeamsError(message: failure.message)),
+        (unit) {
+          emit(TeamsSuccess(message: 'Invitation deleted successfully'));
         },
       );
     });

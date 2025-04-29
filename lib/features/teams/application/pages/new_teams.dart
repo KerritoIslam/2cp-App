@@ -1,6 +1,7 @@
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/teams/application/bloc/teams_bloc.dart';
 import 'package:app/features/teams/application/widgets/search.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -115,13 +116,16 @@ class _NewTeamState extends State<NewTeam> {
 
   @override
   void initState() {
-    invitations;
+    invitations = [];
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       onRefresh: () async {
         context.go('/protected/layout/2');
       },
@@ -255,9 +259,13 @@ class _NewTeamState extends State<NewTeam> {
           ),
           BlocConsumer<TeamsBloc, TeamsState>(listener: (context, state) {
             if (state is TeamsSearchForMembersError) {
+              print('123456');
+              print(state.message);
               toastification.show(
                 title: Text(
-                  'Network Error',
+                  //'Network Error',
+                  state.message,
+
                   style: TextStyle(color: Colors.red),
                 ),
                 type: ToastificationType.error,
@@ -283,18 +291,8 @@ class _NewTeamState extends State<NewTeam> {
           }, builder: (context, state) {
             if (state is TeamsSearchForMembersLoading) {
               return SliverToBoxAdapter(
-                child: Center(child: CircularProgressIndicator()),
-              );
-            } else if (state is TeamsSearchForMembersError) {
-              return SliverToBoxAdapter(
-                child: Center(
-                  child: Text(
-                    state.message,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Colors.red,
-                        ),
-                  ),
-                ),
+                child: SizedBox(
+                    height: 400.h, child: Center(child: Loadingindicator())),
               );
             } else if (state is TeamsSearchForMembersSuccess) {
               final members = state.members.where((element) {
@@ -305,11 +303,20 @@ class _NewTeamState extends State<NewTeam> {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
+                    if (index == members.length) {
+                      context.read<TeamsBloc>().add(
+                            TeamsSearchForMoreMembersEvent(),
+                          );
+
+                      return Container(
+                        height: 50,
+                        child: Center(child: Loadingindicator()),
+                      );
+                    }
+
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 2,
-                        horizontal: 35,
-                      ),
+                          vertical: 2, horizontal: 35),
                       child: ListTile(
                         tileColor:
                             Theme.of(context).primaryColor.withOpacity(0.4),
@@ -335,7 +342,6 @@ class _NewTeamState extends State<NewTeam> {
                             color: Theme.of(context).primaryColor,
                             shape: BoxShape.circle,
                           ),
-                          padding: EdgeInsets.all(0),
                           child: IconButton(
                             icon: Icon(Icons.add, color: Colors.white),
                             onPressed: () {
@@ -352,12 +358,20 @@ class _NewTeamState extends State<NewTeam> {
                       ),
                     );
                   },
-                  childCount: members.length,
+                  childCount: members.length + (state.hasmore ? 1 : 0),
                 ),
               );
-            } else {
-              return SliverToBoxAdapter(child: SizedBox.shrink());
+            } else if (state is TeamsSearchForMembersError) {
+              return SliverToBoxAdapter(
+                  child: Container(
+                padding: EdgeInsets.all(100.h),
+                alignment: Alignment.center,
+                child: SizedBox(
+                  child: Text('somthing went wrong'),
+                ),
+              ));
             }
+            return SliverToBoxAdapter(child: SizedBox.shrink());
           }),
         ],
       ),

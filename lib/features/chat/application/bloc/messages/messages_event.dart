@@ -1,35 +1,45 @@
-part of 'messages_bloc.dart';
+import 'package:app/features/chat/domain/messageEntity.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class MessagesEvent {}
+abstract class MessagesEvent extends Equatable {
+  const MessagesEvent();
 
-class MessageReceivedEvent extends MessagesEvent {
-  MessageEntity receivedMessage;
-  MessageReceivedEvent(this.receivedMessage);
+  @override
+  List<Object> get props => [];
 }
 
-class MessageSentEvent extends MessagesEvent {
-  MessageEntity sentMessage;
-  MessageSentEvent(this.sentMessage);
+class LoadMessages extends MessagesEvent {
+  final int chatId;
+
+  const LoadMessages({required this.chatId});
+
+  @override
+  List<Object> get props => [chatId];
 }
 
-class DbMessagesRequestedEvent extends MessagesEvent {
-  final int companyId;
-  final int userId;
-  final int page;
-  final int limit;
+class SendMessage extends MessagesEvent {
+  final MessageEntity message;
 
-  DbMessagesRequestedEvent(
-      {required this.companyId,
-      required this.userId,
-      required this.page,
-      required this.limit});
+  const SendMessage({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }
 
-class CheckIfNeedMoreMessageEvent extends MessagesEvent {
-  final int companyId;
-  final int userId;
+class ReceiveMessage extends MessagesEvent {
+  final MessageEntity message;
 
-  CheckIfNeedMoreMessageEvent({required this.companyId, required this.userId});
+  const ReceiveMessage({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }
 
-class ClearMessagesEvent extends MessagesEvent {}
+class DeleteMessage extends MessagesEvent {
+  final int messageId;
+
+  const DeleteMessage({required this.messageId});
+
+  @override
+  List<Object> get props => [messageId];
+}

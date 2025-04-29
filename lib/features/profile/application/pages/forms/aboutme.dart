@@ -31,7 +31,7 @@ class _AboutMeState extends State<AboutMe> {
     if (state is Authenticated) {
       user = state.user;
       _descriptionController =
-          TextEditingController(text: user.discription ?? '');
+          TextEditingController(text: user.description ?? '');
     }
     super.initState();
   }
@@ -85,7 +85,7 @@ class _AboutMeState extends State<AboutMe> {
                   onPressed: () {
                     context.read<AuthBloc>().add(AuthUserUpdated(
                           user.copyWith(
-                              discription: _descriptionController.text),
+                              description: _descriptionController.text),
                         ));
                     context.go('/protected/profile');
                   },
