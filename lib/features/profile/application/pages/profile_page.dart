@@ -90,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Spacer(),
                       IconButton(
                         onPressed: () {
-                          context.go('/protected/company_profile/0');
+                          context.push('/protected/options');
                         },
                         icon: Icon(
                           Icons.settings,
@@ -125,12 +125,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  context.push('/protected/options');
-                                },
-                                child: Text('Set'),
-                              ),
                               Text(
                                 user.name,
                                 style:

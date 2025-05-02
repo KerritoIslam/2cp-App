@@ -39,7 +39,7 @@ sealed class Opportunity with _$Opportunity {
 
   factory Opportunity.fromJson(Map<String, dynamic> json) =>
       _$OpportunityFromJson(json);
-
+  
   OpportunityModel toModel() {
     return map(
       internship: (entity) => OpportunityModel.internship(

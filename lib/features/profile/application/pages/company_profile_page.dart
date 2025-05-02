@@ -1,13 +1,15 @@
-import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
-import 'package:app/features/authentication/application/bloc/auth_state.dart';
-import 'package:app/features/authentication/domain/entities/user_entity.dart';
+import 'package:app/core/failure/failure.dart';
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
+import 'package:app/features/profile/domain/profile_repository.dart';
+import 'package:app/shared/pages/loading_page.dart';
+import 'package:app/utils/service_locator.dart';
+import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CompanyProfilePage extends StatefulWidget {
   final int id;
@@ -18,178 +20,93 @@ class CompanyProfilePage extends StatefulWidget {
 }
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
+  final ProfileRepository _profileRepository = locator.get<ProfileRepository>();
   late ScrollController _scrollController;
   bool _isLoadingMore = false;
-  final List<Opportunity> _opportunites = [
-    Opportunity.problem(
-      id: 20,
-      title: 'Software Engineer Intern',
-      description:
-          'An exciting opportunity to work with a leading tech company.',
-      totalApplications: 10,
-      company: Company(
-        id: 10,
-        name: 'Tech Innovators',
-        category: 'Software',
-        profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-      ),
-      applicantsAvatars: [
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-      ],
-      category: 'Software',
-      skills: ['Java', 'Python', 'Dart'],
-    ),
-    Opportunity.problem(
-      id: 20,
-      title: 'Software Engineer Intern',
-      description:
-          'An exciting opportunity to work with a leading tech company.',
-      totalApplications: 10,
-      company: Company(
-        id: 10,
-        name: 'Tech Innovators',
-        category: 'Software',
-        profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-      ),
-      applicantsAvatars: [
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-      ],
-      category: 'Software',
-      skills: ['Java', 'Python', 'Dart'],
-    ),
-    Opportunity.problem(
-      id: 20,
-      title: 'Software Engineer Intern',
-      description:
-          'An exciting opportunity to work with a leading tech company.',
-      totalApplications: 10,
-      company: Company(
-        id: 10,
-        name: 'Tech Innovators',
-        category: 'Software',
-        profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-      ),
-      applicantsAvatars: [
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-      ],
-      category: 'Software',
-      skills: ['Java', 'Python', 'Dart'],
-    ),
-    Opportunity.problem(
-      id: 20,
-      title: 'Software Engineer Intern',
-      description:
-          'An exciting opportunity to work with a leading tech company.',
-      totalApplications: 10,
-      company: Company(
-        id: 10,
-        name: 'Tech Innovators',
-        category: 'Software',
-        profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-      ),
-      applicantsAvatars: [
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-        'assets/images/avatar.png',
-      ],
-      category: 'Software',
-      skills: ['Java', 'Python', 'Dart'],
-    ),
-  ];
+  Company? _company;
+  int page = 1;
+  int limit = 10;
+  late Future<dz.Either<Failure, dz.Unit>> _loadProfileFuture;
+  final List<Opportunity> _opportunites = [];
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _loadProfileFuture = _loadProfile(widget.id);
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 600 &&
-        !_isLoadingMore) {
+        !_isLoadingMore &&
+        _opportunites.length > 9) {
       _loadMoreItems();
     }
   }
 
-  Future<void> _loadMoreItems() async {
+  Future<dz.Either<Failure, dz.Unit>> _loadProfile(int id) async {
+    try {
+      final result = await _profileRepository.getCompany(id);
+      return result.fold(
+        (failure) {
+          print('Company fetch error: ${failure.message}');
+          return dz.left(failure);
+        },
+        (company) async {
+          _company = company;
+          setState(() {});
+          try {
+            final opportunitiesRes =
+                await _profileRepository.getOpportunities(id, page, limit);
+            return opportunitiesRes.fold(
+              (failure) {
+                print('Opportunities fetch error: ${failure.message}');
+                return dz.left(failure);
+              },
+              (opportunities) {
+                if (opportunities.length == limit) page++;
+                _opportunites.addAll(opportunities);
+                return dz.right(dz.unit);
+              },
+            );
+          } catch (e) {
+            print('Opportunities fetch exception: $e');
+            return dz.left(Failure(e.toString()));
+          }
+        },
+      );
+    } catch (e) {
+      print('Company fetch exception: $e');
+      return dz.left(Failure(e.toString()));
+    }
+  }
+
+  Future<dz.Either<Failure, dz.Unit>> _loadMoreItems() async {
     setState(() => _isLoadingMore = true);
 
     // Simulate fetch
-    await Future.delayed(const Duration(seconds: 2));
+    final result =
+        await _profileRepository.getOpportunities(widget.id, page, limit);
+    return result.fold(
+      (failure) {
+        setState(() => _isLoadingMore = false);
+        print(failure.message);
+        return dz.left(failure);
+      },
+      (opportunities) {
+        if (opportunities.length == limit) page++;
+        setState(() {
+          _opportunites.addAll(opportunities);
 
-    setState(() {
-      // Append fake items for now, or call your BLoC/repo to fetch
-      _opportunites.addAll([
-        Opportunity.problem(
-          id: 20,
-          title: 'Software Engineer Intern',
-          description:
-              'An exciting opportunity to work with a leading tech company.',
-          totalApplications: 10,
-          company: Company(
-            id: 10,
-            name: 'Tech Innovators',
-            category: 'Software',
-            profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-          ),
-          applicantsAvatars: [
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-          ],
-          category: 'Software',
-          skills: ['Java', 'Python', 'Dart'],
-        ),
-        Opportunity.problem(
-          id: 20,
-          title: 'Software Engineer Intern',
-          description:
-              'An exciting opportunity to work with a leading tech company.',
-          totalApplications: 10,
-          company: Company(
-            id: 10,
-            name: 'Tech Innovators',
-            category: 'Software',
-            profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-          ),
-          applicantsAvatars: [
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-          ],
-          category: 'Software',
-          skills: ['Java', 'Python', 'Dart'],
-        ),
-        Opportunity.problem(
-          id: 20,
-          title: 'Software Engineer Intern',
-          description:
-              'An exciting opportunity to work with a leading tech company.',
-          totalApplications: 10,
-          company: Company(
-            id: 10,
-            name: 'Tech Innovators',
-            category: 'Software',
-            profilepic: "https://avatars.githubusercontent.com/u/145935984?v=4",
-          ),
-          applicantsAvatars: [
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-            'assets/images/avatar.png',
-          ],
-          category: 'Software',
-          skills: ['Java', 'Python', 'Dart'],
-        ),
-      ]);
-      _isLoadingMore = false;
-    });
+          // Append fake items for now, or call your BLoC/repo to fetch
+
+          _isLoadingMore = false;
+        });
+        return dz.right(dz.unit);
+      },
+    );
   }
 
   @override
@@ -198,42 +115,74 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     super.dispose();
   }
 
-  bool _editing = false;
   @override
   Widget build(BuildContext context) {
-    User user = (context.read<AuthBloc>().state as Authenticated).user;
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SafeArea(
-          child: ListView.builder(
-        controller: _scrollController,
-        itemCount: _opportunites.length +
-            2, // +2 for profile header and loading indicator
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildProfileHeader(user);
-          } else if (index <= _opportunites.length) {
-            return Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                padding: EdgeInsets.only(top: 10.h),
-                child: opportunityCard(opportunity: _opportunites[index - 1]));
-          } else {
-            return _isLoadingMore
-                ? Container(
-                    padding: EdgeInsets.symmetric(vertical: 100.h),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    )))
-                : const SizedBox.shrink();
+    return FutureBuilder<dz.Either<Failure, dz.Unit>>(
+        future: _loadProfileFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting &&
+              _company == null) {
+            return LoadingPage();
           }
-        },
-      )),
-    );
+
+          if (snapshot.hasError || _company == null) {
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {
+                      _loadProfileFuture = _loadProfile(widget.id);
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text('Network Error'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return Scaffold(
+            backgroundColor: Theme.of(context).primaryColor,
+            body: SafeArea(
+                child: ListView.builder(
+              controller: _scrollController,
+              itemCount: _opportunites.length + 2,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _buildProfileHeader(_company!, _opportunites.length);
+                } else if (index <= _opportunites.length) {
+                  return Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: opportunityCard(
+                          opportunity: _opportunites[index - 1]));
+                } else {
+                  return _isLoadingMore
+                      ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 100.h),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          )))
+                      : const SizedBox.shrink();
+                }
+              },
+            )),
+          );
+        });
   }
 
-  Widget _buildProfileHeader(User user) {
+  Widget _buildProfileHeader(Company company, int opportunitiesCount) {
     return Column(
       children: [
         Row(
@@ -250,12 +199,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             ),
             IconButton(
               onPressed: () {
-                setState(() {
-                  _editing = !_editing;
-                });
+                SharePlus.instance.share(ShareParams(
+                  text: 'Check out the app: https://example.com',
+                  subject: 'Check out this company',
+                ));
               },
               icon: Icon(
-                _editing ? Icons.done : Icons.edit,
+                Icons.share,
                 color: Colors.white,
               ),
             ),
@@ -277,11 +227,11 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      user.name,
+                      company.name,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     SizedBox(height: 10.h),
-                    Text(user.email,
+                    Text(company.email ?? 'no email provided',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.grey,
                             )),
@@ -289,71 +239,53 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          user.internships.length.toString(),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              company.location ?? 'no location\nprovided',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     color: Colors.grey[400],
                                   ),
+                            ),
+                            Text(
+                              'location',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: Colors.grey[600],
+                                  ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          user.date_joined,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              company.date_joined ?? 'no date provided',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     color: Colors.grey[400],
                                   ),
-                        ),
-                        Text(
-                          () {
-                            double strength = 0;
-                            if (user.skills.isNotEmpty) {
-                              strength += 0.2;
-                            }
-                            if (user.education.isNotEmpty) {
-                              strength += 0.2;
-                            }
-                            if (user.internships.isNotEmpty) {
-                              strength += 0.2;
-                            }
-                            if (user.description != null &&
-                                user.description!.isNotEmpty) {
-                              strength += 0.2;
-                            }
-                            if (user.profilepic != null) {
-                              strength += 0.2;
-                            }
-                            return '${(strength * 100).toInt()}%';
-                          }(),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Colors.grey[400],
-                                  ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          '  internships',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            ),
+                            Text(
+                              'Member since',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     color: Colors.grey[600],
                                   ),
-                        ),
-                        Text(
-                          'Member since',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Colors.grey[600],
-                                  ),
-                        ),
-                        Text(
-                          'Profile Strength',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Colors.grey[600],
-                                  ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -367,15 +299,19 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
                     radius: 60.r,
-                    backgroundImage: user.profilepic != null
-                        ? NetworkImage(user.profilepic!)
-                        : AssetImage('assets/images/avatar.png')
-                            as ImageProvider,
+                    backgroundImage: company.profilepic == ''
+                        ? AssetImage('assets/images/avatar.png')
+                            as ImageProvider
+                        : NetworkImage(company.profilepic) as ImageProvider,
                   ),
                 ),
               ),
             ],
           ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
       ],
     );

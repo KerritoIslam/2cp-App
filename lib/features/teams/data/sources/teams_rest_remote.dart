@@ -21,7 +21,9 @@ class TeamsRestRemote {
         'page': page,
         'limit': limit,
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         final teams = (response.data['results'] as List)
             .map((team) => TeamModel.fromJson(team))
             .toList();
@@ -44,7 +46,9 @@ class TeamsRestRemote {
         'page': page,
         'limit': limit,
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         final invitations = (response.data['results'] as List)
             .map((invitation) => InvitationModel.fromJson(invitation))
             .toList();
@@ -65,16 +69,17 @@ class TeamsRestRemote {
       final response = await dio.post('post/team/receiver/', data: {
         'invite_id': inviteId,
       });
-      if (response.statusCode == 200 || response.statusCode == 404) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
-        return left(
-            Failure('Failed to accept invitation: ${response.statusCode}'));
+        return left(Failure('Failed to accept invitation'));
       }
     } on DioException catch (e) {
-      return left(Failure('Failed to accept invitation: ${e.message}'));
+      return left(Failure('Failed to accept invitation'));
     } catch (e) {
-      throw Exception('Failed to accept invitation: $e');
+      throw Exception('Failed to accept invitation');
     }
   }
 
@@ -83,16 +88,17 @@ class TeamsRestRemote {
       final response = await dio.delete('post/team/receiver/', data: {
         'invite_id': inviteId,
       });
-      if (response.statusCode == 200 || response.statusCode == 404) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
-        return left(
-            Failure('Failed to reject invitation: ${response.statusCode}'));
+        return left(Failure('Failed to reject invitation'));
       }
     } on DioException catch (e) {
-      return left(Failure('Failed to reject invitation: ${e.message}'));
+      return left(Failure('Failed to reject invitation'));
     } catch (e) {
-      throw Exception('Failed to reject invitation: $e');
+      throw Exception('Failed to reject invitation');
     }
   }
 
@@ -103,7 +109,9 @@ class TeamsRestRemote {
         'name': name,
         'emails': emails,
       });
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
         return left(Failure('Failed to create team: ${response.statusCode}'));
@@ -125,7 +133,9 @@ class TeamsRestRemote {
         'type': 'Student',
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         final members = (response.data['results'] as List)
             .map((member) => UserModel.fromJson(member))
             .toList();
@@ -151,9 +161,9 @@ class TeamsRestRemote {
       final response = await dio.delete('post/team/', data: {
         'id': teamId,
       });
-      if (response.statusCode == 200 ||
-          response.statusCode == 404 ||
-          response.statusCode == 204) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
         return left(Failure('Failed to delete team: ${response.statusCode}'));
@@ -172,7 +182,9 @@ class TeamsRestRemote {
         'team_id': teamId,
         'invited_emails': emails,
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
         return left(Failure('Failed to invite member: ${response.statusCode}'));
@@ -189,9 +201,9 @@ class TeamsRestRemote {
       final response = await dio.delete('post/team/managing/', data: {
         'team_id': teamId,
       });
-      if (response.statusCode == 200 ||
-          response.statusCode == 404 ||
-          response.statusCode == 204) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
         return left(Failure('Failed to leave team: ${response.statusCode}'));
@@ -209,7 +221,9 @@ class TeamsRestRemote {
         'team_id': teamId,
         'user_id': userId,
       });
-      if (response.statusCode == 200 || response.statusCode == 404) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(TeamModel.fromJson(response.data));
       } else {
         return left(Failure('Failed to remove member: ${response.statusCode}'));
@@ -225,7 +239,9 @@ class TeamsRestRemote {
     try {
       final response = await dio
           .put('post/team/', data: {"team_id": team.id, "team": team.toJson()});
-      if (response.statusCode == 200 || response.statusCode == 404) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(TeamModel.fromJson(response.data));
       } else {
         return left(Failure('Failed to update team: ${response.statusCode}'));
@@ -244,7 +260,9 @@ class TeamsRestRemote {
         'page': page,
         'limit': limit,
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         final invitations = (response.data['results'] as List)
             .map((invitation) => InvitationModel.fromJson(invitation))
             .toList();
@@ -265,9 +283,9 @@ class TeamsRestRemote {
       final response = await dio.delete('post/team/inviter/', data: {
         'invite_id': inviteId,
       });
-      if (response.statusCode == 200 ||
-          response.statusCode == 404 ||
-          response.statusCode == 204) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return right(unit);
       } else {
         return left(

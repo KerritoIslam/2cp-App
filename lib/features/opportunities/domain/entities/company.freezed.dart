@@ -24,6 +24,11 @@ mixin _$Company {
   String get name => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get profilepic => throw _privateConstructorUsedError;
+  String? get date_joined => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
+  String? get number => throw _privateConstructorUsedError;
 
   /// Serializes this Company to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +44,16 @@ abstract class $CompanyCopyWith<$Res> {
   factory $CompanyCopyWith(Company value, $Res Function(Company) then) =
       _$CompanyCopyWithImpl<$Res, Company>;
   @useResult
-  $Res call({int id, String name, String category, String profilepic});
+  $Res call(
+      {int id,
+      String name,
+      String category,
+      String profilepic,
+      String? date_joined,
+      String? email,
+      String? description,
+      String? location,
+      String? number});
 }
 
 /// @nodoc
@@ -61,6 +75,11 @@ class _$CompanyCopyWithImpl<$Res, $Val extends Company>
     Object? name = null,
     Object? category = null,
     Object? profilepic = null,
+    Object? date_joined = freezed,
+    Object? email = freezed,
+    Object? description = freezed,
+    Object? location = freezed,
+    Object? number = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,6 +98,26 @@ class _$CompanyCopyWithImpl<$Res, $Val extends Company>
           ? _value.profilepic
           : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
+      date_joined: freezed == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -90,7 +129,16 @@ abstract class _$$CompanyImplCopyWith<$Res> implements $CompanyCopyWith<$Res> {
       __$$CompanyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String category, String profilepic});
+  $Res call(
+      {int id,
+      String name,
+      String category,
+      String profilepic,
+      String? date_joined,
+      String? email,
+      String? description,
+      String? location,
+      String? number});
 }
 
 /// @nodoc
@@ -110,6 +158,11 @@ class __$$CompanyImplCopyWithImpl<$Res>
     Object? name = null,
     Object? category = null,
     Object? profilepic = null,
+    Object? date_joined = freezed,
+    Object? email = freezed,
+    Object? description = freezed,
+    Object? location = freezed,
+    Object? number = freezed,
   }) {
     return _then(_$CompanyImpl(
       id: null == id
@@ -128,6 +181,26 @@ class __$$CompanyImplCopyWithImpl<$Res>
           ? _value.profilepic
           : profilepic // ignore: cast_nullable_to_non_nullable
               as String,
+      date_joined: freezed == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -138,8 +211,13 @@ class _$CompanyImpl extends _Company {
   const _$CompanyImpl(
       {required this.id,
       required this.name,
-      required this.category,
-      required this.profilepic})
+      this.category = '',
+      this.profilepic = '',
+      this.date_joined,
+      this.email,
+      this.description,
+      this.location,
+      this.number})
       : super._();
 
   factory _$CompanyImpl.fromJson(Map<String, dynamic> json) =>
@@ -150,13 +228,25 @@ class _$CompanyImpl extends _Company {
   @override
   final String name;
   @override
+  @JsonKey()
   final String category;
   @override
+  @JsonKey()
   final String profilepic;
+  @override
+  final String? date_joined;
+  @override
+  final String? email;
+  @override
+  final String? description;
+  @override
+  final String? location;
+  @override
+  final String? number;
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, category: $category, profilepic: $profilepic)';
+    return 'Company(id: $id, name: $name, category: $category, profilepic: $profilepic, date_joined: $date_joined, email: $email, description: $description, location: $location, number: $number)';
   }
 
   @override
@@ -169,12 +259,21 @@ class _$CompanyImpl extends _Company {
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.profilepic, profilepic) ||
-                other.profilepic == profilepic));
+                other.profilepic == profilepic) &&
+            (identical(other.date_joined, date_joined) ||
+                other.date_joined == date_joined) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.number, number) || other.number == number));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, category, profilepic);
+  int get hashCode => Object.hash(runtimeType, id, name, category, profilepic,
+      date_joined, email, description, location, number);
 
   /// Create a copy of Company
   /// with the given fields replaced by the non-null parameter values.
@@ -196,8 +295,13 @@ abstract class _Company extends Company {
   const factory _Company(
       {required final int id,
       required final String name,
-      required final String category,
-      required final String profilepic}) = _$CompanyImpl;
+      final String category,
+      final String profilepic,
+      final String? date_joined,
+      final String? email,
+      final String? description,
+      final String? location,
+      final String? number}) = _$CompanyImpl;
   const _Company._() : super._();
 
   factory _Company.fromJson(Map<String, dynamic> json) = _$CompanyImpl.fromJson;
@@ -210,6 +314,16 @@ abstract class _Company extends Company {
   String get category;
   @override
   String get profilepic;
+  @override
+  String? get date_joined;
+  @override
+  String? get email;
+  @override
+  String? get description;
+  @override
+  String? get location;
+  @override
+  String? get number;
 
   /// Create a copy of Company
   /// with the given fields replaced by the non-null parameter values.

@@ -72,6 +72,7 @@ class _ChatsPageState extends State<ChatsPage> {
               },
               child: ListView.builder(
                 controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 itemCount: chats.length + 1,
                 itemBuilder: (context, index) {
