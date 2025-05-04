@@ -16,7 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final tokens = await authRepository.checkTokens();
     return await tokens.fold((l) {
       return left(Failure('Error getting tokens :${l.message}'));
-    }, (r)  async {
+    }, (r) async {
       final user = await authRepository.getUser();
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
@@ -95,6 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(AuthError(l.message));
           },
           (r) {
+            emit(AuthPasswordUpdatedSuccessfully());
             emit(Unauthenticated());
           },
         );

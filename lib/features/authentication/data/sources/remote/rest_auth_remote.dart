@@ -22,6 +22,8 @@ class RestAuthRemote {
         '/Auth/Login',
         data: {'email': email, 'password': password},
       );
+      if (response.data['user']['type'] == 'Company')
+        return left(Failure('User must be a Student'));
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
       print(e.toString());
@@ -99,7 +101,7 @@ class RestAuthRemote {
         '/Auth/otpemail',
         data: {'email': email},
       );
-      return right(response.data['OTP']);
+      return right(int.parse(response.data['otp']));
     } on DioException catch (e) {
       if (e.response!.statusCode == 404) {
         return left(Failure('User not found'));
@@ -115,7 +117,7 @@ class RestAuthRemote {
     String password,
   ) async {
     try {
-      await _dio.post(
+      await _dio.put(
         '/Auth/userpassword',
         data: {'email': email, 'password': password},
       );
