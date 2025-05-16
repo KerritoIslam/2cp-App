@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "384180080362-roe504o21u05odr62qaovcf8ofg45ssr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.career.bridge.app",
-            "certificate_hash": "d37b92d2a63a5e6feaaf96b1d02e95d65ec70856"
-          }
-        },
-        {
           "client_id": "384180080362-3656gdig4i3jq3dcom3mrf6unt5aoi4g.apps.googleusercontent.com",
           "client_type": 3
         }

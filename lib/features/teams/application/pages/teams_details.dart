@@ -138,23 +138,26 @@ class _TeamDetailsState extends State<TeamDetails> {
                                       .textTheme
                                       .displayMedium),
                               const Spacer(),
-                              IconButton(
-                                onPressed: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return InviteDialog(
-                                          team: team,
-                                        );
-                                      });
-                                },
-                                icon: SvgPicture.asset(
-                                  'assets/icons/invite.svg',
-                                  height: 30,
-                                  width: 30,
+                              Visibility(
+                                visible: team.leader.id == user.id,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return InviteDialog(
+                                            team: team,
+                                          );
+                                        });
+                                  },
+                                  icon: SvgPicture.asset(
+                                    'assets/icons/invite.svg',
+                                    height: 30,
+                                    width: 30,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                color: Theme.of(context).primaryColor,
                               ),
                             ],
                           ),

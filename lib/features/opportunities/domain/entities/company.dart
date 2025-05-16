@@ -13,8 +13,13 @@ class Company with _$Company {
   const factory Company({
     required int id,
     required String name,
-    required String category,
-    required String profilepic,
+    @Default('')  String category,
+    @Default('') String profilepic,
+    String? date_joined,
+    String? email,
+    String? description,
+    String? location,
+    String? number,
   }) = _Company;
 
   factory Company.fromJson(Map<String, dynamic> json) =>

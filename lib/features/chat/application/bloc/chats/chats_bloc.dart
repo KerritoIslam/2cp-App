@@ -49,11 +49,24 @@ class ChatsBloc extends Bloc<ChatsEvents, ChatsState> {
 
   Future<void> _onRefreshChats(
       RefreshChatsEvent event, Emitter<ChatsState> emit) async {
+    emit(ChatsLoadingState([]));
     page = 1;
     isLastPage = false;
     chats = [];
 
-    add(RequestChatsEvent(page, limit));
+    try {
+      final newChats = await _repository.getChats(page: page, limit: limit);
+      newChats.fold(
+        (l) => emit(ChatsErrorState(l.message)),
+        (r) {
+          if (r.length < limit) isLastPage = true;
+          chats = [...chats, ...r];
+          emit(ChatsLoadedState(chats));
+        },
+      );
+    } catch (e) {
+      emit(ChatsErrorState(e.toString()));
+    }
   }
 
   Future<void> _onDeleteChat(

@@ -25,7 +25,7 @@ class _InvitationsPageState extends State<InvitationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //return LoadingPage();
+    return LoadingPage();
     return BlocConsumer<TeamsBloc, TeamsState>(
       listener: (context, state) => print('${state.toString()}'),
       builder: (context, state) {

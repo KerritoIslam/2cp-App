@@ -21,7 +21,10 @@ class AuthError extends AuthState {
   final String message;
   AuthError(this.message);
 }
+
 class AuthUserUpdatedSuccessfully extends AuthState {
   final String message;
   AuthUserUpdatedSuccessfully(this.message);
 }
+
+class AuthPasswordUpdatedSuccessfully extends AuthState {}

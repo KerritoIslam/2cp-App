@@ -14,15 +14,16 @@ class RestAuthRemote {
   final Dio _dio = DioServices.dio;
 
   Future<Either<Failure, LoginResDtoModel>> login(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       final response = await _dio.post(
         '/Auth/Login',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: {'email': email, 'password': password},
       );
+      if (response.data['user']['type'] == 'Company')
+        return left(Failure('User must be a Student'));
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
       print(e.toString());
@@ -40,14 +41,20 @@ class RestAuthRemote {
   }
 
   Future<Either<Failure, LoginResDtoModel>> register(
-      String name, String email, String password) async {
+    String name,
+    String email,
+    String password,
+  ) async {
     try {
-      final response = await _dio.post('/Auth/Signup', data: {
-        "name": name,
-        "email": email,
-        "type": "Student",
-        "password": password
-      });
+      final response = await _dio.post(
+        '/Auth/Signup',
+        data: {
+          "name": name,
+          "email": email,
+          "type": "Student",
+          "password": password,
+        },
+      );
 
       return right(LoginResDtoModel.fromJson(response.data));
     } on DioException catch (e) {
@@ -65,12 +72,10 @@ class RestAuthRemote {
     }
   }
 
-//todo: check if needed
+  //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
-      final response = await _dio.get(
-        '/Auth/user',
-      );
+      final response = await _dio.get('/Auth/user');
 
       return right(UserModel.fromJson(response.data));
     } catch (e) {
@@ -82,10 +87,7 @@ class RestAuthRemote {
     try {
       print('-------------------------------------------------------------');
       print(user.toJson().toString());
-      final response = await _dio.put(
-        '/Auth/user',
-        data: user.toJson(),
-      );
+      final response = await _dio.put('/Auth/user', data: user.toJson());
 
       return right(UserModel.fromJson(response.data['user']));
     } catch (e) {
@@ -97,11 +99,9 @@ class RestAuthRemote {
     try {
       final response = await _dio.post(
         '/Auth/otpemail',
-        data: {
-          'email': email,
-        },
+        data: {'email': email},
       );
-      return right(response.data['OTP']);
+      return right(int.parse(response.data['otp']));
     } on DioException catch (e) {
       if (e.response!.statusCode == 404) {
         return left(Failure('User not found'));
@@ -113,14 +113,13 @@ class RestAuthRemote {
   }
 
   Future<Either<Failure, Unit>> resetPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
-      await _dio.post(
+      await _dio.put(
         '/Auth/userpassword',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: {'email': email, 'password': password},
       );
       return right(unit);
     } on DioException catch (e) {
@@ -134,17 +133,19 @@ class RestAuthRemote {
   }
 
   Future<Either<Failure, TokensModel>> refrechTokens(
-      String refreshToken) async {
+    String refreshToken,
+  ) async {
     try {
       final response = await _dio.post(
         '/Auth/Refresh',
-        data: {
-          'refresh': refreshToken,
-        },
+        data: {'refresh': refreshToken},
       );
-      return right(TokensModel(
+      return right(
+        TokensModel(
           accessToken: response.data['access'],
-          refreshToken: response.data['refresh']));
+          refreshToken: response.data['refresh'],
+        ),
+      );
     } on DioException catch (e) {
       if (e.response == null) {
         return left(Failure('Unkonw error Please Try Again Later!'));
@@ -162,43 +163,59 @@ class RestAuthRemote {
     try {
       await dotenv.load();
       final GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: <String>[
-          'email',
-        ],
-        clientId:
-            "181976856956-q4s0u4b6d1ijh97n1vi55q73pjce64j8.apps.googleusercontent.com",
+        scopes: ['email', 'profile', 'openid'],
+
+        //serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ?? '',
       );
+
       final googleSignInAccount = await googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        return left(Failure('Sign In Canceled'));
-      }
+      print("-----------------------------------------1115");
+      print(googleSignInAccount!.serverAuthCode);
+
       final googleSignInAuthentication =
           await googleSignInAccount.authentication;
+
+      if (googleSignInAuthentication.idToken == null) {
+        return left(Failure('Failed to get ID token from Google'));
+      }
+
       try {
+        print("-----------------------------------------1111");
         print(googleSignInAuthentication.idToken);
+        print(googleSignInAuthentication.idToken!.length);
+        print("-----------------------------------------1121");
+        print(googleSignIn.clientId);
+        print(googleSignInAccount.toString());
 
         final response = await _dio.post(
-          '/Auth/Google',
+          '/Auth/google',
           data: {
-            'token': googleSignInAuthentication.serverAuthCode,
+            //'code': googleSignInAuthentication.serverAuthCode,
+            'idToken': googleSignInAuthentication.idToken,
           },
         );
+        print("-----------------------------------------1121");
+        print(response.data.toString());
         return right(LoginResDtoModel.fromJson(response.data));
       } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          return left(Failure('Invalid Google credentials'));
+        }
         return left(Failure(e.toString()));
       }
     } on DioException catch (e) {
-      if (e.response!.statusCode == 401) {
-        return left(Failure('Google Sign In Failed'));
+      print("-----------------------------------------1111");
+      print(e.toString());
+      if (e.response?.statusCode == 401) {
+        return left(Failure('Invalid Google credentials'));
       }
-      return left(Failure(e.toString()));
-    } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
   Future<Either<Failure, LoginResDtoModel>> linkedInSignIn(
-      BuildContext context) async {
+    BuildContext context,
+  ) async {
     try {
       String linkedInToken = '';
       await dotenv.load();
@@ -207,10 +224,7 @@ class RestAuthRemote {
         clientSecret:
             dotenv.env['LINKEDIN_CLIENT_SECRET'] ?? '<<CLIENT SECRET>>',
         redirectUrl: dotenv.env['LINKEDIN_REDIRECT_URL'] ?? '<<REDIRECT URL>>',
-        scope: [
-          'r_email_address',
-          'r_liteprofile',
-        ],
+        scope: ['r_email_address', 'r_liteprofile'],
       );
       await SignInWithLinkedIn.signIn(
         context,
@@ -231,9 +245,7 @@ class RestAuthRemote {
         }
         final response = await _dio.post(
           '/Auth/linkdein',
-          data: {
-            'access_token': linkedInToken,
-          },
+          data: {'access_token': linkedInToken},
         );
         print("-----------------------------------------1114");
         print(response.toString());
