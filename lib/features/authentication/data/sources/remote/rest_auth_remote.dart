@@ -167,12 +167,10 @@ class RestAuthRemote {
 
         //serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ?? '',
       );
-      print("-----------------------------------------1115");
-      print(googleSignIn.clientId);
+
       final googleSignInAccount = await googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        return left(Failure('Sign In Canceled'));
-      }
+      print("-----------------------------------------1115");
+      print(googleSignInAccount!.serverAuthCode);
 
       final googleSignInAuthentication =
           await googleSignInAccount.authentication;
@@ -192,10 +190,12 @@ class RestAuthRemote {
         final response = await _dio.post(
           '/Auth/google',
           data: {
-            'code': googleSignInAuthentication.idToken,
-            'serverAuthCode': googleSignInAuthentication.serverAuthCode
+            //'code': googleSignInAuthentication.serverAuthCode,
+            'idToken': googleSignInAuthentication.idToken,
           },
         );
+        print("-----------------------------------------1121");
+        print(response.data.toString());
         return right(LoginResDtoModel.fromJson(response.data));
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
