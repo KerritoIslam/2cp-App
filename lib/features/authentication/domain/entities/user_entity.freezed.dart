@@ -24,19 +24,14 @@ mixin _$User {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String? get number => throw _privateConstructorUsedError;
-  String? get profilepic => throw _privateConstructorUsedError;
-  String? get links => throw _privateConstructorUsedError;
+  Map<String, dynamic> get profilepic => throw _privateConstructorUsedError;
   String get date_joined => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get education =>
       throw _privateConstructorUsedError;
-  String get gendre => throw _privateConstructorUsedError;
   List<String> get skills => throw _privateConstructorUsedError;
-  int? get rating => throw _privateConstructorUsedError;
-  List<Map<String, dynamic>> get internships =>
+  List<Map<String, dynamic>> get experience =>
       throw _privateConstructorUsedError;
-  String? get category => throw _privateConstructorUsedError;
-  String? get cv => throw _privateConstructorUsedError;
+  Map<String, dynamic> get cv => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,17 +52,12 @@ abstract class $UserCopyWith<$Res> {
       String name,
       String email,
       String? description,
-      String? number,
-      String? profilepic,
-      String? links,
+      Map<String, dynamic> profilepic,
       String date_joined,
       List<Map<String, dynamic>> education,
-      String gendre,
       List<String> skills,
-      int? rating,
-      List<Map<String, dynamic>> internships,
-      String? category,
-      String? cv});
+      List<Map<String, dynamic>> experience,
+      Map<String, dynamic> cv});
 }
 
 /// @nodoc
@@ -89,17 +79,12 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? name = null,
     Object? email = null,
     Object? description = freezed,
-    Object? number = freezed,
-    Object? profilepic = freezed,
-    Object? links = freezed,
+    Object? profilepic = null,
     Object? date_joined = null,
     Object? education = null,
-    Object? gendre = null,
     Object? skills = null,
-    Object? rating = freezed,
-    Object? internships = null,
-    Object? category = freezed,
-    Object? cv = freezed,
+    Object? experience = null,
+    Object? cv = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -118,18 +103,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      number: freezed == number
-          ? _value.number
-          : number // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profilepic: freezed == profilepic
+      profilepic: null == profilepic
           ? _value.profilepic
           : profilepic // ignore: cast_nullable_to_non_nullable
-              as String?,
-      links: freezed == links
-          ? _value.links
-          : links // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, dynamic>,
       date_joined: null == date_joined
           ? _value.date_joined
           : date_joined // ignore: cast_nullable_to_non_nullable
@@ -138,30 +115,18 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.education
           : education // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
-      gendre: null == gendre
-          ? _value.gendre
-          : gendre // ignore: cast_nullable_to_non_nullable
-              as String,
       skills: null == skills
           ? _value.skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      rating: freezed == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
-      internships: null == internships
-          ? _value.internships
-          : internships // ignore: cast_nullable_to_non_nullable
+      experience: null == experience
+          ? _value.experience
+          : experience // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cv: freezed == cv
+      cv: null == cv
           ? _value.cv
           : cv // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, dynamic>,
     ) as $Val);
   }
 }
@@ -178,17 +143,12 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String name,
       String email,
       String? description,
-      String? number,
-      String? profilepic,
-      String? links,
+      Map<String, dynamic> profilepic,
       String date_joined,
       List<Map<String, dynamic>> education,
-      String gendre,
       List<String> skills,
-      int? rating,
-      List<Map<String, dynamic>> internships,
-      String? category,
-      String? cv});
+      List<Map<String, dynamic>> experience,
+      Map<String, dynamic> cv});
 }
 
 /// @nodoc
@@ -207,17 +167,12 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? name = null,
     Object? email = null,
     Object? description = freezed,
-    Object? number = freezed,
-    Object? profilepic = freezed,
-    Object? links = freezed,
+    Object? profilepic = null,
     Object? date_joined = null,
     Object? education = null,
-    Object? gendre = null,
     Object? skills = null,
-    Object? rating = freezed,
-    Object? internships = null,
-    Object? category = freezed,
-    Object? cv = freezed,
+    Object? experience = null,
+    Object? cv = null,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -236,18 +191,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      number: freezed == number
-          ? _value.number
-          : number // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profilepic: freezed == profilepic
-          ? _value.profilepic
+      profilepic: null == profilepic
+          ? _value._profilepic
           : profilepic // ignore: cast_nullable_to_non_nullable
-              as String?,
-      links: freezed == links
-          ? _value.links
-          : links // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, dynamic>,
       date_joined: null == date_joined
           ? _value.date_joined
           : date_joined // ignore: cast_nullable_to_non_nullable
@@ -256,30 +203,18 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value._education
           : education // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
-      gendre: null == gendre
-          ? _value.gendre
-          : gendre // ignore: cast_nullable_to_non_nullable
-              as String,
       skills: null == skills
           ? _value._skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      rating: freezed == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
-      internships: null == internships
-          ? _value._internships
-          : internships // ignore: cast_nullable_to_non_nullable
+      experience: null == experience
+          ? _value._experience
+          : experience // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cv: freezed == cv
-          ? _value.cv
+      cv: null == cv
+          ? _value._cv
           : cv // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, dynamic>,
     ));
   }
 }
@@ -292,20 +227,27 @@ class _$UserImpl extends _User {
       required this.name,
       required this.email,
       this.description,
-      this.number,
-      this.profilepic,
-      this.links,
+      final Map<String, dynamic> profilepic = const {
+        "link": '',
+        "name": '',
+        "size": 0,
+        'created_at': ''
+      },
       required this.date_joined,
       final List<Map<String, dynamic>> education = const [],
-      required this.gendre,
       final List<String> skills = const [],
-      this.rating,
-      final List<Map<String, dynamic>> internships = const [],
-      this.category,
-      this.cv})
-      : _education = education,
+      final List<Map<String, dynamic>> experience = const [],
+      final Map<String, dynamic> cv = const {
+        "link": '',
+        "name": '',
+        "size": 0,
+        'created_at': ''
+      }})
+      : _profilepic = profilepic,
+        _education = education,
         _skills = skills,
-        _internships = internships,
+        _experience = experience,
+        _cv = cv,
         super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -319,12 +261,15 @@ class _$UserImpl extends _User {
   final String email;
   @override
   final String? description;
+  final Map<String, dynamic> _profilepic;
   @override
-  final String? number;
-  @override
-  final String? profilepic;
-  @override
-  final String? links;
+  @JsonKey()
+  Map<String, dynamic> get profilepic {
+    if (_profilepic is EqualUnmodifiableMapView) return _profilepic;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_profilepic);
+  }
+
   @override
   final String date_joined;
   final List<Map<String, dynamic>> _education;
@@ -336,8 +281,6 @@ class _$UserImpl extends _User {
     return EqualUnmodifiableListView(_education);
   }
 
-  @override
-  final String gendre;
   final List<String> _skills;
   @override
   @JsonKey()
@@ -347,25 +290,27 @@ class _$UserImpl extends _User {
     return EqualUnmodifiableListView(_skills);
   }
 
-  @override
-  final int? rating;
-  final List<Map<String, dynamic>> _internships;
+  final List<Map<String, dynamic>> _experience;
   @override
   @JsonKey()
-  List<Map<String, dynamic>> get internships {
-    if (_internships is EqualUnmodifiableListView) return _internships;
+  List<Map<String, dynamic>> get experience {
+    if (_experience is EqualUnmodifiableListView) return _experience;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_internships);
+    return EqualUnmodifiableListView(_experience);
+  }
+
+  final Map<String, dynamic> _cv;
+  @override
+  @JsonKey()
+  Map<String, dynamic> get cv {
+    if (_cv is EqualUnmodifiableMapView) return _cv;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_cv);
   }
 
   @override
-  final String? category;
-  @override
-  final String? cv;
-
-  @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, description: $description, number: $number, profilepic: $profilepic, links: $links, date_joined: $date_joined, education: $education, gendre: $gendre, skills: $skills, rating: $rating, internships: $internships, category: $category, cv: $cv)';
+    return 'User(id: $id, name: $name, email: $email, description: $description, profilepic: $profilepic, date_joined: $date_joined, education: $education, skills: $skills, experience: $experience, cv: $cv)';
   }
 
   @override
@@ -378,22 +323,16 @@ class _$UserImpl extends _User {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.number, number) || other.number == number) &&
-            (identical(other.profilepic, profilepic) ||
-                other.profilepic == profilepic) &&
-            (identical(other.links, links) || other.links == links) &&
+            const DeepCollectionEquality()
+                .equals(other._profilepic, _profilepic) &&
             (identical(other.date_joined, date_joined) ||
                 other.date_joined == date_joined) &&
             const DeepCollectionEquality()
                 .equals(other._education, _education) &&
-            (identical(other.gendre, gendre) || other.gendre == gendre) &&
             const DeepCollectionEquality().equals(other._skills, _skills) &&
-            (identical(other.rating, rating) || other.rating == rating) &&
             const DeepCollectionEquality()
-                .equals(other._internships, _internships) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.cv, cv) || other.cv == cv));
+                .equals(other._experience, _experience) &&
+            const DeepCollectionEquality().equals(other._cv, _cv));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -404,17 +343,12 @@ class _$UserImpl extends _User {
       name,
       email,
       description,
-      number,
-      profilepic,
-      links,
+      const DeepCollectionEquality().hash(_profilepic),
       date_joined,
       const DeepCollectionEquality().hash(_education),
-      gendre,
       const DeepCollectionEquality().hash(_skills),
-      rating,
-      const DeepCollectionEquality().hash(_internships),
-      category,
-      cv);
+      const DeepCollectionEquality().hash(_experience),
+      const DeepCollectionEquality().hash(_cv));
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -438,17 +372,12 @@ abstract class _User extends User {
       required final String name,
       required final String email,
       final String? description,
-      final String? number,
-      final String? profilepic,
-      final String? links,
+      final Map<String, dynamic> profilepic,
       required final String date_joined,
       final List<Map<String, dynamic>> education,
-      required final String gendre,
       final List<String> skills,
-      final int? rating,
-      final List<Map<String, dynamic>> internships,
-      final String? category,
-      final String? cv}) = _$UserImpl;
+      final List<Map<String, dynamic>> experience,
+      final Map<String, dynamic> cv}) = _$UserImpl;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -462,27 +391,17 @@ abstract class _User extends User {
   @override
   String? get description;
   @override
-  String? get number;
-  @override
-  String? get profilepic;
-  @override
-  String? get links;
+  Map<String, dynamic> get profilepic;
   @override
   String get date_joined;
   @override
   List<Map<String, dynamic>> get education;
   @override
-  String get gendre;
-  @override
   List<String> get skills;
   @override
-  int? get rating;
+  List<Map<String, dynamic>> get experience;
   @override
-  List<Map<String, dynamic>> get internships;
-  @override
-  String? get category;
-  @override
-  String? get cv;
+  Map<String, dynamic> get cv;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

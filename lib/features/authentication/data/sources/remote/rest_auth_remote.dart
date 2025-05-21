@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/core/dioservices/dio.dart';
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/authentication/data/models/login_dto_model.dart';
@@ -83,14 +85,47 @@ class RestAuthRemote {
     }
   }
 
-  Future<Either<Failure, UserModel>> updateUser(UserModel user) async {
+  Future<Either<Failure, UserModel>> updateUser(
+      UserModel user, File? cv, File? profilepic) async {
     try {
-      print('-------------------------------------------------------------');
-      print(user.toJson().toString());
-      final response = await _dio.put('/Auth/user', data: user.toJson());
+      // Create FormData
+      FormData formData = FormData.fromMap(user.toJson());
 
-      return right(UserModel.fromJson(response.data['user']));
+      formData.fields.removeWhere(
+          (element) => element.key == 'profilepic' || element.key == 'cv');
+
+      if (cv != null) {
+        formData.files
+            .add(MapEntry('cv_input', await MultipartFile.fromFile(cv.path)));
+      }
+      if (profilepic != null) {
+        formData.files.add(
+            MapEntry('pic', await MultipartFile.fromFile(profilepic.path)));
+      }
+      print('FormData fields: ${formData.fields}');
+      print('FormData files: ${formData.files.map((f) => f.key).toList()}');
+
+      final response = await _dio.put(
+        '/Auth/user',
+        data: formData,
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response data: ${response.data}');
+
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        return right(UserModel.fromJson(response.data));
+      } else {
+        return left(Failure('Failed to update user: ${response.statusCode}'));
+      }
+    } on DioException catch (e) {
+      print('DioException: ${e.message}');
+      print('DioException response: ${e.response?.data}');
+      return left(Failure(e.message ?? 'Failed to update user'));
     } catch (e) {
+      print('Exception: $e');
       return left(Failure(e.toString()));
     }
   }

@@ -484,8 +484,8 @@ class _TeamDetailsState extends State<TeamDetails> {
               tileColor: Colors.transparent,
               contentPadding: EdgeInsets.zero,
               leading: CircleAvatar(
-                  backgroundImage: member.profilepic != null
-                      ? NetworkImage(member.profilepic!)
+                  backgroundImage: member.profilepic['link'] != ''
+                      ? NetworkImage(member.profilepic['link'])
                       : AssetImage('assets/images/avatar.png')
                           as ImageProvider),
               title: Text(

@@ -14,18 +14,19 @@ class User with _$User {
     required String name,
     required String email,
     String? description,
-    String? number,
-    String? profilepic,
-    String? links,
+    
+    @Default({"link": '', "name": '', "size": 0 ,'created_at': ''})
+        Map<String, dynamic> profilepic,
+    
     required String date_joined,
     @Default([]) List<Map<String,dynamic>> education,
-    required String gendre,
-    @Default([]) List<String> skills,
-     int? rating,
     
-    @Default([]) List<Map<String, dynamic>> internships,
-    String? category,
-    String? cv,
+    @Default([]) List<String> skills,
+
+    
+    @Default([]) List<Map<String, dynamic>> experience,
+    @Default({"link": '', "name": '', "size": 0 ,'created_at': ''})
+        Map<String, dynamic> cv,
 
   }) = _User;
 
@@ -35,16 +36,14 @@ class User with _$User {
       name: model.name,
       email: model.email,
       description: model.description,
-      number: model.number,
+      
       profilepic: model.profilepic,
-      links: model.links,
+      
       date_joined: model.date_joined,
       education: model.education,
-      gendre: model.gendre,
+     
       skills: model.skills,
-      rating: model.rating,
-      internships: model.internships,
-      category: model.category,
+      
       cv: model.cv,
     );
   }
@@ -54,16 +53,15 @@ class User with _$User {
       name: name,
       email: email,
       description: description,
-      number: number,
+     
       profilepic: profilepic,
-      links: links,
+      
       date_joined: date_joined,
       education: education,
-      gendre: gendre,
+    
       skills: skills,
-      rating: rating,
-      internships: internships,
-      category: category,
+      experience: experience,
+      
       cv: cv,
     );
   }

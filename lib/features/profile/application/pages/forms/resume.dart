@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/profile/application/widgets/cv_attachment_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,6 +18,34 @@ class ResumePage extends StatefulWidget {
 }
 
 class _ResumePageState extends State<ResumePage> {
+  late User user;
+  File? cv;
+  File? profilepic;
+
+  @override
+  void initState() {
+    final state = context.read<AuthBloc>().state;
+    if (state is Authenticated) {
+      user = state.user;
+    } else {
+      context.read<AuthBloc>().add(AuthLogoutRequested());
+      return;
+    }
+    super.initState();
+  }
+
+  void _onFileSelected(File file) {
+    setState(() {
+      cv = file;
+    });
+  }
+
+  void _onFileRemoved(File file) {
+    setState(() {
+      cv = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +64,10 @@ class _ResumePageState extends State<ResumePage> {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            CvAttachmentField(),
+            CvAttachmentField(
+              onFileSelected: _onFileSelected,
+              onFileRemoved: _onFileRemoved,
+            ),
             Padding(
                 padding: EdgeInsets.only(top: 24.h, bottom: 110.h),
                 child: Text(
@@ -41,7 +79,10 @@ class _ResumePageState extends State<ResumePage> {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  //todo: edit the return value
+                  context.read<AuthBloc>().add(AuthUserUpdated(
+                        user,
+                        cv: cv,
+                      ));
                   context.pop();
                 },
                 style: ButtonStyle(

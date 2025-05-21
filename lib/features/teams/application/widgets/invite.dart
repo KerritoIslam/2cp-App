@@ -102,10 +102,10 @@ class _InviteDialogState extends State<InviteDialog> {
                                       .withOpacity(0.4),
                                   leading: CircleAvatar(
                                     backgroundImage:
-                                        (user.profilepic ?? '').isEmpty
+                                        user.profilepic['link'].isEmpty
                                             ? const AssetImage(
                                                 "assets/images/avatar.png")
-                                            : NetworkImage(user.profilepic!)
+                                            : NetworkImage(user.profilepic['link'])
                                                 as ImageProvider,
                                   ),
                                   title: Text(

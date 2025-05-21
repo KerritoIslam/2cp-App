@@ -35,17 +35,16 @@ class _EducationFormState extends State<EducationForm> {
 
     _educationController = TextEditingController(
         text: widget.index != null
-            ? user.education[widget.index!]['education']
+            ? user.education[widget.index!]['institution']
             : '');
     _schoolNameController = TextEditingController(
         text: widget.index != null
-            ? user.education[widget.index!]['school']
+            ? user.education[widget.index!]['degree']
             : '');
-    _startDate = widget.index != null
-        ? user.education[widget.index!]['start_date']
-        : null;
+    _startDate =
+        widget.index != null ? user.education[widget.index!]['start'] : null;
     _endDate =
-        widget.index != null ? user.education[widget.index!]['end_date'] : null;
+        widget.index != null ? user.education[widget.index!]['end'] : null;
 
     super.initState();
   }
@@ -220,25 +219,24 @@ class _EducationFormState extends State<EducationForm> {
 
                     if (widget.index != null) {
                       education[widget.index!] = {
-                        'education': _educationController.text,
-                        'school': _schoolNameController.text,
-                        'start_date': _startDate,
-                        'end_date': _endDate,
+                        'institution': _educationController.text,
+                        'degree': _schoolNameController.text,
+                        'start': _startDate,
+                        'end': _endDate,
                       };
                     } else {
                       education.add({
-                        'education': _educationController.text,
-                        'school': _schoolNameController.text,
-                        'start_date': _startDate,
-                        'end_date': _endDate,
+                        'institution': _educationController.text,
+                        'degree': _schoolNameController.text,
+                        'start': _startDate,
+                        'end': _endDate,
                       });
                       
                     }
-                    
+
                     context.read<AuthBloc>().add(
-                          AuthUserUpdated(user.copyWith(education: education)));
-                          context.go('/profile');
-                        
+                        AuthUserUpdated(user.copyWith(education: education)));
+                    context.go('/protected/profile');
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Color(0xFF5BA470)),

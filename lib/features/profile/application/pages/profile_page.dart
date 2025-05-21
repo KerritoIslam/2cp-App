@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/profile/application/widgets/profile_section_card.dart';
@@ -8,8 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,10 +27,45 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _editing = false;
   bool _expanded = false;
   late User user;
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
+
   @override
   void initState() {
     user = (context.read<AuthBloc>().state as Authenticated).user;
     super.initState();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 85,
+      );
+
+      if (image != null) {
+        setState(() {
+          _selectedImage = File(image.path);
+        });
+
+        // Update user profile with new image
+        context.read<AuthBloc>().add(
+              AuthUserUpdated(
+                user,
+                profilepic: _selectedImage,
+              ),
+            );
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+      toastification.show(
+        title: Text('Error selecting image'),
+        type: ToastificationType.error,
+        autoCloseDuration: const Duration(seconds: 2),
+      );
+    }
   }
 
   final ExpansionTileController _controller = ExpansionTileController();
@@ -144,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    user.internships.length.toString(),
+                                    user.experience.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -170,16 +210,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       if (user.education.isNotEmpty) {
                                         strength += 0.2;
                                       }
-                                      if (user.internships.isNotEmpty) {
+                                      if (user.experience.isNotEmpty) {
                                         strength += 0.2;
                                       }
                                       if (user.description != null &&
                                           user.description!.isNotEmpty) {
                                         strength += 0.2;
                                       }
-                                      if (user.profilepic != null) {
-                                        strength += 0.2;
-                                      }
+                                      strength += 0.2;
                                       return '${(strength * 100).toInt()}%';
                                     }(),
                                     style: Theme.of(context)
@@ -321,24 +359,23 @@ class _ProfilePageState extends State<ProfilePage> {
                               ProfileCard(
                                 title: 'Internship Experience',
                                 icon: 'internship_experience.svg',
-                                children: user.internships.map((e) {
+                                children: user.experience.map((e) {
                                   late String datedisplay;
-                                  if (e['startDate'] != null &&
-                                      e['endDate'] != null) {
+                                  if (e['start'] != null && e['end'] != null) {
                                     try {
                                       DateFormat mainformat =
                                           DateFormat('dd/mm/yyyy');
                                       DateTime startDate =
-                                          mainformat.parse(e['startDate']);
+                                          mainformat.parse(e['start']);
                                       DateTime endDate =
-                                          mainformat.parse(e['endDate']);
+                                          mainformat.parse(e['end']);
                                       Duration? difference =
                                           endDate.difference(startDate);
 
                                       if (difference.inDays > 365) {
                                         datedisplay =
                                             '${DateFormat('MMM yyyy').format(startDate)}-${DateFormat('MMM yyyy').format(endDate)}   .${difference.inDays ~/ 365} years';
-                                      } else if (difference.inDays > 30) {
+                                      } else {
                                         datedisplay =
                                             '${DateFormat('MMM dd').format(startDate)}-${DateFormat('MMM dd').format(endDate)}   .${difference.inDays} days';
                                       }
@@ -379,8 +416,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           onPressed: () {
                                             context.go(
                                               '/protected/profile/internship_expirience_form',
-                                              extra:
-                                                  user.internships.indexOf(e),
+                                              extra: user.experience.indexOf(e),
                                             );
                                           },
                                         ),
@@ -399,22 +435,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                 icon: 'education.svg',
                                 children: user.education.map((e) {
                                   late String datedisplay;
-                                  if (e['startDate'] != null &&
-                                      e['endDate'] != null) {
+                                  if (e['start'] != null && e['end'] != null) {
                                     try {
                                       DateFormat mainformat =
-                                          DateFormat('dd/mm/yyyy');
+                                          DateFormat('yyyy-MM-dd');
                                       DateTime startDate =
-                                          mainformat.parse(e['startDate']);
+                                          mainformat.parse(e['start']);
                                       DateTime endDate =
-                                          mainformat.parse(e['endDate']);
+                                          mainformat.parse(e['end']);
+
                                       Duration? difference =
                                           endDate.difference(startDate);
 
                                       if (difference.inDays > 365) {
                                         datedisplay =
                                             '${DateFormat('MMM yyyy').format(startDate)}-${DateFormat('MMM yyyy').format(endDate)}   .${difference.inDays ~/ 365} years';
-                                      } else if (difference.inDays > 30) {
+                                      } else {
                                         datedisplay =
                                             '${DateFormat('MMM dd').format(startDate)}-${DateFormat('MMM dd').format(endDate)}   .${difference.inDays} days';
                                       }
@@ -425,7 +461,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     datedisplay = '';
                                   }
                                   return ListTile(
-                                    title: Text(e['education'],
+                                    title: Text(e['institution'],
                                         style: Theme.of(context)
                                             .textTheme
                                             .displayMedium!
@@ -433,7 +469,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               fontWeight: FontWeight.w500,
                                             )),
                                     subtitle: Text(
-                                      '${e['school']} \n $datedisplay',
+                                      '${e['degree']} \n $datedisplay',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelMedium,
@@ -445,8 +481,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       onPressed: () {
                                         context.go(
-                                          '/protected/profile/internship_expirience_form',
-                                          extra: user.internships.indexOf(e),
+                                          '/protected/profile/education_form',
+                                          extra: user.education.indexOf(e),
                                         );
                                       },
                                     ),
@@ -496,7 +532,47 @@ class _ProfilePageState extends State<ProfilePage> {
                               ProfileCard(
                                 title: 'Resume',
                                 icon: 'resume.svg',
-                                children: [],
+                                children: [
+                                  if (user.cv['link'] != '')
+                                    ListTile(
+                                      title: Text(user.cv['name'], style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
+                                      subtitle: Text(
+                                          user.cv['size'].toString() + ' bytes' , style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey[400])),
+                                      trailing:  SvgPicture.asset('assets/icons/pdf_file.svg'),
+                                      onTap: () async {
+                                          try {
+                                            final Uri url =
+                                                Uri.parse(user.cv['link']);
+                                            // Use launchUrl directly with error handling
+                                            final bool launched =
+                                                await launchUrl(
+                                              url,
+                                              mode: LaunchMode
+                                                  .externalApplication,
+                                            );
+
+                                            if (!launched) {
+                                              toastification.show(
+                                                title: Text(
+                                                    'Could not open the file'),
+                                                type: ToastificationType.error,
+                                                autoCloseDuration:
+                                                    const Duration(seconds: 2),
+                                              );
+                                            }
+                                          } catch (e) {
+                                            print('Error launching URL: $e');
+                                            toastification.show(
+                                              title: Text('Error opening file'),
+                                              type: ToastificationType.error,
+                                              autoCloseDuration:
+                                                  const Duration(seconds: 2),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    
+                                ],
                                 onAdd: () {
                                   context.push('/protected/profile/resume');
                                 },
@@ -507,16 +583,45 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Align(
                           alignment: Alignment.topCenter,
-                          child: CircleAvatar(
-                            radius: 65.r,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                              radius: 60.r,
-                              backgroundImage: user.profilepic != null
-                                  ? NetworkImage(user.profilepic!)
-                                  : AssetImage('assets/images/avatar.png')
-                                      as ImageProvider,
-                            ),
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 65.r,
+                                backgroundColor: Colors.white,
+                                child: CircleAvatar(
+                                  radius: 60.r,
+                                  backgroundImage: _selectedImage != null
+                                      ? FileImage(_selectedImage!)
+                                      : user.profilepic['link'] != ''
+                                          ? NetworkImage(
+                                              user.profilepic['link'])
+                                          : AssetImage(
+                                                  'assets/images/avatar.png')
+                                              as ImageProvider,
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Visibility(
+                                    visible: _editing,
+                                    child: IconButton(
+                                      onPressed: _pickImage,
+                                      icon: Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 24.r,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

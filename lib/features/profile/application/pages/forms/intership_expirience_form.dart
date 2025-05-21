@@ -40,7 +40,7 @@ class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
       user = state.user;
 
       if (widget.index != null) {
-        final internship = user.internships[widget.index!];
+        final internship = user.experience[widget.index!];
         _internshipController =
             TextEditingController(text: internship['title'] ?? '');
         _companyNameController =
@@ -258,7 +258,7 @@ class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     List<Map<String, dynamic>> internships =
-                        List.from(user.internships);
+                        List.from(user.experience);
 
                     if (widget.index != null) {
                       internships[widget.index!] = {
@@ -283,7 +283,7 @@ class _IntershipExpirienceFormState extends State<IntershipExpirienceForm> {
                       
                     }
 context.read<AuthBloc>().add(AuthUserUpdated(
-                          user.copyWith(internships: internships)));
+                          user.copyWith(experience: internships)));
                     context.go('/protected/profile');
                   },
                   style: ButtonStyle(

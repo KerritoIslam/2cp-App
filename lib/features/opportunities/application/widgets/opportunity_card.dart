@@ -62,14 +62,19 @@ class _opportunityCardState extends State<opportunityCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: widget.opportunity.company.profilepic,
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        radius: 20.r,
-                        backgroundImage: imageProvider,
+                    GestureDetector(
+                      onTap: () {
+                        context.push('/protected/company_profile/${widget.opportunity.company.id}');
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl: widget.opportunity.company.profilepic,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 20.r,
+                          backgroundImage: imageProvider,
+                        ),
+                        width: 60.w,
+                        height: 60.h,
                       ),
-                      width: 60.w,
-                      height: 60.h,
                     ),
                     SizedBox(height: 12.h),
                     SizedBox(

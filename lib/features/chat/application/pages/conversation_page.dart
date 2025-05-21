@@ -8,6 +8,7 @@ import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class ConversationPage extends StatefulWidget {
   final Company company;
@@ -69,18 +70,23 @@ class _ConversationPageState extends State<ConversationPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Row(
-          children: [
-            CircleAvatar(
-              radius: 20.r,
-              backgroundImage: widget.company.profilepic == ''
-                  ? const AssetImage('assets/images/avatar.png')
-                  : NetworkImage(widget.company.profilepic) as ImageProvider,
-            ),
-            SizedBox(width: 8.w),
-            Text(widget.company.name,
-                style: Theme.of(context).textTheme.displaySmall),
-          ],
+        title: GestureDetector(
+          onTap: () {
+            context.push('/protected/company_profile/${widget.company.id}');
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 20.r,
+                backgroundImage: widget.company.profilepic == ''
+                    ? const AssetImage('assets/images/avatar.png')
+                    : NetworkImage(widget.company.profilepic) as ImageProvider,
+              ),
+              SizedBox(width: 8.w),
+              Text(widget.company.name,
+                  style: Theme.of(context).textTheme.displaySmall),
+            ],
+          ),
         ),
         foregroundColor: Theme.of(context).primaryColor,
       ),

@@ -80,8 +80,8 @@ class _TeamCardState extends State<TeamCard> {
                       left: index * 25, // Controls the overlap
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundImage: team.students[index].profilepic != null
-                            ? NetworkImage(team.students[index].profilepic!)
+                        backgroundImage: team.students[index].profilepic['link'] != ''
+                            ? NetworkImage(team.students[index].profilepic['link'])
                             : AssetImage('assets/images/avatar.png')
                                 as ImageProvider,
                       ),
