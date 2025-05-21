@@ -7,8 +7,9 @@ class fetchApplicationsEvent extends ApplicationEvent {}
 class submitApplicationEvent extends ApplicationEvent {
   final Application application;
   final File? file;
+  final int? teamId;
 
-  submitApplicationEvent(this.application,this.file);
+  submitApplicationEvent(this.application, this.file, {this.teamId});
 }
 
 class submitTeamApplicationEvent extends ApplicationEvent {}

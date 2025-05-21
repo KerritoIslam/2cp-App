@@ -8,7 +8,7 @@ class WsService {
   void connect(String token, String roomName) {
     print("connecting to ws");
     _channel = WebSocketChannel.connect(
-      Uri.parse("ws://192.168.128.105:8001/ws/chat/$roomName/?token=$token"),
+      Uri.parse("ws://192.168.2.105:8001/ws/chat/$roomName/?token=$token"),
     );
     print("connected");
   }
