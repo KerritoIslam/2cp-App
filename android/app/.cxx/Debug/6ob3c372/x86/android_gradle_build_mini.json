@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/mouloud/snap/flutter/common/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/mouloud/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/mouloud/dev/2cp_project/app/android/app/.cxx/Debug/6ob3c372/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/mouloud/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/mouloud/dev/2cp_project/app/android/app/.cxx/Debug/6ob3c372/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
