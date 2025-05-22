@@ -8,7 +8,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://192.168.2.105:8000/',
+      baseUrl: 'http://192.168.69.105:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
@@ -32,6 +32,7 @@ class DioServices {
         //TODO check if bearer of Bearer
 
         options.headers['Authorization'] = "Bearer $token";
+
         return handler.next(options);
       },
       onError: (error, handler) async {

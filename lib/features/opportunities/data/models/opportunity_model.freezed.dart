@@ -18,7 +18,7 @@ OpportunityModel _$OpportunityModelFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'internship':
       return InternshipModel.fromJson(json);
-    case 'Problem':
+    case 'problem':
       return ProblemModel.fromJson(json);
 
     default:
@@ -646,7 +646,7 @@ class _$ProblemModelImpl extends ProblemModel {
       required this.category,
       final String? $type})
       : _skills = skills,
-        $type = $type ?? 'Problem',
+        $type = $type ?? 'problem',
         super._();
 
   factory _$ProblemModelImpl.fromJson(Map<String, dynamic> json) =>

@@ -91,8 +91,34 @@ class RestAuthRemote {
       // Create FormData
       FormData formData = FormData.fromMap(user.toJson());
 
-      formData.fields.removeWhere(
-          (element) => element.key == 'profilepic' || element.key == 'cv');
+      print(
+          'Before removal - Fields: ${formData.fields.map((f) => f.key).toList()}');
+
+      // Remove profilepic and cv fields
+      formData.fields.removeWhere((element) =>
+          element.key.startsWith('profilepic') ||
+          element.key.startsWith('cv') ||
+          element.key.startsWith('skills') ||
+          element.key.startsWith('education'));
+
+      // Handle skills list properly
+      if (user.skills.isNotEmpty) {
+        print('before 125');
+        print('skills: ${user.skills} 188');
+        final response = await _dio.put(
+          '/Auth/user',
+          data: {
+            'skills': user.skills,
+            'education': user.education,
+            'json': 'this is a json'
+          },
+        );
+        print('AFTER 125');
+        print('skills edited Response status: ${response.data}');
+      }
+
+      print(
+          'After removal - Fields: ${formData.fields.map((f) => f.key).toList()}');
 
       if (cv != null) {
         formData.files
@@ -109,9 +135,6 @@ class RestAuthRemote {
         '/Auth/user',
         data: formData,
       );
-
-      print('Response status: ${response.statusCode}');
-      print('Response data: ${response.data}');
 
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
@@ -221,12 +244,13 @@ class RestAuthRemote {
         print("-----------------------------------------1121");
         print(googleSignIn.clientId);
         print(googleSignInAccount.toString());
-
+        print("-----------------------------------------14571");
+        print(googleSignInAuthentication.idToken);
         final response = await _dio.post(
-          '/Auth/google',
+          '/Auth/googleauthforapp/',
           data: {
             //'code': googleSignInAuthentication.serverAuthCode,
-            'idToken': googleSignInAuthentication.idToken,
+            'token_id': googleSignInAuthentication.idToken,
           },
         );
         print("-----------------------------------------1121");
