@@ -97,7 +97,7 @@ class _LayoutState extends State<Layout> {
                       });
                     } else {
                       context
-                          .pushReplacement('/protected/layout/0/opportunities');
+                          .pushReplacement('/protected/layout/0/notifications');
                     }
                     //showFPersistentSheet(
                     //  context: context,

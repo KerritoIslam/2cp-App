@@ -74,6 +74,15 @@ class _opportunityCardState extends State<opportunityCard> {
                             '/protected/company_profile/${widget.opportunity.company.id}');
                       },
                       child: CachedNetworkImage(
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          child: Icon(Icons.home),
+                          radius: 20.r,
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        placeholder: (context, url) => CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
                         imageUrl: widget.opportunity.company.profilepic,
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           radius: 20.r,
@@ -718,33 +727,9 @@ class OpportunityDetailsSheet extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                       ),
-                      SizedBox(height: 20.h),
-                      _buildDetailItem(context, 'UI/UX Designer'),
-                      SizedBox(height: 12.h),
-                      _buildDetailItem(context, 'No experience needed'),
-                      SizedBox(height: 12.h),
-                      _buildDetailItem(context, 'Face-to-face internship'),
-                      SizedBox(height: 40.h),
-                      Text(
-                        'Application details',
-                        style:
-                            Theme.of(context).textTheme.displaySmall!.copyWith(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Text(
-                        'No need for any experience, but for professional issues it is better to send a CV or a Resume.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .secondaryHeaderColor
-                                  .withOpacity(0.7),
-                              fontSize: 16.sp,
-                              height: 1.5,
-                            ),
-                      ),
-                      SizedBox(height: 40.h),
+                                       SizedBox(height: 40.h),
+
+                      Text(opportunity.description),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

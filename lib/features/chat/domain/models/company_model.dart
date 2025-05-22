@@ -12,6 +12,8 @@ class CompanyModel with _$CompanyModel {
     @Default("")  String profilepic,
   }) = _CompanyModel;
 
-  factory CompanyModel.fromJson(Map<String, dynamic> json) =>
-      _$CompanyModelFromJson(json);
+  factory CompanyModel.fromJson(Map<String, dynamic> json){ 
+    json['profilepic']='';
+    
+    return _$CompanyModelFromJson(json);}
 }

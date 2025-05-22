@@ -11,7 +11,7 @@ _$CompanyModelImpl _$$CompanyModelImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       category: json['category'] as String? ?? "",
-      profilepic: json['profilepic'] as String? ?? "",
+      profilepic:  "",
     );
 
 Map<String, dynamic> _$$CompanyModelImplToJson(_$CompanyModelImpl instance) =>
