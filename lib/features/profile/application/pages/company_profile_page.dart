@@ -299,10 +299,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
                     radius: 60.r,
-                    backgroundImage: company.profilepic == ''
-                        ? AssetImage('assets/images/avatar.png')
-                            as ImageProvider
-                        : NetworkImage(company.profilepic) as ImageProvider,
+                    backgroundImage: company.profilepic != ''
+                        ? NetworkImage(company.profilepic)
+                        : AssetImage('assets/images/avatar.png')
+                            as ImageProvider,
                   ),
                 ),
               ),

@@ -263,8 +263,8 @@ class _NewTeamState extends State<NewTeam> {
               print(state.message);
               toastification.show(
                 title: Text(
-                  //'Network Error',
-                  state.message,
+                  'Network Error',
+                  
 
                   style: TextStyle(color: Colors.red),
                 ),
@@ -322,9 +322,9 @@ class _NewTeamState extends State<NewTeam> {
                             Theme.of(context).primaryColor.withOpacity(0.4),
                         leading: CircleAvatar(
                           backgroundImage:
-                              (members[index].profilepic ?? '').isEmpty
+                              members[index].profilepic['link'].isEmpty
                                   ? const AssetImage("assets/images/avatar.png")
-                                  : NetworkImage(members[index].profilepic!)
+                                  : NetworkImage(members[index].profilepic['link']!)
                                       as ImageProvider,
                         ),
                         title: Text(

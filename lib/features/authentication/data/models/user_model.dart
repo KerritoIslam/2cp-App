@@ -10,21 +10,17 @@ class UserModel with _$UserModel {
     required int id,
     required String name,
     required String email,
-    String? description,
-    String? number,
-    String? profilepic,
-    String? links,
+    @Default('') String? description,
+    @Default({"link": '', "name": '', "size": 0 ,'created_at': ''})
+        Map<String, dynamic> profilepic,
     required String date_joined,
-   @Default([]) List<Map<String,dynamic>> education,
-    required String gendre,
-   @Default([])  List<String> skills,
-     int? rating,
-    
-   @Default([]) List<Map<String, dynamic>> internships,
-    String? category,
-    String? cv,
-
+    @Default([]) List<Map<String, dynamic>> education,
+    @Default([]) List<String> skills,
+    @Default([]) List<Map<String, dynamic>> experience,
+    @Default({"link": '', "name": '', "size": 0 ,'created_at': ''})
+        Map<String, dynamic> cv,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }

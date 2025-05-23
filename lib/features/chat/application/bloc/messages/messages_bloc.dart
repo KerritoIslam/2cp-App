@@ -50,11 +50,14 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
               response.fold((fail) => "", (token) => token.accessToken);
           _wsService.connect(token, event.roomName);
           _wsService.stream.listen((message) {
-            final messageData = jsonDecode(message);
+            print("--------------------------------9999");
+            print(message);
+            final messageData = jsonDecode(message)['data'];
+            print(messageData);
             add(ReceiveMessage(MessageEntity(
-                id: 3,
+                id: messageData['id'],
                 message: messageData['message'],
-                sent_time: DateTime.now(),
+                sent_time: DateTime.parse(messageData['sent_time']),
                 sender: messageData['sender'])));
           });
         } catch (e) {

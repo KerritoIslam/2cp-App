@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/core/failure/failure.dart';
 import 'package:app/features/authentication/data/models/login_dto_model.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
@@ -165,9 +167,9 @@ class AuthRepository {
     }
   }
 
-  Future<Either<Failure, User>> updateUser(User user) async {
+  Future<Either<Failure, User>> updateUser(User user, File? cv, File? profilepic) async {
     try {
-      final response = await restAuthRemote.updateUser(user.toModel());
+      final response = await restAuthRemote.updateUser(user.toModel(), cv, profilepic);
       return response.fold((failure) => left(failure), (res) async {
         final user = User.fromModel(res);
         final userResult = await localStorage.setUser(user.toJson());

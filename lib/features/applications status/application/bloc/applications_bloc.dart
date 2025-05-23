@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:app/features/applications%20status/domain/ApplicationsRepository.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
-import 'dart:io';
 
 part 'applications_event.dart';
 part 'applications_state.dart';
@@ -13,7 +14,7 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
   final List<Application> applications = [];
 
   ApplicationBloc(this.repository) : super(ApplicationInitial()) {
-    on<refreshApplicationsEvent>((event,emit) async {
+    on<refreshApplicationsEvent>((event, emit) async {
       emit(ApplictationsLoading());
       try {
         final res = await repository.getApplications();
@@ -22,7 +23,7 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
           applications.addAll(r);
           emit(ApplicationsLoaded(applications));
         });
-      } catch (e,stk) {
+      } catch (e, stk) {
         print(stk);
         emit(ApplicationsError(e.toString()));
       }
@@ -36,7 +37,7 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
           applications.addAll(r);
           emit(ApplicationsLoaded(applications));
         });
-      } catch (e,stk) {
+      } catch (e, stk) {
         print(stk);
         emit(ApplicationsError(stk.toString()));
       }
@@ -67,17 +68,17 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
       emit(ApplictationsLoading());
       try {
         print('Submitting');
-        final res = await repository.submitApplication(event.application,event.file);
+        final res = await repository.submitApplication(
+            event.application, event.file, event.teamId);
         return res.fold((l) {
           toastification.show(
             title: Text(l.message),
             type: ToastificationType.error,
-          
           );
-           return emit(ApplicationsError(l.message));
+          return emit(ApplicationsError(l.message));
         }, (r) {
           toastification.show(
-            title:Text(  'Application Submitted' ),
+            title: Text('Application Submitted'),
             type: ToastificationType.success,
           );
           emit(ApplicationsLoaded(applications));
@@ -88,6 +89,5 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationsState> {
         emit(ApplicationsError(e.toString()));
       }
     });
-
   }
 }

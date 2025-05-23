@@ -48,7 +48,7 @@ class ChatListItem extends StatelessWidget {
                           ),
                         ),
                 ),
-                if (isOnline)
+                /* if (isOnline)
                   Positioned(
                     right: 0,
                     bottom: 0,
@@ -64,7 +64,7 @@ class ChatListItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  ), */
               ],
             ),
             SizedBox(width: 12.w),
@@ -112,7 +112,7 @@ class ChatListItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (unreadCount > 0) ...[
+                      /* if (unreadCount > 0) ...[
                         SizedBox(width: 8.w),
                         Container(
                           padding: EdgeInsets.symmetric(
@@ -131,7 +131,7 @@ class ChatListItem extends StatelessWidget {
                                     ),
                           ),
                         ),
-                      ],
+                      ], */
                     ],
                   ),
                 ],

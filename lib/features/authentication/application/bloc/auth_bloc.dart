@@ -144,8 +144,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Authenticated(event.user));
     });
     on<AuthUserUpdated>((event, emit) async {
-      emit(AuthLoading());
-      final response = await authRepository.updateUser(event.user);
+      final response = await authRepository.updateUser(
+          event.user, event.cv, event.profilepic);
       response.fold((r) => emit(AuthError(r.message)), (l) {
         emit(AuthUserUpdatedSuccessfully('User updated successfully'));
         emit(Authenticated(l));

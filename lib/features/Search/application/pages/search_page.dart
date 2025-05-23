@@ -2,7 +2,6 @@ import 'package:app/features/Search/application/bloc/search_bloc.dart';
 import 'package:app/features/Search/application/widgets/search_bar.dart';
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_events.dart';
-
 import 'package:app/features/opportunities/application/widgets/opportunity_card.dart';
 import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:app/utils/service_locator.dart';
@@ -22,12 +21,11 @@ class SearchPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => locator.get<SearchBloc>(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal:10.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: SizedBox(height: 20.h)),
             SliverToBoxAdapter(child: const CoolSearchBar()),
-            
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 switch (state) {
@@ -58,8 +56,8 @@ class SearchPage extends StatelessWidget {
                                             .secondaryHeaderColor),
                               ),
                             ),
-                            ...state.data.opportunities
-                                .map((opportunity) =>opportunityCard(opportunity: opportunity)),
+                            ...state.data.opportunities.map((opportunity) =>
+                                opportunityCard(opportunity: opportunity)),
                           ],
                           ...[
                             Padding(
@@ -91,19 +89,19 @@ class SearchPage extends StatelessWidget {
                                               .secondaryHeaderColor
                                               .withOpacity(0.45)),
                                   leading: CircleAvatar(
-                                    backgroundImage:CachedNetworkImageProvider(company.profilepic)
-                                       
-                                  ),
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                              company.profilepic)),
                                 )),
                           ],
                         ],
                       ),
                     );
                   case SearchLoading():
-                    return SliverToBoxAdapter(child:  Loadingindicator());
+                    return SliverToBoxAdapter(child: Loadingindicator());
                   case SearchEmpty():
                     return SliverToBoxAdapter(
-                                          child: Column(
+                      child: Column(
                         children: [
                           SizedBox(height: 120.h),
                           SvgPicture.asset('assets/images/files.svg'),

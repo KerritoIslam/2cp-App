@@ -21,7 +21,7 @@ sealed class OpportunityModel with _$OpportunityModel {
     required OpportunityCategory category,
   }) = InternshipModel;
 
-  @FreezedUnionValue('Problem')
+  @FreezedUnionValue('problem')
   const factory OpportunityModel.problem({
     required int id,
     required String title,
@@ -33,8 +33,10 @@ sealed class OpportunityModel with _$OpportunityModel {
   }) = ProblemModel;
   @override
   factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
-      _$OpportunityModelFromJson(
-          {...json, 'runtimeType': json['Type'], });
+      _$OpportunityModelFromJson({
+        ...json,
+        'runtimeType': json['Type'],
+      });
 
   Opportunity toEntity() {
     return map(

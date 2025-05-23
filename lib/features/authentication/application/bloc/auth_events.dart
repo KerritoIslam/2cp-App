@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +44,9 @@ class UserLoaded extends AuthEvent {
 
 class AuthUserUpdated extends AuthEvent {
   final User user;
-  AuthUserUpdated(this.user);
+  final File? cv;
+  final File? profilepic;
+  AuthUserUpdated(this.user,{ this.cv, this.profilepic});
 }
 class UserDataLoaded extends AuthEvent {}
 class AuthLogoutRequested extends AuthEvent {}

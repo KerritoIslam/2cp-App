@@ -38,9 +38,10 @@ class _InvitationCardState extends State<InvitationCard>
   Widget build(BuildContext context) {
     return ListTile(
         leading: CircleAvatar(
-          backgroundImage: (invitation.inviter!.profilepic ?? '').isEmpty
-              ? AssetImage("assets/images/avatar.png")
-              : NetworkImage(invitation.inviter!.profilepic!) as ImageProvider,
+          backgroundImage: invitation.inviter!.profilepic['link'].isEmpty
+              ? AssetImage('assets/images/avatar.png')
+              : NetworkImage(invitation.inviter!.profilepic['link'])
+                  as ImageProvider,
         ),
         title: RichText(
             text: TextSpan(

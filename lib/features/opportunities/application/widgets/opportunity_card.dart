@@ -3,16 +3,22 @@ import 'dart:io';
 import 'package:app/features/applications%20status/application/bloc/applications_bloc.dart';
 import 'package:app/features/applications%20status/constants/status.dart';
 import 'package:app/features/applications%20status/domain/entities/application.dart';
+import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
+import 'package:app/features/authentication/application/bloc/auth_state.dart';
 import 'package:app/features/opportunities/application/bloc/opportunities_bloc_bloc.dart';
 import 'package:app/features/opportunities/application/widgets/attachmentField.dart';
 import 'package:app/features/opportunities/application/widgets/skill_bubble.dart';
 import 'package:app/features/opportunities/domain/entities/opportunity.dart';
+import 'package:app/features/teams/application/bloc/teams_bloc.dart';
+import 'package:app/features/teams/domain/entities/team.dart';
 import 'package:app/shared/widgets/action_button.dart';
+import 'package:app/shared/widgets/loadingIndicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class opportunityCard extends StatefulWidget {
   final Opportunity opportunity;
@@ -62,14 +68,29 @@ class _opportunityCardState extends State<opportunityCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: widget.opportunity.company.profilepic,
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        radius: 20.r,
-                        backgroundImage: imageProvider,
+                    GestureDetector(
+                      onTap: () {
+                        context.push(
+                            '/protected/company_profile/${widget.opportunity.company.id}');
+                      },
+                      child: CachedNetworkImage(
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          child: Icon(Icons.home),
+                          radius: 20.r,
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        placeholder: (context, url) => CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        imageUrl: widget.opportunity.company.profilepic,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 20.r,
+                          backgroundImage: imageProvider,
+                        ),
+                        width: 60.w,
+                        height: 60.h,
                       ),
-                      width: 60.w,
-                      height: 60.h,
                     ),
                     SizedBox(height: 12.h),
                     SizedBox(
@@ -189,6 +210,9 @@ class FullScreenDialog extends StatefulWidget {
 class _FullScreenDialogState extends State<FullScreenDialog> {
   late TextEditingController _proposalController;
   File? selectedFile;
+  bool asTeam = false;
+  Team? selectedTeam;
+
   @override
   void initState() {
     super.initState();
@@ -201,10 +225,22 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
     super.dispose();
   }
 
+  void _showTeamSelectionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => TeamSelectionDialog(
+        onTeamSelected: (team) {
+          setState(() {
+            selectedTeam = team;
+          });
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Get the height of the keyboard
-
     return Dialog.fullscreen(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
@@ -252,36 +288,315 @@ class _FullScreenDialogState extends State<FullScreenDialog> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20.h,
-              ),
+              SizedBox(height: 20.h),
               AttachmentField(
                 onFileSelected: (file) {
-                  print("file selected");
-                  print(file.path);
                   setState(() {
                     selectedFile = file;
                   });
                 },
               ),
               SizedBox(height: 24.h),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 8.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select your preferred work arrangement:',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: RadioListTile<bool>(
+                            title: Text(
+                              'As Individual',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
+                                  ),
+                            ),
+                            value: false,
+                            groupValue: asTeam,
+                            onChanged: (value) {
+                              setState(() {
+                                asTeam = value!;
+                                selectedTeam = null;
+                              });
+                            },
+                            activeColor: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: RadioListTile<bool>(
+                            title: Text(
+                              'As Team',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
+                                  ),
+                            ),
+                            value: true,
+                            groupValue: asTeam,
+                            onChanged: (value) {
+                              setState(() {
+                                asTeam = value!;
+                                if (value) {
+                                  _showTeamSelectionDialog();
+                                }
+                              });
+                            },
+                            activeColor: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (asTeam && selectedTeam != null) ...[
+                      SizedBox(height: 16.h),
+                      Container(
+                        padding: EdgeInsets.all(12.r),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.group,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Text(
+                                selectedTeam!.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor,
+                                    ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              onPressed: _showTeamSelectionDialog,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              SizedBox(height: 24.h),
               ActionButton(
                 onPressed: () {
-                  context.pop();
-                  Application application = Application(
+                  if (!asTeam) {
+                    context.pop();
+                    Application application = Application(
                       id: 0,
                       status: ApplicationStatus.submitted,
                       proposal: _proposalController.text,
-                      opportunity: widget.application);
-                  context
-                      .read<ApplicationBloc>()
-                      .add(submitApplicationEvent(application, selectedFile));
+                      opportunity: widget.application,
+                    );
+                    context.read<ApplicationBloc>().add(
+                          submitApplicationEvent(application, selectedFile),
+                        );
+                  } else if (selectedTeam != null) {
+                    context.pop();
+                    Application application = Application(
+                      id: 0,
+                      status: ApplicationStatus.submitted,
+                      proposal: _proposalController.text,
+                      opportunity: widget.application,
+                    );
+                    context.read<ApplicationBloc>().add(
+                          submitApplicationEvent(application, selectedFile , teamId: selectedTeam!.id),
+                        );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please select a team to apply with'),
+                      ),
+                    );
+                  }
                 },
                 text: "Apply Now",
               ),
               SizedBox(height: 24.h),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TeamSelectionDialog extends StatefulWidget {
+  final Function(Team) onTeamSelected;
+
+  const TeamSelectionDialog({
+    super.key,
+    required this.onTeamSelected,
+  });
+
+  @override
+  State<TeamSelectionDialog> createState() => _TeamSelectionDialogState();
+}
+
+class _TeamSelectionDialogState extends State<TeamSelectionDialog> {
+  @override
+  void initState() {
+    super.initState();
+    // Load teams when dialog opens
+    context.read<TeamsBloc>().add(TeamsLoadEvent(page: 1, limit: 10));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.r),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Select a Team',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            SizedBox(height: 16.h),
+            BlocBuilder<TeamsBloc, TeamsState>(
+              builder: (context, state) {
+                if (state is TeamsLoading) {
+                  return const Center(child: Loadingindicator());
+                }
+
+                if (state is TeamsError) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    child: Text(
+                      state.message,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor,
+                          ),
+                    ),
+                  );
+                }
+
+                if (state is TeamsLoaded) {
+                  final authState = context.read<AuthBloc>().state;
+                  if (authState is! Authenticated) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      child: Text(
+                        'Please log in to view your teams',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).secondaryHeaderColor,
+                            ),
+                      ),
+                    );
+                  }
+
+                  final leaderTeams = state.teams;
+
+                  if (leaderTeams.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      child: Text(
+                        'You are not a leader of any teams',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).secondaryHeaderColor,
+                            ),
+                      ),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 300.h,
+                    child: ListView.builder(
+                      itemCount: leaderTeams.length,
+                      itemBuilder: (context, index) {
+                        final team = leaderTeams[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              team.name[0].toUpperCase(),
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            team.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                ),
+                          ),
+                          subtitle: Text(
+                            '${team.students.length} members',
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor
+                                          .withOpacity(0.7),
+                                    ),
+                          ),
+                          onTap: () => widget.onTeamSelected(team),
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
+            SizedBox(height: 16.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -412,33 +727,9 @@ class OpportunityDetailsSheet extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                       ),
-                      SizedBox(height: 20.h),
-                      _buildDetailItem(context, 'UI/UX Designer'),
-                      SizedBox(height: 12.h),
-                      _buildDetailItem(context, 'No experience needed'),
-                      SizedBox(height: 12.h),
-                      _buildDetailItem(context, 'Face-to-face internship'),
-                      SizedBox(height: 40.h),
-                      Text(
-                        'Application details',
-                        style:
-                            Theme.of(context).textTheme.displaySmall!.copyWith(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Text(
-                        'No need for any experience, but for professional issues it is better to send a CV or a Resume.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .secondaryHeaderColor
-                                  .withOpacity(0.7),
-                              fontSize: 16.sp,
-                              height: 1.5,
-                            ),
-                      ),
-                      SizedBox(height: 40.h),
+                                       SizedBox(height: 40.h),
+
+                      Text(opportunity.description),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

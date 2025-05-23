@@ -56,9 +56,9 @@ class _InvitationStatusCardState extends State<InvitationStatusCard> {
       ),
       child: ListTile(
           leading: CircleAvatar(
-            backgroundImage: (invitation.inviter!.profilepic ?? '').isEmpty
+            backgroundImage: invitation.inviter!.profilepic['link'].isEmpty
                 ? AssetImage("assets/images/avatar.png")
-                : NetworkImage(invitation.inviter!.profilepic!)
+                : NetworkImage(invitation.inviter!.profilepic['link'])
                     as ImageProvider,
           ),
           title: RichText(

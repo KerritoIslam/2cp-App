@@ -27,9 +27,9 @@ final map= r.map((e) => e.toJson()).toList();
 
     return Left(Failure('Unknown Error'));
     }  }
-  Future<Either<Failure,Unit>>submitApplication(Application application,File? attachement)async{
+  Future<Either<Failure,Unit>>submitApplication(Application application,File? attachement, int? teamId)async{
     try {
-         return await remoteDataSource.submitApplication(application.toModel(),attachement) ;
+         return await remoteDataSource.submitApplication(application.toModel(),attachement ,teamId) ;
         } catch (e) {
           
       return Left(Failure('Unknown Error'));

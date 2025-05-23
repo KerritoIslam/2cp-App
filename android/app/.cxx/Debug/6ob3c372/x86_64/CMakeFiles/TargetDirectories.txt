@@ -1,0 +1,2 @@
+/home/mouloud/dev/2cp_project/app/android/app/.cxx/Debug/6ob3c372/x86_64/CMakeFiles/edit_cache.dir
+/home/mouloud/dev/2cp_project/app/android/app/.cxx/Debug/6ob3c372/x86_64/CMakeFiles/rebuild_cache.dir

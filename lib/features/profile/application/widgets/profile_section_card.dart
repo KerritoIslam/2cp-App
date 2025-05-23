@@ -13,7 +13,7 @@ class ProfileCard extends StatelessWidget {
       required this.title,
       required this.icon,
       required this.children,
-      this.edit= false,
+      this.edit = false,
       this.onAdd});
 
   @override
@@ -46,16 +46,16 @@ class ProfileCard extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              trailing: IconButton(
-                onPressed: onAdd ?? () {},
-                icon: SvgPicture.asset(edit
-                    ? 'assets/icons/edit.svg'
-                    :
-                  'assets/icons/add.svg',
-                  width: 40.w,
-                  height: 40.h,
-                ),
-              )),
+              trailing: title != 'Internship Experience'
+                  ? IconButton(
+                      onPressed: onAdd ?? () {},
+                      icon: SvgPicture.asset(
+                        edit ? 'assets/icons/edit.svg' : 'assets/icons/add.svg',
+                        width: 40.w,
+                        height: 40.h,
+                      ),
+                    )
+                  : null),
           if (children.isNotEmpty)
             Divider(
               color: Theme.of(context).dividerColor,

@@ -19,7 +19,7 @@ class TeamsRestRemote {
     try {
       final response = await dio.get('post/team/', queryParameters: {
         'page': page,
-        'limit': limit,
+        'limit': 30,
       });
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
