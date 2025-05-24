@@ -116,7 +116,9 @@ class _TeamCardState extends State<TeamCard> {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       label: Text(
                         getSkills(team)[index],
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.white
+                        ),
                       ),
                       backgroundColor: Theme.of(context).dividerColor,
                       shape: RoundedRectangleBorder(

@@ -113,7 +113,10 @@ class _SkillsPageState extends State<SkillsPage> {
                               side: BorderSide(width: 0)),
                           backgroundColor: Theme.of(context).dividerColor,
                           label: Text(e,
-                              style: Theme.of(context).textTheme.bodyMedium),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white)),
                           onDeleted: () {
                             setState(() {
                               _skills.remove(e);

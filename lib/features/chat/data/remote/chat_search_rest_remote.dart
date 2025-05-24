@@ -17,6 +17,7 @@ class ChatSearchRemote {
         'username': query,
         'page': page,
         'limit': limit,
+        'type': 'Company'
       });
 
       if (response.statusCode == 200) {
