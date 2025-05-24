@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app/features/authentication/application/bloc/auth_bloc.dart';
 import 'package:app/features/authentication/application/bloc/auth_events.dart';
 import 'package:app/features/authentication/application/bloc/auth_state.dart';
+import 'package:app/features/authentication/application/pages/noConnection.dart';
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:app/features/profile/application/widgets/profile_section_card.dart';
 import 'package:app/shared/pages/loading_page.dart';
@@ -32,7 +33,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    user = (context.read<AuthBloc>().state as Authenticated).user;
+    final state = context.read<AuthBloc>().state;
+    if (state is Authenticated) {
+      user = state.user;
+    } else {
+      print('14859');
+      context.read<AuthBloc>().add(UserDataLoaded());
+    }
     super.initState();
   }
 
@@ -73,6 +80,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is Authenticated) {
+          user = state.user;
+        }
         if (state is AuthUserUpdatedSuccessfully) {
           toastification.show(
             title: Text('${state.message}'),
@@ -90,19 +100,12 @@ class _ProfilePageState extends State<ProfilePage> {
         }
       },
       builder: (context, state) {
+        if (state is AuthLoading) {
+          return LoadingPage();
+        }
         if (state is AuthError) {
-          return Scaffold(
-            backgroundColor: Theme.of(context).primaryColor,
-            body: SafeArea(
-              child: Center(
-                child: Text(
-                  state.message,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.red,
-                      ),
-                ),
-              ),
-            ),
+          return Noconnection(
+            path: '/protected/layout/0',
           );
         } else if (state is AuthLoading) {
           return LoadingPage();
@@ -535,43 +538,52 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: [
                                   if (user.cv['link'] != '')
                                     ListTile(
-                                      title: Text(user.cv['name'], style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
+                                      title: Text(user.cv['name'],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500)),
                                       subtitle: Text(
-                                          user.cv['size'].toString() + ' bytes' , style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey[400])),
-                                      trailing:  SvgPicture.asset('assets/icons/pdf_file.svg'),
+                                          user.cv['size'].toString() + ' bytes',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                  color: Colors.grey[400])),
+                                      trailing: SvgPicture.asset(
+                                          'assets/icons/pdf_file.svg'),
                                       onTap: () async {
-                                          try {
-                                            final Uri url =
-                                                Uri.parse(user.cv['link']);
-                                            // Use launchUrl directly with error handling
-                                            final bool launched =
-                                                await launchUrl(
-                                              url,
-                                              mode: LaunchMode
-                                                  .externalApplication,
-                                            );
+                                        try {
+                                          final Uri url =
+                                              Uri.parse(user.cv['link']);
+                                          // Use launchUrl directly with error handling
+                                          final bool launched = await launchUrl(
+                                            url,
+                                            mode:
+                                                LaunchMode.externalApplication,
+                                          );
 
-                                            if (!launched) {
-                                              toastification.show(
-                                                title: Text(
-                                                    'Could not open the file'),
-                                                type: ToastificationType.error,
-                                                autoCloseDuration:
-                                                    const Duration(seconds: 2),
-                                              );
-                                            }
-                                          } catch (e) {
-                                            print('Error launching URL: $e');
+                                          if (!launched) {
                                             toastification.show(
-                                              title: Text('Error opening file'),
+                                              title: Text(
+                                                  'Could not open the file'),
                                               type: ToastificationType.error,
                                               autoCloseDuration:
                                                   const Duration(seconds: 2),
                                             );
                                           }
-                                        },
-                                      ),
-                                    
+                                        } catch (e) {
+                                          print('Error launching URL: $e');
+                                          toastification.show(
+                                            title: Text('Error opening file'),
+                                            type: ToastificationType.error,
+                                            autoCloseDuration:
+                                                const Duration(seconds: 2),
+                                          );
+                                        }
+                                      },
+                                    ),
                                 ],
                                 onAdd: () {
                                   context.push('/protected/profile/resume');

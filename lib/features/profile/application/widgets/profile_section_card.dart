@@ -46,7 +46,7 @@ class ProfileCard extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              trailing: title == 'Internship Experience'
+              trailing: title != 'Internship Experience'
                   ? IconButton(
                       onPressed: onAdd ?? () {},
                       icon: SvgPicture.asset(

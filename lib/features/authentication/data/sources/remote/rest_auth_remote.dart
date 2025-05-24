@@ -30,7 +30,7 @@ class RestAuthRemote {
     } on DioException catch (e) {
       print(e.toString());
       if (e.response == null) {
-        return left(Failure('Unkonw error Please Try Again Later!'));
+        return left(Failure('Network error'));
       }
       if (e.response!.statusCode == 401) {
         return left(Failure('email or password is incorrect'));
@@ -38,7 +38,7 @@ class RestAuthRemote {
       if (e.response!.statusCode == 404) {
         return left(Failure('User not found'));
       }
-      return left(Failure(e.toString()));
+      return left(Failure('Network error'));
     }
   }
 
@@ -64,22 +64,23 @@ class RestAuthRemote {
         return left(Failure('this email or name is already used'));
       }
       if (e.response!.statusCode == 404) {
-        return left(Failure('Internal Erro'));
+        return left(Failure('Internal Error'));
       }
 
       if (kDebugMode) {
         print(e.toString());
       }
-      return left(Failure('An error occurred'));
+      return left(Failure('Network error'));
     }
   }
 
-  //todo: check if needed
   Future<Either<Failure, UserModel>> getUserProfile() async {
     try {
       final response = await _dio.get('/Auth/user');
 
       return right(UserModel.fromJson(response.data));
+    } on DioException catch (e) {
+      return left(Failure('Network error'));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -88,38 +89,32 @@ class RestAuthRemote {
   Future<Either<Failure, UserModel>> updateUser(
       UserModel user, File? cv, File? profilepic) async {
     try {
-      // Create FormData
       FormData formData = FormData.fromMap(user.toJson());
 
       print(
           'Before removal - Fields: ${formData.fields.map((f) => f.key).toList()}');
 
-      // Remove profilepic and cv fields
       formData.fields.removeWhere((element) =>
           element.key.startsWith('profilepic') ||
           element.key.startsWith('cv') ||
           element.key.startsWith('skills') ||
           element.key.startsWith('education'));
 
-      // Handle skills list properly
       if (user.skills.isNotEmpty) {
         print('before 125');
         print('skills: ${user.skills} 188');
         final response = await _dio.put(
           '/Auth/user',
-          data: {
-            'skills': user.skills,
-            'education': user.education,
-            'json': 'this is a json'
-          },
+          data: user.education.isEmpty
+              ? {'skills': user.skills, 'json': 'this is a json'}
+              : {
+                  'skills': user.skills,
+                  'education': user.education,
+                  'json': 'this is a json'
+                },
         );
-        print('AFTER 125');
-        print('skills edited Response status: ${response.data}');
       }
-
-      print(
-          'After removal - Fields: ${formData.fields.map((f) => f.key).toList()}');
-
+     
       if (cv != null) {
         formData.files
             .add(MapEntry('cv_input', await MultipartFile.fromFile(cv.path)));
@@ -146,7 +141,7 @@ class RestAuthRemote {
     } on DioException catch (e) {
       print('DioException: ${e.message}');
       print('DioException response: ${e.response?.data}');
-      return left(Failure(e.message ?? 'Failed to update user'));
+      return left(Failure('Network error'));
     } catch (e) {
       print('Exception: $e');
       return left(Failure(e.toString()));
@@ -164,7 +159,7 @@ class RestAuthRemote {
       if (e.response!.statusCode == 404) {
         return left(Failure('User not found'));
       }
-      return left(Failure(e.toString()));
+      return left(Failure('Network error'));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -184,7 +179,7 @@ class RestAuthRemote {
       if (e.response!.statusCode == 404) {
         return left(Failure('User not found'));
       }
-      return left(Failure(e.toString()));
+      return left(Failure('Network error'));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -206,12 +201,12 @@ class RestAuthRemote {
       );
     } on DioException catch (e) {
       if (e.response == null) {
-        return left(Failure('Unkonw error Please Try Again Later!'));
+        return left(Failure('Network error'));
       }
       if (e.response!.statusCode == 401) {
         return left(Failure('Invalid Refresh Token'));
       }
-      return left(Failure(e.toString()));
+      return left(Failure('Network error'));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -222,8 +217,6 @@ class RestAuthRemote {
       await dotenv.load();
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email', 'profile', 'openid'],
-
-        //serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ?? '',
       );
 
       final googleSignInAccount = await googleSignIn.signIn();
@@ -249,7 +242,6 @@ class RestAuthRemote {
         final response = await _dio.post(
           '/Auth/googleauthforapp/',
           data: {
-            //'code': googleSignInAuthentication.serverAuthCode,
             'token_id': googleSignInAuthentication.idToken,
           },
         );
@@ -260,7 +252,7 @@ class RestAuthRemote {
         if (e.response?.statusCode == 401) {
           return left(Failure('Invalid Google credentials'));
         }
-        return left(Failure(e.toString()));
+        return left(Failure('Network error'));
       }
     } on DioException catch (e) {
       print("-----------------------------------------1111");
@@ -268,7 +260,7 @@ class RestAuthRemote {
       if (e.response?.statusCode == 401) {
         return left(Failure('Invalid Google credentials'));
       }
-      return left(Failure(e.toString()));
+      return left(Failure('Network error'));
     }
   }
 
