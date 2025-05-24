@@ -35,7 +35,10 @@ GoRouter router = GoRouter(
   routes: [
     GoRoute(
         path: '/offline',
-        pageBuilder: (context, state) => MaterialPage(child: Noconnection())),
+        pageBuilder: (context, state) => MaterialPage(
+                child: Noconnection(
+              path: '/protected/layout/0',
+            ))),
     GoRoute(
         path: '/',
         pageBuilder: (context, state) => MaterialPage(child: OnboardingPage())),
