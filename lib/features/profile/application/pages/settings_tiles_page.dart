@@ -12,7 +12,7 @@ class SettingsTilesPage extends StatelessWidget {
       "name": "Account",
       "iconDark": "assets/icons/profile_dark.svg",
       "icon": "assets/icons/profile.svg",
-      "href": "/protected/Options/account"
+      "href": "/protected/profile"
     },
     {
       "name": "Saved Opportunities",
