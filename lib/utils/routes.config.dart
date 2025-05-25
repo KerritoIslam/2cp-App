@@ -6,6 +6,7 @@ import 'package:app/features/authentication/application/pages/noConnection.dart'
 import 'package:app/features/authentication/application/pages/onboarding/onboarding_page.dart';
 import 'package:app/features/authentication/application/pages/signup_page.dart';
 import 'package:app/features/authentication/application/pages/signuppassword_page.dart';
+import 'package:app/features/authentication/application/pages/splash_screen.dart';
 import 'package:app/features/authentication/application/pages/welcome_page.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/chat/application/pages/conversation_page.dart';
@@ -36,8 +37,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+        path: '/splash',
+        pageBuilder: (context, state) => MaterialPage(child: SplashScreen())),
     GoRoute(
         path: '/offline',
         pageBuilder: (context, state) => MaterialPage(
