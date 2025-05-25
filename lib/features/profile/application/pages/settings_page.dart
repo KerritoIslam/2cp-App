@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -25,53 +26,89 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
   }
 
-  List<Map<String, dynamic>> pageElements = [
-    {
-      'name': 'Rate App',
-      'icon': 'assets/icons/star.svg',
-      'iconDark': 'assets/icons/star_dark.svg'
-    },
-    {
-      'name': 'Share App',
-      'icon': 'assets/icons/share.svg',
-      'iconDark': 'assets/icons/share_dark.svg',
-      'onPress': () {
-        print("Sharing app");
-        SharePlus.instance.share(ShareParams(
-          text: 'Check out the app: https://example.com',
-          subject: 'Check out the app',
-        ));
+  Future<void> _launchAppStore() async {
+    // Replace these URLs with your actual app store URLs
+    const String androidUrl =
+        'https://play.google.com/store/apps/details?id=com.example.app';
+    const String iosUrl = 'https://apps.apple.com/app/id123456789';
+
+    final Uri url = Uri.parse(
+        Theme.of(context).platform == TargetPlatform.iOS ? iosUrl : androidUrl);
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open app store'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
-    },
-    {
-      'name': 'Privacy Policy',
-      'icon': 'assets/icons/lock.svg',
-      'iconDark': 'assets/icons/lock_dark.svg'
-    },
-    {
-      'name': 'Terms and Conditions',
-      'icon': 'assets/icons/terms.svg',
-      'iconDark': 'assets/icons/terms_dark.svg'
-    },
-    {
-      'name': 'Cookies Policy',
-      'icon': 'assets/icons/cookiesPolicy.svg',
-      'iconDark': 'assets/icons/cookiesPolicy_dark.svg'
-    },
-    {
-      'name': 'Contact',
-      'icon': 'assets/icons/contact.svg',
-      'iconDark': 'assets/icons/contact_dark.svg'
-    },
-    {
-      'name': 'Feedback',
-      'icon': 'assets/icons/chat.svg',
-      'iconDark': 'assets/icons/chat_dark.svg'
-    },
-  ];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> pageElements = [
+      {
+        'name': 'Rate App',
+        'icon': 'assets/icons/star.svg',
+        'iconDark': 'assets/icons/star_dark.svg',
+        'onPress': _launchAppStore
+      },
+      {
+        'name': 'Share App',
+        'icon': 'assets/icons/share.svg',
+        'iconDark': 'assets/icons/share_dark.svg',
+        'onPress': () {
+          Share.share(
+            'Check out this amazing app!',
+            subject: 'Check out this app',
+          );
+        }
+      },
+      {
+        'name': 'Privacy Policy',
+        'icon': 'assets/icons/lock.svg',
+        'iconDark': 'assets/icons/lock_dark.svg',
+        'onPress': () {
+          context.push('/protected/options/privacy-policy');
+        }
+      },
+      {
+        'name': 'Terms and Conditions',
+        'icon': 'assets/icons/terms.svg',
+        'iconDark': 'assets/icons/terms_dark.svg',
+        'onPress': () {
+          context.push('/protected/options/terms');
+        }
+      },
+      {
+        'name': 'Cookies Policy',
+        'icon': 'assets/icons/cookiesPolicy.svg',
+        'iconDark': 'assets/icons/cookiesPolicy_dark.svg',
+        'onPress': () {
+          context.push('/protected/options/cookies');
+        }
+      },
+      {
+        'name': 'Contact',
+        'icon': 'assets/icons/contact.svg',
+        'iconDark': 'assets/icons/contact_dark.svg',
+        'onPress': () {
+          context.push('/protected/options/contact');
+        }
+      },
+      {
+        'name': 'Feedback',
+        'icon': 'assets/icons/chat.svg',
+        'iconDark': 'assets/icons/chat_dark.svg',
+        'onPress': () {
+          context.push('/protected/options/feedback');
+        }
+      },
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

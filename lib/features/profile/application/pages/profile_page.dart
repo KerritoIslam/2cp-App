@@ -520,7 +520,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 label: Text(e,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyMedium),
+                                                        .bodyMedium!.copyWith(
+                                                          color: Colors.white
+                                                        )),
                                                 deleteIcon: null,
                                               ),
                                             ),

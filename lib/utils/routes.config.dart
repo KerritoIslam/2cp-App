@@ -6,6 +6,7 @@ import 'package:app/features/authentication/application/pages/noConnection.dart'
 import 'package:app/features/authentication/application/pages/onboarding/onboarding_page.dart';
 import 'package:app/features/authentication/application/pages/signup_page.dart';
 import 'package:app/features/authentication/application/pages/signuppassword_page.dart';
+import 'package:app/features/authentication/application/pages/splash_screen.dart';
 import 'package:app/features/authentication/application/pages/welcome_page.dart';
 import 'package:app/features/authentication/data/sources/local/local_secure_storage.dart';
 import 'package:app/features/chat/application/pages/conversation_page.dart';
@@ -15,14 +16,19 @@ import 'package:app/features/opportunities/application/pages/layout.dart';
 import 'package:app/features/opportunities/application/pages/savedopportuntities_page.dart';
 import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:app/features/profile/application/pages/company_profile_page.dart';
+import 'package:app/features/profile/application/pages/contact_page.dart';
+import 'package:app/features/profile/application/pages/cookies_policy_page.dart';
+import 'package:app/features/profile/application/pages/feedback_page.dart';
 import 'package:app/features/profile/application/pages/forms/aboutme.dart';
 import 'package:app/features/profile/application/pages/forms/education_form_page.dart';
 import 'package:app/features/profile/application/pages/forms/intership_expirience_form.dart';
 import 'package:app/features/profile/application/pages/forms/resume.dart';
 import 'package:app/features/profile/application/pages/forms/skills.dart';
+import 'package:app/features/profile/application/pages/privacy_policy_page.dart';
 import 'package:app/features/profile/application/pages/profile_page.dart';
 import 'package:app/features/profile/application/pages/settings_page.dart';
 import 'package:app/features/profile/application/pages/settings_tiles_page.dart';
+import 'package:app/features/profile/application/pages/terms_page.dart';
 import 'package:app/features/teams/application/pages/teams_details.dart';
 import 'package:app/features/teams/domain/entities/team.dart';
 import 'package:app/main.dart';
@@ -31,8 +37,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+        path: '/splash',
+        pageBuilder: (context, state) => MaterialPage(child: SplashScreen())),
     GoRoute(
         path: '/offline',
         pageBuilder: (context, state) => MaterialPage(
@@ -195,6 +204,31 @@ GoRouter router = GoRouter(
                   path: 'applications',
                   pageBuilder: (context, state) =>
                       MaterialPage(child: Trackapplicationspage())),
+              GoRoute(
+                path: 'privacy-policy',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: PrivacyPolicyPage()),
+              ),
+              GoRoute(
+                path: 'terms',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: TermsPage()),
+              ),
+              GoRoute(
+                path: 'cookies',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: CookiesPolicyPage()),
+              ),
+              GoRoute(
+                path: 'contact',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: ContactPage()),
+              ),
+              GoRoute(
+                path: 'feedback',
+                pageBuilder: (context, state) =>
+                    MaterialPage(child: FeedbackPage()),
+              ),
             ]),
       ],
     ),

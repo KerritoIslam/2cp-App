@@ -169,15 +169,8 @@ class _TeamDetailsState extends State<TeamDetails> {
                           const SizedBox(height: 8),
                           Wrap(
                             spacing: 8,
-                            children: [
-                              "somthing",
-                              "valo",
-                              "reyna",
-                              "omen",
-                              "brim",
-                              "viper",
-                              ...getSkills(team)
-                            ]
+                            children: getSkills(team)
+                            
                                 .map((skill) => Chip(
                                       label: Text(skill,
                                           style: Theme.of(context)
