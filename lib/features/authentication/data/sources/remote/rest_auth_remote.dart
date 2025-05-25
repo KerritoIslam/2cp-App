@@ -100,10 +100,10 @@ class RestAuthRemote {
           element.key.startsWith('skills') ||
           element.key.startsWith('education'));
 
-      if (user.skills.isNotEmpty) {
+      if (user.skills.isNotEmpty || user.education.isNotEmpty) {
         print('before 125');
         print('skills: ${user.skills} 188');
-        final response = await _dio.put(
+         await _dio.put(
           '/Auth/user',
           data: user.education.isEmpty
               ? {'skills': user.skills, 'json': 'this is a json'}
