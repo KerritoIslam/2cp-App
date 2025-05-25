@@ -8,15 +8,17 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class DioServices {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://192.168.2.95:8000/',
+      baseUrl: 'http://192.168.250.95:8000/',
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final unprotected =
-            options.path.contains("/Auth") && options.path != "/Auth/user";
+        final unprotected = options.path.contains("/Auth") &&
+            options.path != "/Auth/user" &&
+            options.path != "/Auth/Fcm";
         if (unprotected) {
           return handler.next(options);
         }
+        print(options.data);
 
         final dataSource = locator.get<LocalSecureStorage>();
         late String token;

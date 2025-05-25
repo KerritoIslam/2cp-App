@@ -13,7 +13,7 @@ class Company with _$Company {
   const factory Company({
     required int id,
     required String name,
-    @Default('')  String category,
+    @Default('') String category,
     @Default('') String profilepic,
     String? date_joined,
     String? email,
@@ -22,8 +22,10 @@ class Company with _$Company {
     String? number,
   }) = _Company;
 
-  factory Company.fromJson(Map<String, dynamic> json) =>
-      _$CompanyFromJson(json);
+  factory Company.fromJson(Map<String, dynamic> json) {
+    json['profilepic'] = json['profilepic']['link'] ?? "";
+    return _$CompanyFromJson(json);
+  }
 
   factory Company.fromModel(CompanyModel model) {
     return Company(

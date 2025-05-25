@@ -14,6 +14,7 @@ import 'package:app/utils/routes.config.dart';
 import 'package:app/utils/service_locator.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,6 +42,7 @@ void main() async {
 
   // Initialize Firebase asynchronously
   await _initializeFirebase();
+  await initializeFcm();
 
   // Set up the service locator asynchronously
   await setUpLocator();
@@ -76,6 +78,24 @@ Future<void> _initializeFirebase() async {
       iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID_${_getPlatform()}'] ?? '',
     ),
   );
+}
+
+Future<void> initializeFcm() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  // Request permissions (especially important for iOS)
+  NotificationSettings settings = await messaging.requestPermission();
+
+  print('User granted permission: ${settings.authorizationStatus}');
+
+  // Get the token
+  String? token = await messaging.getToken();
+  print("FCM Token: $token");
+
+  // (Optional) You can also listen to token refresh
+  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+    print("Refreshed FCM Token: $newToken");
+  });
 }
 
 String _getPlatform() {

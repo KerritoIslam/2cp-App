@@ -1,0 +1,1 @@
+/home/mouloud/dev/2cp_project/app/build/app/intermediates/cxx/Debug/462m5o5l/obj/armeabi-v7a

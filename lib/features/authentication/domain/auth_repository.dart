@@ -6,6 +6,8 @@ import 'package:app/features/authentication/data/sources/local/local_secure_stor
 import 'package:app/features/authentication/data/sources/remote/rest_auth_remote.dart';
 import 'package:app/features/authentication/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -33,6 +35,9 @@ class AuthRepository {
           final tokenResult = await _saveTokens(
               response.tokens.accessToken, response.tokens.refreshToken);
 
+          FirebaseMessaging messaging = FirebaseMessaging.instance;
+          String? token = await messaging.getToken();
+          await restAuthRemote.sendFcm(token ?? "");
           return tokenResult.fold(
             (failure) => left(failure), // Return failure if saving tokens fails
             (_) => right(User.fromModel(
@@ -69,6 +74,11 @@ class AuthRepository {
         }
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
+        FirebaseMessaging messaging = FirebaseMessaging.instance;
+        String? token = await messaging.getToken();
+        print(token);
+        await restAuthRemote.sendFcm(token ?? "");
+
         return tokensReponse.fold(
             (l) => left(l), (_) => right(User.fromModel(res.user)));
       });
@@ -81,6 +91,11 @@ class AuthRepository {
     try {
       final response = await restAuthRemote.getUserProfile();
 
+      print("------------------1515");
+
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? token = await messaging.getToken();
+      await restAuthRemote.sendFcm(token ?? "");
       return response.fold((l) => left(l), (r) => right(User.fromModel(r)));
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -100,8 +115,13 @@ class AuthRepository {
         }
         final tokensReponse =
             await _saveTokens(res.tokens.accessToken, res.tokens.refreshToken);
-        return tokensReponse.fold(
-            (l) => left(l), (_) => right(User.fromModel(res.user)));
+
+        return tokensReponse.fold((l) => left(l), (_) async {
+          FirebaseMessaging instance = FirebaseMessaging.instance;
+          final token = await instance.getToken();
+          restAuthRemote.sendFcm(token ?? "");
+          return right(User.fromModel(res.user));
+        });
       });
     } on Failure catch (e) {
       return left(Failure(e.toString()));
@@ -167,9 +187,11 @@ class AuthRepository {
     }
   }
 
-  Future<Either<Failure, User>> updateUser(User user, File? cv, File? profilepic) async {
+  Future<Either<Failure, User>> updateUser(
+      User user, File? cv, File? profilepic) async {
     try {
-      final response = await restAuthRemote.updateUser(user.toModel(), cv, profilepic);
+      final response =
+          await restAuthRemote.updateUser(user.toModel(), cv, profilepic);
       return response.fold((failure) => left(failure), (res) async {
         final user = User.fromModel(res);
         final userResult = await localStorage.setUser(user.toJson());

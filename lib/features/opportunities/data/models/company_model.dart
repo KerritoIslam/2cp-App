@@ -1,23 +1,23 @@
-
 import 'package:app/features/opportunities/domain/entities/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'company_model.g.dart';
 part 'company_model.freezed.dart';
 
-@Freezed(toJson: true,fromJson: true)
+@Freezed(toJson: true, fromJson: true)
 class CompanyModel with _$CompanyModel {
   const CompanyModel._();
   const factory CompanyModel({
     required int id,
     required String name,
-   @Default('None') String category ,
-  @Default('') String profilepic,
+    @Default('None') String category,
+    @Default('') String profilepic,
   }) = _CompanyModel;
   factory CompanyModel.fromJson(Map<String, dynamic> json) {
-      return _$CompanyModelFromJson(json);
+    json['profilepic'] = json['profilepic']['link'] ?? "";
+    return _$CompanyModelFromJson(json);
   }
-  
-  Company toEntity(){
+
+  Company toEntity() {
     return Company(
       id: id,
       name: name,
@@ -25,6 +25,4 @@ class CompanyModel with _$CompanyModel {
       profilepic: profilepic,
     );
   }
-
-
 }

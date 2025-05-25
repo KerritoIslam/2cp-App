@@ -6,6 +6,7 @@ import 'package:app/features/authentication/data/models/login_dto_model.dart';
 import 'package:app/features/authentication/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,6 +15,15 @@ import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 
 class RestAuthRemote {
   final Dio _dio = DioServices.dio;
+  Future<Either<Failure, Unit>> sendFcm(String token) async {
+    try {
+      await _dio.post('/Auth/Fcm', data: {"token": token});
+      return Right(unit);
+    } on DioException catch (e) {
+      print(e.toString());
+      return Right(unit);
+    }
+  }
 
   Future<Either<Failure, LoginResDtoModel>> login(
     String email,
@@ -114,7 +124,7 @@ class RestAuthRemote {
                 },
         );
       }
-     
+
       if (cv != null) {
         formData.files
             .add(MapEntry('cv_input', await MultipartFile.fromFile(cv.path)));

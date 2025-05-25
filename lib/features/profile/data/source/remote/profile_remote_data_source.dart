@@ -10,7 +10,6 @@ class ProfileRemoteDataSource {
   Future<Either<Failure, Company>> getProfile(int id) async {
     try {
       final response = await _dio.get('Auth/user/$id/');
-
       print(response.data);
       if (response.statusCode == 200) {
         return right(Company.fromJson(response.data));

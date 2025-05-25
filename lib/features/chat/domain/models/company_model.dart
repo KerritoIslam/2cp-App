@@ -8,12 +8,14 @@ class CompanyModel with _$CompanyModel {
   const factory CompanyModel({
     required int id,
     required String name,
-    @Default("")  String category,
-    @Default("")  String profilepic,
+    @Default("") String category,
+    @Default("") String profilepic,
   }) = _CompanyModel;
 
-  factory CompanyModel.fromJson(Map<String, dynamic> json){ 
-    json['profilepic']='';
-    
-    return _$CompanyModelFromJson(json);}
+  factory CompanyModel.fromJson(Map<String, dynamic> json) {
+    json['profilepic'] =
+        json['profilepic'] != null ? json['profilepic']['link'] : "";
+
+    return _$CompanyModelFromJson(json);
+  }
 }

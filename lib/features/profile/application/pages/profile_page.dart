@@ -36,11 +36,19 @@ class _ProfilePageState extends State<ProfilePage> {
     final state = context.read<AuthBloc>().state;
     if (state is Authenticated) {
       user = state.user;
+      print("--------------------------------888");
+      print(user.experience);
     } else {
       print('14859');
       context.read<AuthBloc>().add(UserDataLoaded());
     }
     super.initState();
+  }
+
+  String _formatDate(String? dateStr) {
+    final date = DateTime.tryParse(dateStr ?? '');
+    if (date == null) return 'Invalid date';
+    return DateFormat('MMM yyyy').format(date); // Example: Sep 2023
   }
 
   Future<void> _pickImage() async {
@@ -403,27 +411,29 @@ class _ProfilePageState extends State<ProfilePage> {
                                           .labelMedium,
                                     ),
                                     isThreeLine: true,
-                                    trailing: Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              context.go(
-                                                '/protected/options',
-                                              );
-                                            },
-                                            icon: Icon(Icons.settings)),
-                                        IconButton(
-                                          icon: SvgPicture.asset(
-                                            'assets/icons/edit.svg',
+                                    trailing: SizedBox(
+                                      width: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            _formatDate(e['start']),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
                                           ),
-                                          onPressed: () {
-                                            context.go(
-                                              '/protected/profile/internship_expirience_form',
-                                              extra: user.experience.indexOf(e),
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                          Text(
+                                            _formatDate(e['end']),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium!
+                                                .copyWith(
+                                                    color: Theme.of(context)
+                                                        .secondaryHeaderColor),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }).toList(),

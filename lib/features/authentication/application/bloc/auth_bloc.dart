@@ -21,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return user.fold((l) {
         return left(Failure('Error getting user: ${l.message}'));
       }, (r) {
+        
         return right(r);
       });
     });
